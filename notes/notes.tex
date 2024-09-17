@@ -1,0 +1,67 @@
+\documentclass{article}
+% \usepackage{showframe}
+
+% \usepackage[dvipsnames]{xcolor}
+% custom colour definitions
+% \colorlet{colour1}{Red}
+% \colorlet{colour2}{Green}
+% \colorlet{colour3}{Cerulean}
+
+\usepackage{geometry}
+% margins
+\geometry{
+    a4paper,
+    bottom=70pt,
+    % margin=70pt
+}
+
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+% \usepackage{preamble}
+\usepackage{multicol}
+\usepackage{lipsum}
+\usepackage{float}
+\usepackage[nodisplayskipstretch]{setspace}
+
+% tikz and theorem boxes
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{thmboxes_v2}
+\usepackage{customs}
+
+
+\usepackage{hyperref} % note: this is the final package
+\parindent = 0pt
+\linespread{1.1}
+
+% Custom Definitions of operators
+\DeclareMathOperator{\Ima}{im}
+\DeclareMathOperator{\Fix}{Fix}
+\DeclareMathOperator{\Orb}{Orb}
+\DeclareMathOperator{\Stab}{Stab}
+\DeclareMathOperator{\send}{send}
+\DeclareMathOperator{\dom}{dom}
+
+\title{A roadmap of process algebras sorted by expressiveness - Notes}
+\author{Leon Lee}
+\renewcommand\labelitemi{\tiny$\bullet$}
+
+\begin{document}
+
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section{Objective}
+\subsection{A roadmap of process algebras sorted by expressiveness}
+
+One process algebra (or any other type of language) is said to be as least as expressive as another if there exists a valid translation, or encoding, of the latter into the former. Such a valid encoding is required to be compositional, meaning that the translation of a composed expression is completely determined by the translations of the argument expressions and a translation of the composition mechanism. In addition,  the meaning of the translation of an expression should be semantically equivalent to the meaning of the expression being translated. This requires a semantic equivalence that is meaningful for both the source and the target language.
+
+Based on this, the many hundreds of process algebras or system specification languages proposed in the literature can be ordered by their relative expressiveness. One could make a graph with such languages as the nodes, and a directed edge between two nodes if one is more expressive then another. Or a category with the languages as objects and the valid encodings as morphisms. Work on this project consists of filling in parts of this roadmap. This involves mathematically proving or disproving that a given source language can be encoded in a given target language. As the whole envisioned roadmap is very large, multiple students could work on different parts of it.
+
+\subsection{Completion}
+Prove and/or disprove the existence of valid encodings from some relevant source language(s) to some relevant target language(s).
+
+\end{document}
