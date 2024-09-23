@@ -1,3 +1,13 @@
 \contentsline {section}{\numberline {1}Objective}{3}{section.1}%
 \contentsline {subsection}{\numberline {1.1}A roadmap of process algebras sorted by expressiveness}{3}{subsection.1.1}%
 \contentsline {subsection}{\numberline {1.2}Completion}{3}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Process Algebrai}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}ACP}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}CCS}{4}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}CSP}{4}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}LOTOS}{4}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}$\pi $-Calculus}{4}{subsection.2.5}%
+\contentsline {section}{\numberline {3}A Theory of Encodings and Expressions}{5}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Overview of Contributions}{5}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Section 2}{5}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Look into}{8}{subsection.3.3}%

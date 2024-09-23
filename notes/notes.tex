@@ -22,6 +22,7 @@
 % \usepackage{preamble}
 \usepackage{multicol}
 \usepackage{lipsum}
+\usepackage{stmaryrd}
 \usepackage{float}
 \usepackage[nodisplayskipstretch]{setspace}
 
@@ -63,5 +64,175 @@ Based on this, the many hundreds of process algebras or system specification lan
 
 \subsection{Completion}
 Prove and/or disprove the existence of valid encodings from some relevant source language(s) to some relevant target language(s).
+
+\newpage
+\section{Process Algebrai}
+
+\subsection{ACP}
+From MCS Lecture notes,
+\begin{enumerate}
+    \item $\epsilon$: \textbf{Successful termination} (only in the optional extension $ACP_{\epsilon}$)
+    \item $\delta$: \textbf{Deadlock}
+    \item $a$: \textbf{Action constant} for each action $a$
+    \item $P\cdot Q$: \textbf{Sequential Composition}
+    \item $P + Q$: \textbf{Summation}, \textbf{Choice}, or \textbf{Alternative Composition}
+    \item $P | | Q$: \textbf{Parallel Composition}
+    \item $\partial_H(P)$: \textbf{Restriction}, or \textbf{Encapsulation} for each set of visible actions $H$
+    \item $\tau_{I}(P)$: \textbf{Abstraction} for each set of visible actions $I$ (only in the optional extension $ACT_{\tau}$)
+\end{enumerate}
+\subsection{CCS}
+From MCS Lecture notes,
+\begin{enumerate}
+    \item $0$: \textbf{Inaction}
+    \item $a \cdot P$: \textbf{Action prefix} for each action $a$
+    \item $P+Q$: \textbf{Summation}, \textbf{Choice}, or \textbf{Alternative Composition}
+    \item $P | | Q$: \textbf{Parallel Composition}
+    \item $P | a$: \textbf{Restriction} for each action $a$
+    \item $P[f]$: \textbf{Relabelling} for each function $f : A \to A$
+\end{enumerate}
+\subsection{CSP}
+From MCS Lecture notes,
+\begin{enumerate}
+    \item $0$: \textbf{Inaction}, originally written \textbf{STOP}
+    \item $a \cdot P$: \textbf{Action prefix}, originally written $a \to P$ for each visible action $a$
+    \item $P \square Q$: \textbf{External Choice}
+    \item $P \sqcap Q$: \textbf{Internal Choice}
+    \item $P | |_{S} Q$: \textbf{Parallel Composition}, enforcing synchronisation over the set $S$ of visible actions
+    \item $P /a$: \textbf{Concealment}, originally written $P|a)$ for each action $a$
+    \item $P[f]$: \textbf{Renaming} for each function $f : A \to A$
+\end{enumerate}
+
+\subsection{LOTOS}
+\subsection{\texorpdfstring{$\pi$}{pi}-Calculus}
+
+\newpage
+\section{A Theory of Encodings and Expressions}
+
+\subsection{Overview of Contributions}
+\begin{itemize}
+    \item \textbf{Congruence Transfer Property}: If $\mathcal{L}'$ is at least as expressive as $\mathcal{L}$ up to $\sim$ then $\approx$ is also a congruence for $\mathcal{L}$
+    \item \textbf{Reverse Congruence}: If $\mathcal{I}$ is a translation of $\mathcal{L}$ into $\mathcal{L}'$ that is valid up to $\sim$, and $\approx$ is a congruence for $\mathcal{L}$ that is coarser than or equal to $\sim$, then $\approx$ is also a congruence for the fragment of $\mathcal{L}'$ that is obtained as the image of $\mathcal{I}$
+    \item \textbf{Congruence Closure Property}: If a translation $\mathcal{I}$ between $\mathcal{L}$ and $\mathcal{L}'$ is calid up to a semantic equivalence $\approx$ then it is valid even up to an equivalence that
+        \begin{itemize}
+            \item on $\mathcal{L}$ coincides with the congruence closure of $\approx$
+            \item on the image of $\mathcal{L}$ within $\mathcal{L}'$ also coincides with the congruence closure of $\approx$, and
+            \item melts each equivalence class of $\mathcal{L}$ with exactly one of $\mathcal{L}'$
+        \end{itemize}
+    \item \textbf{Congruence reflection}: (under some mild side conditions), if a translation $\mathcal{I}$ between $\mathcal{L}$ and $\mathcal{L}'$ is valid up to $\approx$, and $\sim$ is a congruence for $\mathcal{L}'$ that is finer or equal to $\approx$, then $\mathcal{I}$ is even valid up to an extension of $\sim$ to the disjoint union of $\mathcal{L}$ and $\mathcal{L}'$, still finer than or equal to $\approx$, that also is a congruence for $\mathcal{L}$ - combines the features of two languages by translating them into a common target language.
+\end{itemize}
+
+\subsection{Section 2}
+
+\begin{dfn}[Language]{dfn:language}{}
+    \begin{itemize}
+        \item the \textbf{syntax} of a language determines the valid expressions in the language
+        \item the \textbf{sementics} of a language is given by a mapping $\llbracket\,\rrbracket$ that associates with each valid expression the meaning, e.g. object, concept, or statement
+    \end{itemize}
+
+    Define a language $\mathcal{L}$ as a pair $(\mathbb{T}_{\mathcal{L}}, \llbracket\,\rrbracket_{\mathcal{L}})$ of a set $\mathbb{T}_{\mathcal{L}}$ of valid expressions in $\mathcal{L}$, and a mapping $\llbracket \rrbracket_{\mathcal{L}} : \mathbb{T}_{\mathcal{L}} \to \mathcal{D}_{\mathcal{L}}$ from $\mathbb{T}_{\mathcal{L}}$ in some set of meanings $\mathcal{D}_{\mathcal{L}}$
+\end{dfn}
+
+\begin{dfn}[Single sorted Language]{dfn:ss-lang}{}
+    Single-sorted languages are ones where \textit{expressions} or \textit{terms} are built from variables (taken from an infinite set $\mathcal{X}$) by means of operators (including constants) and additional (e.g. recursion) constructs
+
+    \longrule{0.08ex}
+
+    Differentiates from other languages which are \textit{multi-sorted} e.g.
+    \begin{itemize}
+        \item AWN - has sequential processes, parallel processes, network
+        \item mCRL2 has multiple types of \textit{data}
+    \end{itemize}
+\end{dfn}
+
+\begin{dfn}[Translation]{dfn:translation}{}
+    A \textbf{translation} from a language $\mathcal{L}$ into a language $\mathcal{L}'$ is a mapping $\mathcal{I} : \mathbb{T}_{\mathcal{L}}\to \mathcal{T}_{\mathcal{L}'}$
+\end{dfn}
+
+NOTE: \textit{encoding} to be used as a synonym for translation
+
+\begin{dfn}[Expressiveness]{dfn:expressiveness}{}
+    A langauge $\mathcal{L}'$ is at least as \textbf{expressive} as $\mathcal{L}$ iff a valid translation from $\mathcal{L}$ to $\mathcal{L}'$ exists
+\end{dfn}
+
+This way \textit{expressiveness results} can be obtained by exhibiting a valid transition between two languages and \textit{separation results} by giving an argument that no valid translation between two given languages exists
+
+\newpage
+\begin{dfn}[Simple and Closed-term language]{dfn:closed-term}{}
+    A language $\mathcal{L} = (\mathbb{T}_{\mathcal{L}}, \llbracket\,\rrbracket_{\mathcal{L}})$ is called simple if the following three conditions are met:
+    \begin{enumerate}
+        \item They have no process variables. So $\mathbb{T}_{\mathcal{L}} = T_{\mathcal{L}}$
+        \item They do not feature any additional syntactic constructs (beyond operators)
+        \item $\mathcal{D}_{\mathcal{L}} = T_{\mathcal{L}}$ and $\llbracket\,\rrbracket_{\mathcal{L}} : T_{\mathcal{L}} \to T_{\mathcal{L}}$ is the identity function
+    \end{enumerate}
+
+    Languages satisfying $(3)$ are called \textbf{closed term languages}. In such languages there is no separation between syntax and semantics
+\end{dfn}
+
+\begin{dfn}[Compositional]{dfn:compositional}{}
+    Let $\mathcal{L}$ and $\mathcal{L}'$ be languages without variables or additional syntactic constructs (beyond operators). A translation $\mathcal{I}$ from $\mathcal{L}$ into a language $\mathcal{L}'$ is \textbf{compositional} if for every $n$-ary operator $f$ of $\mathcal{L}$ there exists an $n$-ary $\mathcal{L}$'-context $C_{f}$ such that $\mathcal{I}(f(E_{1},\dots,E_{n})) = C_{f}[\mathcal{I}(E_{1}),\dots,\mathcal{I}(E_{n})]$
+\end{dfn}
+
+\begin{thm}[Compositional]{thm:compositional}{}
+    Let $\mathcal{L}$ and $\mathcal{L}'$ be languages without variables or additional syntactic constructs (beyond operators). A translation $\mathcal{I}$ from $\mathcal{L}$ into a language $\mathcal{L}'$ is \textbf{compositional} iff for every $n$-ary context $D$ of $\mathcal{L}$ there exists an $n$-ary $\mathcal{L}$'-context $C$ such that $\mathcal{I}(D(E_{1},\dots,E_{n})) = C[\mathcal{I}(E_{1}),\dots,\mathcal{I}(E_{n})]$
+\end{thm}
+
+\begin{dfn}[Preorder operator]{dfn:preorder}{}
+    Define $\sim$ (this has the circle on it) on $T_{\mathcal{L}}\uplus T_{\mathcal{L}'}$. Intuitively, $P' \sim P$ with $P\in T_{\mathcal{L}}$ and $P'\in T_{\mathcal{L}'}$ means that the processes $P$ and $P$' are sufficiently like for our purposes, so that one can accept a translation of $P$ into $P$'
+
+    \longrule{0.08ex}
+
+    A translation $\mathcal{I}$ is \textbf{valid up to $\sim$} iff it is compositional and $\mathcal{I}(P) \sim P$ for each $P\in T_{\mathcal{L}}$
+\end{dfn}
+
+\begin{dfn}[Finer]{dfn:finer}{}
+    An equivalence or preorder $\sim$ on a class $Z$ is said to be \textbf{finer}, \textbf{stronger}, or \textbf{more discriminating} than another equivalence or preorder $\approx$ on $Z$ if $v \sim w \implies v \approx w$ for all $v,w\in Z$
+\end{dfn}
+
+Using a finer equivalence or preorder yields a stronger claim that one language can be encoded in another. On the other hand, when separating two languages $\mathcal{L}$ and $L$' by showing that $\mathcal{L}$ \textbf{cannot} be encoded in $\mathcal{L}'$, a coarser equivalence or preorder yields a stronger claim
+
+\begin{thm}[Associativity property]{thm:assoc}{}
+    If valid translatiosn up to $\sim$ exists from $\mathcal{L}$ into $\mathcal{L}'$, and from $\mathcal{L}$ to $\mathcal{L}''$, then there is a valid translation up to $\sim$ from $\mathcal{L}$ to $\mathcal{L}''$
+\end{thm}
+
+\newpage
+\begin{dfn}[Congruence]{dfn:congruence}{}
+    Let $\mathcal{L}$ be a simple language. An equivalence relation $\sim$ on $T_{\mathcal{L}}$ is a \textbf{congruence} for $\mathcal{L}$ if
+    \[P_{1} \sim Q_{1} \wedge \dots \wedge P_{n} \sim Q_{n} \implies f(P_{1},\dots,P_{n}) \sim f(Q_{1},\dots,Q_{n})\]
+    for each $n$-ary operator $f$ of $\mathcal{L}$, and each $P_{i}, Q_{i}\in T_{\mathcal{L}}(i = 1,\dots,n)$
+
+    \longrule{0.08ex}
+
+    Let $\mathcal{L}$ be a simple language. An equivalence relation $\sim$ on $T_{\mathcal{L}}$ is a \textbf{congruence} for $\mathcal{L}$ if
+    \[P_{1} \sim Q_{1} \wedge \dots \wedge P_{n} \sim Q_{n} \implies C[P_{1},\dots,P_{n}] \sim C[Q_{1},\dots,Q_{n}]\]
+    for each $n$-ary context $C$, and each $P_{i}, Q_{i}\in T_{\mathcal{L}}(i = 1,\dots,n)$
+\end{dfn}
+
+\begin{thm}[Coarser Expressions]{thm:coarses}{}
+    Suppose $\mathcal{L}'$ is at least as expressive as $\mathcal{L}$ up to an equivalene or preorder $\sim$, and let $\approx \supseteq \sim$ be a congruence for $\mathcal{L}'$ that is coarser or equal to $\sim$. Then $\approx$ is also a congruence for $\mathcal{L}$
+    
+    \longrule{0.08ex}
+
+    Let $\mathcal{I}$ be a translation of $\mathcal{L}$ into $\mathcal{L}'$ that is valid up to $\sim$, and let $\approx \supseteq \sim$ be a congruence for $\mathcal{L}'$ that is coarser or equal to $\sim$. Then $\approx$ is also a congruence for $\mathcal{I}(\mathcal{L})$
+
+    \longrule{0.08ex}
+
+    Let $\mathcal{I}$ be a translation of $\mathcal{L}$ into $\mathcal{L}'$ that is valid up to $\sim$, and let $\approx \supseteq \sim$ be a congruence for $\mathcal{I}(\mathcal{L})$ that is coarser or equal to $\sim$. Then $\approx$ is also a congruence for $\mathcal{L}$
+\end{thm}
+
+\begin{dfn}[Translation Congruence]{dfn:translation-congruence}{}
+    Let $\mathcal{I} : \mathbb{T}_{\mathcal{L}} \to \mathbb{T}_{\mathcal{L}'}$ be a translation from $\mathcal{L}$ to $\mathcal{L}'$. An equivalence relation $\sim$ on $T_{\mathcal{I}(\mathcal{L})}$ is a \textbf{congruence} for $\mathcal{I}(\mathcal{L})$ if
+    \[\mathcal{I}(P) \sim \mathcal{I}(Q) \implies \mathcal{I}(D)[\mathcal{I}(P)] \sim \mathcal{I}(D)[\mathcal{I}(Q)]\]
+    for each unary $\mathcal{L}$-context $D$, and each $P, Q\in T_{\mathcal{L}}$
+\end{dfn}
+
+
+
+\subsection{Look into}
+\begin{itemize}
+    \item Bisimularity (strong / weak)
+    \item pi calculi
+    \item Barbed bisimilarity ?
+\end{itemize}
+
 
 \end{document}
