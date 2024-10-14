@@ -1,48 +1,5 @@
 \documentclass{article}
-% \usepackage{showframe}
-
-% \usepackage[dvipsnames]{xcolor}
-% custom colour definitions
-% \colorlet{colour1}{Red}
-% \colorlet{colour2}{Green}
-% \colorlet{colour3}{Cerulean}
-
-\usepackage{geometry}
-% margins
-\geometry{
-    a4paper,
-    bottom=70pt,
-    % margin=70pt
-}
-
-\usepackage{graphicx} % Required for inserting images
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{amssymb}
-% \usepackage{preamble}
-\usepackage{multicol}
-\usepackage{lipsum}
-\usepackage{stmaryrd}
-\usepackage{float}
-\usepackage[nodisplayskipstretch]{setspace}
-
-% tikz and theorem boxes
-\usepackage[framemethod=TikZ]{mdframed}
-\usepackage{thmboxes_v2}
-\usepackage{customs}
-
-
-\usepackage{hyperref} % note: this is the final package
-\parindent = 0pt
-\linespread{1.1}
-
-% Custom Definitions of operators
-\DeclareMathOperator{\Ima}{im}
-\DeclareMathOperator{\Fix}{Fix}
-\DeclareMathOperator{\Orb}{Orb}
-\DeclareMathOperator{\Stab}{Stab}
-\DeclareMathOperator{\send}{send}
-\DeclareMathOperator{\dom}{dom}
+\usepackage{preamble}
 
 \title{A roadmap of process algebras sorted by expressiveness - Notes}
 \author{Leon Lee}
@@ -225,11 +182,12 @@ Using a finer equivalence or preorder yields a stronger claim that one language 
     for each unary $\mathcal{L}$-context $D$, and each $P, Q\in T_{\mathcal{L}}$
 \end{dfn}
 
-
+\begin{thm}[Congruence Reflection]{thm:congruence-reflection}{}
+    Let $\mathcal{I}$ be a compositional translation between simple languages $\mathcal{L}$ and $\mathcal{L}'$. Then any equivalence relation $\sim \subseteq T_{\mathcal{I}(\mathcal{L})} \times T_{\mathcal{I}(\mathcal{L})}$ that is a congruence for $\mathcal{I}(\mathcal{L})$ can be extended to an equivalence $\sim_{\mathcal{I}}$ on $T_{\mathcal{I}} \uplus T_{\mathcal{I}(\mathcal{L})}$ such that $\mathcal{I}$ is valid up to $\sim_{\mathcal{I}}$ and $\sim_{\mathcal{I}}$ also is a congruence for $\mathcal{L}$. Moreover, if $\mathcal{I}$ is valid up to $\approx$ and $\sim \subseteq \approx$ on $T_{\mathcal{I}(\mathcal{L})}$ then $\sim_{\mathcal{I}} \subseteq \approx$
+\end{thm}
 
 \subsection{Look into}
 \begin{itemize}
-    \item Bisimularity (strong / weak)
     \item pi calculi
     \item Barbed bisimilarity ?
 \end{itemize}

@@ -1,0 +1,127 @@
+\documentclass{article}
+
+
+\title{CSP}
+\author{Leon Lee}
+
+\usepackage{preamble}
+
+\begin{document}
+
+\maketitle
+
+\section{CSP Operators}
+
+\setcounter{subsection}{1}
+
+\begin{dfn}[Nondeterministic Composition]{dfn:square-cap}{}
+    \textit{A Theory of Communicating Sequential Processes P568 / P9}
+
+    If $P$ and $Q$ are processes, the combination $P \sqcap Q$ is a process that behaves exactly like $P$ or like $Q$, but the choice between them is wholly nondeterministic: It is made autonomously by the process (or by its implementer) and cannot be influenced or even observed by the environment. Thus $P \sqcap Q$ can do (or refuse to do) everything that $P$ or $Q$ can do (or refuse to do)
+    \[P \prightarrow{s} R \vee Q \prightarrow{s} R \implies (P \sqcap Q) \prightarrow{s} R\]
+    The process determined by this law is simply
+    \[P \sqcap Q = P \cup Q\]
+\end{dfn}
+
+\begin{dfn}[Parallel Composition]{dfn:parallel-comp}{}
+    \textit{A Theory of Communicating Sequential Processes P572 / P13}
+
+    The combination $(P | | Q)$ is intended to behave like both $P$ and $Q$, progressing in parallel. Thus an event can occur only when both $P$ and $Q$ are able to participate in it simultaneously. The same is therefore true of sequences of events:
+    \[P \prightarrow{s} P' \text{ and } Q \prightarrow{s} Q' \implies (P | | Q) \prightarrow{s} (P' | | Q')\]
+    The process determined by this law is defined as
+    \[(P | | Q) = \{(s, X \cup Y) | (s, X) \in P \text{ and } (s, Y)\in Q\}\]
+\end{dfn}
+
+
+\begin{dfn}[Conditional Composition]{dfn:square}{}
+    \textit{A Theory of Communicating Sequential Processes P573 / P14}
+
+    The process $P \detcomp Q$ behaves either like $P$ or like $Q$, but the choice can be influenced by the environment on the very first step.
+
+    If the environment offers an event $a$ that is possible for $P$ but not $Q$, then $P$ is selected. If the environment offers an event that is possible for both processes, the selection between them is nondeterminate and the environment doesn't get a second chance to influence it. Thus
+    \[P \prightarrow{\langle a \rangle s} R \vee Q \prightarrow{\langle a \rangle s} R \implies (P \detcomp Q) \prightarrow{\langle a \rangle s} R \]
+    Before occurance of the first event, $P$ and $Q$ may progress independently:
+    \[P \prightarrow{\tau} P' \text{ and } Q \prightarrow{\tau} Q' \implies (P \detcomp Q) \prightarrow{\tau} (P' \detcomp Q')\]
+    The process determined by these laws is defined
+    \begin{align*}
+        (P \detcomp Q) = &\{(\tau, X) \mid (\tau, X) \in P \text{ and } (\tau, X) \in Q\}\\
+                         & \cup \{(s, X) \mid s \ne \tau \text{ and } ((s, X)\in P \vee (s, X)\in Q)\}
+    \end{align*}
+\end{dfn}
+
+\begin{dfn}[Concealment]{dfn:concealment}{}
+    Let $b$ be an event that is regarded as an internal operation of a process $P$. Define $P \backslash b$ s the process that behaves like $P$ except that every occurrence of $b$ is removed from its traces. It therefore satisfies the law
+    \[P \prightarrow{s} Q \implies (P \backslash b) \prightarrow{s\backslash b}(Q \backslash b)\]
+    where $s \backslash b$ is formed from $s$ by removing all occurrances of $b$
+    
+    The required definition is
+    \begin{align*}
+        P \backslash b = & \{(s \backslash b, X) \mid (s, X \cup \{b\})\in P\}\\
+                         &\cup \{((s \backslash b) t, X) \mid \forall n.(sb^{n}, \emptyset)\in P \text{ and } (t, X)\in \mathrm{CHAOS}\}
+    \end{align*}
+    where $sb^{n}$ is $s$ followed by $n$ occurrences of $b$
+\end{dfn}
+
+\newpage
+\subsection{List of processes}
+
+\begin{itemize}
+    \item \textbf{Nondeterministic Composition}
+    \[P \prightarrow{s} R \vee Q \prightarrow{s} R \implies (P \sqcap Q) \prightarrow{s} R\]
+    The process determined by this law is simply
+    \[P \sqcap Q = P \cup Q\]
+    The proof tree for this is:
+    \[P \sqcap Q \prightarrow{\tau} P \qquad P \sqcap Q \prightarrow{\tau} Q\]
+    The equivalent ACP expression is:
+    \[\mathscr{I}(P \sqcap Q) = \tau. \mathscr{I}(P) + \tau. \mathscr{I}(Q)\]
+
+    \item \textbf{Parallel Composition}
+    \[P \prightarrow{s} P' \text{ and } Q \prightarrow{s} Q' \implies (P | | Q) \prightarrow{s} (P' | | Q')\]
+    The process determined by this law is defined as
+    \[(P | | Q) = \{(s, X \cup Y) | (s, X) \in P \text{ and } (s, Y)\in Q\}\]
+    The proof tree for this is:
+    \[\prftree{P \prightarrow{\sigma} P' \quad (\sigma\not\in S)}{P | | Q \prightarrow{\sigma} P' | | Q} \qquad \prftree{P \prightarrow{\sigma} P' \quad (s\in S)}{P | | Q \prightarrow{\sigma} P' | | Q'} \qquad \prftree{Q \prightarrow{\sigma} Q' \quad (\sigma\not\in A)}{P | | Q \prightarrow{\sigma} P | | Q'}\]
+    The equivalent ACP expression is:
+    \[\mathscr{I}(P | | Q) = \]
+
+    \item \textbf{Conditional Composition}
+
+    \[P \prightarrow{\tau} P' \text{ and } Q \prightarrow{\tau} Q' \implies (P \detcomp Q) \prightarrow{\tau} (P' \detcomp Q')\]
+    The process determined by these laws is defined
+    \begin{align*}
+        (P \detcomp Q) = &\{(\tau, X) \mid (\tau, X) \in P \text{ and } (\tau, X) \in Q\}\\
+                         & \cup \{(s, X) \mid s \ne \tau \text{ and } ((s, X)\in P \vee (s, X)\in Q)\}
+    \end{align*}
+
+    \textit{As defined in An improved Failures model for communicating processes, Roscoe}:
+    \[\mathcal{D}(P \detcomp Q)_{e} = \mathcal{D}(P)_{e} \cup \mathcal{D}(Q)_{e}\]
+    \begin{align*}
+        \mathcal{F}(P \detcomp Q)_{e} = &\{(\tau, X) \mid (\tau, X) \in \mathcal{F}(P)_{e} \cap \mathcal{F}(P)_{e}\}\\
+                         & \cup \{(s, X) \mid s \ne \tau \text{ and } ((s, X)\in \mathcal{F}(P)_{\rho} \cup \mathcal{F}(P)_{e})\}\\
+                         &\cup \{(s, X) \mid s\in \mathcal{D}(P \detcomp Q)_{e}\}
+    \end{align*}
+    and
+    For divergent sets and failure sets respectively
+
+    The proof tree for this is:
+    \[\prftree{P \prightarrow{a} P'}{P \detcomp Q \prightarrow{a} P'} \qquad \prftree{P \prightarrow{\tau} P'}{P \detcomp Q \prightarrow{\tau} P' \detcomp Q} \qquad \prftree{Q \prightarrow{a} Q'}{P \detcomp Q \prightarrow{a} Q'} \qquad \prftree{Q \prightarrow{\tau} Q'}{P \detcomp Q \prightarrow{\tau} P \detcomp Q'}\]
+    The equivalent ACP Expression is:
+    \[\mathscr{I}(P \detcomp Q)\]
+\item \textbf{Concealment}
+    \[P \prightarrow{s} Q \implies (P \backslash b) \prightarrow{s\backslash b}(Q \backslash b)\]
+    where $s \backslash b$ is formed from $s$ by removing all occurrences of $b$
+    
+    The required definition is
+    \begin{align*}
+        P \backslash b = & \{(s \backslash b, X) \mid (s, X \cup \{b\})\in P\}\\
+                         &\cup \{((s \backslash b) t, X) \mid \forall n.(sb^{n}, \emptyset)\in P \text{ and } (t, X)\in \mathrm{CHAOS}\}
+    \end{align*}
+    where $sb^{n}$ is $s$ followed by $n$ occurrences of $b$
+
+    The proof tree is:
+    \[\prftree{P \prightarrow{\sigma} P' \quad (\sigma\not\in S)}{P \backslash A \prightarrow{\sigma} P' \backslash A} \qquad \prftree{P \prightarrow{s} P' \quad (s\in S)}{P \backslash A \prightarrow{\tau} P' \backslash A}\]
+    The equivalent ACP Expression is:
+    \[\mathscr{I}(P \backslash A) = \tau_{A} (\mathscr{I}(P))\]
+\end{itemize}
+
+\end{document}
