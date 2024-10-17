@@ -1,0 +1,117 @@
+\documentclass[logo,bsc,singlespacing,parskip,online]{infthesis}
+\usepackage{ugcheck}
+
+
+% Include any packages you need below, but don't include any that change the page
+% layout or style of the dissertation. By including the ugcheck package above,
+% you should catch most accidental changes of page layout though.
+
+\usepackage[immediate]{silence}
+\usepackage{preamble}
+
+% \usepackage{microtype} % recommended, but you can remove if it causes problems
+\usepackage[round]{natbib} % recommended for citations
+
+
+\begin{document}
+\begin{preliminary}
+
+
+\title{A roadmap of process algebras sorted by expressiveness}
+
+\author{Leon Lee}
+\course{Computer Science and Mathematics}
+\project{4th Year Project Report}        % all other UG4 students
+
+
+\date{\today}
+
+\abstract{
+One process algebra (or any other type of language) is said to be as least as expressive as another if there exists a valid translation, or encoding, of the latter into the former. Such a valid encoding is required to be compositional, meaning that the translation of a composed expression is completely determined by the translations of the argument expressions and a translation of the composition mechanism. In addition,  the meaning of the translation of an expression should be semantically equivalent to the meaning of the expression being translated. This requires a semantic equivalence that is meaningful for both the source and the target language.
+
+Based on this, the many hundreds of process algebras or system specification languages proposed in the literature can be ordered by their relative expressiveness. One could make a graph with such languages as the nodes, and a directed edge between two nodes if one is more expressive then another. Or a category with the languages as objects and the valid encodings as morphisms. Work on this project consists of filling in parts of this roadmap. This involves mathematically proving or disproving that a given source language can be encoded in a given target language. As the whole envisioned roadmap is very large, multiple students could work on different parts of it.
+}
+
+\maketitle
+
+\newenvironment{ethics}
+   {\begin{frontenv}{Research Ethics Approval}{\LARGE}}
+   {\end{frontenv}\newpage}
+
+\begin{ethics}
+This project was planned in accordance with the Informatics Research
+Ethics policy. It did not involve any aspects that required approval
+from the Informatics Research Ethics committee.
+
+\standarddeclaration
+\end{ethics}
+
+
+\begin{acknowledgements}
+Any acknowledgements go here.
+\end{acknowledgements}
+
+
+\tableofcontents
+\end{preliminary}
+
+
+\chapter{Information}
+
+\section{Background}
+
+\section{Motivation}
+
+\section{Contributions}
+
+\newpage
+\chapter{Background}
+
+\section{Process Algebra}
+With the growing complexities of software and systems of the world, it is key to have methods of modelling more complex systems to get a better understanding of the underlying behaviour behind processes. Efforts have been made in sequential programming as early as the 1930s with Turing Machines, and the $\lambda$-calculus. Systems in real life are rarely sequential however, and usually involve multiple processes acting simultaneously, sometimes even synchronising to interact with each other to perform tasks. These tasks that involve modelling multiple processes at once are referred to as a \textit{Concurrent System}. It is clear to see that brute forcing solutions to these problems are significantly harder than a sequential system - the processing time will grow exponentially as the number of processes increase, and modelling a system like a colony of ants is near impossible. Therefore, we will need some way to formalise these Concurrent Systems.
+
+Concurrency has been studied in many different ways, though with the earliest  the 1960s with some other notable models being Petri nets, or the Actor Model. Process Algebras are one such method of modelling a Concurrent System, where the process is modelled in such a way that it is akin to the Universal Algebras of mathematics - in which operations are defined in an axiomatic approach to create a structurally sound way of defining concurrent systems. \citep{baeten_brief_2005} It is easily possible to model simple systems as a flow chart or diagram as you will be able to see throughout this paper, but a formal approach like process algebras will make way for modelling more complex systems, and lays the groundwork to provide a solid foundation to prove and base claims for such systems.
+
+A simple example in action is a process algebra where we only consider the alternative composition operator $+$, where applied to a process $a + b$ means ``Choose $a$, or choose $b$''. Process algebras can typically be modelled in a \textit{Process Graph}, which are diagrams that employ ``states'', and ``actions'' to show the traces, or paths, that a process can take. In this case, the process $a + b$ can be modelled in the following way:
+
+% https://q.uiver.app/#q=WzAsNixbMSwxLCJcXGNpcmMiXSxbMCwyLCJcXGNpcmMiXSxbMiwyLCJcXGNpcmMiXSxbMiw1XSxbMSw1LCJcXGJ1bGxldCJdLFsxLDBdLFswLDEsImEiLDJdLFswLDIsImIiXSxbMyw0XSxbNSwwXV0=
+\[\begin{tikzcd}[cramped,column sep=small]
+	& {} \\
+	& \circ \\
+	\circ && \circ \\
+	\arrow[from=1-2, to=2-2]
+	\arrow["a"', from=2-2, to=3-1]
+	\arrow["b", from=2-2, to=3-3]
+\end{tikzcd}\]
+
+Where the graph begins at the top into the first node, and then can either progress to the left node via the action $a$, or the right node via the action $b$. $a$ and $b$ are the actions, e.g. ``eat'' and ``drink'', while the nodes are the states, e.g. ``apple'' and ``water''
+
+The axioms of the $+$ operator of BPA are as follows:
+\begin{itemize}
+    \item \textbf{Commutativity}: $a + b$
+    \item \textbf{Associativity}: $(a + b) + c = a + (b + c)$
+    \item \textbf{Idempotency}: $a + a = a$
+\end{itemize}
+Comparable to the operation axioms of a Group or Ring in Mathematics, every other operation in a process algebra is constructed similarly. In practice, most process algebras will have some form of alternative composition, but this is a very simplified example and the developed process algebras that exist are designed to handle a lot more complex situations such as unobservable actions, commonly referred to as $\tau$-actions, recursion, which lets a process repeat itself or other processes, and deadlock, which is a state where no desirable outcomes can be reached.
+
+There are many process algebras that exist, the most famous and seminal being CSP \citep{brookes_theory_1984}, CCS \citep{milner_calculus_1980}, and ACP \citep{bergstra_process_1984}, \citep{bergstra_acp_1989}, with some other popular calculi being the $\pi$-calculus and its various extensions  \citep{engberg_calculus_1986}, \citep{parrow_fusion_1998}, \citep{abadi_calculus_1999} which have been used in varying degrees in fields like Biology, Business, and Cryptography, or the Ambient Calculus \citep{cardelli_mobile_1998} which has been used to model mobile devices.
+
+\section{Encodings of Process Algebra}
+
+With the growing number of process algebras, one might begin to ask if there is a way of comparing different process algebra to each other to find the single best one, as a parallel to Turing Machines and the Church-Turing thesis. However, the wide range of applications that different process algebra are used for makes that rather impractical, and the goal of unifying all process algebra into a single theory seems further and further away as more process algebra for even more specified tasks get created.
+
+A more reasonable approach is to compare different process algebras and their expressiveness, two main relevant methods being \textit{absolute} and \textit{relative} expressiveness.\citep{parrow_expressiveness_2008} Absolute expressiveness is the idea of comparing a specific process algebra to a question and seeing if it can solve the problem - e.g. if a process algebra is Turing Complete. However, this merely biparts different algebra - the process algebra that are able to solve a specified problem, and the ones who aren't. Therefore, the question of relative expressiveness - i.e. how one language compares to another is a lot more useful in terms of categorising different process algebras by expressiveness. .
+
+A well studied way of comparing expressiveness is through an ``encoding'', and whether an algebra can be translated from one to another, but not vice versa \citep{gorla_towards_2010}. The general notion of an encoding is not defined by clear boundaries, and the criterion for a valid encoding may vary language to language, but work has been made to try and generalise the notion of an encoding and expressiveness \citep{gorla_towards_2010}, \citep{glabbeek_theory_2018}
+
+\section{ACP}
+ACP (Algebra of Communicating Processes) is a Process Algebra developed by
+\section{CSP}
+
+
+
+% \bibliographystyle{plain}
+\bibliographystyle{plainnat}
+\bibliography{mybibfile}
+
+\end{document}
