@@ -4,45 +4,45 @@ The top-level auxiliary file: project.aux
 The style file: plainnat.bst
 Database file #1: mybibfile.bib
 Warning--there's a number but no volume in engberg_calculus_1986
-You've used 12 entries,
+You've used 14 entries,
             2773 wiz_defined-function locations,
-            706 strings with 7884 characters,
-and the built_in function-call counts, 6604 in all, are:
-= -- 665
-> -- 313
-< -- 15
-+ -- 105
-- -- 93
-* -- 539
-:= -- 1013
-add.period$ -- 71
-call.type$ -- 12
-change.case$ -- 64
-chr.to.int$ -- 12
-cite$ -- 25
-duplicate$ -- 292
-empty$ -- 519
-format.name$ -- 117
-if$ -- 1416
+            726 strings with 8447 characters,
+and the built_in function-call counts, 7374 in all, are:
+= -- 748
+> -- 333
+< -- 17
++ -- 113
+- -- 99
+* -- 592
+:= -- 1141
+add.period$ -- 84
+call.type$ -- 14
+change.case$ -- 72
+chr.to.int$ -- 14
+cite$ -- 29
+duplicate$ -- 332
+empty$ -- 588
+format.name$ -- 125
+if$ -- 1578
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 12
-newline$ -- 100
-num.names$ -- 55
-pop$ -- 99
+missing$ -- 14
+newline$ -- 117
+num.names$ -- 63
+pop$ -- 106
 preamble$ -- 1
-purify$ -- 53
+purify$ -- 59
 quote$ -- 0
-skip$ -- 223
+skip$ -- 249
 stack$ -- 0
-substring$ -- 299
-swap$ -- 59
+substring$ -- 322
+swap$ -- 62
 text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 127
+type$ -- 149
 warning$ -- 1
-while$ -- 63
+while$ -- 71
 width$ -- 0
-write$ -- 234
+write$ -- 274
 (There was 1 warning)

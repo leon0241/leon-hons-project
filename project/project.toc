@@ -5,6 +5,6 @@
 \contentsline {chapter}{\numberline {2}Background}{2}{}%
 \contentsline {section}{\numberline {2.1}Process Algebra}{2}{}%
 \contentsline {section}{\numberline {2.2}Encodings of Process Algebra}{3}{}%
-\contentsline {section}{\numberline {2.3}ACP}{4}{}%
-\contentsline {section}{\numberline {2.4}CSP}{4}{}%
+\contentsline {section}{\numberline {2.3}CSP}{4}{}%
+\contentsline {section}{\numberline {2.4}ACP}{4}{}%
 \contentsline {chapter}{Bibliography}{5}{}%
