@@ -118,11 +118,11 @@ where the operators are: \textit{inaction}, \textit{divergence}, \textit{action 
 \section{ACP}
 ACP (Algebra of Communicating Processes) is a Process Algebra developed by Jan Bergstra and Jan Willem Klop \citep{bergstra_process_1984}. Compared to CSP, ACP isn't based on communications, and instead built up with an axiomatic approach in mind which does away with the idea of action prefixing and instead can allow for unguarded operations. ACP$_{\tau}$ \citep{bergstra_acp_1989} is an extension of ACP that includes an extra action $\tau$ which is used to represent actions that are unobservable, or changeable, from a human perspective.
 
-Taken from the same paper as CSP, van Glabbeek defines the grammar of ACP with relational renaming (ACP$_{R}$) as such:
+the grammar of ACP$_{\tau}$ as taken from \citep{bergstra_acp_1989} is defined as such:
 \begin{align*}
-   P, Q ::= a \mid \delta \mid E + F \mid E . F \mid E | | F \mid E \underline{| | \,} F \mid E | F \mid \partial_{H}(E) \mid \mathcal{R}(E) \mid X \mid \langle X | \mathcal{S} \rangle
+   P, Q ::= a \mid \delta \mid E + F \mid E . F \mid E | | F \mid E \underline{| | \,} F \mid E | F \mid \partial_{H}(E) \mid \tau
 \end{align*}
-where the operators are: \textit{action}, \textit{deadlock}, \textit{alternative composition}, \textit{sequential composition}, \textit{merge}, \textit{left merge}, \textit{communication}, \textit{restriction}, \textit{relational renaming}, and $X$ and $\langle X | \mathcal{S} \rangle$ being a recursive specification
+where the operators are: \textit{action}, \textit{deadlock}, \textit{alternative composition}, \textit{sequential composition}, \textit{merge}, \textit{left merge}, \textit{communication}, \textit{encapsulation}, \textit{abstraction}
 
 
 
