@@ -1,0 +1,288 @@
+\documentclass{article}
+
+\title{Encoding of CSP Square operator to ACP}
+\author{Leon Lee}
+\renewcommand\labelitemi{\tiny$\bullet$}
+\usepackage{preamble}
+
+\begin{document}
+
+\maketitle
+
+\setcounter{section}{1}
+\subsection{Prerequisites}
+
+\begin{dfn}[Sets of A]{dfn:sets}{}
+	\begin{itemize}
+	    \item $A$ is the set of actions
+	    \item $A_{0}$ is the set of actions that actually get used in processes
+	    \item $H_{0} = A - A_{0}$ is the set of working space operators or any other action that doesn't get used
+	    \item $H_{1} = A_{0} \cup \{\mathrm{first}, \mathrm{second}, \mathrm{stop}, \mathrm{skip}, \mathrm{next}\}$ is the set of actions, plus some working operators
+	\end{itemize}
+\end{dfn}
+
+\begin{multicols}{2}
+
+\begin{dfn}[F1]{dfn:f1}{}
+	Define a function $f_{1}: A_{0} \to H_{0}$ where
+	\begin{align*}
+		f_{1}(a_{\mathrm{first}}) &= a_{\mathrm{first}} \\
+		f_{1}(a_{\mathrm{second}}) &= a_{\mathrm{second}} \\
+		f_{1}(a_{\mathrm{next}}) &= a
+	\end{align*}
+\end{dfn}
+
+\begin{dfn}[Communication]{dfn:communication}{}
+	Define communications where
+	\begin{align*}
+		a | \mathrm{first} &= a_{\mathrm{first}}\\
+		\mathrm{skip} | \mathrm{first} &= \mathrm{skip} \\
+		\tau | \mathrm{first} &= \tau \\
+		a | \mathrm{second} &= a_{\mathrm{second}}\\
+		a | \mathrm{next} &= a_{\mathrm{next}}\\
+	\end{align*}
+\end{dfn}
+
+\end{multicols}
+
+
+\begin{dfn}[Triggering in ACP]{dfn:acp-triggering}{}
+	\[\phi_{p} := \rho_{f_{1}}[\partial_{H_{1}}(p | | \mathrm{first}(\mathrm{next}^{\infty}))]\]
+	is a function that turns a process $p = p_{1}.p_{2}.p_{3}.\dots$ into
+	\[p = p_{\mathrm{first}}. p_{2}. p_{3}. p_{4}.\dots\]
+
+	\longrule{0.08ex}
+
+	\[\phi_{p} := \rho_{f_{1}}[\partial_{H_{1}}(p | | \mathrm{first}(\mathrm{second}(\mathrm{next}^{\infty})))]\]
+	is a function that turns a process $p = p_{1}.p_{2}.p_{3}.\dots$ into
+	\[p = p_{\mathrm{first}}. p_{\mathrm{second}}. p_{3}. p_{4}.\dots\]
+\end{dfn}
+
+\newpage
+\subsection{Encoding}
+
+\subsubsection{Strategy}
+\begin{itemize}
+    \item If there is a $\tau$, put the starts of both processes onto it
+    \item Then, append the rest of both processes onto that as well
+    \item Then add any processes without a $\tau$ on to the start
+\end{itemize}
+
+\subsection{Way to filter out processes with tau}
+Add new communications
+
+\begin{itemize}
+    \item $a_{\mathrm{first}} | b_{\mathrm{second}} = a_{\mathrm{second}}$
+    \item $\mathrm{skip} | \tau= \tau$
+    \item $\tau_{s} | a_{s} = \tau_{s} + a$
+\end{itemize}
+
+Define function $\mathrm{stop}$ with the communications
+\[\mathrm{stop} | a = a, \quad a \ne \tau\]
+
+
+The function
+\[\partial_{H_{0}}(\rho_{f_{1}}[\partial_{H_{1}}(p | | \mathrm{first}(\mathrm{next}^{\infty}))] | | \mathrm{stop})\]
+will return an empty process if the first action is $\tau$ otherwise return the process
+% https://q.uiver.app/#q=WzAsMTYsWzAsMCwiXFxidWxsZXQiXSxbMCwxLCJcXGJ1bGxldCJdLFsxLDAsIlxcYnVsbGV0Il0sWzIsMCwiXFxidWxsZXQiXSxbMywwLCJcXGJ1bGxldCJdLFsxLDEsIlxcYnVsbGV0Il0sWzIsMSwiXFxidWxsZXQiXSxbMywxLCJcXGJ1bGxldCJdLFswLDIsIlxcYnVsbGV0Il0sWzEsMiwiXFxidWxsZXQiXSxbMiwyLCJcXGJ1bGxldCJdLFszLDIsIlxcYnVsbGV0Il0sWzAsMywiXFxidWxsZXQiXSxbMSwzLCJcXGJ1bGxldCJdLFsyLDMsIlxcYnVsbGV0Il0sWzMsMywiXFxidWxsZXQiXSxbMCwxLCJzdG9wIiwyLHsiY29sb3VyIjpbMCw2MCw3Nl19LFswLDYwLDc2LDFdXSxbMCwyLCJcXHRhdV9mIiwwLHsiY29sb3VyIjpbMCw2MCw3Nl19LFswLDYwLDc2LDFdXSxbMiwzLCJhIiwwLHsiY29sb3VyIjpbMCw2MCw3Nl19LFswLDYwLDc2LDFdXSxbMyw0LCJiIiwwLHsiY29sb3VyIjpbMCw2MCw3Nl19LFswLDYwLDc2LDFdXSxbNSw2LCJiIiwwLHsiY29sb3VyIjpbMCw2MCw3Nl19LFswLDYwLDc2LDFdXSxbNiw3LCJjIiwwLHsiY29sb3VyIjpbMCw2MCw3Nl19LFswLDYwLDc2LDFdXSxbMSw1LCJcXHRhdV9mIiwwLHsiY29sb3VyIjpbMCw2MCw3Nl19LFswLDYwLDc2LDFdXSxbMiw1LCIiLDAseyJjb2xvdXIiOlswLDYwLDc2XX1dLFszLDYsIiIsMSx7ImNvbG91ciI6WzAsNjAsNzZdfV0sWzQsNywiIiwxLHsiY29sb3VyIjpbMCw2MCw3Nl19XSxbOCw5LCJhX2YiLDAseyJjb2xvdXIiOlswLDYwLDc2XX0sWzAsNjAsNzYsMV1dLFs5LDEwLCJiIiwwLHsiY29sb3VyIjpbMCw2MCw3Nl19LFswLDYwLDc2LDFdXSxbMTAsMTEsImMiLDAseyJjb2xvdXIiOlswLDYwLDc2XX0sWzAsNjAsNzYsMV1dLFs4LDEyLCJzdG9wIiwyLHsiY29sb3VyIjpbMCw2MCw3Nl19LFswLDYwLDc2LDFdXSxbMTIsMTMsImFfZiIsMix7ImNvbG91ciI6WzAsNjAsNzZdfSxbMCw2MCw3NiwxXV0sWzEzLDE0LCJiIiwyXSxbMTQsMTUsImMiLDJdLFs5LDEzLCIiLDEseyJjb2xvdXIiOlswLDYwLDc2XX1dLFsxMCwxNCwiIiwxLHsiY29sb3VyIjpbMCw2MCw3Nl19XSxbMTEsMTUsIiIsMCx7ImNvbG91ciI6WzAsNjAsNzZdfV0sWzgsMTMsImEiXV0=
+\[\begin{tikzcd}[cramped, column sep=scriptsize]
+	\bullet & \bullet & \bullet & \bullet \\
+	\bullet & \bullet & \bullet & \bullet \\
+	\bullet & \bullet & \bullet & \bullet \\
+	\bullet & \bullet & \bullet & \bullet
+	\arrow["{\tau_f}", color={rgb,255:red,231;green,157;blue,157}, from=1-1, to=1-2]
+	\arrow["stop"', color={rgb,255:red,231;green,157;blue,157}, from=1-1, to=2-1]
+	\arrow["a", color={rgb,255:red,231;green,157;blue,157}, from=1-2, to=1-3]
+	\arrow[draw={rgb,255:red,231;green,157;blue,157}, from=1-2, to=2-2]
+	\arrow["b", color={rgb,255:red,231;green,157;blue,157}, from=1-3, to=1-4]
+	\arrow[draw={rgb,255:red,231;green,157;blue,157}, from=1-3, to=2-3]
+	\arrow[draw={rgb,255:red,231;green,157;blue,157}, from=1-4, to=2-4]
+	\arrow["{\tau_f}", color={rgb,255:red,231;green,157;blue,157}, from=2-1, to=2-2]
+	\arrow["b", color={rgb,255:red,231;green,157;blue,157}, from=2-2, to=2-3]
+	\arrow["c", color={rgb,255:red,231;green,157;blue,157}, from=2-3, to=2-4]
+	\arrow["{a_f}", color={rgb,255:red,231;green,157;blue,157}, from=3-1, to=3-2]
+	\arrow["stop"', color={rgb,255:red,231;green,157;blue,157}, from=3-1, to=4-1]
+	\arrow["a", from=3-1, to=4-2]
+	\arrow["b", color={rgb,255:red,231;green,157;blue,157}, from=3-2, to=3-3]
+	\arrow[draw={rgb,255:red,231;green,157;blue,157}, from=3-2, to=4-2]
+	\arrow["c", color={rgb,255:red,231;green,157;blue,157}, from=3-3, to=3-4]
+	\arrow[draw={rgb,255:red,231;green,157;blue,157}, from=3-3, to=4-3]
+	\arrow[draw={rgb,255:red,231;green,157;blue,157}, from=3-4, to=4-4]
+	\arrow["{a_f}"', color={rgb,255:red,231;green,157;blue,157}, from=4-1, to=4-2]
+	\arrow["b"', from=4-2, to=4-3]
+	\arrow["c"', from=4-3, to=4-4]
+\end{tikzcd}\]
+
+\subsection{Cut Tau Tree}
+
+\textbf{Recall}: $a_{\mathrm{first}} | b_{\mathrm{second}} = a_{\mathrm{second}}$
+
+\[\rho_{f_{1}}(\partial_{H_{1}}(p | | \mathrm{first}(\mathrm{second}(\mathrm{next}^{\infty})))) \mid\mid \rho_{f_{1}}(\partial_{H_{1}}(q | | \mathrm{first}(\mathrm{second}(\mathrm{next}^{\infty}))))\]
+
+% https://q.uiver.app/#q=WzAsMjAsWzAsMCwiXFxjaXJjIl0sWzEsMCwiXFxidWxsZXQiXSxbMiwwLCJcXGJ1bGxldCJdLFszLDAsIlxcYnVsbGV0IixbMCw2MCw3NiwxXV0sWzAsMSwiXFxidWxsZXQiLFswLDYwLDc2LDFdXSxbMCwyLCJcXGJ1bGxldCIsWzAsNjAsNzYsMV1dLFswLDMsIlxcYnVsbGV0IixbMCw2MCw3NiwxXV0sWzEsMSwiXFxidWxsZXQiLFswLDYwLDc2LDFdXSxbMSwyLCJcXGJ1bGxldCIsWzAsNjAsNzYsMV1dLFsxLDMsIlxcYnVsbGV0IixbMCw2MCw3NiwxXV0sWzIsMSwiXFxidWxsZXQiXSxbMiwyLCJcXGJ1bGxldCIsWzAsNjAsNzYsMV1dLFsyLDMsIlxcYnVsbGV0IixbMCw2MCw3NiwxXV0sWzMsMSwiXFxidWxsZXQiLFswLDYwLDc2LDFdXSxbMywyLCJcXGJ1bGxldCIsWzAsNjAsNzYsMV1dLFszLDMsIlxcYnVsbGV0IixbMCw2MCw3NiwxXV0sWzUsMCwiXFxjaXJjIl0sWzYsMCwiXFxidWxsZXQiXSxbNywwLCJcXGJ1bGxldCJdLFs2LDEsIlxcYnVsbGV0Il0sWzAsMSwiXFx0YXUiXSxbMSwyLCJhX3MiXSxbMiwzLCJiIiwwLHsiY29sb3VyIjpbMCw2MCw3Nl19LFswLDYwLDc2LDFdXSxbNCw1LCJkIiwyLHsiY29sb3VyIjpbMCw2MCw3Nl19LFswLDYwLDc2LDFdXSxbNSw2LCJlIiwyLHsiY29sb3VyIjpbMCw2MCw3Nl19LFswLDYwLDc2LDFdXSxbMCw0LCJjX2YiLDIseyJjb2xvdXIiOlswLDYwLDc2XX0sWzAsNjAsNzYsMV1dLFs0LDcsIlxcdGF1IiwwLHsiY29sb3VyIjpbMCw2MCw3Nl19LFswLDYwLDc2LDFdXSxbNSw4LCJcXHRhdSIsMCx7ImNvbG91ciI6WzAsNjAsNzZdfSxbMCw2MCw3NiwxXV0sWzYsOSwiXFx0YXUiLDIseyJjb2xvdXIiOlswLDYwLDc2XX0sWzAsNjAsNzYsMV1dLFs3LDEwLCJhIiwwLHsiY29sb3VyIjpbMCw2MCw3Nl19LFswLDYwLDc2LDFdXSxbOCwxMSwiYSIsMCx7ImNvbG91ciI6WzAsNjAsNzZdfSxbMCw2MCw3NiwxXV0sWzEwLDEzLCJiIiwwLHsiY29sb3VyIjpbMCw2MCw3Nl19LFswLDYwLDc2LDFdXSxbMTEsMTQsImIiLDAseyJjb2xvdXIiOlswLDYwLDc2XX0sWzAsNjAsNzYsMV1dLFsxMiwxNSwiIiwyLHsiY29sb3VyIjpbMCw2MCw3Nl19XSxbMSw3LCJjX2YiLDAseyJjb2xvdXIiOlswLDYwLDc2XX0sWzAsNjAsNzYsMV1dLFsyLDEwLCJjX2YiLDAseyJjb2xvdXIiOlswLDYwLDc2XX0sWzAsNjAsNzYsMV1dLFszLDEzLCJjX2YiLDAseyJjb2xvdXIiOlswLDYwLDc2XX0sWzAsNjAsNzYsMV1dLFs3LDgsImQiLDIseyJjb2xvdXIiOlswLDYwLDc2XX0sWzAsNjAsNzYsMV1dLFsxMCwxMSwiZCIsMix7ImNvbG91ciI6WzAsNjAsNzZdfSxbMCw2MCw3NiwxXV0sWzEzLDE0LCJkIiwyLHsiY29sb3VyIjpbMCw2MCw3Nl19LFswLDYwLDc2LDFdXSxbOCw5LCJlIiwyLHsiY29sb3VyIjpbMCw2MCw3Nl19LFswLDYwLDc2LDFdXSxbMTEsMTIsImUiLDIseyJjb2xvdXIiOlswLDYwLDc2XX0sWzAsNjAsNzYsMV1dLFsxNCwxNSwiZSIsMix7ImNvbG91ciI6WzAsNjAsNzZdfSxbMCw2MCw3NiwxXV0sWzEsMTAsImNfcyJdLFsxNiwxNywiXFx0YXUiXSxbMTcsMTgsImFfcyJdLFsxNywxOSwiY19zIiwyXSxbOSwxMiwiYSIsMix7ImNvbG91ciI6WzAsNjAsNzZdfSxbMCw2MCw3NiwxXV1d
+\[\begin{tikzcd}[cramped, column sep=scriptsize]
+	\circ & \bullet & \bullet & \textcolor{rgb,255:red,231;green,157;blue,157}{\bullet} && \circ & \bullet & \bullet \\
+	\textcolor{rgb,255:red,231;green,157;blue,157}{\bullet} & \textcolor{rgb,255:red,231;green,157;blue,157}{\bullet} & \bullet & \textcolor{rgb,255:red,231;green,157;blue,157}{\bullet} &&& \bullet \\
+	\textcolor{rgb,255:red,231;green,157;blue,157}{\bullet} & \textcolor{rgb,255:red,231;green,157;blue,157}{\bullet} & \textcolor{rgb,255:red,231;green,157;blue,157}{\bullet} & \textcolor{rgb,255:red,231;green,157;blue,157}{\bullet} \\
+	\textcolor{rgb,255:red,231;green,157;blue,157}{\bullet} & \textcolor{rgb,255:red,231;green,157;blue,157}{\bullet} & \textcolor{rgb,255:red,231;green,157;blue,157}{\bullet} & \textcolor{rgb,255:red,231;green,157;blue,157}{\bullet}
+	\arrow["\tau", from=1-1, to=1-2]
+	\arrow["{c_f}"', color={rgb,255:red,231;green,157;blue,157}, from=1-1, to=2-1]
+	\arrow["{a_s}", from=1-2, to=1-3]
+	\arrow["{c_f}", color={rgb,255:red,231;green,157;blue,157}, from=1-2, to=2-2]
+	\arrow["{c_s}", from=1-2, to=2-3]
+	\arrow["b", color={rgb,255:red,231;green,157;blue,157}, from=1-3, to=1-4]
+	\arrow["{c_f}", color={rgb,255:red,231;green,157;blue,157}, from=1-3, to=2-3]
+	\arrow["{c_f}", color={rgb,255:red,231;green,157;blue,157}, from=1-4, to=2-4]
+	\arrow["\tau", from=1-6, to=1-7]
+	\arrow["{a_s}", from=1-7, to=1-8]
+	\arrow["{c_s}"', from=1-7, to=2-7]
+	\arrow["\tau", color={rgb,255:red,231;green,157;blue,157}, from=2-1, to=2-2]
+	\arrow["d"', color={rgb,255:red,231;green,157;blue,157}, from=2-1, to=3-1]
+	\arrow["a", color={rgb,255:red,231;green,157;blue,157}, from=2-2, to=2-3]
+	\arrow["d"', color={rgb,255:red,231;green,157;blue,157}, from=2-2, to=3-2]
+	\arrow["b", color={rgb,255:red,231;green,157;blue,157}, from=2-3, to=2-4]
+	\arrow["d"', color={rgb,255:red,231;green,157;blue,157}, from=2-3, to=3-3]
+	\arrow["d"', color={rgb,255:red,231;green,157;blue,157}, from=2-4, to=3-4]
+	\arrow["\tau", color={rgb,255:red,231;green,157;blue,157}, from=3-1, to=3-2]
+	\arrow["e"', color={rgb,255:red,231;green,157;blue,157}, from=3-1, to=4-1]
+	\arrow["a", color={rgb,255:red,231;green,157;blue,157}, from=3-2, to=3-3]
+	\arrow["e"', color={rgb,255:red,231;green,157;blue,157}, from=3-2, to=4-2]
+	\arrow["b", color={rgb,255:red,231;green,157;blue,157}, from=3-3, to=3-4]
+	\arrow["e"', color={rgb,255:red,231;green,157;blue,157}, from=3-3, to=4-3]
+	\arrow["e"', color={rgb,255:red,231;green,157;blue,157}, from=3-4, to=4-4]
+	\arrow["\tau"', color={rgb,255:red,231;green,157;blue,157}, from=4-1, to=4-2]
+	\arrow["a"', color={rgb,255:red,231;green,157;blue,157}, from=4-2, to=4-3]
+	\arrow[draw={rgb,255:red,231;green,157;blue,157}, from=4-3, to=4-4]
+\end{tikzcd}\]
+
+If neither process has $\tau$ then this will just do nothing since the $a_{\mathrm{first}}$ will just get deleted at the end
+
+Red parts are just ignoring the irrelevant bits that don't have any further way of connecting
+
+
+\newpage
+\subsection{Reinserting the remaining states of P and Q}
+
+\textbf{Recall}: $\mathrm{skip} | \tau= \tau$, $\tau_{s} | a_{s} = \tau_{s} + a$
+
+\begin{itemize}
+    \item things going up: both process with $\mathrm{skip}$ on the start and also prefixed
+		\[\rho_{f_{1}}(\partial_{H_{1}}(\mathrm{skip}(p) | | \mathrm{first}(\mathrm{second}(\mathrm{next}^{\infty}))))\]
+		\[= \mathrm{skip}. a_{\mathrm{second}}. a_{2}. a_{3}.\dots\]
+	\item blue means a successful communication
+	\item red means a communication path
+\end{itemize}
+
+
+% https://q.uiver.app/#q=WzAsNjQsWzAsNiwiXFxjaXJjIl0sWzEsNSwiXFxidWxsZXQiXSxbMiw0LCJcXGJ1bGxldCJdLFszLDYsIlxcYnVsbGV0Il0sWzAsNSwiXFxidWxsZXQiXSxbMCw0LCJcXGJ1bGxldCJdLFswLDMsIlxcYnVsbGV0Il0sWzAsMiwiXFxidWxsZXQiXSxbMSw0LCJcXGJ1bGxldCJdLFsyLDMsIlxcYnVsbGV0Il0sWzIsMiwiXFxidWxsZXQiXSxbMSwyLCJcXGJ1bGxldCJdLFsxLDMsIlxcYnVsbGV0Il0sWzMsNSwiXFxidWxsZXQiXSxbMyw0LCJcXGJ1bGxldCJdLFsyLDEsIlxcYnVsbGV0Il0sWzEsMSwiXFxidWxsZXQiXSxbMiwwLCJcXGJ1bGxldCJdLFszLDMsIlxcYnVsbGV0Il0sWzMsMiwiXFxidWxsZXQiXSxbNSw2LCJcXGNpcmMiXSxbNSw1LCJcXGJ1bGxldCJdLFs1LDQsIlxcYnVsbGV0Il0sWzUsMywiXFxidWxsZXQiXSxbNSwyLCJcXGJ1bGxldCJdLFs2LDEsIlxcYnVsbGV0Il0sWzYsMiwiXFxidWxsZXQiXSxbNiwzLCJcXGJ1bGxldCJdLFs2LDQsIlxcYnVsbGV0Il0sWzYsNSwiXFxidWxsZXQiXSxbOCw2LCJcXGJ1bGxldCJdLFs4LDUsIlxcYnVsbGV0Il0sWzgsNCwiXFxidWxsZXQiXSxbOCwzLCJcXGJ1bGxldCJdLFs4LDIsIlxcYnVsbGV0Il0sWzcsNCwiXFxidWxsZXQiXSxbNywzLCJcXGJ1bGxldCJdLFs3LDIsIlxcYnVsbGV0Il0sWzcsMSwiXFxidWxsZXQiXSxbNywwLCJcXGJ1bGxldCJdLFs5LDMsIlxcYnVsbGV0Il0sWzksMiwiXFxidWxsZXQiXSxbMTAsMiwiXFxidWxsZXQiXSxbMTAsMywiXFxidWxsZXQiXSxbMTEsMywiXFxidWxsZXQiXSxbMCw3LCJcXGNpcmMiXSxbMSw3LCJcXGJ1bGxldCJdLFsyLDcsIlxcYnVsbGV0Il0sWzMsNywiXFxidWxsZXQiXSxbNCw3LCJcXGJ1bGxldCJdLFs1LDcsIlxcY2lyYyJdLFs2LDcsIlxcYnVsbGV0Il0sWzcsNywiXFxidWxsZXQiXSxbOCw3LCJcXGJ1bGxldCJdLFs3LDgsIlxcYnVsbGV0Il0sWzgsOCwiXFxidWxsZXQiXSxbOSw4LCJcXGJ1bGxldCJdLFsxLDEwLCJcXGNpcmMiXSxbMiwxMCwiXFxidWxsZXQiXSxbMywxMSwiXFxidWxsZXQiXSxbNCwxMSwiXFxidWxsZXQiXSxbNSwxMSwiXFxidWxsZXQiXSxbMyw5LCJcXGJ1bGxldCJdLFs0LDksIlxcYnVsbGV0Il0sWzAsMSwiXFx0YXUiLDAseyJjb2xvdXIiOlsyNDAsNjAsNjBdfSxbMjQwLDYwLDYwLDFdXSxbMSwyLCJhX3MiXSxbMSwzLCJjX3MiXSxbMCw0LCJzIiwwLHsiY29sb3VyIjpbMjQwLDYwLDYwXX0sWzI0MCw2MCw2MCwxXV0sWzQsNSwiY19zIiwyXSxbNSw2LCJkIiwyXSxbNiw3LCJlIiwyXSxbMSw4LCJzIiwyLHsiY29sb3VyIjpbMjQwLDYwLDYwXX0sWzI0MCw2MCw2MCwxXV0sWzIsOV0sWzAsOCwiXFx0YXUiLDIseyJjb2xvdXIiOlswLDYwLDU0XX0sWzAsNjAsNTQsMV1dLFs5LDEwLCJjX3MiLDJdLFs0LDgsIlxcdGF1IiwxLHsiY29sb3VyIjpbMjQwLDYwLDYwXX0sWzI0MCw2MCw2MCwxXV0sWzgsOSwiYV9zIiwxXSxbNiwxMSwiXFx0YXUiLDFdLFs1LDEyLCJcXHRhdSIsMV0sWzEyLDEwLCJhX3MiLDFdLFszLDEzLCJzIiwyXSxbOCwxMywiY19zIiwyLHsiY29sb3VyIjpbMjQwLDYwLDYwXX0sWzI0MCw2MCw2MCwxXV0sWzEzLDE0LCJjX3MiLDIseyJsYWJlbF9wb3NpdGlvbiI6NzAsImNvbG91ciI6WzI0MCw2MCw2MF19LFsyNDAsNjAsNjAsMV1dLFs4LDE0LCJjIiwyLHsiY29sb3VyIjpbMCw2MCw1NF19LFswLDYwLDU0LDFdXSxbMTIsMTQsImNfcyIsMix7ImNvbG91ciI6WzI0MCw2MCw2MF19LFsyNDAsNjAsNjAsMV1dLFs4LDEyLCJjX3MiLDIseyJjb2xvdXIiOlsyNDAsNjAsNjBdfSxbMjQwLDYwLDYwLDFdXSxbMTIsMTEsImQiLDJdLFsxMCwxNSwiZCIsMl0sWzExLDE2LCJlIiwxXSxbMTUsMTcsImUiLDFdLFsxMSwxNSwiYV9zIiwxXSxbNywxNiwiXFx0YXUiLDFdLFsxNiwxNywiYV9zIiwxXSxbMTQsMTgsImQiLDIseyJjb2xvdXIiOlswLDYwLDU0XX0sWzAsNjAsNTQsMV1dLFsxOCwxOSwiZSIsMix7ImNvbG91ciI6WzAsNjAsNTRdfSxbMCw2MCw1NCwxXV0sWzIwLDIxLCJzIiwyLHsiY29sb3VyIjpbMjQwLDYwLDYwXX0sWzI0MCw2MCw2MCwxXV0sWzIxLDIyLCJcXHRhdV9zIiwyXSxbMjIsMjMsImEiLDJdLFsyNCwyNSwiXFx0YXUiLDJdLFsyMywyNiwiXFx0YXUiLDJdLFsyMiwyNywiXFx0YXUiLDJdLFsyMSwyOCwiXFx0YXUiLDAseyJjb2xvdXIiOlsyNDAsNjAsNjBdfSxbMjQwLDYwLDYwLDFdXSxbMjAsMjksIlxcdGF1IiwyLHsiY29sb3VyIjpbMjQwLDYwLDYwXX0sWzI0MCw2MCw2MCwxXV0sWzI5LDMwLCJjX3MiLDAseyJjb2xvdXIiOlswLDAsNjFdfSxbMCwwLDYxLDFdXSxbMjgsMzEsImNfcyIsMix7ImNvbG91ciI6WzAsMCw2MV19LFswLDAsNjEsMV1dLFsyNywzMiwiY19zIiwyLHsiY29sb3VyIjpbMCwwLDYxXX0sWzAsMCw2MSwxXV0sWzI2LDMzLCJjX3MiLDIseyJjb2xvdXIiOlswLDAsNjFdfSxbMCwwLDYxLDFdXSxbMjUsMzQsImNfcyIsMix7ImNvbG91ciI6WzAsMCw2MV19LFswLDAsNjEsMV1dLFsyMywyNCwiYiIsMl0sWzI5LDM1LCJhX3MiXSxbMjgsMzYsImFfcyIsMCx7ImNvbG91ciI6WzI0MCw2MCw2MF19LFsyNDAsNjAsNjAsMV1dLFsyNywzNywiYV9zIiwwLHsiY29sb3VyIjpbMjQwLDYwLDYwXX0sWzI0MCw2MCw2MCwxXV0sWzI2LDM4LCJhX3MiXSxbMjUsMzksImFfcyJdLFsyOSwyOCwicyIsMCx7ImNvbG91ciI6WzI0MCw2MCw2MF19LFsyNDAsNjAsNjAsMV1dLFszMCwzMSwicyIsMCx7ImNvbG91ciI6WzAsMCw2MV19LFswLDAsNjEsMV1dLFszNSwzNiwicyIsMV0sWzI4LDI3LCJcXHRhdV9zIiwyLHsiY29sb3VyIjpbMjQwLDYwLDYwXX0sWzI0MCw2MCw2MCwxXV0sWzMxLDMyLCJcXHRhdV9zIiwyLHsiY29sb3VyIjpbMCwwLDYxXX0sWzAsMCw2MSwxXV0sWzI3LDI2LCJcXHRhdV9zIiwyXSxbMzIsMzMsIlxcdGF1X3MiLDIseyJjb2xvdXIiOlswLDAsNjFdfSxbMCwwLDYxLDFdXSxbMjYsMjUsImIiLDJdLFszOCwzOSwiYiIsMV0sWzMzLDM0LCJiIiwxLHsiY29sb3VyIjpbMCwwLDYxXX0sWzAsMCw2MSwxXV0sWzM2LDM3LCJcXHRhdV9zIiwyLHsiY29sb3VyIjpbMjQwLDYwLDYwXX0sWzI0MCw2MCw2MCwxXV0sWzIwLDI4LCJcXHRhdSIsMix7ImNvbG91ciI6WzAsNjAsNTRdfSxbMCw2MCw1NCwxXV0sWzI4LDQwLCJcXHRhdV9zIiwyLHsiY3VydmUiOi00LCJjb2xvdXIiOlswLDYwLDU0XX0sWzAsNjAsNTQsMV1dLFsyOCw0MSwiYSIsMCx7ImxhYmVsX3Bvc2l0aW9uIjo2MCwiY3VydmUiOi0zLCJjb2xvdXIiOlswLDYwLDU0XX0sWzAsNjAsNTQsMV1dLFs0MSw0MiwiYiIsMCx7ImNvbG91ciI6WzAsNjAsNTRdfSxbMCw2MCw1NCwxXV0sWzQwLDQzLCJhIiwyLHsiY29sb3VyIjpbMCw2MCw1NF19LFswLDYwLDU0LDFdXSxbNDMsNDQsImIiLDIseyJjb2xvdXIiOlswLDYwLDU0XX0sWzAsNjAsNTQsMV1dLFs0NSw0NiwiXFx0YXUiLDJdLFs0Niw0NywiYyIsMl0sWzQ3LDQ4LCJkIiwyXSxbNDgsNDksImUiLDJdLFs1MCw1MSwiXFx0YXUiLDJdLFs1MSw1MiwiYSIsMl0sWzUyLDUzLCJiIiwyXSxbNTEsNTQsIlxcdGF1X3MiLDJdLFs1NCw1NSwiYSIsMl0sWzU1LDU2LCJiIiwyXSxbNTcsNTgsIlxcdGF1IiwyXSxbNTgsNTksImMiLDJdLFs1OSw2MCwiZCIsMl0sWzYwLDYxLCJlIiwyXSxbNTgsNjIsImEiLDJdLFs2Miw2MywiYiIsMl1d
+\[\begin{tikzcd}[cramped, column sep=scriptsize]
+	&& \bullet &&&&& \bullet \\
+	& \bullet & \bullet &&&& \bullet & \bullet \\
+	\bullet & \bullet & \bullet & \bullet && \bullet & \bullet & \bullet & \bullet & \bullet & \bullet \\
+	\bullet & \bullet & \bullet & \bullet && \bullet & \bullet & \bullet & \bullet & \bullet & \bullet & \bullet \\
+	\bullet & \bullet & \bullet & \bullet && \bullet & \bullet & \bullet & \bullet \\
+	\bullet & \bullet && \bullet && \bullet & \bullet && \bullet \\
+	\circ &&& \bullet && \circ &&& \bullet \\
+	\circ & \bullet & \bullet & \bullet & \bullet & \circ & \bullet & \bullet & \bullet \\
+	&&&&&&& \bullet & \bullet & \bullet \\
+	&&& \bullet & \bullet \\
+	& \circ & \bullet \\
+	&&& \bullet & \bullet & \bullet
+	\arrow["{a_s}"{description}, from=2-2, to=1-3]
+	\arrow["e"{description}, from=2-3, to=1-3]
+	\arrow["{a_s}", from=2-7, to=1-8]
+	\arrow["{c_s}"', color={rgb,255:red,156;green,156;blue,156}, from=2-7, to=3-9]
+	\arrow["b"{description}, from=2-8, to=1-8]
+	\arrow["\tau"{description}, from=3-1, to=2-2]
+	\arrow["e"{description}, from=3-2, to=2-2]
+	\arrow["{a_s}"{description}, from=3-2, to=2-3]
+	\arrow["d"', from=3-3, to=2-3]
+	\arrow["\tau"', from=3-6, to=2-7]
+	\arrow["b"', from=3-7, to=2-7]
+	\arrow["{a_s}", from=3-7, to=2-8]
+	\arrow["{c_s}"', color={rgb,255:red,156;green,156;blue,156}, from=3-7, to=4-9]
+	\arrow["b", color={rgb,255:red,208;green,67;blue,67}, from=3-10, to=3-11]
+	\arrow["e"', from=4-1, to=3-1]
+	\arrow["\tau"{description}, from=4-1, to=3-2]
+	\arrow["d"', from=4-2, to=3-2]
+	\arrow["{a_s}"{description}, from=4-2, to=3-3]
+	\arrow["{c_s}"', color={rgb,255:red,92;green,92;blue,214}, from=4-2, to=5-4]
+	\arrow["{c_s}"', from=4-3, to=3-3]
+	\arrow["e"', color={rgb,255:red,208;green,67;blue,67}, from=4-4, to=3-4]
+	\arrow["b"', from=4-6, to=3-6]
+	\arrow["\tau"', from=4-6, to=3-7]
+	\arrow["{\tau_s}"', from=4-7, to=3-7]
+	\arrow["{a_s}", color={rgb,255:red,92;green,92;blue,214}, from=4-7, to=3-8]
+	\arrow["{c_s}"', color={rgb,255:red,156;green,156;blue,156}, from=4-7, to=5-9]
+	\arrow["{\tau_s}"', color={rgb,255:red,92;green,92;blue,214}, from=4-8, to=3-8]
+	\arrow["b"{description}, color={rgb,255:red,156;green,156;blue,156}, from=4-9, to=3-9]
+	\arrow["a"', color={rgb,255:red,208;green,67;blue,67}, from=4-10, to=4-11]
+	\arrow["b"', color={rgb,255:red,208;green,67;blue,67}, from=4-11, to=4-12]
+	\arrow["d"', from=5-1, to=4-1]
+	\arrow["\tau"{description}, from=5-1, to=4-2]
+	\arrow["{c_s}"', color={rgb,255:red,92;green,92;blue,214}, from=5-2, to=4-2]
+	\arrow["{a_s}"{description}, from=5-2, to=4-3]
+	\arrow["c"', color={rgb,255:red,208;green,67;blue,67}, from=5-2, to=5-4]
+	\arrow["{c_s}"', color={rgb,255:red,92;green,92;blue,214}, from=5-2, to=6-4]
+	\arrow[from=5-3, to=4-3]
+	\arrow["d"', color={rgb,255:red,208;green,67;blue,67}, from=5-4, to=4-4]
+	\arrow["a"', from=5-6, to=4-6]
+	\arrow["\tau"', from=5-6, to=4-7]
+	\arrow["a"{pos=0.6}, color={rgb,255:red,208;green,67;blue,67}, curve={height=-18pt}, from=5-7, to=3-10]
+	\arrow["{\tau_s}"', color={rgb,255:red,92;green,92;blue,214}, from=5-7, to=4-7]
+	\arrow["{a_s}", color={rgb,255:red,92;green,92;blue,214}, from=5-7, to=4-8]
+	\arrow["{\tau_s}"', color={rgb,255:red,208;green,67;blue,67}, curve={height=-24pt}, from=5-7, to=4-10]
+	\arrow["{c_s}"', color={rgb,255:red,156;green,156;blue,156}, from=5-7, to=6-9]
+	\arrow["s"{description}, from=5-8, to=4-8]
+	\arrow["{\tau_s}"', color={rgb,255:red,156;green,156;blue,156}, from=5-9, to=4-9]
+	\arrow["{c_s}"', from=6-1, to=5-1]
+	\arrow["\tau"{description}, color={rgb,255:red,92;green,92;blue,214}, from=6-1, to=5-2]
+	\arrow["s"', color={rgb,255:red,92;green,92;blue,214}, from=6-2, to=5-2]
+	\arrow["{a_s}", from=6-2, to=5-3]
+	\arrow["{c_s}", from=6-2, to=7-4]
+	\arrow["{c_s}"'{pos=0.7}, color={rgb,255:red,92;green,92;blue,214}, from=6-4, to=5-4]
+	\arrow["{\tau_s}"', from=6-6, to=5-6]
+	\arrow["\tau", color={rgb,255:red,92;green,92;blue,214}, from=6-6, to=5-7]
+	\arrow["s", color={rgb,255:red,92;green,92;blue,214}, from=6-7, to=5-7]
+	\arrow["{a_s}", from=6-7, to=5-8]
+	\arrow["{c_s}", color={rgb,255:red,156;green,156;blue,156}, from=6-7, to=7-9]
+	\arrow["{\tau_s}"', color={rgb,255:red,156;green,156;blue,156}, from=6-9, to=5-9]
+	\arrow["\tau"', color={rgb,255:red,208;green,67;blue,67}, from=7-1, to=5-2]
+	\arrow["s", color={rgb,255:red,92;green,92;blue,214}, from=7-1, to=6-1]
+	\arrow["\tau", color={rgb,255:red,92;green,92;blue,214}, from=7-1, to=6-2]
+	\arrow["s"', from=7-4, to=6-4]
+	\arrow["\tau"', color={rgb,255:red,208;green,67;blue,67}, from=7-6, to=5-7]
+	\arrow["s"', color={rgb,255:red,92;green,92;blue,214}, from=7-6, to=6-6]
+	\arrow["\tau"', color={rgb,255:red,92;green,92;blue,214}, from=7-6, to=6-7]
+	\arrow["s", color={rgb,255:red,156;green,156;blue,156}, from=7-9, to=6-9]
+	\arrow["\tau"', from=8-1, to=8-2]
+	\arrow["c"', from=8-2, to=8-3]
+	\arrow["d"', from=8-3, to=8-4]
+	\arrow["e"', from=8-4, to=8-5]
+	\arrow["\tau"', from=8-6, to=8-7]
+	\arrow["a"', from=8-7, to=8-8]
+	\arrow["{\tau_s}"', from=8-7, to=9-8]
+	\arrow["b"', from=8-8, to=8-9]
+	\arrow["a"', from=9-8, to=9-9]
+	\arrow["b"', from=9-9, to=9-10]
+	\arrow["b"', from=10-4, to=10-5]
+	\arrow["\tau"', from=11-2, to=11-3]
+	\arrow["a"', from=11-3, to=10-4]
+	\arrow["c"', from=11-3, to=12-4]
+	\arrow["d"', from=12-4, to=12-5]
+	\arrow["e"', from=12-5, to=12-6]
+\end{tikzcd}\]
+
+\subsection{Final conversion}
+
+Define 
+\begin{align*}
+	\Gamma_{1}(p) &= \rho_{f_{1}}(\partial_{H_{1}}(\mathrm{skip}(p) | | \mathrm{first}(\mathrm{next}^{\infty}))) \\
+	\Gamma_{2}(p) &= \rho_{f_{1}}(\partial_{H_{1}}(\mathrm{skip}(p) | | \mathrm{first}(\mathrm{second}(\mathrm{next}^{\infty}))))
+\end{align*}
+
+An encoding of the square operator in ACP is:
+\[P \square Q = \partial_{H_{0}}[ \underbrace{(\Gamma_{1}(P) \mid\mid \mathrm{stop})}_{\text{Filter from P}} + \underbrace{(\Gamma_{2}(Q) \mid\mid \mathrm{stop})}_{\text{Filter from Q}} +  (\underbrace{(\Gamma_{2}(P) \mid\mid \Gamma_{2}(Q))}_{\text{Cut Tau Tree}} \mid\mid \underbrace{\Gamma_{2}(\mathrm{skip}(P)}_{\text{Reinsert P}} \mid\mid \underbrace{\Gamma_{2}(\mathrm{skip}(Q))}_{\text{Reinsert Q}})] \]
+
+
+\end{document}
