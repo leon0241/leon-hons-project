@@ -2,47 +2,45 @@ This is BibTeX, Version 0.99d (TeX Live 2024)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: project.aux
 The style file: plainnat.bst
-Database file #1: mybibfile.bib
-Warning--there's a number but no volume in engberg_calculus_1986
+Database file #1: projectbib.bib
 You've used 14 entries,
             2773 wiz_defined-function locations,
-            726 strings with 8447 characters,
-and the built_in function-call counts, 7374 in all, are:
-= -- 748
-> -- 333
-< -- 17
-+ -- 113
-- -- 99
-* -- 592
-:= -- 1141
-add.period$ -- 84
+            729 strings with 8668 characters,
+and the built_in function-call counts, 7095 in all, are:
+= -- 720
+> -- 266
+< -- 19
++ -- 91
+- -- 77
+* -- 547
+:= -- 1064
+add.period$ -- 71
 call.type$ -- 14
-change.case$ -- 72
+change.case$ -- 64
 chr.to.int$ -- 14
-cite$ -- 29
-duplicate$ -- 332
-empty$ -- 588
-format.name$ -- 125
-if$ -- 1578
+cite$ -- 28
+duplicate$ -- 345
+empty$ -- 614
+format.name$ -- 101
+if$ -- 1540
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 14
-newline$ -- 117
-num.names$ -- 63
-pop$ -- 106
+missing$ -- 15
+newline$ -- 103
+num.names$ -- 64
+pop$ -- 107
 preamble$ -- 1
-purify$ -- 59
+purify$ -- 51
 quote$ -- 0
-skip$ -- 249
+skip$ -- 253
 stack$ -- 0
-substring$ -- 322
-swap$ -- 62
-text.length$ -- 5
+substring$ -- 370
+swap$ -- 73
+text.length$ -- 7
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 149
-warning$ -- 1
-while$ -- 71
+warning$ -- 0
+while$ -- 77
 width$ -- 0
-write$ -- 274
-(There was 1 warning)
+write$ -- 248
