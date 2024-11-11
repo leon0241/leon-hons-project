@@ -1,9 +1,15 @@
 \documentclass{article}
 
-\title{Encoding of CSP Square operator to ACP}
+\title{Encoding of CSP Square operator to ACP\texorpdfstring{$_{\tau}$}{ tau}}
 \author{Leon Lee}
 \renewcommand\labelitemi{\tiny$\bullet$}
+\newcommand{\lmerge}{\mbox{$\,\|\hspace{-1.1ex}
+\raisebox{-1.2ex}[0pt][0pt]{$-\!\!\!-\!\!$}$}}	% left-merge
+
+
 \usepackage{preamble}
+
+
 
 \begin{document}
 
@@ -14,67 +20,107 @@
 
 \begin{dfn}[Sets of A]{dfn:sets}{}
 	\begin{itemize}
-	    \item $A$ is the set of actions
-	    \item $A_{0}$ is the set of actions that actually get used in processes
-	    \item $H_{0} = A - A_{0}$ is the set of working space operators or any other action that doesn't get used
-	    \item $H_{1} = A_{0} \cup \{\mathrm{first}, \mathrm{second}, \mathrm{stop}, \mathrm{skip}, \mathrm{next}\}$ is the set of actions, plus some working operators
+		\item $A$ is the set of actions
+		\item $A_{0} \subseteq A$ is the set of actions that actually get used in processes
+		\item $H_{0} = A - A_{0}$ is the set of working space operators or any other action that doesn't get used
+		\item $H_{1} = A_{0} \uplus \{\mathrm{first}, \mathrm{second}, \mathrm{stop}, \mathrm{skip}, \mathrm{next}\}$ is the set of actions, plus some working operators
 	\end{itemize}
+
+	In general, $H_{1} \subseteq A_{0} \subseteq A$, and $H_{0} \subseteq A$
 \end{dfn}
 
 \begin{multicols}{2}
 
-\begin{dfn}[F1]{dfn:f1}{}
-	Define a function $f_{1}: A_{0} \to H_{0}$ where
-	\begin{align*}
-		f_{1}(a_{\mathrm{first}}) &= a_{\mathrm{first}} \\
-		f_{1}(a_{\mathrm{second}}) &= a_{\mathrm{second}} \\
-		f_{1}(a_{\mathrm{next}}) &= a
-	\end{align*}
-\end{dfn}
+	\begin{dfn}[F1]{dfn:f1}{}
+		Define a function $f_{1}: A \to A$ where
+		\begin{align*}
+			f_{1}(a_{\mathrm{first}}) &= a_{\mathrm{first}} \\
+			f_{1}(a_{\mathrm{next}}) &= a
+		\end{align*}
+	\end{dfn}
 
-\begin{dfn}[Communication]{dfn:communication}{}
-	Define communications where
-	\begin{align*}
-		a | \mathrm{first} &= a_{\mathrm{first}}\\
-		\mathrm{skip} | \mathrm{first} &= \mathrm{skip} \\
-		\tau | \mathrm{first} &= \tau \\
-		a | \mathrm{second} &= a_{\mathrm{second}}\\
-		a | \mathrm{next} &= a_{\mathrm{next}}\\
-	\end{align*}
-\end{dfn}
+	\begin{dfn}[Communication]{dfn:communication}{}
+		Define communications where
+		\begin{align*}
+			a | \mathrm{first} &= a_{\mathrm{first}}\\
+			% \mathrm{skip} | \mathrm{first} &= \mathrm{skip} \\
+			a | \mathrm{next} &= a_{\mathrm{next}}\\
+		\end{align*}
+	\end{dfn}
 
 \end{multicols}
 
-
 \begin{dfn}[Triggering in ACP]{dfn:acp-triggering}{}
-	\[\phi_{p} := \rho_{f_{1}}[\partial_{H_{1}}(p | | \mathrm{first}(\mathrm{next}^{\infty}))]\]
-	is a function that turns a process $p = p_{1}.p_{2}.p_{3}.\dots$ into
-	\[p = p_{\mathrm{first}}. p_{2}. p_{3}. p_{4}.\dots\]
+	\[\Gamma_{p} := \rho_{f_{1}}[\partial_{H_{1}}(p | | \mathrm{first}(\mathrm{next}^{\infty}))]\]
+	is a function that turns a trace of a process $p$, $p_{1}.p_{2}.p_{3}.\dots$ into
+	\[p_{\mathrm{first}}. p_{2}. p_{3}. p_{4}.\dots\]
 
-	\longrule{0.08ex}
-
-	\[\phi_{p} := \rho_{f_{1}}[\partial_{H_{1}}(p | | \mathrm{first}(\mathrm{second}(\mathrm{next}^{\infty})))]\]
-	is a function that turns a process $p = p_{1}.p_{2}.p_{3}.\dots$ into
-	\[p = p_{\mathrm{first}}. p_{\mathrm{second}}. p_{3}. p_{4}.\dots\]
+	% \longrule{0.08ex}
+	%
+	% \[\phi_{p} := \rho_{f_{1}}[\partial_{H_{1}}(p | | \mathrm{first}(\mathrm{second}(\mathrm{next}^{\infty})))]\]
+	% is a function that turns a trace of a process $p$ $p_{1}.p_{2}.p_{3}.\dots$ into
+	% \[p_{\mathrm{first}}. p_{\mathrm{second}}. p_{3}. p_{4}.\dots\]
 \end{dfn}
 
 \newpage
-\subsection{Encoding}
+
+\subsection{A note about communication with Tau}
+From ACP$_{\tau}$ 1980, a selected list of axioms for ACP$_{\tau}$ are as follows:
+\begin{multicols}{2}
+	\raggedcolumns
+	\begin{itemize}
+		\item \textbf{CM1}: $x | | y = x \lmerge y + y \lmerge x + x | y$
+		\item \textbf{CM3}: $a x \lmerge y = a(x | | y)$
+		\item \textbf{TM2}: $\tau x \lmerge y = \tau(x | | y)$
+		% \item \textbf{TC1}, \textbf{TC2}: $\tau | x = x | \tau = \delta$
+		\item \textbf{TC3}, \textbf{TC4}: $\tau x | y = x | \tau y = x | y$
+		\item \textbf{T2}: $\tau x + x = \tau x$
+	\end{itemize}
+\end{multicols}
+
+Therefore, a trace of the form $P = \tau. \Phi$ where $\Phi = a.b.c\dots$ will have the following expansion:
+\begin{align*}
+	P | | \mathrm{first}(\mathrm{next}^{\infty}) &= \tau.\Phi \lmerge \mathrm{first}(\mathrm{next}^{\infty}) + \mathrm{first}(\mathrm{next}^{\infty}) \lmerge \tau.\Phi + \tau.\Phi | \mathrm{first}(\mathrm{next}^{\infty})\\
+												 &= \overbrace{\tau.(\Phi | | \mathrm{first}(\mathrm{next}^{\infty}))}^{\text{\textbf{TM2}}} + \overbrace{\mathrm{first}.(\mathrm{next}^\infty | | \tau.\Phi)}^{\text{\textbf{CM3}}} + \overbrace{\Phi | \mathrm{first}(\mathrm{next}^{\infty})}^{\text{\textbf{TC3}}} \\
+												 &= \tau.(\Phi | | \mathrm{first}(\mathrm{next}^{\infty})) + \mathrm{first}.(\mathrm{next}^\infty | | \tau.\Phi) + a_{\mathrm{first}}.b_{\mathrm{next}}.c_{\mathrm{next}}\dots
+\end{align*}
+Therefore, 
+\begin{align*}
+	\Gamma_{P} &= \rho_{f_{1}}[\partial_{H_{1}}(\tau.(\Phi | | \mathrm{first}(\mathrm{next}^{\infty}) + \mathrm{first}.(\mathrm{next}^\infty | | \tau.\Phi) + a_{\mathrm{first}}.b_{\mathrm{next}}\dots)]\\
+			   &= \rho_{f_{1}}[\partial_{H_{1}}(\tau.(a_{\mathrm{first}}.b_{\mathrm{next}}\dots) + \mathrm{first}.(\mathrm{next}^\infty | | \tau.\Phi) +  a_{\mathrm{first}}.b_{\mathrm{next}}\dots)] \\
+			   \text{\textbf{T2}} \quad &= \rho_{f_{1}}[\partial_{H_{1}} (\tau.(a_{\mathrm{first}}.b_{\mathrm{next}}\dots) + \overbrace{\mathrm{first}.(\mathrm{next}^\infty | | \tau.\Phi)}^{\text{Restricted by $\partial_{H_{1}}$}})] \\
+			   &= \rho_{f_{1}}[\tau.a_{\mathrm{first}}.b_{\mathrm{next}}.c_{\mathrm{next}} \dots] \\
+			   &= \tau.a_{\mathrm{first}}.b.c \dots
+\end{align*}
+
+In general,
+
+\begin{thm}[Tau Escapism of Parallel processes]{thm:tau-gamma}{}
+	For a parallel process
+	\[p | | T\]
+	If $p$ is of the form $\tau . \Phi$, and $T$ is of the form $t_{1}.t_{2}\dots$ where $t_{n}\in H_{0}$ for all $n$, then
+	\[\tau.\Phi | | T \leftrightarroweq \tau. (\Phi | | T)\]
+	In particular, for any applications of the gamma function $\Gamma_{p}$, if $p$ is of the form $\tau. \Phi$, then
+	\[\Gamma_{p} \leftrightarroweq \tau.(\Gamma_{\Phi})\]
+\end{thm}
+
+\newpage
+\subsection{Old encoding}
 
 \subsubsection{Strategy}
 \begin{itemize}
-    \item If there is a $\tau$, put the starts of both processes onto it
-    \item Then, append the rest of both processes onto that as well
-    \item Then add any processes without a $\tau$ on to the start
+	\item If there is a $\tau$, put the starts of both processes onto it
+	\item Then, append the rest of both processes onto that as well
+	\item Then add any processes without a $\tau$ on to the start
 \end{itemize}
 
 \subsection{Way to filter out processes with tau}
 Add new communications
 
 \begin{itemize}
-    \item $a_{\mathrm{first}} | b_{\mathrm{second}} = a_{\mathrm{second}}$
-    \item $\mathrm{skip} | \tau= \tau$
-    \item $\tau_{s} | a_{s} = \tau_{s} + a$
+	\item $a_{\mathrm{first}} | b_{\mathrm{second}} = a_{\mathrm{second}}$
+	\item $\mathrm{skip} | \tau= \tau$
+	\item $\tau_{s} | a_{s} = \tau_{s} + a$
 \end{itemize}
 
 Define function $\mathrm{stop}$ with the communications
@@ -166,7 +212,7 @@ Red parts are just ignoring the irrelevant bits that don't have any further way 
 \textbf{Recall}: $\mathrm{skip} | \tau= \tau$, $\tau_{s} | a_{s} = \tau_{s} + a$
 
 \begin{itemize}
-    \item things going up: both process with $\mathrm{skip}$ on the start and also prefixed
+	\item things going up: both process with $\mathrm{skip}$ on the start and also prefixed
 		\[\rho_{f_{1}}(\partial_{H_{1}}(\mathrm{skip}(p) | | \mathrm{first}(\mathrm{second}(\mathrm{next}^{\infty}))))\]
 		\[= \mathrm{skip}. a_{\mathrm{second}}. a_{2}. a_{3}.\dots\]
 	\item blue means a successful communication
@@ -184,93 +230,93 @@ Red parts are just ignoring the irrelevant bits that don't have any further way 
 	\bullet & \bullet && \bullet && \bullet & \bullet && \bullet \\
 	\circ &&& \bullet && \circ &&& \bullet \\
 	\circ & \bullet & \bullet & \bullet & \bullet & \circ & \bullet & \bullet & \bullet \\
-	&&&&&&& \bullet & \bullet & \bullet \\
-	&&& \bullet & \bullet \\
-	& \circ & \bullet \\
-	&&& \bullet & \bullet & \bullet
-	\arrow["{a_s}"{description}, from=2-2, to=1-3]
-	\arrow["e"{description}, from=2-3, to=1-3]
-	\arrow["{a_s}", from=2-7, to=1-8]
-	\arrow["{c_s}"', color={rgb,255:red,156;green,156;blue,156}, from=2-7, to=3-9]
-	\arrow["b"{description}, from=2-8, to=1-8]
-	\arrow["\tau"{description}, from=3-1, to=2-2]
-	\arrow["e"{description}, from=3-2, to=2-2]
-	\arrow["{a_s}"{description}, from=3-2, to=2-3]
-	\arrow["d"', from=3-3, to=2-3]
-	\arrow["\tau"', from=3-6, to=2-7]
-	\arrow["b"', from=3-7, to=2-7]
-	\arrow["{a_s}", from=3-7, to=2-8]
-	\arrow["{c_s}"', color={rgb,255:red,156;green,156;blue,156}, from=3-7, to=4-9]
-	\arrow["b", color={rgb,255:red,208;green,67;blue,67}, from=3-10, to=3-11]
-	\arrow["e"', from=4-1, to=3-1]
-	\arrow["\tau"{description}, from=4-1, to=3-2]
-	\arrow["d"', from=4-2, to=3-2]
-	\arrow["{a_s}"{description}, from=4-2, to=3-3]
-	\arrow["{c_s}"', color={rgb,255:red,92;green,92;blue,214}, from=4-2, to=5-4]
-	\arrow["{c_s}"', from=4-3, to=3-3]
-	\arrow["e"', color={rgb,255:red,208;green,67;blue,67}, from=4-4, to=3-4]
-	\arrow["b"', from=4-6, to=3-6]
-	\arrow["\tau"', from=4-6, to=3-7]
-	\arrow["{\tau_s}"', from=4-7, to=3-7]
-	\arrow["{a_s}", color={rgb,255:red,92;green,92;blue,214}, from=4-7, to=3-8]
-	\arrow["{c_s}"', color={rgb,255:red,156;green,156;blue,156}, from=4-7, to=5-9]
-	\arrow["{\tau_s}"', color={rgb,255:red,92;green,92;blue,214}, from=4-8, to=3-8]
-	\arrow["b"{description}, color={rgb,255:red,156;green,156;blue,156}, from=4-9, to=3-9]
-	\arrow["a"', color={rgb,255:red,208;green,67;blue,67}, from=4-10, to=4-11]
-	\arrow["b"', color={rgb,255:red,208;green,67;blue,67}, from=4-11, to=4-12]
-	\arrow["d"', from=5-1, to=4-1]
-	\arrow["\tau"{description}, from=5-1, to=4-2]
-	\arrow["{c_s}"', color={rgb,255:red,92;green,92;blue,214}, from=5-2, to=4-2]
-	\arrow["{a_s}"{description}, from=5-2, to=4-3]
-	\arrow["c"', color={rgb,255:red,208;green,67;blue,67}, from=5-2, to=5-4]
-	\arrow["{c_s}"', color={rgb,255:red,92;green,92;blue,214}, from=5-2, to=6-4]
-	\arrow[from=5-3, to=4-3]
-	\arrow["d"', color={rgb,255:red,208;green,67;blue,67}, from=5-4, to=4-4]
-	\arrow["a"', from=5-6, to=4-6]
-	\arrow["\tau"', from=5-6, to=4-7]
-	\arrow["a"{pos=0.6}, color={rgb,255:red,208;green,67;blue,67}, curve={height=-18pt}, from=5-7, to=3-10]
-	\arrow["{\tau_s}"', color={rgb,255:red,92;green,92;blue,214}, from=5-7, to=4-7]
-	\arrow["{a_s}", color={rgb,255:red,92;green,92;blue,214}, from=5-7, to=4-8]
-	\arrow["{\tau_s}"', color={rgb,255:red,208;green,67;blue,67}, curve={height=-24pt}, from=5-7, to=4-10]
-	\arrow["{c_s}"', color={rgb,255:red,156;green,156;blue,156}, from=5-7, to=6-9]
-	\arrow["s"{description}, from=5-8, to=4-8]
-	\arrow["{\tau_s}"', color={rgb,255:red,156;green,156;blue,156}, from=5-9, to=4-9]
-	\arrow["{c_s}"', from=6-1, to=5-1]
-	\arrow["\tau"{description}, color={rgb,255:red,92;green,92;blue,214}, from=6-1, to=5-2]
-	\arrow["s"', color={rgb,255:red,92;green,92;blue,214}, from=6-2, to=5-2]
-	\arrow["{a_s}", from=6-2, to=5-3]
-	\arrow["{c_s}", from=6-2, to=7-4]
-	\arrow["{c_s}"'{pos=0.7}, color={rgb,255:red,92;green,92;blue,214}, from=6-4, to=5-4]
-	\arrow["{\tau_s}"', from=6-6, to=5-6]
-	\arrow["\tau", color={rgb,255:red,92;green,92;blue,214}, from=6-6, to=5-7]
-	\arrow["s", color={rgb,255:red,92;green,92;blue,214}, from=6-7, to=5-7]
-	\arrow["{a_s}", from=6-7, to=5-8]
-	\arrow["{c_s}", color={rgb,255:red,156;green,156;blue,156}, from=6-7, to=7-9]
-	\arrow["{\tau_s}"', color={rgb,255:red,156;green,156;blue,156}, from=6-9, to=5-9]
-	\arrow["\tau"', color={rgb,255:red,208;green,67;blue,67}, from=7-1, to=5-2]
-	\arrow["s", color={rgb,255:red,92;green,92;blue,214}, from=7-1, to=6-1]
-	\arrow["\tau", color={rgb,255:red,92;green,92;blue,214}, from=7-1, to=6-2]
-	\arrow["s"', from=7-4, to=6-4]
-	\arrow["\tau"', color={rgb,255:red,208;green,67;blue,67}, from=7-6, to=5-7]
-	\arrow["s"', color={rgb,255:red,92;green,92;blue,214}, from=7-6, to=6-6]
-	\arrow["\tau"', color={rgb,255:red,92;green,92;blue,214}, from=7-6, to=6-7]
-	\arrow["s", color={rgb,255:red,156;green,156;blue,156}, from=7-9, to=6-9]
-	\arrow["\tau"', from=8-1, to=8-2]
-	\arrow["c"', from=8-2, to=8-3]
-	\arrow["d"', from=8-3, to=8-4]
-	\arrow["e"', from=8-4, to=8-5]
-	\arrow["\tau"', from=8-6, to=8-7]
-	\arrow["a"', from=8-7, to=8-8]
-	\arrow["{\tau_s}"', from=8-7, to=9-8]
-	\arrow["b"', from=8-8, to=8-9]
-	\arrow["a"', from=9-8, to=9-9]
-	\arrow["b"', from=9-9, to=9-10]
-	\arrow["b"', from=10-4, to=10-5]
-	\arrow["\tau"', from=11-2, to=11-3]
-	\arrow["a"', from=11-3, to=10-4]
-	\arrow["c"', from=11-3, to=12-4]
-	\arrow["d"', from=12-4, to=12-5]
-	\arrow["e"', from=12-5, to=12-6]
+	      &&&&&&& \bullet & \bullet & \bullet \\
+	      &&& \bullet & \bullet \\
+	      & \circ & \bullet \\
+	      &&& \bullet & \bullet & \bullet
+	      \arrow["{a_s}"{description}, from=2-2, to=1-3]
+	      \arrow["e"{description}, from=2-3, to=1-3]
+	      \arrow["{a_s}", from=2-7, to=1-8]
+	      \arrow["{c_s}"', color={rgb,255:red,156;green,156;blue,156}, from=2-7, to=3-9]
+	      \arrow["b"{description}, from=2-8, to=1-8]
+	      \arrow["\tau"{description}, from=3-1, to=2-2]
+	      \arrow["e"{description}, from=3-2, to=2-2]
+	      \arrow["{a_s}"{description}, from=3-2, to=2-3]
+	      \arrow["d"', from=3-3, to=2-3]
+	      \arrow["\tau"', from=3-6, to=2-7]
+	      \arrow["b"', from=3-7, to=2-7]
+	      \arrow["{a_s}", from=3-7, to=2-8]
+	      \arrow["{c_s}"', color={rgb,255:red,156;green,156;blue,156}, from=3-7, to=4-9]
+	      \arrow["b", color={rgb,255:red,208;green,67;blue,67}, from=3-10, to=3-11]
+	      \arrow["e"', from=4-1, to=3-1]
+	      \arrow["\tau"{description}, from=4-1, to=3-2]
+	      \arrow["d"', from=4-2, to=3-2]
+	      \arrow["{a_s}"{description}, from=4-2, to=3-3]
+	      \arrow["{c_s}"', color={rgb,255:red,92;green,92;blue,214}, from=4-2, to=5-4]
+	      \arrow["{c_s}"', from=4-3, to=3-3]
+	      \arrow["e"', color={rgb,255:red,208;green,67;blue,67}, from=4-4, to=3-4]
+	      \arrow["b"', from=4-6, to=3-6]
+	      \arrow["\tau"', from=4-6, to=3-7]
+	      \arrow["{\tau_s}"', from=4-7, to=3-7]
+	      \arrow["{a_s}", color={rgb,255:red,92;green,92;blue,214}, from=4-7, to=3-8]
+	      \arrow["{c_s}"', color={rgb,255:red,156;green,156;blue,156}, from=4-7, to=5-9]
+	      \arrow["{\tau_s}"', color={rgb,255:red,92;green,92;blue,214}, from=4-8, to=3-8]
+	      \arrow["b"{description}, color={rgb,255:red,156;green,156;blue,156}, from=4-9, to=3-9]
+	      \arrow["a"', color={rgb,255:red,208;green,67;blue,67}, from=4-10, to=4-11]
+	      \arrow["b"', color={rgb,255:red,208;green,67;blue,67}, from=4-11, to=4-12]
+	      \arrow["d"', from=5-1, to=4-1]
+	      \arrow["\tau"{description}, from=5-1, to=4-2]
+	      \arrow["{c_s}"', color={rgb,255:red,92;green,92;blue,214}, from=5-2, to=4-2]
+	      \arrow["{a_s}"{description}, from=5-2, to=4-3]
+	      \arrow["c"', color={rgb,255:red,208;green,67;blue,67}, from=5-2, to=5-4]
+	      \arrow["{c_s}"', color={rgb,255:red,92;green,92;blue,214}, from=5-2, to=6-4]
+	      \arrow[from=5-3, to=4-3]
+	      \arrow["d"', color={rgb,255:red,208;green,67;blue,67}, from=5-4, to=4-4]
+	      \arrow["a"', from=5-6, to=4-6]
+	      \arrow["\tau"', from=5-6, to=4-7]
+	      \arrow["a"{pos=0.6}, color={rgb,255:red,208;green,67;blue,67}, curve={height=-18pt}, from=5-7, to=3-10]
+	      \arrow["{\tau_s}"', color={rgb,255:red,92;green,92;blue,214}, from=5-7, to=4-7]
+	      \arrow["{a_s}", color={rgb,255:red,92;green,92;blue,214}, from=5-7, to=4-8]
+	      \arrow["{\tau_s}"', color={rgb,255:red,208;green,67;blue,67}, curve={height=-24pt}, from=5-7, to=4-10]
+	      \arrow["{c_s}"', color={rgb,255:red,156;green,156;blue,156}, from=5-7, to=6-9]
+	      \arrow["s"{description}, from=5-8, to=4-8]
+	      \arrow["{\tau_s}"', color={rgb,255:red,156;green,156;blue,156}, from=5-9, to=4-9]
+	      \arrow["{c_s}"', from=6-1, to=5-1]
+	      \arrow["\tau"{description}, color={rgb,255:red,92;green,92;blue,214}, from=6-1, to=5-2]
+	      \arrow["s"', color={rgb,255:red,92;green,92;blue,214}, from=6-2, to=5-2]
+	      \arrow["{a_s}", from=6-2, to=5-3]
+	      \arrow["{c_s}", from=6-2, to=7-4]
+	      \arrow["{c_s}"'{pos=0.7}, color={rgb,255:red,92;green,92;blue,214}, from=6-4, to=5-4]
+	      \arrow["{\tau_s}"', from=6-6, to=5-6]
+	      \arrow["\tau", color={rgb,255:red,92;green,92;blue,214}, from=6-6, to=5-7]
+	      \arrow["s", color={rgb,255:red,92;green,92;blue,214}, from=6-7, to=5-7]
+	      \arrow["{a_s}", from=6-7, to=5-8]
+	      \arrow["{c_s}", color={rgb,255:red,156;green,156;blue,156}, from=6-7, to=7-9]
+	      \arrow["{\tau_s}"', color={rgb,255:red,156;green,156;blue,156}, from=6-9, to=5-9]
+	      \arrow["\tau"', color={rgb,255:red,208;green,67;blue,67}, from=7-1, to=5-2]
+	      \arrow["s", color={rgb,255:red,92;green,92;blue,214}, from=7-1, to=6-1]
+	      \arrow["\tau", color={rgb,255:red,92;green,92;blue,214}, from=7-1, to=6-2]
+	      \arrow["s"', from=7-4, to=6-4]
+	      \arrow["\tau"', color={rgb,255:red,208;green,67;blue,67}, from=7-6, to=5-7]
+	      \arrow["s"', color={rgb,255:red,92;green,92;blue,214}, from=7-6, to=6-6]
+	      \arrow["\tau"', color={rgb,255:red,92;green,92;blue,214}, from=7-6, to=6-7]
+	      \arrow["s", color={rgb,255:red,156;green,156;blue,156}, from=7-9, to=6-9]
+	      \arrow["\tau"', from=8-1, to=8-2]
+	      \arrow["c"', from=8-2, to=8-3]
+	      \arrow["d"', from=8-3, to=8-4]
+	      \arrow["e"', from=8-4, to=8-5]
+	      \arrow["\tau"', from=8-6, to=8-7]
+	      \arrow["a"', from=8-7, to=8-8]
+	      \arrow["{\tau_s}"', from=8-7, to=9-8]
+	      \arrow["b"', from=8-8, to=8-9]
+	      \arrow["a"', from=9-8, to=9-9]
+	      \arrow["b"', from=9-9, to=9-10]
+	      \arrow["b"', from=10-4, to=10-5]
+	      \arrow["\tau"', from=11-2, to=11-3]
+	      \arrow["a"', from=11-3, to=10-4]
+	      \arrow["c"', from=11-3, to=12-4]
+	      \arrow["d"', from=12-4, to=12-5]
+	      \arrow["e"', from=12-5, to=12-6]
 \end{tikzcd}\]
 
 \subsection{Final conversion}
