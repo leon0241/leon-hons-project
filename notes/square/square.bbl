@@ -1,0 +1,18 @@
+\begin{thebibliography}{1}
+
+\bibitem{cleavelandCHAPTER6Equivalence2001}
+Rance Cleaveland and Oleg Sokolsky.
+\newblock {{CHAPTER}} 6 - {{Equivalence}} and {{Preorder Checking}} for {{Finite-State Systems}}.
+\newblock In J.~A. Bergstra, A.~Ponse, and S.~A. Smolka, editors, {\em Handbook of {{Process Algebra}}}, pages 391--424. Elsevier Science, Amsterdam, January 2001.
+
+\bibitem{fokkinkRootedBranchingBisimulation2000}
+Wan Fokkink.
+\newblock Rooted {{Branching Bisimulation}} as a {{Congruence}}.
+\newblock {\em Journal of Computer and System Sciences}, 60(1):13--37, February 2000.
+
+\bibitem{vanglabbeekExpressivenessACP1995}
+Rob {van Glabbeek}.
+\newblock On the {{Expressiveness}} of {{ACP}}.
+\newblock In A.~Ponse, C.~Verhoef, and S.~F.~M. {van Vlijmen}, editors, {\em Algebra of {{Communicating Processes}}}, pages 188--217, London, 1995. Springer London.
+
+\end{thebibliography}
