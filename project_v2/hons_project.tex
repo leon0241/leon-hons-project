@@ -2,70 +2,57 @@
 \usepackage{ugcheck}
 
 
-% Include any packages you need below, but don't include any that change the page
-% layout or style of the dissertation. By including the ugcheck package above,
-% you should catch most accidental changes of page layout though.
-
-\usepackage[immediate]{silence}
-\usepackage{underscore}
-\usepackage{preamble}
-
-% \usepackage{microtype} % recommended, but you can remove if it causes problems
+\usepackage[final, nopatch=footnote]{microtype} % recommended, but you can remove if it causes problems
 \usepackage[round]{natbib} % recommended for citations
+
+\usepackage{preamble}
 
 
 \begin{document}
 \begin{preliminary}
 
-
 \title{Honours Project}
 
 \author{Leon Lee}
 \course{Computer Science and Mathematics}
-\project{4th Year Project Report}        % all other UG4 students
-
-
+\project{4th Year Project Report}
 \date{\today}
 
-% \abstract{
-% One process algebra (or any other type of language) is said to be as least as expressive as another if there exists a valid translation, or encoding, of the latter into the former. Such a valid encoding is required to be compositional, meaning that the translation of a composed expression is completely determined by the translations of the argument expressions and a translation of the composition mechanism. In addition,  the meaning of the translation of an expression should be semantically equivalent to the meaning of the expression being translated. This requires a semantic equivalence that is meaningful for both the source and the target language.
-%
-% Based on this, the many hundreds of process algebras or system specification languages proposed in the literature can be ordered by their relative expressiveness. One could make a graph with such languages as the nodes, and a directed edge between two nodes if one is more expressive then another. Or a category with the languages as objects and the valid encodings as morphisms. Work on this project consists of filling in parts of this roadmap. This involves mathematically proving or disproving that a given source language can be encoded in a given target language. As the whole envisioned roadmap is very large, multiple students could work on different parts of it.
-% }
+\abstract{
+This skeleton demonstrates how to use the \texttt{infthesis} style for
+undergraduate dissertations in the School of Informatics. It also emphasises the
+page limit, and that you must not deviate from the required style.
+The file \texttt{skeleton.tex} generates this document and should be used as a
+starting point for your thesis. Replace this abstract text with a concise
+summary of your report.
+}
 
 \maketitle
-%
-% \newenvironment{ethics}
-%    {\begin{frontenv}{Research Ethics Approval}{\LARGE}}
-%    {\end{frontenv}\newpage}
-%
-% \begin{ethics}
-% This project was planned in accordance with the Informatics Research
-% Ethics policy. It did not involve any aspects that required approval
-% from the Informatics Research Ethics committee.
-%
-% \standarddeclaration
-% \end{ethics}
-%
-%
-% \begin{acknowledgements}
-% Any acknowledgements go here.
-% \end{acknowledgements}
-%
-%
-% \tableofcontents
+
+\newenvironment{ethics}
+   {\begin{frontenv}{Research Ethics Approval}{\LARGE}}
+   {\end{frontenv}\newpage}
+
+\begin{ethics}
+This project was planned in accordance with the Informatics Research
+Ethics policy. It did not involve any aspects that required approval
+from the Informatics Research Ethics committee.
+
+\standarddeclaration
+\end{ethics}
+
+
+\begin{acknowledgements}
+Any acknowledgements go here.
+\end{acknowledgements}
+
+
+\tableofcontents
 \end{preliminary}
-%
-%
-% \chapter{Information}
-%
-% \section{Background}
-%
-% \section{Motivation}
-%
-% \section{Contributions}
-%
-% \newpage
+
+
+\chapter{Introduction}
+
 \chapter{Background}
 
 \section{Process Algebra}
@@ -103,7 +90,7 @@ With the growing number of process algebras, one might begin to ask if there is 
 
 A more reasonable approach is to compare different process algebras and their expressiveness, two main relevant methods being \textit{absolute} and \textit{relative} expressiveness.\citep{parrowExpressivenessProcessAlgebras2008} Absolute expressiveness is the idea of comparing a specific process algebra to a question and seeing if it can solve the problem - e.g. if a process algebra is Turing Complete. However, this merely biparts different algebra - the process algebra that are able to solve a specified problem, and the ones who aren't \citep{gorlaUnifiedApproachEncodability2010}. Therefore, the question of relative expressiveness - i.e. how one language compares to another is a lot more useful in terms of categorising different process algebras by expressiveness.
 
-A well studied way of comparing expressiveness is through an ``encoding'', and whether an algebra can be translated from one to another, but not vice versa \citep{petersComparingProcessCalculi2019}. The general notion of an encoding is not defined by clear boundaries, and the criterion for a valid encoding may vary from language to language, but work has been made to try and generalise the notion of a ``valid'' encoding \citep{gorlaUnifiedApproachEncodability2010}, \citep{glabbeekTheoryEncodings2018Extended}.
+A well studied way of comparing expressiveness is through an ``encoding'', and whether an algebra can be translated from one to another, but not vice versa \citep{petersComparingProcessCalculi2019}. The general notion of an encoding is not defined by clear boundaries, and the criterion for a valid encoding may vary from language to language, but work has been made to try and generalise the notion of a ``valid'' encoding \citep{gorlaUnifiedApproachEncodability2010}, \citep{DBLP:conf/fossacs/Glabbeek18}.
 
 \section{CSP}
 CSP (Communicating Sequential Processes) \citep{brookesTheoryCommunicatingSequential1984} is a Process Algebra developed by Tony Hoare based on the idea of message passing via communications. It was developed in the 1980s and was one of the first of its kind, alongside CCS by Milner. CSP uses the idea of action prefixing which is where operators are of the syntax $a \to P$, where $a$ is an event and $P$ is a process. 
@@ -125,9 +112,27 @@ The grammar of ACP$_{\tau}$ as taken from \citep{bergstraACPtUniversalAxiom1989}
 \end{align*}
 where the operators are: \textit{action}, \textit{deadlock}, \textit{alternative composition}, \textit{sequential composition}, \textit{merge}, \textit{left merge}, \textit{communication merge}, \textit{encapsulation}, \textit{abstraction}
 
+\chapter{Your next chapter}
 
-% \bibliographystyle{plain}
+\chapter{Conclusions}
+
+
 \bibliographystyle{plainnat}
-\bibliography{projectbib}
+\bibliography{project}
+
+
+\appendix
+
+\chapter{First appendix}
+
+
+
+\section{First section}
+
+Any appendices, including any required ethics information, should be included
+after the references.
+
+Markers do not have to consider appendices. Make sure that your contributions
+are made clear in the main body of the dissertation (within the page limit).
 
 \end{document}

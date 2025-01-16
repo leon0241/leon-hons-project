@@ -8,6 +8,7 @@
 
 \usepackage{enumitem}
 \usepackage{amsthm}
+\usepackage{centernot}
 \usepackage{natbib}
 \bibliographystyle{plain} % We choose the "plain" reference style
 \usepackage{preamble}
@@ -20,7 +21,7 @@
 \setcounter{section}{1}
 \subsection{Prerequisites}
 
-We represent a language $\mathscr{L}$ as a triple $(\mathbb{P}, \oper)$, where $\mathbb{P}$ is a set of processes composed of actions, and $\oper$ is a set of operators acting on $\mathbb{P}$. We also define $A \subseteq \mathbb{P}$, where $A$ is the set of actions
+We represent a language $\mathscr{L}$ as a pair $(\mathbb{P}, \oper)$, where $\mathbb{P}$ is a set of valid expressions in $\mathscr{L}$, and $\oper$ is a mapping $\oper : \mathbb{P} \to \mathscr{D}$ from $\mathbb{P}$ to a set of meanings $\mathscr{D}$. We also define $A \subseteq \mathbb{P}$, where $A$ is the set of actions
 
 \begin{dfn}[Subsets of A]{dfn:sets}{}
 	We define some subsets of $A$ which we will use in our encodings
@@ -35,26 +36,27 @@ We represent a language $\mathscr{L}$ as a triple $(\mathbb{P}, \oper)$, where $
 	Note that the silent step is not defined in $A$, and we will define $A_{\tau}$ to be $A \cup \{\tau\}$
 \end{dfn}
 
-Working similarly to \citep{vanglabbeekExpressivenessACP1995}, we will work in the language $\mathrm{ACP}_{\tau}$, with an additional operator called ``Functional Renaming''. I will refer to this language as $\mathrm{ACP}_{\tau}^{F}$. To define translations from CSP to $\mathrm{ACP}_{\tau}^{F}$ we utilise two operators - $\rho_{F}(p)$ and $\partial_{H}$.
+Working similarly to \citep{vanglabbeekExpressivenessACP1995}, we will work in the language $\mathrm{ACP}_{\tau}$, with an additional operator called ``Functional Renaming''. I will refer to this language as $\mathrm{ACP}^{\tau}_{F}$. To define translations from CSP to $\mathrm{ACP}^{\tau}_{F}$ we utilise two operators - $\rho_{F}(p)$ and $\partial_{H}$.
 \begin{itemize}
 	\item \textbf{Functional Renaming}: $\rho_{F}(p)$ takes a function $F: A \to A$, and where applicable, applies F to each action in $p$
 	\item \textbf{Encapsulation}: $\partial_{H}$ takes a subset $H \subseteq A$, and restricts any actions that are in $H$
 \end{itemize}
 
-
+\newpage
 \subsection{Triggering in ACP}
 We define an operator $\Gamma(p)$ which acts like the MEIJE triggering operator on a process $p \in \mathbb{P}$. For this, we will use the notation of $a^{\infty}$ to mean $a.a.a\dots$. First, we define a function $f_{1}$ and communications for the operations $\mathtt{first}$ and $\mathtt{next}$.
 
 \begin{multicols}{2}
 	\begin{dfn}[F1]{dfn:f1}{}
-		Define a function $f_{1}: A \to A$ where
-		\begin{align*}
-			f_{1}(a_{\mathtt{first}}) &= a_{\mathtt{first}} \\
-			f_{1}(a_{\mathtt{next}}) &= a
-		\end{align*}
+		Define functions $f_{1}: A \to A$ and $f_{2} : A \to A$ where
+			\begin{align*}
+				f_{1}(a_{\mathtt{first}}) &= a_{\mathtt{first}} & f_{2}(a_{\mathtt{first}}) &= a_{\mathtt{ini}} \\
+				f_{1}(a_{\mathtt{next}}) &= a & f_{2}(a_{\mathtt{next}}) &= a 
+			\end{align*}
 	\end{dfn}
 
-	\begin{dfn}[Communication]{dfn:comm-triggering}{}
+
+	\begin{dfn}[Communications]{dfn:comm-triggering}{}
 		Define communications where
 		\begin{align*}
 			a | \mathtt{first} &= a_{\mathtt{first}}\\
@@ -62,6 +64,7 @@ We define an operator $\Gamma(p)$ which acts like the MEIJE triggering operator 
 		\end{align*}
 	\end{dfn}
 \end{multicols}
+
 
 We can now define $\Gamma(p)$ as such:
 
@@ -233,9 +236,9 @@ We can now define $\Gamma(p)$ as such:
 \end{figure}
 
 \begin{dfn}[Triggering in ACP]{dfn:acp-triggering}{}
-	\[\Gamma(p) := \rho_{f_{1}}[\partial_{H_{1}}(p | | \mathtt{first}(\mathtt{next}^{\infty}))]\]
+	\[\Gamma(p) := f_{2}(\rho_{f_{1}}[\partial_{H_{1}}(p | | \mathtt{first}(\mathtt{next}^{\infty}))])\]
 	is an operator that turns a trace of a process $p$, $p_{1}.p_{2}.p_{3}.\dots$ into the trace
-	\[p_{\mathtt{first}}^{1}. p^{2}. p^{3}. p^{4}.\dots\]
+	\[p_{\mathtt{ini}}^{1}. p^{2}. p^{3}. p^{4}.\dots\]
 \end{dfn}
 
 \newpage
@@ -266,18 +269,18 @@ The external choice operator $\square$ is defined with the following rules:
 \end{equation}
 In other words, we can take an external choice by the user, and additionally an internal action will still let an external choice be made after the internal move has been made. This differs from the ACP Alternative Choice operator ($+$), as $+$ will not let you select externally if an internal action is made.
 
-For our encoding, we take $H_{1} = A_{0} \uplus \mathtt{first}, \mathtt{next}, \mathtt{choose}$ as defined in Definition \ref{dfn:sets}. We then modify Definition \ref{dfn:comm-triggering} to include an additional communication for $\mathtt{choose}$ to make
+For our encoding, we take $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{choose}\}$ as defined in Definition \ref{dfn:sets}. We then modify Definition \ref{dfn:comm-triggering} to include an additional communication for $\mathtt{choose}$ to make
 
 \begin{dfn}[Communication for CSP External Choice]{dfn:comm-ext-choice}{}
 	\vspace{-8pt}
-	\[a | \mathtt{first} = a_{\mathtt{first}} \qquad a | \mathtt{next} = a_{\mathtt{next}} \qquad a_{\mathtt{first}} | \mathtt{choose} = a\]
+	\[a | \mathtt{first} = a_{\mathtt{first}} \qquad a | \mathtt{next} = a_{\mathtt{next}} \qquad a_{\mathtt{ini}} | \mathtt{choose} = a\]
 		
 \end{dfn}
 
 We can then define an encoding of the CSP external choice operator $\square$ in ACP in the following equation
-\[\mathscr{T}(P \square Q) = \partial_{H_{0}}\Bigl(\Gamma[\mathscr{T}(P)]\, | | \,\mathtt{choose}\, | | \,\Gamma[\mathscr{T}(Q)]\Bigr)\]
+\[\mathscr{T}(P \square Q) = \partial_{H_{0}}\Bigl(f_{1}\Bigl[\Gamma[\mathscr{T}(P)]\, | | \,\mathtt{choose}\, | | \,\Gamma[\mathscr{T}(Q)]\Bigl]\Bigr)\]
 On a process without $\tau$, the function
-\[\partial_{H_{0}}\Bigl(\Gamma(P)\, | | \,\mathtt{choose}\, | | \,\Gamma(Q)\Bigr)\]
+\[\partial_{H_{0}}\Bigl(f_{1}\Bigl[\Gamma(P)\, | | \,\mathtt{choose}\, | | \,\Gamma(Q)\Bigr]\Bigr)\]
 has identical behaviour to $P + Q$
 
 On processes with internal actions, which we will call $\mathcal{P} = \tau_{P}.a.P$ and $\mathcal{Q} = \tau_{Q}.b.Q$, where $\tau_{P}$ indicates the number of starting $\tau$ actions in the process, possibly 0, the $\tau$ cannot communicate with $\mathtt{choose}$ so $\mathtt{choose}$ will only communicate with $a$ (Since only $a$ will be labelled with $\mathtt{first}$). However, the first action of $Q$ will still have the name $b_{\mathtt{first}}$ for $b\in A$. This lets the function effectively skip the $\tau$, then perform $\mathtt{choose}$ on $a.P \,| | \,b.Q$ which matches the behaviour of CSP $\square$. 
@@ -339,9 +342,10 @@ However, this translation is not strongly bisimilar. This is due to the final re
 	\label{fig:sb-counterexample}
 \end{figure}
 
+\newpage
 \subsection{Proving our translation of External Choice is valid up to Rooted Branching Bisimulation}
 
-We define formally the definition of Rooted Branching Bisimulation:
+We define formally the definition of Rooted Branching Bisimulation via \citep{baetenProcessAlgebra1990}:
 
 \begin{dfn}[Rooted Branching Bisimilarity]{dfn:rbb}{}
 	Let $P$ and $Q$ be two processes, and $R$ be a relation between nodes of $P$ and nodes of $Q$. $R$ is a \textbf{Branching Bisimulation} between $P$ and $Q$ if:
@@ -370,290 +374,85 @@ In other words, two processes are Rooted Branching Bisimilar if it is strongly b
 
 We can now work towards a proof that the external choice is Rooted Branching Bisimilar. In the case that $P$ and $Q$ don't involve an internal action $\tau$, the translation is strongly bisimilar, and therefore RBB since Strong bisimilarity is a finer congruence than Rooted Branching Bisimilarity.
 
-In the case that $P$ or $Q$ involves a $\tau$, the processes are no longer strongly bisimilar, see Figure \ref{fig:sb-counterexample}. We will now show that processes with internal actions are also valid up to Rooted Branching Bisimilarity.
+\newpage
 
-The root condition is trivially satisfied. For two processes $a.P$ and $\tau.Q$, the proposed translation $\mathscr{T}(a.P \square \tau.Q)$ will either yield an $a$, or a $\tau$, which is intended behaviour.
+\begin{dfn}[The translation]{dfn:the-translation}{}
+\[\mathscr{T}(P \square Q) = \partial_{H_{0}}\Bigl(f_{1}\Bigl[\Gamma[\mathscr{T}(P)]\, | | \,\mathtt{choose}\, | | \,\Gamma[\mathscr{T}(Q)]\Bigl]\Bigr)\]
+\end{dfn}
 
-We will now state some theorems which will simplify the process graphs and make it easier to show the Rooted Branching Bisimulation. A working example is shown which is the process
-\[\tau.a \,\square\, \tau.\tau.b\]
+\begin{dfn}[Communications]{dfn:the-comms}{}
+	From \ref{dfn:comm-ext-choice}:
+	\[a | \mathtt{first} = a_{\mathtt{first}} \qquad a | \mathtt{next} = a_{\mathtt{next}} \qquad a_{\mathtt{ini}} | \mathtt{choose} = a\]
+		
+\end{dfn}
 
-\begin{thm}[Lattice form of CSP External Choice]{thm:csp-lattice}{}
-	For two processes $P$ and $Q$, the resulting process graph of $P \square Q$ can be rewritten as a lattice with the rows and columns corresponding to the number of $\tau$ transitions on either process
-\end{thm}
+Let $P, Q \in \mathrm{CSP}$ be two processes. WTS $P \square Q =_{\text{RBB}} \mathscr{T}(P \square Q)$. We want to show that any move will result in a process that satisfies RBB.
 
-An example is shown below with the working example
-\begin{figure}[ht!]
-    \centering
-% https://q.uiver.app/#q=WzAsMzAsWzQsMCwiXFxidWxsZXQiXSxbMSwxLCJcXGJ1bGxldCJdLFswLDIsIlxcYnVsbGV0Il0sWzcsMSwiXFxidWxsZXQiXSxbMTAsMiwiXFxidWxsZXQiXSxbMTEsMywiXFxidWxsZXQiXSxbMiwyLCJcXGJ1bGxldCIsWzAsNjAsNTgsMV1dLFszLDMsIlxcYnVsbGV0IixbMTIwLDYwLDM3LDFdXSxbNCw0LCJcXGJ1bGxldCIsWzEyMCw2MCwzNywxXV0sWzEsMywiXFxidWxsZXQiLFswLDYwLDU4LDFdXSxbMiw0LCJcXGJ1bGxldCIsWzEyMCw2MCwzNywxXV0sWzUsMiwiXFxidWxsZXQiLFswLDYwLDU4LDFdXSxbOSwzLCJcXGJ1bGxldCIsWzEyMCw2MCwzNywxXV0sWzQsMywiXFxidWxsZXQiLFswLDYwLDU4LDFdXSxbOCw0LCJcXGJ1bGxldCIsWzEyMCw2MCwzNywxXV0sWzYsMywiXFxidWxsZXQiLFsxMjAsNjAsMzcsMV1dLFs3LDQsIlxcYnVsbGV0IixbMTIwLDYwLDM3LDFdXSxbMTAsNCwiXFxidWxsZXQiLFsxMjAsNjAsMzcsMV1dLFs1LDQsIlxcYnVsbGV0IixbMTIwLDYwLDM3LDFdXSxbMTQsMCwiXFxidWxsZXQiXSxbMTMsMSwiXFxidWxsZXQiXSxbMTIsMiwiXFxidWxsZXQiXSxbMTQsMiwiXFxidWxsZXQiLFswLDYwLDU4LDFdXSxbMTUsMywiXFxidWxsZXQiLFsxMjAsNjAsMzcsMV1dLFsxMywzLCJcXGJ1bGxldCIsWzAsNjAsNTgsMV1dLFsxNCw0LCJcXGJ1bGxldCIsWzEyMCw2MCwzNywxXV0sWzE2LDQsIlxcYnVsbGV0IixbMTIwLDYwLDM3LDFdXSxbMTUsMSwiXFxidWxsZXQiXSxbMTYsMiwiXFxidWxsZXQiXSxbMTcsMywiXFxidWxsZXQiXSxbMCwxLCJcXHRhdSIsMl0sWzEsMiwiYSIsMl0sWzAsMywiXFx0YXUiXSxbMyw0LCJcXHRhdSJdLFs0LDUsImIiXSxbMSw2LCJcXHRhdSJdLFs2LDcsIlxcdGF1IiwwLHsiY29sb3VyIjpbMCw2MCw1OF19LFswLDYwLDU4LDFdXSxbNyw4LCJiIiwwLHsiY29sb3VyIjpbMTIwLDYwLDM3XX0sWzEyMCw2MCwzNywxXV0sWzYsOSwiYSIsMCx7ImNvbG91ciI6WzAsNjAsNThdfSxbMCw2MCw1OCwxXV0sWzcsMTAsImEiLDAseyJjb2xvdXIiOlsxMjAsNjAsMzddfSxbMTIwLDYwLDM3LDFdXSxbMywxMSwiXFx0YXUiXSxbNCwxMiwiXFx0YXUiXSxbMTEsMTMsImEiLDAseyJjb2xvdXIiOlswLDYwLDU4XX0sWzAsNjAsNTgsMV1dLFsxMiwxNCwiYSIsMCx7ImNvbG91ciI6WzEyMCw2MCwzN119LFsxMjAsNjAsMzcsMV1dLFsxMSwxNSwiXFx0YXUiLDAseyJjb2xvdXIiOlswLDYwLDU4XX0sWzAsNjAsNTgsMV1dLFsxNSwxNiwiYiIsMCx7ImNvbG91ciI6WzEyMCw2MCwzN119LFsxMjAsNjAsMzcsMV1dLFsxMiwxNywiYiIsMCx7ImNvbG91ciI6WzEyMCw2MCwzN119LFsxMjAsNjAsMzcsMV1dLFsxNSwxOCwiYSIsMix7ImNvbG91ciI6WzEyMCw2MCwzN119LFsxMjAsNjAsMzcsMV1dLFsxOSwyMCwiXFx0YXUiXSxbMjAsMjEsImEiXSxbMjAsMjIsIlxcdGF1Il0sWzIyLDIzLCJcXHRhdSIsMCx7ImNvbG91ciI6WzAsNjAsNThdfSxbMCw2MCw1OCwxXV0sWzIyLDI0LCJhIiwwLHsiY29sb3VyIjpbMCw2MCw1OF19LFswLDYwLDU4LDFdXSxbMjMsMjUsImEiLDAseyJjb2xvdXIiOlsxMjAsNjAsMzddfSxbMTIwLDYwLDM3LDFdXSxbMjMsMjYsImIiLDAseyJjb2xvdXIiOlsxMjAsNjAsMzddfSxbMTIwLDYwLDM3LDFdXSxbMTksMjcsIlxcdGF1IiwyXSxbMjcsMjgsIlxcdGF1IiwyXSxbMjgsMjksImIiLDJdLFsyNywyMiwiXFx0YXUiLDJdLFsyOCwyMywiXFx0YXUiLDJdXQ==
-\[\begin{tikzcd}[cramped,column sep=small]
-	&&&& \bullet &&&&&&&&&& \bullet \\
-	& \bullet &&&&&& \bullet &&&&&& \bullet && \bullet \\
-	\bullet && \textcolor{rgb,255:red,212;green,84;blue,84}{\bullet} &&& \textcolor{rgb,255:red,212;green,84;blue,84}{\bullet} &&&&& \bullet && \bullet && \textcolor{rgb,255:red,212;green,84;blue,84}{\bullet} && \bullet \\
-	& \textcolor{rgb,255:red,212;green,84;blue,84}{\bullet} && \textcolor{rgb,255:red,38;green,151;blue,38}{\bullet} & \textcolor{rgb,255:red,212;green,84;blue,84}{\bullet} && \textcolor{rgb,255:red,38;green,151;blue,38}{\bullet} &&& \textcolor{rgb,255:red,38;green,151;blue,38}{\bullet} && \bullet && \textcolor{rgb,255:red,212;green,84;blue,84}{\bullet} && \textcolor{rgb,255:red,38;green,151;blue,38}{\bullet} && \bullet \\
-	&& \textcolor{rgb,255:red,38;green,151;blue,38}{\bullet} && \textcolor{rgb,255:red,38;green,151;blue,38}{\bullet} & \textcolor{rgb,255:red,38;green,151;blue,38}{\bullet} && \textcolor{rgb,255:red,38;green,151;blue,38}{\bullet} & \textcolor{rgb,255:red,38;green,151;blue,38}{\bullet} && \textcolor{rgb,255:red,38;green,151;blue,38}{\bullet} &&&& \textcolor{rgb,255:red,38;green,151;blue,38}{\bullet} && \textcolor{rgb,255:red,38;green,151;blue,38}{\bullet}
-	\arrow["\tau"', from=1-5, to=2-2]
-	\arrow["\tau", from=1-5, to=2-8]
-	\arrow["\tau", from=1-15, to=2-14]
-	\arrow["\tau"', from=1-15, to=2-16]
-	\arrow["a"', from=2-2, to=3-1]
-	\arrow["\tau", from=2-2, to=3-3]
-	\arrow["\tau", from=2-8, to=3-6]
-	\arrow["\tau", from=2-8, to=3-11]
-	\arrow["a", from=2-14, to=3-13]
-	\arrow["\tau", from=2-14, to=3-15]
-	\arrow["\tau"', from=2-16, to=3-15]
-	\arrow["\tau"', from=2-16, to=3-17]
-	\arrow["a", color={rgb,255:red,212;green,84;blue,84}, from=3-3, to=4-2]
-	\arrow["\tau", color={rgb,255:red,212;green,84;blue,84}, from=3-3, to=4-4]
-	\arrow["a", color={rgb,255:red,212;green,84;blue,84}, from=3-6, to=4-5]
-	\arrow["\tau", color={rgb,255:red,212;green,84;blue,84}, from=3-6, to=4-7]
-	\arrow["\tau", from=3-11, to=4-10]
-	\arrow["b", from=3-11, to=4-12]
-	\arrow["a", color={rgb,255:red,212;green,84;blue,84}, from=3-15, to=4-14]
-	\arrow["\tau", color={rgb,255:red,212;green,84;blue,84}, from=3-15, to=4-16]
-	\arrow["\tau"', from=3-17, to=4-16]
-	\arrow["b"', from=3-17, to=4-18]
-	\arrow["a", color={rgb,255:red,38;green,151;blue,38}, from=4-4, to=5-3]
-	\arrow["b", color={rgb,255:red,38;green,151;blue,38}, from=4-4, to=5-5]
-	\arrow["a"', color={rgb,255:red,38;green,151;blue,38}, from=4-7, to=5-6]
-	\arrow["b", color={rgb,255:red,38;green,151;blue,38}, from=4-7, to=5-8]
-	\arrow["a", color={rgb,255:red,38;green,151;blue,38}, from=4-10, to=5-9]
-	\arrow["b", color={rgb,255:red,38;green,151;blue,38}, from=4-10, to=5-11]
-	\arrow["a", color={rgb,255:red,38;green,151;blue,38}, from=4-16, to=5-15]
-	\arrow["b", color={rgb,255:red,38;green,151;blue,38}, from=4-16, to=5-17]
-\end{tikzcd}\]
-    \caption{Lattice form of the process $\tau.a \, \square \, \tau.\tau.b$. A sketch of the lattice form as shown by Partition Refinement is highlighted by the red and green states and transitions.}
-    \label{fig:lattice-form}
-\end{figure}
+\begin{lma}[]{lma:tau-transform}{}
+	For processes $P, P'\in \mathrm{CSP}$, if $P \prightarrow{\tau} P'$ then $\Gamma[\mathscr{T}(P)] \prightarrow{\tau} \Gamma[\mathscr{T}(P')]$. Alternatively,
+	\[\Gamma[\mathscr{T}(P)] = \tau. \Gamma[\mathscr{T}(P')]\]
+\end{lma}
 
 \begin{proof}
-	It can be inferred from the rules mentioned in Equation \ref{eq:csp-definition} that if there is a choice between a $\tau$ on both $P$ and $Q$, then the resulting process graph is the equivalent to a lattice of communication between $\tau$ actions. The other actions result in a choice and so the same rule doesn't apply. This result can also be gained from Partition Refinement.
+	Something about how $\tau$'s do not get affected by the gamma function.
 \end{proof}
 
-Writing the process graph in lattice form results in the process graph of the External Choice being very similar to the process graph of the proposed translation. This is because the translation is based on a communication, so there also ends up being a similar $\tau$ lattice of the same form, and the only difference is $\tau$ transitions on the rest of the process going past the $\tau$-lattice.
+\begin{lma}[]{lma:a-transform}{}
+	For processes $P, P'\in \mathrm{CSP}$, if $P \prightarrow{a} P'$ then for any action $a \in A_{0}$ we have 
+	\[
+		(\Gamma[\mathscr{T}(P)]\, | | \, \mathrm{choose}) \prightarrow{a} \mathscr{T}(P') \quad \text{ and } \quad 
+		(\mathrm{choose}\, | | \, (\Gamma[\mathscr{T}(P)]) \prightarrow{a} \mathscr{T}(P')
+	\]
+	and
+\end{lma}
 
-\begin{figure}[!ht]
-    \centering
-% https://q.uiver.app/#q=WzAsMjIsWzgsMCwiXFxidWxsZXQiXSxbNywxLCJcXGJ1bGxldCJdLFs2LDIsIlxcYnVsbGV0Il0sWzksMSwiXFxidWxsZXQiXSxbMTAsMiwiXFxidWxsZXQiXSxbMTEsMywiXFxidWxsZXQiXSxbOCwyLCJcXGJ1bGxldCJdLFs3LDMsIlxcYnVsbGV0Il0sWzksMywiXFxidWxsZXQiXSxbMTAsNCwiXFxidWxsZXQiXSxbOCw0LCJcXGJ1bGxldCJdLFsyLDAsIlxcYnVsbGV0Il0sWzEsMSwiXFxidWxsZXQiXSxbMCwyLCJcXGJ1bGxldCJdLFszLDEsIlxcYnVsbGV0Il0sWzQsMiwiXFxidWxsZXQiXSxbNSwzLCJcXGJ1bGxldCJdLFsyLDIsIlxcYnVsbGV0Il0sWzEsMywiXFxidWxsZXQiXSxbMywzLCJcXGJ1bGxldCJdLFsyLDQsIlxcYnVsbGV0Il0sWzQsNCwiXFxidWxsZXQiXSxbMCwxLCJcXHRhdSIsMl0sWzEsMiwiYSIsMl0sWzAsMywiXFx0YXUiXSxbMyw0LCJcXHRhdSJdLFs0LDUsImIiXSxbMyw2LCJcXHRhdSIsMl0sWzYsOCwiXFx0YXUiXSxbOCw5LCJiIl0sWzQsOCwiXFx0YXUiLDJdLFsxLDYsIlxcdGF1Il0sWzgsMTAsImEiLDJdLFs2LDcsImEiXSxbMTEsMTIsIlxcdGF1IiwyXSxbMTIsMTMsImEiLDJdLFsxMSwxNCwiXFx0YXUiXSxbMTQsMTUsIlxcdGF1Il0sWzE1LDE2LCJiIl0sWzE0LDE3LCJcXHRhdSIsMl0sWzE3LDE4LCJhIiwyXSxbMTUsMTksIlxcdGF1IiwyXSxbMTksMjAsImEiLDJdLFsxMiwxNywiXFx0YXUiXSxbMTcsMTksIlxcdGF1Il0sWzE5LDIxLCJiIl0sWzEzLDE4LCJcXHRhdSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzE4LDIwLCJcXHRhdSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzE2LDIxLCJcXHRhdSIsMix7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV1d
-\[\begin{tikzcd}[cramped, column sep=scriptsize]
-	&& \bullet &&&&&& \bullet \\
-	& \bullet && \bullet &&&& \bullet && \bullet \\
-	\bullet && \bullet && \bullet && \bullet && \bullet && \bullet \\
-	& \bullet && \bullet && \bullet && \bullet && \bullet && \bullet \\
-	&& \bullet && \bullet &&&& \bullet && \bullet
-	\arrow["\tau"', from=1-3, to=2-2]
-	\arrow["\tau", from=1-3, to=2-4]
-	\arrow["\tau"', from=1-9, to=2-8]
-	\arrow["\tau", from=1-9, to=2-10]
-	\arrow["a"', from=2-2, to=3-1]
-	\arrow["\tau", from=2-2, to=3-3]
-	\arrow["\tau"', from=2-4, to=3-3]
-	\arrow["\tau", from=2-4, to=3-5]
-	\arrow["a"', from=2-8, to=3-7]
-	\arrow["\tau", from=2-8, to=3-9]
-	\arrow["\tau"', from=2-10, to=3-9]
-	\arrow["\tau", from=2-10, to=3-11]
-	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=3-1, to=4-2]
-	\arrow["a"', from=3-3, to=4-2]
-	\arrow["\tau", from=3-3, to=4-4]
-	\arrow["\tau"', from=3-5, to=4-4]
-	\arrow["b", from=3-5, to=4-6]
-	\arrow["a", from=3-9, to=4-8]
-	\arrow["\tau", from=3-9, to=4-10]
-	\arrow["\tau"', from=3-11, to=4-10]
-	\arrow["b", from=3-11, to=4-12]
-	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=4-2, to=5-3]
-	\arrow["a"', from=4-4, to=5-3]
-	\arrow["b", from=4-4, to=5-5]
-	\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=4-6, to=5-5]
-	\arrow["a"', from=4-10, to=5-9]
-	\arrow["b", from=4-10, to=5-11]
-\end{tikzcd}\]
-    \caption{Comparison of proposed translation of $\tau.a \,\square\, \tau.\tau.b$ (Left) and actual representation (Right)}
-    \label{Label}
-\end{figure}
+\begin{proof}
+	Directly follows from communications
+\end{proof}
 
+\begin{lma}[]{lma:stagnant-inis}{}
+	For processes $a.P\in \mathrm{CSP}$ where $a\in A_{0}$, if there exists a process $b.P'$ where $b\in A_{0}$ we have 
+	
+	\[\partial_{H_{0}} (b.P' \,| | \, \Gamma[\mathscr{T}(a.P)]) = \mathscr{T}(b.P') \]
+\end{lma}
+
+\begin{proof}
+	The $\Gamma$ function turns a function into a process equation of the form
+	\[a_{\mathtt{ini}}.b.c\cdots\]
+	the process $a_{\mathtt{ini}}$ does not communicate with anything other than $\mathtt{choose}$ which is not in $A_{0}$. Therefore, the restriction operator will remove all the $\Gamma$ left merges, leaving $b.P'$
+\end{proof}
+\begin{proof}
+	
+\end{proof}
 
 \newpage
-\begin{thm}[Minimal Process of CSP External Choice]{thm:minimal-state}{}
-	For two processes, $\mathcal{P} = \tau_{P}.a.P$, $\mathcal{Q} = \tau_{Q}.b.Q$, where $\tau_{P}$ and $\tau_{Q}$ are the number of starting $\tau$ transitions, possibly $0$, the least number of states of $\mathcal{P} \, \square\, \mathcal{Q}$ is
-	\[
-		n(\tau_{P}) \cdot n(\tau_{Q}) + n(P) + n(Q)
-	\]
-	states, where $n(P)$ is the number of states in a process $P$.
-\end{thm}
-
-\begin{proof}
-	Applying Theorem \ref{thm:csp-lattice}, We can then undergo the partition refinement algorithm for Strong Bisimilarity as detailed in \citep{cleavelandCHAPTER6Equivalence2001}. Via the rules of the external choice in Equation \ref{eq:csp-definition}, under an internal choice $P \prightarrow{\tau} P'$, the process $Q$ remains the exact same, and the same can be said for an internal choice in $Q$. Therefore, any choice branches from a $\tau$ action are equivalent, and are therefore part of the same equivalent class. We can then group the minimal states as follows
-	\[\text{Number of states in lattice} + \text{Number of states in $P$} + \text{Number of states in $Q$}\]
-\end{proof}
-
-\vspace{-18pt}
-\begin{figure}[!ht]
-    \centering
-% https://q.uiver.app/#q=WzAsMTksWzgsMCwiXFxidWxsZXQiXSxbNywxLCJcXGJ1bGxldCJdLFs4LDIsIlxcYnVsbGV0Il0sWzksMywiXFxidWxsZXQiXSxbNywzLCJcXGJ1bGxldCJdLFs5LDEsIlxcYnVsbGV0Il0sWzEwLDIsIlxcYnVsbGV0Il0sWzExLDMsIlxcYnVsbGV0Il0sWzIsMCwiXFxidWxsZXQiXSxbMSwxLCJcXGJ1bGxldCJdLFszLDEsIlxcYnVsbGV0Il0sWzIsMiwiXFxidWxsZXQiXSxbNCwyLCJcXGJ1bGxldCJdLFszLDMsIlxcYnVsbGV0Il0sWzAsMiwiXFxidWxsZXQiXSxbMSwzLCJcXGJ1bGxldCJdLFsyLDQsIlxcYnVsbGV0Il0sWzQsNCwiXFxidWxsZXQiXSxbNSwzLCJcXGJ1bGxldCJdLFswLDEsIlxcdGF1IiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMSwyLCJcXHRhdSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzIsMywiXFx0YXUiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFsyLDQsImEiXSxbMCw1LCJcXHRhdSIsMix7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzUsNiwiXFx0YXUiLDIseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFs2LDcsImIiLDJdLFs1LDIsIlxcdGF1IiwyLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbNiwzLCJcXHRhdSIsMix7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzEsNCwiYSJdLFszLDQsImEiXSxbMyw3LCJiIl0sWzgsOSwiXFx0YXUiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFs4LDEwLCJcXHRhdSIsMix7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzEwLDExLCJcXHRhdSIsMix7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzksMTEsIlxcdGF1IiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMTAsMTIsIlxcdGF1IiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMTIsMTMsIlxcdGF1IiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMTEsMTMsIlxcdGF1IiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbOSwxNCwiYSJdLFsxMSwxNSwiYSJdLFsxMywxNiwiYSJdLFsxMywxNywiYiJdLFsxMiwxOCwiYiJdXQ==
-\[\begin{tikzcd}[cramped, column sep=scriptsize]
-	&& \bullet &&&&&& \bullet \\
-	& \bullet && \bullet &&&& \bullet && \bullet \\
-	\bullet && \bullet && \bullet &&&& \bullet && \bullet \\
-	& \bullet && \bullet && \bullet && \bullet && \bullet && \bullet \\
-	&& \bullet && \bullet
-	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=1-3, to=2-2]
-	\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=1-3, to=2-4]
-	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=1-9, to=2-8]
-	\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=1-9, to=2-10]
-	\arrow["a", from=2-2, to=3-1]
-	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=2-2, to=3-3]
-	\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=2-4, to=3-3]
-	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=2-4, to=3-5]
-	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=2-8, to=3-9]
-	\arrow["a", from=2-8, to=4-8]
-	\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=2-10, to=3-9]
-	\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=2-10, to=3-11]
-	\arrow["a", from=3-3, to=4-2]
-	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=3-3, to=4-4]
-	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=3-5, to=4-4]
-	\arrow["b", from=3-5, to=4-6]
-	\arrow["a", from=3-9, to=4-8]
-	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=3-9, to=4-10]
-	\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=3-11, to=4-10]
-	\arrow["b"', from=3-11, to=4-12]
-	\arrow["a", from=4-4, to=5-3]
-	\arrow["b", from=4-4, to=5-5]
-	\arrow["a", from=4-10, to=4-8]
-	\arrow["b", from=4-10, to=4-12]
-\end{tikzcd}\]
-    \caption{Minimal process of $\tau.a\,\square\,\tau.\tau.b$. Lattice is highlighted in red}
-    \label{fig:minimal-process}
-\end{figure}
-
-We can now work on the Rooted Branching Bisimulation. 
-
-\begin{lma}[]{lma:tau-lattice-iso}{}
-	There exists an isomorphism from the $\tau$-lattice on the proposed translation to the actual representation of external choice
+\begin{lma}[]{lma:tau-on-p-process}{}
+	For processes $\Rightarrow a.P\in \mathrm{CSP}$, where $\Rightarrow$ indicates a chain of $\tau$, possibly $0$, and $a\in A_{0}$, if there exists a process $b.P'$ where $b\in A_{0}$ we have 
+	
+	\[\partial_{H_{0}} (P' \,| | \Rightarrow\Gamma[\mathscr{T}(a.P)]) = (\mathscr{T}(P')\, | | \, \Rightarrow )\]
+	This resulting process is Branching Bisimilar to $\mathscr{T}(a.P')$
 \end{lma}
 
-\begin{proof}
-	We perform action refinement of Strong Bisimilarity. The rest follows trivially.
-\end{proof}
+\textbf{Option 1}: $a$ action
 
-An example is shown below:
-% https://q.uiver.app/#q=WzAsMTksWzgsMCwiXFxidWxsZXQiXSxbNywxLCJcXGJ1bGxldCJdLFs5LDEsIlxcYnVsbGV0Il0sWzEwLDIsIlxcYnVsbGV0Il0sWzExLDMsIlxcYnVsbGV0Il0sWzgsMiwiXFxidWxsZXQiXSxbNywzLCJcXGJ1bGxldCJdLFs5LDMsIlxcYnVsbGV0Il0sWzIsMCwiXFxidWxsZXQiXSxbMSwxLCJcXGJ1bGxldCJdLFswLDIsIlxcYnVsbGV0Il0sWzMsMSwiXFxidWxsZXQiXSxbNCwyLCJcXGJ1bGxldCJdLFs1LDMsIlxcYnVsbGV0Il0sWzIsMiwiXFxidWxsZXQiXSxbMSwzLCJcXGJ1bGxldCJdLFszLDMsIlxcYnVsbGV0Il0sWzIsNCwiXFxidWxsZXQiXSxbNCw0LCJcXGJ1bGxldCJdLFswLDEsIlxcdGF1IiwyLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMCwyLCJcXHRhdSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzIsMywiXFx0YXUiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFszLDQsImIiXSxbMiw1LCJcXHRhdSIsMix7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzUsNywiXFx0YXUiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFszLDcsIlxcdGF1IiwyLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMSw1LCJcXHRhdSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzUsNiwiYSIsMl0sWzgsOSwiXFx0YXUiLDIseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFs5LDEwLCJhIiwyXSxbOCwxMSwiXFx0YXUiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFsxMSwxMiwiXFx0YXUiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFsxMiwxMywiYiJdLFsxMSwxNCwiXFx0YXUiLDIseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFsxNCwxNSwiYSIsMl0sWzEyLDE2LCJcXHRhdSIsMix7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzE2LDE3LCJhIiwyXSxbOSwxNCwiXFx0YXUiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFsxNCwxNiwiXFx0YXUiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFsxNiwxOCwiYiJdLFsxMCwxNSwiXFx0YXUiXSxbMTUsMTcsIlxcdGF1Il0sWzEzLDE4LCJcXHRhdSIsMl0sWzgsMCwiIiwxLHsiY3VydmUiOi00LCJjb2xvdXIiOlsyNDAsNjAsMzFdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxMSwyLCIiLDEseyJjdXJ2ZSI6LTQsImNvbG91ciI6WzI0MCw2MCwzMV0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzksMSwiIiwxLHsiY3VydmUiOi00LCJjb2xvdXIiOlsyNDAsNjAsMzFdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxNCw1LCIiLDEseyJjdXJ2ZSI6LTQsImNvbG91ciI6WzI0MCw2MCwzMV0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEyLDMsIiIsMSx7ImN1cnZlIjotNCwiY29sb3VyIjpbMjQwLDYwLDMxXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTYsNywiIiwxLHsiY3VydmUiOi00LCJjb2xvdXIiOlsyNDAsNjAsMzFdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDYsImEiLDJdLFs3LDYsImEiLDJdLFs3LDQsImIiXV0=
-\[\begin{tikzcd}[cramped,column sep=scriptsize]
-	&& \bullet &&&&&& \bullet \\
-	& \bullet && \bullet &&&& \bullet && \bullet \\
-	\bullet && \bullet && \bullet &&&& \bullet && \bullet \\
-	& \bullet && \bullet && \bullet && \bullet && \bullet && \bullet \\
-	&& \bullet && \bullet
-	\arrow[color={rgb,255:red,32;green,32;blue,126}, curve={height=-24pt}, dashed, no head, from=1-3, to=1-9]
-	\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=1-3, to=2-2]
-	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=1-3, to=2-4]
-	\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=1-9, to=2-8]
-	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=1-9, to=2-10]
-	\arrow[color={rgb,255:red,32;green,32;blue,126}, curve={height=-24pt}, dashed, no head, from=2-2, to=2-8]
-	\arrow["a"', from=2-2, to=3-1]
-	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=2-2, to=3-3]
-	\arrow[color={rgb,255:red,32;green,32;blue,126}, curve={height=-24pt}, dashed, no head, from=2-4, to=2-10]
-	\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=2-4, to=3-3]
-	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=2-4, to=3-5]
-	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=2-8, to=3-9]
-	\arrow["a"', from=2-8, to=4-8]
-	\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=2-10, to=3-9]
-	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=2-10, to=3-11]
-	\arrow["\tau", from=3-1, to=4-2]
-	\arrow[color={rgb,255:red,32;green,32;blue,126}, curve={height=-24pt}, dashed, no head, from=3-3, to=3-9]
-	\arrow["a"', from=3-3, to=4-2]
-	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=3-3, to=4-4]
-	\arrow[color={rgb,255:red,32;green,32;blue,126}, curve={height=-24pt}, dashed, no head, from=3-5, to=3-11]
-	\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=3-5, to=4-4]
-	\arrow["b", from=3-5, to=4-6]
-	\arrow["a"', from=3-9, to=4-8]
-	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=3-9, to=4-10]
-	\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=3-11, to=4-10]
-	\arrow["b", from=3-11, to=4-12]
-	\arrow["\tau", from=4-2, to=5-3]
-	\arrow[color={rgb,255:red,32;green,32;blue,126}, curve={height=-24pt}, dashed, no head, from=4-4, to=4-10]
-	\arrow["a"', from=4-4, to=5-3]
-	\arrow["b", from=4-4, to=5-5]
-	\arrow["\tau"', from=4-6, to=5-5]
-	\arrow["a"', from=4-10, to=4-8]
-	\arrow["b", from=4-10, to=4-12]
-\end{tikzcd}\]
+Let $a \in A_{0}$ and $P'\in \mathrm{CSP}$ s.t. $P \prightarrow{a} P'$. In the domain of CSP, this results in the process
+		\[P \square Q \prightarrow{a} P'\]
+	
+	Via Lemma \ref{lma:a-transform}, we can now derive the following equation
+	\[\mathscr{T}(P \square Q) = \partial_{H_{0}}\Bigl(f_{1}\Bigl[\Gamma[\mathscr{T}(P)]\, | | \,\mathtt{choose}\, | | \,\Gamma[\mathscr{T}(Q)]\Bigl]\Bigr) \prightarrow{a} \partial_{H_{0}}\Bigl(f_{1}\Bigl[\mathscr{T}(P')\, | | \,\Gamma[\mathscr{T}(Q)]\Bigl]\Bigr)\]
+\begin{enumerate}
+	\item \textbf{Case 1}: $\exists b\in A_{0}$ and $Q'\in \mathrm{CSP}$ s.t. $Q \prightarrow{b} Q'$. Then via Lemma \ref{lma:stagnant-inis}, this results in
+		\[\mathscr{T}(P \square Q) = \partial_{H_{0}}(f_{1}[\mathscr{T}(P')]) = \mathscr{T}(P')\]
+		Which is strongly bisimilar.
+	\item \textbf{Case 2}: $Q \prightarrow{ \tau} Q'$. Then via Lemma \ref{lma:tau-transform}, we can now derive the following equation:
 
-Therefore, the only remaining parts of the process graphs we need to check are if the rest of both (disjoint) processes are also Branching Bisimilar. This means that for both processes $\mathcal{P} = \tau_{P}.a.P$ and $\mathcal{Q} = \tau_{Q}.b.Q$, the parts we need to find a bisimulation for are of the form $a.P$ put in parallel with a chain of $\tau$ actions compared to a process of the form $a.P$ with a leading chain of $\tau$ actions, and the same for $b.Q$.
+	\[\mathscr{T}(P \square Q) = \partial_{H_{0}}\Bigl(f_{1}\Bigl[\mathscr{T}(P')\, | | \,\tau.\Gamma[\mathscr{T}(Q')]\Bigl]\Bigr)\]
+		Case 2 can be repeated as many times as needed until $Q$ reaches Case 1. Via Lemma \ref{lma:tau-on-p-process}, this results in
+		\[\mathscr{T}(P \square Q) = \partial_{H_{0}}(f_{1}[\mathscr{T}(P')\, | | \, \Rightarrow]) = (\mathscr{T}(P')\, | | \, \Rightarrow)\]
+		Which is Branching Bisimilar via Lemma \ref{lma:tau-on-p-process}
+\end{enumerate}
 
-\begin{lma}[]{lma:forms-of-p-q-ext}{}
-	Comparisons of $a.P$ and $a.Q$ in the proposed translation, and the actual representation will be of the form
-% https://q.uiver.app/#q=WzAsMjMsWzAsMCwiXFxidWxsZXQiXSxbMSwwLCJcXGJ1bGxldCJdLFsyLDAsIlxcYnVsbGV0Il0sWzMsMCwiXFxidWxsZXQiXSxbMCwxLCJcXGJ1bGxldCJdLFswLDIsIlxcYnVsbGV0Il0sWzAsMywiXFxidWxsZXQiXSxbMSwxLCJcXGJ1bGxldCJdLFsyLDEsIlxcYnVsbGV0Il0sWzMsMSwiXFxidWxsZXQiXSxbMSwyLCJcXGJ1bGxldCJdLFsyLDIsIlxcYnVsbGV0Il0sWzMsMiwiXFxidWxsZXQiXSxbMSwzLCJcXGJ1bGxldCJdLFsyLDMsIlxcYnVsbGV0Il0sWzMsMywiXFxidWxsZXQiXSxbNiwwLCJcXGJ1bGxldCJdLFs3LDAsIlxcYnVsbGV0Il0sWzgsMCwiXFxidWxsZXQiXSxbOSwwLCJcXGJ1bGxldCJdLFs3LDEsIlxcYnVsbGV0Il0sWzcsMiwiXFxidWxsZXQiXSxbNywzLCJcXGJ1bGxldCJdLFswLDEsIlxcdGF1Il0sWzIsMywiXFx0YXUiXSxbNCw1LCJcXGNkb3RzIiwyXSxbNSw2LCJhX24iLDJdLFs3LDEwLCJcXGNkb3RzIiwyXSxbOCwxMSwiXFxjZG90cyIsMl0sWzksMTIsIlxcY2RvdHMiLDJdLFsxMCwxMywiYV9uIiwyXSxbMTEsMTQsImFfbiIsMl0sWzEyLDE1LCJhX24iLDJdLFs0LDcsIlxcdGF1Il0sWzgsOSwiXFx0YXUiXSxbNSwxMCwiXFx0YXUiXSxbMTEsMTIsIlxcdGF1Il0sWzYsMTMsIlxcdGF1Il0sWzE0LDE1LCJcXHRhdSJdLFsxLDIsIlxcZG90cyJdLFs3LDgsIlxcZG90cyJdLFsxMCwxMSwiXFxkb3RzIl0sWzEzLDE0LCJcXGRvdHMiXSxbMCw0LCJhXzEiLDJdLFsxLDcsImFfMSIsMl0sWzMsOSwiYV8xIiwyXSxbMiw4LCJhXzEiLDJdLFsxNiwxNywiXFx0YXUiXSxbMTcsMTgsIlxcY2RvdHMiXSxbMTgsMTksIlxcdGF1Il0sWzE2LDIwLCJhXzEiLDJdLFsyMCwyMSwiXFxjZG90cyIsMl0sWzIxLDIyLCJhX24iLDJdLFsxNywyMCwiYV8xIiwyXSxbMTgsMjAsImFfMSIsMl0sWzE5LDIwLCJhXzEiLDJdXQ==
-	\begin{equation}\label{eq:external-comparisons}
-	\begin{tikzcd}[cramped, column sep=scriptsize]
-	\bullet & \bullet & \bullet & \bullet &&& \bullet & \bullet & \bullet & \bullet \\
-	\bullet & \bullet & \bullet & \bullet &&&& \bullet \\
-	\bullet & \bullet & \bullet & \bullet &&&& \bullet \\
-	\bullet & \bullet & \bullet & \bullet &&&& \bullet
-	\arrow["\tau", from=1-1, to=1-2]
-	\arrow["{a_1}"', from=1-1, to=2-1]
-	\arrow["\dots", from=1-2, to=1-3]
-	\arrow["{a_1}"', from=1-2, to=2-2]
-	\arrow["\tau", from=1-3, to=1-4]
-	\arrow["{a_1}"', from=1-3, to=2-3]
-	\arrow["{a_1}"', from=1-4, to=2-4]
-	\arrow["\tau", from=1-7, to=1-8]
-	\arrow["{a_1}"', from=1-7, to=2-8]
-	\arrow["\cdots", from=1-8, to=1-9]
-	\arrow["{a_1}"', from=1-8, to=2-8]
-	\arrow["\tau", from=1-9, to=1-10]
-	\arrow["{a_1}"', from=1-9, to=2-8]
-	\arrow["{a_1}"', from=1-10, to=2-8]
-	\arrow["\tau", from=2-1, to=2-2]
-	\arrow["\cdots"', from=2-1, to=3-1]
-	\arrow["\dots", from=2-2, to=2-3]
-	\arrow["\cdots"', from=2-2, to=3-2]
-	\arrow["\tau", from=2-3, to=2-4]
-	\arrow["\cdots"', from=2-3, to=3-3]
-	\arrow["\cdots"', from=2-4, to=3-4]
-	\arrow["\cdots"', from=2-8, to=3-8]
-	\arrow["\tau", from=3-1, to=3-2]
-	\arrow["{a_n}"', from=3-1, to=4-1]
-	\arrow["\dots", from=3-2, to=3-3]
-	\arrow["{a_n}"', from=3-2, to=4-2]
-	\arrow["\tau", from=3-3, to=3-4]
-	\arrow["{a_n}"', from=3-3, to=4-3]
-	\arrow["{a_n}"', from=3-4, to=4-4]
-	\arrow["{a_n}"', from=3-8, to=4-8]
-	\arrow["\tau", from=4-1, to=4-2]
-	\arrow["\dots", from=4-2, to=4-3]
-	\arrow["\tau", from=4-3, to=4-4]
-\end{tikzcd}\end{equation}
-For any number of $\tau$, possibly $0$, and some number $n$ of actions $a$, where the actual representation will be of minimal form as shown in Theorem \ref{thm:minimal-state}. The two process graphs have the same $n$, and therefore same number of rows.
-\end{lma}
-
-\begin{thm}[]{thm:branching-bisim-external-sides}{}
-	The two processes listed in Equation \ref{eq:external-comparisons} are Branching Bisimilar
-\end{thm}
-
-\begin{proof}
-	The two processes are Branching Bisimilar if we can construct a relation both ways.
-
-	$(\implies)$: Show there is a branching bisimulation from the proposed translation to the actual representation. The $\tau$ transitions along the first row can be linked 1 to 1. For every action $a_{n}$ to a state $s$, the only options from $s$ are either a $\tau$ move, or a move to $a_{n+1}$.
-	\begin{itemize}
-		\item If $s$ moves to $a_{n+1}$, then via Definition \ref{dfn:rbb} this is valid via part $2b$ since there exists a $t = t_{1} \prightarrow{a_{n+1}} t'$, namely the corresponding state on the same row.
-		\item If $s$ moves to a $\tau$, then via Definition $\ref{dfn:rbb}$ this is valid via part $2a$, since $a = \tau$, and all states on the same row are related to each other.
-	\end{itemize}
-	Therefore, a valid relation can be constructed from the proposed translation to the actual representation.
-
-\noindent\rule{\textwidth}{0.08ex}
-
-	$(\impliedby)$: Show there is a branching bisimulation from the actual representation to the proposed translation. Similarly to the converse, the transitions along the first row can be linked 1 to 1. For any action $a_{n}$ to a state $s$, the only option from $s$ is a move to $a_{n+1}$. This is clearly valid via the same logic as the first point in the converse argument, where any state corresponding to the same row can be chosen. Therefore, a valid relation can be constructed from the actual representation to the proposed translation.
-
-\noindent\rule{\textwidth}{0.08ex}
-
-	Since both directions hold a valid translation, this must mean that the two processes are Branching Bisimilar.
-\end{proof}
-
-
-Therefore, since the resulting process graph satisfies the root condition, and via Lemma \ref{lma:tau-lattice-iso} and Theorem \ref{thm:branching-bisim-external-sides}, we can conclude that the translation is valid up to Rooted Branching Bisimilarity.
-
+\textbf{Option 2}: $\tau$ action. These results can be gained from reversing the order of $P$ and $Q$ using the same logic as above.
 
 \newpage
 \bibliography{cites}

@@ -1,27 +1,17 @@
-\usepackage{geometry}
-% margins
-\geometry{
-    a4paper,
-    bottom=70pt,
-    % margin=70pt
-}
-
+\usepackage{quiver}
 \usepackage{prftree}
 \usepackage{graphicx} % Required for inserting images
 \usepackage{amsmath}
-\usepackage{quiver}
 \usepackage{mathrsfs}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{mathtools}
 % \usepackage{preamble}
 \usepackage{multicol}
-\usepackage{hyperref}
-\usepackage{subcaption}
 \usepackage{lipsum}
 \usepackage{stmaryrd}
 \usepackage{float}
-\usepackage[nodisplayskipstretch]{setspace}
+\usepackage{underscore}
 
 % tikz and theorem boxes
 \usepackage[framemethod=TikZ]{mdframed}
@@ -30,7 +20,6 @@
 
 \newcommand{\detcomp}{\,\square\,}
 
-\usepackage{hyperref} % note: this is the final package
-% \parindent = 0pt
-\linespread{1.1}
+\usepackage{etoolbox}
+\apptocmd{\thebibliography}{\raggedright}{}{}
 \newcommand{\oper}{\llbracket \,\, \rrbracket}

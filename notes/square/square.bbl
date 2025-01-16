@@ -1,9 +1,9 @@
 \begin{thebibliography}{1}
 
-\bibitem{cleavelandCHAPTER6Equivalence2001}
-Rance Cleaveland and Oleg Sokolsky.
-\newblock {{CHAPTER}} 6 - {{Equivalence}} and {{Preorder Checking}} for {{Finite-State Systems}}.
-\newblock In J.~A. Bergstra, A.~Ponse, and S.~A. Smolka, editors, {\em Handbook of {{Process Algebra}}}, pages 391--424. Elsevier Science, Amsterdam, January 2001.
+\bibitem{baetenProcessAlgebra1990}
+J.~C.~M. Baeten and W.~P. Weijland.
+\newblock {\em Process {{Algebra}}}.
+\newblock Cambridge {{Tracts}} in {{Theoretical Computer Science}}. Cambridge University Press, Cambridge, 1990.
 
 \bibitem{fokkinkRootedBranchingBisimulation2000}
 Wan Fokkink.

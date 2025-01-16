@@ -688,9 +688,11 @@ Computer Science}}
         \markboth{\bibname}{\bibname}}}
 
 
+%% REMOVE THIS REMOVE THIS REMOVE THIS
 \RequirePackage{silence}
 \WarningFilter{latex}{Command \underbar has changed}
 \WarningFilter{latex}{Command \underline has changed}
+%% REMOVE THIS REMOVE THIS REMOVE THIS
 
 %% Do what is requested with headings and captions... can't include these
 %% packages above because sectsty won't work except from within report.cls

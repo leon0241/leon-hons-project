@@ -1,0 +1,11 @@
+\contentsline {chapter}{\numberline {1}Introduction}{1}{}%
+\contentsline {chapter}{\numberline {2}Background}{2}{}%
+\contentsline {section}{\numberline {2.1}Process Algebra}{2}{}%
+\contentsline {section}{\numberline {2.2}Encodings of Process Algebra}{3}{}%
+\contentsline {section}{\numberline {2.3}CSP}{4}{}%
+\contentsline {section}{\numberline {2.4}ACP}{4}{}%
+\contentsline {chapter}{\numberline {3}Your next chapter}{5}{}%
+\contentsline {chapter}{\numberline {4}Conclusions}{6}{}%
+\contentsline {chapter}{Bibliography}{7}{}%
+\contentsline {chapter}{\numberline {A}First appendix}{9}{}%
+\contentsline {section}{\numberline {A.1}First section}{9}{}%
