@@ -21,7 +21,7 @@
 \setcounter{section}{1}
 \subsection{Prerequisites}
 
-We represent a language $\mathscr{L}$ as a pair $(\mathbb{P}, \oper)$, where $\mathbb{P}$ is a set of valid expressions in $\mathscr{L}$, and $\oper$ is a mapping $\oper : \mathbb{P} \to \mathscr{D}$ from $\mathbb{P}$ to a set of meanings $\mathscr{D}$. We also define $A \subseteq \mathbb{P}$, where $A$ is the set of actions
+We represent a language $\mathscr{L}$ as a pair $(\mathbb{T}, \oper)$, where $\mathbb{T}$ is a set of valid expressions in $\mathscr{L}$, and $\oper$ is a mapping $\oper : \mathbb{T} \to \mathscr{D}$ from $\mathbb{T}$ to a set of meanings $\mathscr{D}$. We also define $A \subseteq \mathbb{T}$, where $A$ is the set of actions
 
 \begin{dfn}[Subsets of A]{dfn:sets}{}
 	We define some subsets of $A$ which we will use in our encodings
@@ -44,7 +44,7 @@ Working similarly to \citep{vanglabbeekExpressivenessACP1995}, we will work in t
 
 \newpage
 \subsection{Triggering in ACP}
-We define an operator $\Gamma(p)$ which acts like the MEIJE triggering operator on a process $p \in \mathbb{P}$. For this, we will use the notation of $a^{\infty}$ to mean $a.a.a\dots$. First, we define a function $f_{1}$ and communications for the operations $\mathtt{first}$ and $\mathtt{next}$.
+We define an operator $\Gamma(p)$ which acts like the MEIJE triggering operator on a process $p \in \mathbb{P}$. For this, we will use the notation of $a^{\infty}$ to mean $\langle X \mid X = a.X \rangle$. First, we define a function $f_{1}$ and communications for the operations $\mathtt{first}$ and $\mathtt{next}$.
 
 \begin{multicols}{2}
 	\begin{dfn}[F1]{dfn:f1}{}
@@ -254,7 +254,9 @@ This works in the following method:
 		\begin{equation}\label{eq:gamma-result}
 			p^{1}_{\mathtt{first}}. p^{2} . p^{3} \dots
 		\end{equation}
-		Which is exactly as stated in Definition \ref{dfn:acp-triggering}.
+	\item Rename $p^{1}_{\mathtt{first}}$ to $p^{1}_{\mathtt{ini}}$. This is to prevent issues with transitivity.
+
+		The process is now exactly as stated in Definition \ref{dfn:acp-triggering}.
 \end{enumerate}
 Note that since $\tau\not\in A$, $\partial_{H_{1}}$ will not restrict $\tau$, and additionally since $\tau$ does not communicate, Step 2 effectively becomes any amount of $\tau$ steps followed by the diagonal trace immediately following that. This results in cases $\Gamma(p)$ where $p = \tau.p^{1}.p^{2}\dots$ becoming the trace
 \[\tau.p^{1}_{\mathtt{first}}.p^{2}.p^{3}\dots\]
@@ -372,7 +374,7 @@ We define formally the definition of Rooted Branching Bisimulation via \citep{ba
 
 In other words, two processes are Rooted Branching Bisimilar if it is strongly bisimilar for the first step, and branching bisimilar for the remaining ones. This is a more desirable outcome because RBB is a congruence \citep{fokkinkRootedBranchingBisimulation2000}.
 
-We can now work towards a proof that the external choice is Rooted Branching Bisimilar. In the case that $P$ and $Q$ don't involve an internal action $\tau$, the translation is strongly bisimilar, and therefore RBB since Strong bisimilarity is a finer congruence than Rooted Branching Bisimilarity.
+We can now work towards a proof that the external choice is Rooted Branching Bisimilar.
 
 \newpage
 
@@ -386,7 +388,6 @@ We can now work towards a proof that the external choice is Rooted Branching Bis
 		
 \end{dfn}
 
-Let $P, Q \in \mathrm{CSP}$ be two processes. WTS $P \square Q =_{\text{RBB}} \mathscr{T}(P \square Q)$. We want to show that any move will result in a process that satisfies RBB.
 
 \begin{lma}[]{lma:tau-transform}{}
 	For processes $P, P'\in \mathrm{CSP}$, if $P \prightarrow{\tau} P'$ then $\Gamma[\mathscr{T}(P)] \prightarrow{\tau} \Gamma[\mathscr{T}(P')]$. Alternatively,
@@ -417,12 +418,9 @@ Let $P, Q \in \mathrm{CSP}$ be two processes. WTS $P \square Q =_{\text{RBB}} \m
 \end{lma}
 
 \begin{proof}
-	The $\Gamma$ function turns a function into a process equation of the form
+	The $\Gamma$ function turns a process into a process equation of the form
 	\[a_{\mathtt{ini}}.b.c\cdots\]
 	the process $a_{\mathtt{ini}}$ does not communicate with anything other than $\mathtt{choose}$ which is not in $A_{0}$. Therefore, the restriction operator will remove all the $\Gamma$ left merges, leaving $b.P'$
-\end{proof}
-\begin{proof}
-	
 \end{proof}
 
 \newpage
@@ -433,26 +431,58 @@ Let $P, Q \in \mathrm{CSP}$ be two processes. WTS $P \square Q =_{\text{RBB}} \m
 	This resulting process is Branching Bisimilar to $\mathscr{T}(a.P')$
 \end{lma}
 
-\textbf{Option 1}: $a$ action
+\begin{proof}
+	using branching bisimilar axiom to some regard? or just compare to def \ref{dfn:rbb}
+\end{proof}
 
-Let $a \in A_{0}$ and $P'\in \mathrm{CSP}$ s.t. $P \prightarrow{a} P'$. In the domain of CSP, this results in the process
+\newpage
+\subsection{Proof of Rooted Branching Bisimilarity}
+\begin{proof}
+	
+Let $P, Q \in \mathrm{CSP}$ be two processes. WTS $P \square Q =_{\text{RBB}} \mathscr{T}(P \square Q)$. I.e.: we want to show that any move will result in a process that satisfies RBB.
+
+\noindent\rule{\textwidth}{0.08ex}
+
+\textbf{Option 1}: $a$ action on $P$. Let $a \in A_{0}$ and $P'\in \mathrm{CSP}$ s.t. $P \prightarrow{a} P'$. In the domain of CSP, this results in the process
+
 		\[P \square Q \prightarrow{a} P'\]
 	
 	Via Lemma \ref{lma:a-transform}, we can now derive the following equation
 	\[\mathscr{T}(P \square Q) = \partial_{H_{0}}\Bigl(f_{1}\Bigl[\Gamma[\mathscr{T}(P)]\, | | \,\mathtt{choose}\, | | \,\Gamma[\mathscr{T}(Q)]\Bigl]\Bigr) \prightarrow{a} \partial_{H_{0}}\Bigl(f_{1}\Bigl[\mathscr{T}(P')\, | | \,\Gamma[\mathscr{T}(Q)]\Bigl]\Bigr)\]
+	This is not yet a process that is comparable to $\mathscr{T}(P')$, so we look at the next step.
 \begin{enumerate}
 	\item \textbf{Case 1}: $\exists b\in A_{0}$ and $Q'\in \mathrm{CSP}$ s.t. $Q \prightarrow{b} Q'$. Then via Lemma \ref{lma:stagnant-inis}, this results in
-		\[\mathscr{T}(P \square Q) = \partial_{H_{0}}(f_{1}[\mathscr{T}(P')]) = \mathscr{T}(P')\]
+		\[\mathscr{T}(P') = \partial_{H_{0}}(f_{1}[\mathscr{T}(P')]) = \mathscr{T}(P')\]
 		Which is strongly bisimilar.
 	\item \textbf{Case 2}: $Q \prightarrow{ \tau} Q'$. Then via Lemma \ref{lma:tau-transform}, we can now derive the following equation:
 
-	\[\mathscr{T}(P \square Q) = \partial_{H_{0}}\Bigl(f_{1}\Bigl[\mathscr{T}(P')\, | | \,\tau.\Gamma[\mathscr{T}(Q')]\Bigl]\Bigr)\]
+	\[\mathscr{T}(P') = \partial_{H_{0}}\Bigl(f_{1}\Bigl[\mathscr{T}(P')\, | | \,\tau.\Gamma[\mathscr{T}(Q')]\Bigl]\Bigr)\]
 		Case 2 can be repeated as many times as needed until $Q$ reaches Case 1. Via Lemma \ref{lma:tau-on-p-process}, this results in
-		\[\mathscr{T}(P \square Q) = \partial_{H_{0}}(f_{1}[\mathscr{T}(P')\, | | \, \Rightarrow]) = (\mathscr{T}(P')\, | | \, \Rightarrow)\]
+		\[\mathscr{T}(P') = \partial_{H_{0}}(f_{1}[\mathscr{T}(P')\, | | \, \Rightarrow]) = (\mathscr{T}(P')\, | | \, \Rightarrow)\]
 		Which is Branching Bisimilar via Lemma \ref{lma:tau-on-p-process}
 \end{enumerate}
 
-\textbf{Option 2}: $\tau$ action. These results can be gained from reversing the order of $P$ and $Q$ using the same logic as above.
+The first action $(a)$ can happen Strongly on the root, and any further actions are either also Strongly Bisimilar, or Branching Bisimilar. Therefore, an $a$ action on $P$ is Rooted Branching Bisimilar
+
+\noindent\rule{\textwidth}{0.08ex}
+
+\textbf{Option 2}: $\tau$ action on $P$. Let $P'\in \mathrm{CSP}$ s.t. $P \prightarrow{\tau} P'$. In the domain of CSP, this results in the process
+\[P \square Q \prightarrow{\tau} P' \square Q\]
+
+	Via Lemma \ref{lma:tau-transform}, we can now derive the following equation
+	\[
+		\partial_{H_{0}}\Bigl(f_{1}\Bigl[\Gamma[\mathscr{T}(P)]\, | | \,\mathtt{choose}\, | | \,\Gamma[\mathscr{T}(Q)]\Bigl]\Bigr) \prightarrow{\tau} \partial_{H_{0}}\Bigl(f_{1}\Bigl[\Gamma[\mathscr{T}(P')]\, | | \,\mathtt{choose}\, | | \,\Gamma[\mathscr{T}(Q)]\Bigl]\Bigr)
+			\]
+Which is strongly bisimilar to $\mathscr{T}(P' \square Q)$, therefore a $\tau$ action on $P$ is also Rooted Branching Bisimilar.
+
+\noindent\rule{\textwidth}{0.08ex}
+
+\textbf{Option 3, Option 4}: The same logic from option $1$ and option $2$ can be applied to $Q$ in reverse to obtain processes that satisfy Rooted Branching Bisimilarity.
+
+\noindent\rule{\textwidth}{0.08ex}
+
+We have now exhausted cases, and therefore can conclude that our translation of CSP External Choice is Rooted Branching Bisimilar, and therefore a Congruence.
+\end{proof}
 
 \newpage
 \bibliography{cites}
