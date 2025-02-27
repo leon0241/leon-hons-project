@@ -1,11 +1,16 @@
-\contentsline {chapter}{\numberline {1}Introduction}{1}{}%
-\contentsline {chapter}{\numberline {2}Background}{2}{}%
-\contentsline {section}{\numberline {2.1}Process Algebra}{2}{}%
-\contentsline {section}{\numberline {2.2}Encodings of Process Algebra}{3}{}%
-\contentsline {section}{\numberline {2.3}CSP}{4}{}%
-\contentsline {section}{\numberline {2.4}ACP}{4}{}%
-\contentsline {chapter}{\numberline {3}Your next chapter}{5}{}%
-\contentsline {chapter}{\numberline {4}Conclusions}{6}{}%
-\contentsline {chapter}{Bibliography}{7}{}%
-\contentsline {chapter}{\numberline {A}First appendix}{9}{}%
-\contentsline {section}{\numberline {A.1}First section}{9}{}%
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Background}{2}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Process Algebra}{2}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Encodings of Process Algebra}{3}{section.2.2}%
+\contentsline {section}{\numberline {2.3}CSP}{4}{section.2.3}%
+\contentsline {section}{\numberline {2.4}ACP}{4}{section.2.4}%
+\contentsline {chapter}{\numberline {3}A formal definition of CSP and ACP}{5}{chapter.3}%
+\contentsline {chapter}{\numberline {4}A Translation of CSP to ACP}{6}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Direct Translations}{6}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Trivial Translations}{6}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Helper Operators for $ACP_{F}^{\tau }$}{7}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Triggering}{8}{subsection.4.3.1}%
+\contentsline {chapter}{\numberline {5}Conclusions}{9}{chapter.5}%
+\contentsline {chapter}{Bibliography}{10}{chapter*.2}%
+\contentsline {chapter}{\numberline {A}First appendix}{12}{appendix.A}%
+\contentsline {section}{\numberline {A.1}First section}{12}{section.A.1}%

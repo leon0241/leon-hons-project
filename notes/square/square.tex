@@ -44,14 +44,18 @@ Working similarly to \citep{vanglabbeekExpressivenessACP1995}, we will work in t
 
 \newpage
 \subsection{Triggering in ACP}
-We define an operator $\Gamma(p)$ which acts like the MEIJE triggering operator on a process $p \in \mathbb{P}$. For this, we will use the notation of $a^{\infty}$ to mean $\langle X \mid X = a.X \rangle$. First, we define a function $f_{1}$ and communications for the operations $\mathtt{first}$ and $\mathtt{next}$.
+We define an operator $\Gamma(P)$ which acts like the MEIJE triggering operator on a process $P \in \mathbb{P}$. For this, we will use the notation of $a^{\infty}$ to mean $\langle X \mid X = a.X \rangle$. First, we define a function $f_{1}$ and communications for the operations $\mathtt{first}$ and $\mathtt{next}$.
 
 \begin{multicols}{2}
 	\begin{dfn}[F1]{dfn:f1}{}
-		Define functions $f_{1}: A \to A$ and $f_{2} : A \to A$ where
+		Define functions $f_{1}: A \to A$ where
+		% \begin{align*}
+			% 	f_{1}(a_{\mathtt{post}}) &= a & f_{2}(a_{\mathtt{first}}) &= a_{\mathtt{first}} \\
+			% 	f_{1}(a) &= a & f_{2}(a_{\mathtt{next}}) &= a 
+			% \end{align*}
 			\begin{align*}
-				f_{1}(a_{\mathtt{first}}) &= a_{\mathtt{first}} & f_{2}(a_{\mathtt{first}}) &= a_{\mathtt{ini}} \\
-				f_{1}(a_{\mathtt{next}}) &= a & f_{2}(a_{\mathtt{next}}) &= a 
+				f_{1}(a_{\mathtt{first}}) &= a_{\mathtt{first}} \\
+				f_{1}(a_{\mathtt{next}}) &= a 
 			\end{align*}
 	\end{dfn}
 
@@ -68,198 +72,197 @@ We define an operator $\Gamma(p)$ which acts like the MEIJE triggering operator 
 
 We can now define $\Gamma(p)$ as such:
 
+\begin{dfn}[Triggering in ACP]{dfn:acp-triggering}{}
+	\[\Gamma(P) := \rho_{f_{1}}[\partial_{H_{1}}(p | | \mathtt{first}(\mathtt{next}^{\infty}))])\]
+	is an operator that turns a trace of a process $P$, $a.b.c.\dots$ into the trace
+	\[a_{\mathtt{first}}. b. c. \dots\]
+\end{dfn}
+
 \begin{figure}[!ht]
 	\centering
 
 	\begin{subfigure}[b]{0.475\textwidth}
 		\[\begin{tikzcd}[cramped, column sep=scriptsize]
-	& \bullet && \bullet && \bullet && \bullet \\
-			\bullet & \bullet && \bullet && \bullet && \bullet \\
-			\\
-			\bullet & \bullet && \bullet && \bullet && \bullet \\
-			\\
-			\bullet & \bullet && \bullet && \bullet && \bullet \\
-			\\
-			\bullet & \bullet && \bullet && \bullet && \bullet
-			\arrow["{p^1}", from=1-2, to=1-4]
-			\arrow["{p^2}", from=1-4, to=1-6]
-			\arrow["{p^3}", from=1-6, to=1-8]
-			\arrow["{\mathtt{first}}"', from=2-1, to=4-1]
-			\arrow["{p^1}", from=2-2, to=2-4]
-			\arrow["{\mathtt{first}}"', from=2-2, to=4-2]
-			\arrow["{p^2}", from=2-4, to=2-6]
-			\arrow["{\mathtt{first}}"', from=2-4, to=4-4]
-			\arrow["{p^3}", from=2-6, to=2-8]
-			\arrow["{\mathtt{first}}"', from=2-6, to=4-6]
-			\arrow["{\mathtt{first}}"', from=2-8, to=4-8]
-			\arrow["{\mathtt{next}}"', from=4-1, to=6-1]
-			\arrow["{p^1}", from=4-2, to=4-4]
-			\arrow["{\mathtt{next}}"', from=4-2, to=6-2]
-			\arrow["{p^2}", from=4-4, to=4-6]
-			\arrow["{\mathtt{next}}"', from=4-4, to=6-4]
-			\arrow["{p^3}", from=4-6, to=4-8]
-			\arrow["{\mathtt{next}}"', from=4-6, to=6-6]
-			\arrow["{\mathtt{next}}"', from=4-8, to=6-8]
-			\arrow["{\mathtt{next}}"', from=6-1, to=8-1]
-			\arrow["{p^1}", from=6-2, to=6-4]
-			\arrow["{\mathtt{next}}"', from=6-2, to=8-2]
-			\arrow["{p^2}", from=6-4, to=6-6]
-			\arrow["{\mathtt{next}}"', from=6-4, to=8-4]
-			\arrow["{p^3}", from=6-6, to=6-8]
-			\arrow["{\mathtt{next}}"', from=6-6, to=8-6]
-			\arrow["{\mathtt{next}}"', from=6-8, to=8-8]
-			\arrow["{p^1}", from=8-2, to=8-4]
-			\arrow["{p^2}", from=8-4, to=8-6]
-			\arrow["{p^3}", from=8-6, to=8-8]
-		\end{tikzcd}\]
+& \bullet && \bullet && \bullet && \bullet \\
+	\bullet & \bullet && \bullet && \bullet && \bullet \\
+	\\
+	\bullet & \bullet && \bullet && \bullet && \bullet \\
+	\\
+	\bullet & \bullet && \bullet && \bullet && \bullet \\
+	\\
+	\bullet & \bullet && \bullet && \bullet && \bullet
+	\arrow["a", from=1-2, to=1-4]
+	\arrow["b", from=1-4, to=1-6]
+	\arrow["c", from=1-6, to=1-8]
+	\arrow["{\mathtt{first}}"', from=2-1, to=4-1]
+	\arrow["a", from=2-2, to=2-4]
+	\arrow["{\mathtt{first}}"', from=2-2, to=4-2]
+	\arrow["b", from=2-4, to=2-6]
+	\arrow["{\mathtt{first}}"', from=2-4, to=4-4]
+	\arrow["c", from=2-6, to=2-8]
+	\arrow["{\mathtt{first}}"', from=2-6, to=4-6]
+	\arrow["{\mathtt{first}}"', from=2-8, to=4-8]
+	\arrow["{\mathtt{next}}"', from=4-1, to=6-1]
+	\arrow["a", from=4-2, to=4-4]
+	\arrow["{\mathtt{next}}"', from=4-2, to=6-2]
+	\arrow["b", from=4-4, to=4-6]
+	\arrow["{\mathtt{next}}"', from=4-4, to=6-4]
+	\arrow["c", from=4-6, to=4-8]
+	\arrow["{\mathtt{next}}"', from=4-6, to=6-6]
+	\arrow["{\mathtt{next}}"', from=4-8, to=6-8]
+	\arrow["{\mathtt{next}}"', from=6-1, to=8-1]
+	\arrow["a", from=6-2, to=6-4]
+	\arrow["{\mathtt{next}}"', from=6-2, to=8-2]
+	\arrow["b", from=6-4, to=6-6]
+	\arrow["{\mathtt{next}}"', from=6-4, to=8-4]
+	\arrow["c", from=6-6, to=6-8]
+	\arrow["{\mathtt{next}}"', from=6-6, to=8-6]
+	\arrow["{\mathtt{next}}"', from=6-8, to=8-8]
+	\arrow["a", from=8-2, to=8-4]
+	\arrow["b", from=8-4, to=8-6]
+	\arrow["c", from=8-6, to=8-8]
+\end{tikzcd}\]
 		\caption{Step 1 - Left Merge on both sides}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}[b]{0.475\textwidth}
 		\[\begin{tikzcd}[cramped, column sep=scriptsize]
-			\bullet && \bullet && \bullet && \bullet \\
-			\\
-			\bullet && \bullet && \bullet && \bullet \\
-			\\
-			\bullet && \bullet && \bullet && \bullet \\
-			\\
-			\bullet && \bullet && \bullet && \bullet
-			\arrow["{p^1}", from=1-1, to=1-3]
-			\arrow["{\mathtt{first}}"', from=1-1, to=3-1]
-			\arrow["{p^1_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=3-3]
-			\arrow["{p^2}", from=1-3, to=1-5]
-			\arrow["{\mathtt{first}}"', from=1-3, to=3-3]
-			\arrow["{p^2_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=3-5]
-			\arrow["{p^3}", from=1-5, to=1-7]
-			\arrow["{\mathtt{first}}"', from=1-5, to=3-5]
-			\arrow["{p^3_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-5, to=3-7]
-			\arrow["{\mathtt{first}}"', from=1-7, to=3-7]
-			\arrow["{p^1}", from=3-1, to=3-3]
-			\arrow["{\mathtt{next}}"', from=3-1, to=5-1]
-			\arrow["{p^1_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-1, to=5-3]
-			\arrow["{p^2}", from=3-3, to=3-5]
-			\arrow["{\mathtt{next}}"', from=3-3, to=5-3]
-			\arrow["{p^2_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-3, to=5-5]
-			\arrow["{p^3}", from=3-5, to=3-7]
-			\arrow["{\mathtt{next}}"', from=3-5, to=5-5]
-			\arrow["{p^3_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-5, to=5-7]
-			\arrow["{\mathtt{next}}"', from=3-7, to=5-7]
-			\arrow["{p^1}", from=5-1, to=5-3]
-			\arrow["{\mathtt{next}}"', from=5-1, to=7-1]
-			\arrow["{p^1_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-1, to=7-3]
-			\arrow["{p^2}", from=5-3, to=5-5]
-			\arrow["{\mathtt{next}}"', from=5-3, to=7-3]
-			\arrow["{p^2_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-3, to=7-5]
-			\arrow["{p^3}", from=5-5, to=5-7]
-			\arrow["{\mathtt{next}}"', from=5-5, to=7-5]
-			\arrow["{p^3_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-5, to=7-7]
-			\arrow["{\mathtt{next}}"', from=5-7, to=7-7]
-			\arrow["{p^1}", from=7-1, to=7-3]
-			\arrow["{p^2}", from=7-3, to=7-5]
-			\arrow["{p^3}", from=7-5, to=7-7]
-		\end{tikzcd}\]
-		\caption{Step 1 - Communications}
+\bullet && \bullet && \bullet && \bullet \\
+	\\
+	\bullet && \bullet && \bullet && \bullet \\
+	\\
+	\bullet && \bullet && \bullet && \bullet \\
+	\\
+	\bullet && \bullet && \bullet && \bullet
+	\arrow["a", from=1-1, to=1-3]
+	\arrow["{\mathtt{first}}"', from=1-1, to=3-1]
+	\arrow["{a_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=3-3]
+	\arrow["b", from=1-3, to=1-5]
+	\arrow["{\mathtt{first}}"', from=1-3, to=3-3]
+	\arrow["{b_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=3-5]
+	\arrow["c", from=1-5, to=1-7]
+	\arrow["{\mathtt{first}}"', from=1-5, to=3-5]
+	\arrow["{c_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-5, to=3-7]
+	\arrow["{\mathtt{first}}"', from=1-7, to=3-7]
+	\arrow["a", from=3-1, to=3-3]
+	\arrow["{\mathtt{next}}"', from=3-1, to=5-1]
+	\arrow["{a_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-1, to=5-3]
+	\arrow["b", from=3-3, to=3-5]
+	\arrow["{\mathtt{next}}"', from=3-3, to=5-3]
+	\arrow["{b_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-3, to=5-5]
+	\arrow["c", from=3-5, to=3-7]
+	\arrow["{\mathtt{next}}"', from=3-5, to=5-5]
+	\arrow["{c_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-5, to=5-7]
+	\arrow["{\mathtt{next}}"', from=3-7, to=5-7]
+	\arrow["a", from=5-1, to=5-3]
+	\arrow["{\mathtt{next}}"', from=5-1, to=7-1]
+	\arrow["{a_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-1, to=7-3]
+	\arrow["b", from=5-3, to=5-5]
+	\arrow["{\mathtt{next}}"', from=5-3, to=7-3]
+	\arrow["{b_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-3, to=7-5]
+	\arrow["c", from=5-5, to=5-7]
+	\arrow["{\mathtt{next}}"', from=5-5, to=7-5]
+	\arrow["{c_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-5, to=7-7]
+	\arrow["{\mathtt{next}}"', from=5-7, to=7-7]
+	\arrow["a", from=7-1, to=7-3]
+	\arrow["b", from=7-3, to=7-5]
+	\arrow["c", from=7-5, to=7-7]
+\end{tikzcd}\]
+		\caption{Step 2 - Communications}
 	\end{subfigure}
 
 	\begin{subfigure}[b]{0.475\textwidth}
 		\[\begin{tikzcd}[cramped, column sep=scriptsize]
-			\bullet && \bullet && \bullet && \bullet \\
-			\\
-			\bullet && \bullet && \bullet && \bullet \\
-			\\
-			\bullet && \bullet && \bullet && \bullet \\
-			\\
-			\bullet && \bullet && \bullet && \bullet
-			\arrow["{p^1}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-1, to=1-3]
-			\arrow["{\mathtt{first}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-1, to=3-1]
-			\arrow["{p^1_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=3-3]
-			\arrow["{p^2}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-3, to=1-5]
-			\arrow["{\mathtt{first}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-3, to=3-3]
-			\arrow["{p^2_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=3-5]
-			\arrow["{p^3}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-5, to=1-7]
-			\arrow["{\mathtt{first}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-5, to=3-5]
-			\arrow["{p^3_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-5, to=3-7]
-			\arrow["{\mathtt{first}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-7, to=3-7]
-			\arrow["{p^1}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-1, to=3-3]
-			\arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-1, to=5-1]
-			\arrow["{p^1_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-1, to=5-3]
-			\arrow["{p^2}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-3, to=3-5]
-			\arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-3, to=5-3]
-			\arrow["{p^2_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-3, to=5-5]
-			\arrow["{p^3}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-5, to=3-7]
-			\arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-5, to=5-5]
-			\arrow["{p^3_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-5, to=5-7]
-			\arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-7, to=5-7]
-			\arrow["{p^1}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-1, to=5-3]
-			\arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-1, to=7-1]
-			\arrow["{p^1_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-1, to=7-3]
-			\arrow["{p^2}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-3, to=5-5]
-			\arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-3, to=7-3]
-			\arrow["{p^2_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-3, to=7-5]
-			\arrow["{p^3}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-5, to=5-7]
-			\arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-5, to=7-5]
-			\arrow["{p^3_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-5, to=7-7]
-			\arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-7, to=7-7]
-			\arrow["{p^1}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=7-1, to=7-3]
-			\arrow["{p^2}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=7-3, to=7-5]
-			\arrow["{p^3}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=7-5, to=7-7]
-		\end{tikzcd}\]
-		\caption{Step 2 - Restriction of $H_{1}$}
+\bullet && \bullet && \bullet && \bullet \\
+	\\
+	\bullet && \bullet && \bullet && \bullet \\
+	\\
+	\bullet && \bullet && \bullet && \bullet \\
+	\\
+	\bullet && \bullet && \bullet && \bullet
+	\arrow["a", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-1, to=1-3]
+	\arrow["{\mathtt{first}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-1, to=3-1]
+	\arrow["{a_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=3-3]
+	\arrow["b", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-3, to=1-5]
+	\arrow["{\mathtt{first}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-3, to=3-3]
+	\arrow["{b_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=3-5]
+	\arrow["c", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-5, to=1-7]
+	\arrow["{\mathtt{first}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-5, to=3-5]
+	\arrow["{c_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-5, to=3-7]
+	\arrow["{\mathtt{first}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-7, to=3-7]
+	\arrow["a", color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-1, to=3-3]
+	\arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-1, to=5-1]
+	\arrow["{a_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-1, to=5-3]
+	\arrow["b", color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-3, to=3-5]
+	\arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-3, to=5-3]
+	\arrow["{b_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-3, to=5-5]
+	\arrow["c", color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-5, to=3-7]
+	\arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-5, to=5-5]
+	\arrow["{c_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-5, to=5-7]
+	\arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-7, to=5-7]
+	\arrow["a", color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-1, to=5-3]
+	\arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-1, to=7-1]
+	\arrow["{a_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-1, to=7-3]
+	\arrow["b", color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-3, to=5-5]
+	\arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-3, to=7-3]
+	\arrow["{b_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-3, to=7-5]
+	\arrow["c", color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-5, to=5-7]
+	\arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-5, to=7-5]
+	\arrow["{c_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-5, to=7-7]
+	\arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-7, to=7-7]
+	\arrow["a", color={rgb,255:red,214;green,92;blue,92}, dashed, from=7-1, to=7-3]
+	\arrow["b", color={rgb,255:red,214;green,92;blue,92}, dashed, from=7-3, to=7-5]
+	\arrow["c", color={rgb,255:red,214;green,92;blue,92}, dashed, from=7-5, to=7-7]
+\end{tikzcd}\]
+		\caption{Step 3 - Restriction of $H_{1}$}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}[b]{0.475\textwidth}
 		\[\begin{tikzcd}[cramped, column sep=scriptsize]
-			\bullet \\
-			\\
+	\bullet \\
+	\\
 	&& \bullet \\
 	\\
 	&&&& \bullet \\
 	\\
 	&&&&&& \bullet
-	\arrow["{p^1_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=3-3]
-	\arrow["{p^2_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-3, to=5-5]
-	\arrow["{p^3_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-5, to=7-7]
-		\end{tikzcd}\]
+	\arrow["{a_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=3-3]
+	\arrow["{b_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-3, to=5-5]
+	\arrow["{c_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-5, to=7-7]
+\end{tikzcd}\]
 		\caption{Step 2 - Result of Restriction}
 	\end{subfigure}
 
 	\begin{subfigure}[b]{0.475\textwidth}
 		\[\begin{tikzcd}[cramped]
-			\bullet && \bullet && \bullet && \bullet
-			\arrow["{p^1_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=1-3]
-			\arrow["{p^2}"', color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=1-5]
-			\arrow["{p^3}"', color={rgb,255:red,92;green,92;blue,214}, from=1-5, to=1-7]
-		\end{tikzcd}\]
+	\bullet && \bullet && \bullet && \bullet
+	\arrow["{a_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=1-3]
+	\arrow["b"', color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=1-5]
+	\arrow["c"', color={rgb,255:red,92;green,92;blue,214}, from=1-5, to=1-7]
+\end{tikzcd}\]
 		\caption{Result of Functional Renaming}
 	\end{subfigure}
-	\caption{Example of $\Gamma(p)$ applied to $p = p^{1}.p^{2}.p^{3}$}
+	\caption{Example of $\Gamma(P)$ applied to $P = a.b.c$}
 \end{figure}
-
-\begin{dfn}[Triggering in ACP]{dfn:acp-triggering}{}
-	\[\Gamma(p) := f_{2}(\rho_{f_{1}}[\partial_{H_{1}}(p | | \mathtt{first}(\mathtt{next}^{\infty}))])\]
-	is an operator that turns a trace of a process $p$, $p_{1}.p_{2}.p_{3}.\dots$ into the trace
-	\[p_{\mathtt{ini}}^{1}. p^{2}. p^{3}. p^{4}.\dots\]
-\end{dfn}
 
 \newpage
 This works in the following method:
 \vspace{-5pt}
 \begin{enumerate}
-	\item Merge the process $p$ with the process $\mathtt{first}.\mathtt{next}.\mathtt{next}\dots$. Via \ref{dfn:comm-triggering}, this will produce a lattice of $p$ and $\mathtt{first}.(\mathtt{next}^{\infty})$, with communications on every square, but most importantly, a chain of communications going down the centre of the form.
+	\item Merge the process $P$ with the process $\mathtt{first}.\mathtt{next}.\mathtt{next}\dots$. Via \ref{dfn:comm-triggering}, this will produce a lattice of $P$ and $\mathtt{first}.(\mathtt{next}^{\infty})$, with communications on every square, but most importantly, a chain of communications going down the centre of the form.
 		\begin{equation}\label{eq:fnn}
-			p^{1}_{\mathtt{first}}. p^{2}_{\mathtt{next}} . p^{3}_{\mathtt{next}} \dots
+			a_{\mathtt{first}}. b_{\mathtt{next}} . c_{\mathtt{next}} \dots
 		\end{equation}
-	\item Restrict the actions in $H_{1}$. Since both $p, \mathtt{first}.(\mathtt{next}^{\infty}) \in H_{1}$ this effectively restricts both sides of the left merge, leaving only communications from the initial state. This leaves equation \ref{eq:fnn} as the only remaining trace.
+	\item Restrict the actions in $H_{1}$. Since all the actions in $P, \mathtt{first}.(\mathtt{next}^{\infty}) \in H_{1}$ this effectively restricts both sides of the left merge, leaving only communications from the initial state. This leaves equation \ref{eq:fnn} as the only remaining trace.
 	\item Apply $\rho_{f_{1}}$ to equation \ref{eq:fnn}. Via \ref{dfn:f1}, the final result is
 		\begin{equation}\label{eq:gamma-result}
-			p^{1}_{\mathtt{first}}. p^{2} . p^{3} \dots
+			a_{\mathtt{first}}. b . c \dots
 		\end{equation}
-	\item Rename $p^{1}_{\mathtt{first}}$ to $p^{1}_{\mathtt{ini}}$. This is to prevent issues with transitivity.
 
 		The process is now exactly as stated in Definition \ref{dfn:acp-triggering}.
 \end{enumerate}
-Note that since $\tau\not\in A$, $\partial_{H_{1}}$ will not restrict $\tau$, and additionally since $\tau$ does not communicate, Step 2 effectively becomes any amount of $\tau$ steps followed by the diagonal trace immediately following that. This results in cases $\Gamma(p)$ where $p = \tau.p^{1}.p^{2}\dots$ becoming the trace
-\[\tau.p^{1}_{\mathtt{first}}.p^{2}.p^{3}\dots\]
+Note that since $\tau\not\in A$, $\partial_{H_{1}}$ will not restrict $\tau$, and additionally since $\tau$ does not communicate, Step 2 effectively becomes any amount of $\tau$ steps followed by the diagonal trace immediately following that. This results in cases $\Gamma(P)$ where $P = \tau.b.c\dots$ becoming the trace
+\[\tau.b_{\mathtt{first}}.c.\dots\]
 effectively skipping $\tau$'s, then acting the same as processes that don't start with a $\tau$.
 
 
@@ -273,16 +276,28 @@ In other words, we can take an external choice by the user, and additionally an 
 
 For our encoding, we take $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{choose}\}$ as defined in Definition \ref{dfn:sets}. We then modify Definition \ref{dfn:comm-triggering} to include an additional communication for $\mathtt{choose}$ to make
 
-\begin{dfn}[Communication for CSP External Choice]{dfn:comm-ext-choice}{}
-	\vspace{-8pt}
-	\[a | \mathtt{first} = a_{\mathtt{first}} \qquad a | \mathtt{next} = a_{\mathtt{next}} \qquad a_{\mathtt{ini}} | \mathtt{choose} = a\]
-		
+\begin{multicols}{2}
+
+\begin{dfn}[Communication]{dfn:comm-ext-choice}{}
+	In addition to the communications defined in $\ref{dfn:comm-triggering}$,
+	\[a | \mathtt{first} = a_{\mathtt{first}} \qquad a | \mathtt{next} = a_{\mathtt{next}} \]
+	We define an additional communication for the operator $\mathtt{choose}$
+	\[a_{\mathtt{first}} | \mathtt{choose} = a_{\mathtt{post}}\]
 \end{dfn}
 
+\begin{dfn-s}[Compatability Func.]{dfn:}{}
+	In addition to the function $f_{1}$ defined in \ref{dfn:f1},
+	\[f_{1}(a_{\mathtt{first}}) = a_{first} \quad f_{1}(a_{\mathtt{next}}) = a\]
+	We define a compatibility function to prevent issues with transitivity. Let $f_{2} : A \to A$ where
+	\[f_{2}(a_{\mathtt{post}}) = a \quad f_{2}(
+	\alpha) = \alpha\]
+\end{dfn-s}
+\end{multicols}
+
 We can then define an encoding of the CSP external choice operator $\square$ in ACP in the following equation
-\[\mathscr{T}(P \square Q) = \partial_{H_{0}}\Bigl(f_{1}\Bigl[\Gamma[\mathscr{T}(P)]\, | | \,\mathtt{choose}\, | | \,\Gamma[\mathscr{T}(Q)]\Bigl]\Bigr)\]
+\[\mathscr{T}(P \square Q) = \partial_{H_{0}}\Bigl(\rho_{f_{2}}\Bigl[\Gamma[\mathscr{T}(P)]\, | | \,\mathtt{choose}\, | | \,\Gamma[\mathscr{T}(Q)]\Bigl]\Bigr)\]
 On a process without $\tau$, the function
-\[\partial_{H_{0}}\Bigl(f_{1}\Bigl[\Gamma(P)\, | | \,\mathtt{choose}\, | | \,\Gamma(Q)\Bigr]\Bigr)\]
+\[\partial_{H_{0}}\Bigl(\rho_{f_{2}}\Bigl[\Gamma(P)\, | | \,\mathtt{choose}\, | | \,\Gamma(Q)\Bigr]\Bigr)\]
 has identical behaviour to $P + Q$
 
 On processes with internal actions, which we will call $\mathcal{P} = \tau_{P}.a.P$ and $\mathcal{Q} = \tau_{Q}.b.Q$, where $\tau_{P}$ indicates the number of starting $\tau$ actions in the process, possibly 0, the $\tau$ cannot communicate with $\mathtt{choose}$ so $\mathtt{choose}$ will only communicate with $a$ (Since only $a$ will be labelled with $\mathtt{first}$). However, the first action of $Q$ will still have the name $b_{\mathtt{first}}$ for $b\in A$. This lets the function effectively skip the $\tau$, then perform $\mathtt{choose}$ on $a.P \,| | \,b.Q$ which matches the behaviour of CSP $\square$. 

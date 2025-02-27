@@ -61,15 +61,10 @@
 \newenvironment{thmbox}[6][]{%
     % Argument 3 is a custom number
     \ifstrempty{#3}
-        % {
-        %     % If argument 3 isn't provided, then use the subsubsection numbering
-        %     \refstepcounter{subsubsection}
-        %     \newcommand{\thethmbox}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
-        % }
         {
             % If argument 3 isn't provided, then use the subsubsection numbering
             \refstepcounter{subsubsection}
-            \newcommand{\thethmbox}{\arabic{chapter}.\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+            \newcommand{\thethmbox}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
         }
         {
             \newcommand{\thethmbox}{#3}

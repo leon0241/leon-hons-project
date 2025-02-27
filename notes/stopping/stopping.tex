@@ -1,0 +1,199 @@
+\documentclass{article}
+
+\title{An Encoding of the CSP Stopping operator to ACP\texorpdfstring{$_{\tau}$}{ tau}}
+\author{Leon Lee}
+\renewcommand\labelitemi{\tiny$\bullet$}
+\newcommand{\lmerge}{\mbox{$\,\|\hspace{-1.1ex}
+\raisebox{-1.2ex}[0pt][0pt]{$-\!\!\!-\!\!$}$}}	% left-merge
+
+\usepackage{enumitem}
+\usepackage{amsthm}
+\usepackage{centernot}
+\usepackage{natbib}
+\bibliographystyle{plain} % We choose the "plain" reference style
+\usepackage{preamble}
+
+
+
+\begin{document}
+
+\maketitle
+
+\setcounter{section}{1}
+
+\subsection{Prerequisites}
+
+\begin{dfn}[Subsets of A]{dfn:sets}{}
+	We define some subsets of $A$ which we will use in our encodings
+	\begin{itemize}
+		\item $A_{0} \subseteq A$ is the set of actions that actually get used in processes
+		\item $H_{0} = A - A_{0}$ is the set of working space operators, or any other action that doesn't get used
+		\item $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{left}, \mathtt{right}\}$ is the set of actions, plus some working operators
+	\end{itemize}
+
+	In general, $A_{0} \subseteq H_{1} \subseteq A$.
+
+	Note that the silent step is not defined in $A$, and we will define $A_{\tau}$ to be $A \cup \{\tau\}$
+\end{dfn}
+
+\begin{multicols}{2}
+\begin{dfn}[F1]{dfn:f1}{}
+	Define a function $f_{1} : A \to A$ where
+	\begin{align*}
+	f_{1}(a_{\mathtt{first}}) = a_{\mathtt{first}}\\
+	f_{1}(a_{\mathtt{next}}) = a
+	\end{align*}
+\end{dfn}
+
+\begin{dfn}[Communications]{dfn:comms}{}
+	Define Communications where
+	\begin{align*}
+		a | \mathtt{first} = a_{\mathtt{first}}\\
+		a | \mathtt{next} = a_{\mathtt{next}} \\
+		a | \mathtt{left} = a_{\mathtt{left}}
+	\end{align*}
+\end{dfn}
+\end{multicols}
+
+We define triggering as the same as external choice
+
+\begin{dfn}[Triggering]{dfn:triggering}{}
+	The operator $\Gamma(P)$ turns a trace of a process $P$, $a.b.c . \dots$ into the trace
+	\[a_{\mathtt{first}}.b.c . \dots\]
+	and is defined as
+	\[\Gamma(P) = \rho_{f_{1}}[\partial_{H_{1}}(p | | \mathtt{first}(\mathtt{next}^{\infty}))]\]
+\end{dfn}
+
+\newpage
+We also define an operator which will tag every action in a process with the identifier of ``$\mathtt{left}$''.
+
+\begin{dfn}[Left-Tagging]{dfn:lefter}{}
+	The operator $\Phi(P)$ turns a trace of a process $P$, $a.b.c$ into the trace
+	\[a_{\mathtt{left}}.b_{\mathtt{left}}.c_{\mathtt{left}}\]
+	and is defined as
+	\[\Phi(P) = \partial_{H_{1}}\left(P | | (\mathtt{left})^{\infty}\right)\]
+\end{dfn}
+
+
+\newpage
+\subsection{Translating the CSP Stopping Operator}
+The stopping operator $\triangle$ is defined with the following rules:
+
+\[\prftree{P \prightarrow{\alpha} P'}{P \triangle Q \prightarrow{\alpha} P' \triangle Q} \qquad \prftree{Q \prightarrow{\tau} Q'}{P \triangle Q \prightarrow{\tau} P \triangle Q'} \qquad \prftree{Q \prightarrow{a} Q'}{P \triangle Q \prightarrow{a} Q'}\]
+
+In other words, we can take an external choice from $P$ without interrupting the operator, in addition to internal choices from $Q$. However, the moment an external choice is made from $Q$, the process will then never return to $P$.
+
+For our encoding, we take $H_{1} = \{\mathtt{first}, \mathtt{next}, \mathtt{left}, \mathtt{origin}, \mathtt{split}\}$ as defined in \ref{dfn:sets}. We then modify Definition \ref{dfn:comms} to include additional communications for the operators $\mathtt{origin}$ and $\mathtt{split}$
+
+\begin{dfn}[Communications Modified]{dfn:comms-2}{}
+	In addition to the communications defined in \ref{dfn:comms}:
+	\[
+		a | \mathtt{first} = a_{\mathtt{first}} \quad
+		a | \mathtt{next} = a_{\mathtt{next}} \quad
+		a | \mathtt{left} = a_{\mathtt{left}}
+	\]
+	We define communications for the operators $\mathtt{origin}$ as follows:
+	\[a_{\mathtt{left}} | \mathtt{origin} = a_{\mathtt{post}} \quad a_{\mathtt{first}} | \mathtt{split} = a_{\mathtt{post}}\]
+\end{dfn}
+
+\begin{dfn}[Functions Modified]{dfn:f2}{}
+	In addition to the function $f_{1}$ defined in \ref{dfn:f1},
+
+
+	\[f_{1}(a_{\mathtt{first}}) = a_{\mathtt{first}} \quad
+	f_{1}(a_{\mathtt{next}}) = a
+\]
+	We define a compatibility function to prevent issues with transitivity. Let $f_{2} : A \to A$ where
+	\[f_{2}(a_{\mathtt{post}}) = a\]
+\end{dfn}
+
+We can now define an encoding of the CSP Stopping operator $\triangle$ in $ACP_{\tau}$. We start off with a new process, which we will call $\sigma$. This is defined as the process
+\[\sigma = (\mathtt{origin})^{\infty}.(\mathtt{split})^{\infty}\]
+Or, visualised as a process graph:
+% https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXGNpcmMiXSxbMiwwLCJcXGJ1bGxldCJdLFs0LDAsIlxcYnVsbGV0Il0sWzAsMSwiXFxtYXRodHR7b3JpZ2lufSJdLFsxLDEsIlxcbWF0aHR0e29yaWdpbn0iXSxbMSwyLCJcXG1hdGh0dHtzcGxpdH0iXSxbMiwyLCJcXG1hdGh0dHtzcGxpdH0iXV0=
+\[\begin{tikzcd}[]
+	\circ && \bullet && \bullet
+	\arrow["{\mathtt{origin}}", from=1-1, to=1-3]
+	\arrow["{\mathtt{origin}}", from=1-3, to=1-3, loop, in=55, out=125, distance=10mm]
+	\arrow["{\mathtt{split}}", from=1-3, to=1-5]
+	\arrow["{\mathtt{split}}", from=1-5, to=1-5, loop, in=55, out=125, distance=10mm]
+\end{tikzcd}\]
+
+From this, an encoding can be written in the following way:
+\[\mathscr{T}(P \triangle Q) = \partial_{H_{0}}\Bigl(\rho_{f_{2}}\Bigl[
+			(\Phi(\mathscr{T}(P)) | | \sigma) | | \Gamma(\mathscr{T}(Q))
+\Bigr]\Bigr)\]
+
+Similarly to external choice, this is also Rooted Branching Bisimilar.
+
+A counterexample to the encoding being Strongly Bisimilar is with the trivial example
+\[P = \tau,\,Q = b\]
+This should yield the following process graph:
+% https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGNpcmMiXSxbMiwwLCJcXGJ1bGxldCJdLFswLDIsIlxcYnVsbGV0Il0sWzIsMiwiXFxidWxsZXQiXSxbMCwxLCJcXHRhdSIsMix7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzAsMiwiYiIsMCx7ImNvbG91ciI6WzI0MCw2MCw2MF19LFsyNDAsNjAsNjAsMV1dLFsxLDMsImIiLDAseyJjb2xvdXIiOlsyNDAsNjAsNjBdfSxbMjQwLDYwLDYwLDFdXV0=
+\[\begin{tikzcd}[cramped, column sep=scriptsize]
+	\circ && \bullet \\
+	\\
+	\bullet && \bullet
+	\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=1-1, to=1-3]
+	\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=3-1]
+	\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=3-3]
+\end{tikzcd}\]
+
+However, it yields the following
+
+% https://q.uiver.app/#q=WzAsMTYsWzUsNCwiXFxjaXJjIl0sWzcsMywiXFxidWxsZXQiXSxbNSwzLCJcXGJ1bGxldCJdLFs3LDIsIlxcYnVsbGV0Il0sWzMsNSwiXFxidWxsZXQiXSxbMiwzLCJcXGJ1bGxldCJdLFsyLDIsIlxcYnVsbGV0Il0sWzAsNCwiXFxidWxsZXQiXSxbMyw0LCJcXGJ1bGxldCJdLFswLDMsIlxcYnVsbGV0Il0sWzksMiwiXFxidWxsZXQiXSxbOSwxLCJcXGJ1bGxldCJdLFs2LDAsIlxcYnVsbGV0Il0sWzYsMSwiXFxidWxsZXQiXSxbNCwyLCJcXGJ1bGxldCJdLFs0LDEsIlxcYnVsbGV0Il0sWzAsMSwiXFxtYXRodHR7b3JpZ2lufSIsMix7ImNvbG91ciI6WzAsMCwzOF19LFswLDAsMzgsMV1dLFswLDIsIlxcdGF1IiwyLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMSwzLCJcXHRhdSIsMix7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzIsMywiXFxtYXRodHR7b3JpZ2lufSIsMix7ImNvbG91ciI6WzAsMCwzOF19LFswLDAsMzgsMV1dLFswLDUsImJfe1xcbWF0aHR0e2ZpcnN0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFsyNDAsNjAsNjAsMV1dLFsyLDYsImJfe1xcbWF0aHR0e2ZpcnN0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFsyNDAsNjAsNjAsMV1dLFs1LDYsIlxcdGF1IiwyLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMCw0LCJcXG1hdGh0dHtzcGxpdH0iLDAseyJjb2xvdXIiOlswLDAsMzhdfSxbMCwwLDM4LDFdXSxbNCw3LCJiX3tcXG1hdGh0dHtmaXJzdH19IiwyLHsiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMjQwLDYwLDYwLDFdXSxbNCw4LCJcXHRhdSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzcsOSwiXFx0YXUiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFs4LDksImJfe1xcbWF0aHR0e2ZpcnN0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFsyNDAsNjAsNjAsMV1dLFsyLDgsIlxcbWF0aHR0e3NwbGl0fSIsMCx7ImNvbG91ciI6WzAsMCwzOF19LFswLDAsMzgsMV1dLFs2LDksIlxcbWF0aHR0e3NwbGl0fSIsMCx7ImNvbG91ciI6WzAsMCwzOF19LFswLDAsMzgsMV1dLFs1LDcsIlxcbWF0aHR0e3NwbGl0fSIsMCx7ImNvbG91ciI6WzAsMCwzOF19LFswLDAsMzgsMV1dLFsxLDEwLCJcXG1hdGh0dHtzcGxpdH0iLDIseyJjb2xvdXIiOlswLDAsMzhdfSxbMCwwLDM4LDFdXSxbMywxMSwiXFxtYXRodHR7c3BsaXR9IiwyLHsiY29sb3VyIjpbMCwwLDM4XX0sWzAsMCwzOCwxXV0sWzExLDEyLCJiX3tcXG1hdGh0dHtmaXJzdH19IiwyLHsiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMjQwLDYwLDYwLDFdXSxbMTAsMTMsImJfe1xcbWF0aHR0e2ZpcnN0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFsyNDAsNjAsNjAsMV1dLFsxMCwxMSwiXFx0YXUiLDIseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFsxMywxMiwiXFx0YXUiLDIseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFs1LDE0LCJcXG1hdGh0dHtvcmlnaW59IiwyLHsiY29sb3VyIjpbMCwwLDM4XX0sWzAsMCwzOCwxXV0sWzYsMTUsIlxcbWF0aHR0e29yaWdpbn0iLDIseyJjb2xvdXIiOlswLDAsMzhdfSxbMCwwLDM4LDFdXSxbMSwxNCwiYl97XFxtYXRodHR7Zmlyc3R9fSIsMix7ImNvbG91ciI6WzI0MCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzI0MCw2MCw2MCwxXV0sWzMsMTUsImJfe1xcbWF0aHR0e2ZpcnN0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFsyNDAsNjAsNjAsMV1dLFsxNCwxNSwiXFx0YXUiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFsxNSwxMiwiXFxtYXRodHR7c3BsaXR9IiwyLHsiY29sb3VyIjpbMCwwLDM4XX0sWzAsMCwzOCwxXV0sWzE0LDEzLCJcXG1hdGh0dHtzcGxpdH0iLDIseyJjb2xvdXIiOlswLDAsMzhdfSxbMCwwLDM4LDFdXSxbMCw3LCJiIiwwLHsiY29sb3VyIjpbMjQwLDYwLDYwXX0sWzI0MCw2MCw2MCwxXV0sWzIsOSwiYiIsMCx7ImNvbG91ciI6WzI0MCw2MCw2MF19LFsyNDAsNjAsNjAsMV1dLFszLDEyLCJiIiwyLHsiY29sb3VyIjpbMjQwLDYwLDYwXX0sWzI0MCw2MCw2MCwxXV0sWzEsMTMsImIiLDIseyJjb2xvdXIiOlsyNDAsNjAsNjBdfSxbMjQwLDYwLDYwLDFdXV0=
+\[\begin{tikzcd}[cramped]
+	&&&&&& \bullet \\
+	&&&& \bullet && \bullet &&& \bullet \\
+	&& \bullet && \bullet &&& \bullet && \bullet \\
+	\bullet && \bullet &&& \bullet && \bullet \\
+	\bullet &&& \bullet && \circ \\
+	&&& \bullet
+	\arrow["{\mathtt{split}}"', color={rgb,255:red,97;green,97;blue,97}, from=2-5, to=1-7]
+	\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=2-7, to=1-7]
+	\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=2-10, to=1-7]
+	\arrow["{\mathtt{origin}}"', color={rgb,255:red,97;green,97;blue,97}, from=3-3, to=2-5]
+	\arrow["{\mathtt{split}}", color={rgb,255:red,97;green,97;blue,97}, from=3-3, to=4-1]
+	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=3-5, to=2-5]
+	\arrow["{\mathtt{split}}"', color={rgb,255:red,97;green,97;blue,97}, from=3-5, to=2-7]
+	\arrow["b"', color={rgb,255:red,92;green,92;blue,214}, from=3-8, to=1-7]
+	\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=3-8, to=2-5]
+	\arrow["{\mathtt{split}}"', color={rgb,255:red,97;green,97;blue,97}, from=3-8, to=2-10]
+	\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=3-10, to=2-7]
+	\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=3-10, to=2-10]
+	\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=4-3, to=3-3]
+	\arrow["{\mathtt{origin}}"', color={rgb,255:red,97;green,97;blue,97}, from=4-3, to=3-5]
+	\arrow["{\mathtt{split}}", color={rgb,255:red,97;green,97;blue,97}, from=4-3, to=5-1]
+	\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=4-6, to=3-3]
+	\arrow["{\mathtt{origin}}"', color={rgb,255:red,97;green,97;blue,97}, from=4-6, to=3-8]
+	\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=4-6, to=4-1]
+	\arrow["{\mathtt{split}}", color={rgb,255:red,97;green,97;blue,97}, from=4-6, to=5-4]
+	\arrow["b"', color={rgb,255:red,92;green,92;blue,214}, from=4-8, to=2-7]
+	\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=4-8, to=3-5]
+	\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=4-8, to=3-8]
+	\arrow["{\mathtt{split}}"', color={rgb,255:red,97;green,97;blue,97}, from=4-8, to=3-10]
+	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=5-1, to=4-1]
+	\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=5-4, to=4-1]
+	\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=5-6, to=4-3]
+	\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=5-6, to=4-6]
+	\arrow["{\mathtt{origin}}"', color={rgb,255:red,97;green,97;blue,97}, from=5-6, to=4-8]
+	\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=5-6, to=5-1]
+	\arrow["{\mathtt{split}}", color={rgb,255:red,97;green,97;blue,97}, from=5-6, to=6-4]
+	\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=6-4, to=5-1]
+	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=6-4, to=5-4]
+\end{tikzcd}\]
+
+Which reduces down to:
+% https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGNpcmMiXSxbMiwwLCJcXGJ1bGxldCJdLFswLDIsIlxcYnVsbGV0Il0sWzIsMiwiXFxidWxsZXQiXSxbMCwxLCJcXHRhdSIsMix7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzIsMywiXFx0YXUiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFswLDIsImIiLDAseyJjb2xvdXIiOlsyNDAsNjAsNjBdfSxbMjQwLDYwLDYwLDFdXSxbMSwzLCJiIiwwLHsiY29sb3VyIjpbMjQwLDYwLDYwXX0sWzI0MCw2MCw2MCwxXV1d
+\[\begin{tikzcd}[cramped, column sep=scriptsize]
+	\circ && \bullet \\
+	\\
+	\bullet && \bullet
+	\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=1-1, to=1-3]
+	\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=3-1]
+	\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=3-3]
+	\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=3-1, to=3-3]
+\end{tikzcd}\]
+
+
+\end{document}

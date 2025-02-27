@@ -112,7 +112,123 @@ The grammar of ACP$_{\tau}$ as taken from \citep{bergstraACPtUniversalAxiom1989}
 \end{align*}
 where the operators are: \textit{action}, \textit{deadlock}, \textit{alternative composition}, \textit{sequential composition}, \textit{merge}, \textit{left merge}, \textit{communication merge}, \textit{encapsulation}, \textit{abstraction}
 
-\chapter{Your next chapter}
+\chapter{A formal definition of CSP and ACP}
+
+From [EXPRESSIVENESS], we represent a language $\mathscr{L}$ as a pair $(\mathbb{T}, \oper)$, where $\mathbb{T}$ is a set of valid expressions in $\mathscr{L}$, and $\oper$ is a mapping $\oper : \mathbb{T} \to \mathscr{D}$ from $\mathbb{T}$ to a set of meanings $\mathscr{D}$. We also define $A \subseteq \mathbb{T}$, where $A$ is the set of actions
+
+
+Somethin something we are trying to gain an expressiveness result by translating CSP to ACP. A result of a valid translation would therefore show that CSP is \textit{at least as expressive} as ACP.
+
+\chapter{A Translation of CSP to ACP}
+
+As stated above, the grammar of CSP consists of the operations:
+
+\begin{align*}
+   P, Q ::= &\mathrm{STOP} \mid \mathrm{div} \mid a\to P \mid P \sqcap Q \mid P \detcomp Q \mid P \triangleleft Q \mid \\
+	&P | |_{A} Q \mid P \backslash A \mid f(P) \mid P \triangle Q \mid P \theta_{A} Q \mid p \mid 
+\end{align*}
+%\mu p.P
+where the operators are: \textit{inaction}, \textit{divergence}, \textit{action prefixing}, \textit{internal choice}, \textit{external choice}, \textit{sliding choice}, \textit{parallel composition}, \textit{concealment}, \textit{renaming}, \textit{interrupt}, and \textit{throw}.
+
+These can also be represented in the following GSOS table
+
+[INSERT TABLE HERE]
+
+As they are in GSOS format, these operations are compositional in CSP. For a valid translation into ACP, we will want the resulting translation to be compositional as well.
+
+\section{Direct Translations}
+Some of the basic operations of CSP have an identical equivalence in ACP, with the only difference being the syntax. These can be easily translated in the following table.
+
+\begin{align*}
+   \trans{STOP} &= \delta \\
+   \trans{a \to P} &= a.\trans{P} \\
+   \trans{P \backslash A} &= \partial_{A}{\trans{P}} \\
+   % \trans{\mu p.P} &= \langle X \mid X = \tau.X \rangle
+\end{align*}
+
+\section{Trivial Translations}
+\begin{itemize}
+   \item \textbf{Divergence} is the process that diverges via infinite internal actions. It is defined by the following rule:
+      \[\mathrm{div} \prightarrow{\tau} \mathrm{div}\]
+      and then can be directly translated via recursion in ACP in the following rule:
+      \[\trans{\mathrm{div}} = \langle X \mid X = \tau.X \rangle\] 
+   \item \textbf{Renaming} is an operation that renames actions in processes according to a function. There is no equivalent function in plain $\mathrm{ACP}_{\tau}$, with the closest operation being $\tau_{I}(P)$ which abstracts actions in $I$ to internal actions.
+
+      A proposed extension of ACP adds a Functional Renaming operator, as shown in [ON THE EXPRESSIVENESS OF ACP]. From this point forth, we will be using this extension, written as $ACP^{\tau}_{F}$. A clear translation is then shown to be
+      \[\trans{f(P)} = f(\trans{P})\]
+   \item \textbf{Internal Choice} is an operation that emulates a choice of actions that cannot be decided by the user. CSP in particular differs from ACP in that external choice and internal choice are separate operations, while in ACP, the alternative choice operator $+$ handles choice, albeit slightly differently. With the internal choice operator $\tau$, a translation for CSP Internal choice into ACP is easily written as
+      \[\trans{P \sqcap Q} = \tau.\trans{P} + \tau.\trans{Q}\]
+\end{itemize}
+
+The above translations are all valid up to Strong Bisimilarity. The other operators are slightly harder to translate.
+
+\section{Helper Operators for \texorpdfstring{$ACP_{F}^{\tau}$}{ACPtaur}}
+
+Working in the language $ACP_{\tau}$ with the extension of Functional Renaming (written $ACP^{\tau}_{F}$), we start by defining some subsets of $A$ which we will use in our encodings.
+
+\begin{dfn}[Subsets of A]{dfn:sets}{}
+   The set $A\in \mathbb{T}$ is the set of all actions.
+   \begin{itemize}
+      \item $A_{0} \subseteq A$ is the set of actions that actually get used in processes
+      \item $H_{0} = A - A_{0}$ is the set of working space operators, or any other action that doesn't get used
+      \item $H_{1} = A_{0} \uplus \mathscr{H}$ is the set of actions, plus a set of working operators $\mathscr{H}$
+   \end{itemize}
+
+   In general, $A_{0} \subseteq H_{1} \subseteq A$.
+
+   Note that the silent step is not defined in $A$, and we will define $A_{\tau}$ to be $A \cup \{\tau\}$
+\end{dfn}
+
+\newpage
+\subsection{Triggering}
+We define an operator $\Gamma(P)$ that emulates the Triggering operator of MEIJE [REFER]. For a trace $a.b.\cdots$ on a process $P$, the triggering operator can be represented as an operator that tags the first action of a process.
+
+First, we define a function $f_{1}$ and communications for the operations $\mathtt{first}$ and $\mathtt{next}$.
+
+\begin{multicols}{2}
+   \begin{dfn}[F1]{dfn:f1}{}
+      Define functions $f_{1}: A \to A$ where
+      \begin{align*}
+	 f_{1}(a_{\mathtt{first}}) &= a_{\mathtt{first}} \\
+	 f_{1}(a_{\mathtt{next}}) &= a 
+      \end{align*}
+   \end{dfn}
+
+   \begin{dfn-s}[Communications]{dfn:comm-triggering}{}
+      Define communications where
+      \begin{align*}
+	 a | \mathtt{first} &= a_{\mathtt{first}}\\
+	 a | \mathtt{next} &= a_{\mathtt{next}}
+      \end{align*}
+   \end{dfn-s}
+\end{multicols}
+
+We use the notation of $a^{\infty}$ as syntactic sugar to mean $\langle X \mid X = a.X \rangle$. We can now define $\Gamma(P)$ as such:
+
+\begin{dfn}[Triggering in ACP]{dfn:acp-triggering}{}
+	\[\Gamma(P) := \rho_{f_{1}}[\partial_{H_{1}}(p | | \mathtt{first}(\mathtt{next}^{\infty}))])\]
+	is an operator that turns a trace of a process $P$, $a.b.c.\dots$ into the trace
+	\[a_{\mathtt{first}}. b. c. \dots\]
+\end{dfn}
+
+This works in the following method:
+\vspace{-5pt}
+\begin{enumerate}
+	\item Merge the process $P$ with the process $\mathtt{first}.\mathtt{next}.\mathtt{next}\dots$. Via Def \ref{dfn:comm-triggering}, this will produce a lattice of $P$ and $\mathtt{first}.(\mathtt{next}^{\infty})$, with communications on every square, but most importantly, a chain of communications going down the centre of the form.
+		\begin{equation}\label{eq:fnn}
+			a_{\mathtt{first}}. b_{\mathtt{next}} . c_{\mathtt{next}} \dots
+		\end{equation}
+	\item Restrict the actions in $H_{1}$. Since all the actions in $P, \mathtt{first}.(\mathtt{next}^{\infty}) \in H_{1}$ this effectively restricts both sides of the left merge, leaving only communications from the initial state. This leaves equation \ref{eq:fnn} as the only remaining trace.
+	\item Apply $\rho_{f_{1}}$ to equation \ref{eq:fnn}. Via \ref{dfn:f1}, the final result is
+		\begin{equation}\label{eq:gamma-result}
+			a_{\mathtt{first}}. b . c \dots
+		\end{equation}
+
+		The process is now exactly as stated in Definition \ref{dfn:acp-triggering}.
+\end{enumerate}
+Note that since $\tau\not\in A$, $\partial_{H_{1}}$ will not restrict $\tau$, and additionally since $\tau$ does not communicate, Step 2 effectively becomes any amount of $\tau$ steps followed by the diagonal trace immediately following that. This results in cases $\Gamma(P)$ where $P = \tau.b.c\dots$ becoming the trace
+\[\tau.b_{\mathtt{first}}.c.\dots\]
+effectively skipping $\tau$'s, then acting the same as processes that don't start with a $\tau$.
 
 \chapter{Conclusions}
 
