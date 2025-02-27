@@ -6,6 +6,7 @@
 \usepackage[round]{natbib} % recommended for citations
 
 \usepackage{preamble}
+% \overfullrule=20mm
 
 
 \begin{document}
@@ -180,20 +181,15 @@ Working in the language $ACP_{\tau}$ with the extension of Functional Renaming (
 \end{dfn}
 
 \newpage
+
+\import{diagrams/}{triggering.tex}
 \subsection{Triggering}
 We define an operator $\Gamma(P)$ that emulates the Triggering operator of MEIJE [REFER]. For a trace $a.b.\cdots$ on a process $P$, the triggering operator can be represented as an operator that tags the first action of a process.
 
 First, we define a function $f_{1}$ and communications for the operations $\mathtt{first}$ and $\mathtt{next}$.
 
-\begin{multicols}{2}
-   \begin{dfn}[F1]{dfn:f1}{}
-      Define functions $f_{1}: A \to A$ where
-      \begin{align*}
-	 f_{1}(a_{\mathtt{first}}) &= a_{\mathtt{first}} \\
-	 f_{1}(a_{\mathtt{next}}) &= a 
-      \end{align*}
-   \end{dfn}
 
+\begin{multicols}{2}
    \begin{dfn-s}[Communications]{dfn:comm-triggering}{}
       Define communications where
       \begin{align*}
@@ -201,34 +197,275 @@ First, we define a function $f_{1}$ and communications for the operations $\math
 	 a | \mathtt{next} &= a_{\mathtt{next}}
       \end{align*}
    \end{dfn-s}
+
+   \begin{dfn}[F1]{dfn:f1}{}
+      Define functions $f_{1}: A \to A$ where
+      \begin{align*}
+	 f_{1}(a_{\mathtt{first}}) &= a_{\mathtt{ini}} \\
+	 f_{1}(a_{\mathtt{next}}) &= a 
+      \end{align*}
+   \end{dfn}
 \end{multicols}
 
-We use the notation of $a^{\infty}$ as syntactic sugar to mean $\langle X \mid X = a.X \rangle$. We can now define $\Gamma(P)$ as such:
+We use the notation of $a^{\infty}$ as syntactic sugar to mean $\langle X \mid X = a.X \rangle$. Using the sets defined in \ref{dfn:sets}, we can now define $\Gamma(P)$ as such:
 
 \begin{dfn}[Triggering in ACP]{dfn:acp-triggering}{}
-	\[\Gamma(P) := \rho_{f_{1}}[\partial_{H_{1}}(p | | \mathtt{first}(\mathtt{next}^{\infty}))])\]
-	is an operator that turns a trace of a process $P$, $a.b.c.\dots$ into the trace
-	\[a_{\mathtt{first}}. b. c. \dots\]
+   \[\Gamma(P) := \rho_{f_{1}}[\partial_{H_{1}}(P | | \mathtt{first}(\mathtt{next}^{\infty}))])\]
+   is an operator that turns a trace of a process $P$, $a.b.c.\dots$ into the trace
+   \[a_{\mathtt{ini}}. b. c. \dots\]
 \end{dfn}
 
 This works in the following method:
 \vspace{-5pt}
-\begin{enumerate}
-	\item Merge the process $P$ with the process $\mathtt{first}.\mathtt{next}.\mathtt{next}\dots$. Via Def \ref{dfn:comm-triggering}, this will produce a lattice of $P$ and $\mathtt{first}.(\mathtt{next}^{\infty})$, with communications on every square, but most importantly, a chain of communications going down the centre of the form.
-		\begin{equation}\label{eq:fnn}
-			a_{\mathtt{first}}. b_{\mathtt{next}} . c_{\mathtt{next}} \dots
-		\end{equation}
-	\item Restrict the actions in $H_{1}$. Since all the actions in $P, \mathtt{first}.(\mathtt{next}^{\infty}) \in H_{1}$ this effectively restricts both sides of the left merge, leaving only communications from the initial state. This leaves equation \ref{eq:fnn} as the only remaining trace.
-	\item Apply $\rho_{f_{1}}$ to equation \ref{eq:fnn}. Via \ref{dfn:f1}, the final result is
-		\begin{equation}\label{eq:gamma-result}
-			a_{\mathtt{first}}. b . c \dots
-		\end{equation}
+\begin{enumerate}[label=\alph*)]
+   \item Merge the process $P$ with the process $\mathtt{first}.\mathtt{next}.\mathtt{next}\dots$. Via Def \ref{dfn:comm-triggering}, this will produce a lattice of $P$ and $\mathtt{first}.(\mathtt{next}^{\infty})$, with communications on every square, but most importantly, a chain of communications going down the centre of the form.
+      \begin{equation}\label{eq:fnn}
+	 a_{\mathtt{first}}. b_{\mathtt{next}} . c_{\mathtt{next}} \dots
+      \end{equation}
+   \item Restrict the actions in $H_{1}$. Since all the actions in $P, \mathtt{first}.(\mathtt{next}^{\infty}) \in H_{1}$ this effectively restricts both sides of the left merge, leaving only communications from the initial state. This leaves equation \ref{eq:fnn} as the only remaining trace.
+   \item Apply $\rho_{f_{1}}$ to equation \ref{eq:fnn}. Via \ref{dfn:f1}, the final result is
+      \begin{equation}\label{eq:gamma-result}
+	 a_{\mathtt{ini}}. b . c \dots
+      \end{equation}
 
-		The process is now exactly as stated in Definition \ref{dfn:acp-triggering}.
+      The process is now exactly as stated in Definition \ref{dfn:acp-triggering}.
 \end{enumerate}
-Note that since $\tau\not\in A$, $\partial_{H_{1}}$ will not restrict $\tau$, and additionally since $\tau$ does not communicate, Step 2 effectively becomes any amount of $\tau$ steps followed by the diagonal trace immediately following that. This results in cases $\Gamma(P)$ where $P = \tau.b.c\dots$ becoming the trace
-\[\tau.b_{\mathtt{first}}.c.\dots\]
+Note that since $\tau\not\in A$, $\partial_{H_{1}}$ will not restrict $\tau$, and additionally since $\tau$ does not communicate with any actions, Step 2 effectively becomes any amount of $\tau$ steps followed by the diagonal trace immediately following that. This results in cases $\Gamma(P)$ where $P = \tau.b.c\dots$ becoming the trace
+\[\tau.b_{\mathtt{ini}}.c.\dots\]
 effectively skipping $\tau$'s, then acting the same as processes that don't start with a $\tau$.
+
+
+\newpage
+\subsection{Poster Function}
+Issues with Associativity
+\begin{dfn}[Poster function]{dfn:poster}{}
+   We define a compatibility function to prevent issues with associativity. Let $f_{\mathrm{post}} : A \to A$ where
+   \vspace{-5pt}
+   \[f_{\mathrm{post}}(a_{\mathtt{post}}) = a \quad f_{\mathrm{post}}( \alpha) = \alpha\]
+\end{dfn}
+
+\newpage
+\section{Translations for the remaining CSP Operators}
+\subsection{Parallel Composition}
+The parallel composition $\pcomp_{A}$ is defined with the following rules:
+\begin{equation}\label{eq:pcomp-definition}
+   \prftree{P \prightarrow{\alpha} P' \quad \scriptstyle(\alpha\not\in A)}{P \pcomp_{A} Q \prightarrow{\alpha} P'\pcomp_{A} Q} \qquad \prftree{Q \prightarrow{\alpha} Q' \quad \scriptstyle(\alpha\not\in A) }{P \pcomp_{A} Q \prightarrow{a} P\pcomp_{A} Q'}\qquad \prftree{P \prightarrow{a} P' \, Q \prightarrow{a} Q'\scriptstyle(\alpha\in A)}{P \pcomp_{A} Q \prightarrow{a} P' \pcomp_{A} Q'}
+\end{equation}
+In other words, a left merge action can be taken by all actions of $P$ and $Q$, which is the same as the ACP equivalent of parallel composition with the one difference being that in CSP, the action must be the same in $P$ and $Q$, whereas in ACP the action is defined with a communication function.
+
+For our encoding, we take $\mathscr{H} = \{\}$, and therefore $H_{1} = A_{0}$
+
+The goal is to tag actions in the target set $A_{T}$, and then define a communication function between identical marked actions. We can do this via the following functions and communications:
+\begin{multicols}{2}
+
+\begin{dfn-s}[A-set Marking]{dfn:f-comms}{}
+   We define a function $f_{A}$ to mark any actions in the target set $A_{T}$. We write $\sigma$ to indicate an action in $A_{T}$
+	\[f_{2}(\sigma_{\mathtt{syn}}) = \sigma \quad f_{2}(
+	\alpha) = \alpha\]
+\end{dfn-s}
+
+\begin{dfn-s}[Communication]{dfn:comm-comms}{}
+   We define a communication for identical actions
+   \[a_{\mathtt{syn}} | a_{\mathtt{syn}} = a_{\mathtt{post}}\]
+\end{dfn-s}
+
+\end{multicols}
+
+A translation for Parallel Composition can then be written as the following:
+\[\trans{P \pcomp Q} = \partial_{H_{0}}(\rho_{f_{\mathrm{post}}}(\rho_{f_{2}}(\trans{P}) \pcomp \rho_{f_{2}}(\trans{Q}))) \]
+
+\subsection{External choice}
+
+
+The external choice operator $\square$ is defined with the following rules:
+\begin{equation}\label{eq:csp-definition}
+	\prftree{P \prightarrow{a} P'}{P \square Q \prightarrow{a} P'} \qquad \prftree{Q \prightarrow{a} Q'}{P \square Q \prightarrow{a} Q'} \qquad \prftree{P \prightarrow{\tau} P'}{P \square Q \prightarrow{\tau} P' \square Q} \qquad \prftree{Q \prightarrow{\tau} Q'}{P \square Q \prightarrow{a} P \square Q'}
+\end{equation}
+In other words, we can take an external choice by the user, and additionally an internal action will still let an external choice be made after the internal move has been made. This differs from the ACP Alternative Choice operator ($+$), as $+$ will not let you select externally if an internal action is made.
+
+For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{choose}\}$, and therefore $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{choose}\}$ as defined in Definition \ref{dfn:sets}. We then modify Definition \ref{dfn:comm-triggering} to include an additional communication for $\mathtt{choose}$ to make
+
+\begin{dfn-s}[Communication]{dfn:comm-ext-choice}{}
+	Via $\ref{dfn:comm-triggering}$, communications are defined as:
+	\[a | \mathtt{first} = a_{\mathtt{first}} \qquad a | \mathtt{next} = a_{\mathtt{next}} \]
+	We extend the definition to include a communication for $\mathtt{choose}$
+	\[a_{\mathtt{ini}} | \mathtt{choose} = a_{\mathtt{post}}\]
+\end{dfn-s}
+
+Recall that the Triggering operator (\ref{dfn:acp-triggering}) is defined as:
+\[\Gamma(P) := \rho_{f_{1}}[\partial_{H_{1}}(P | | \mathtt{first}(\mathtt{next}^{\infty}))])\]
+
+We can then define an encoding of the CSP external choice operator $\square$ in ACP in the following equation
+\[\mathscr{T}(P \square Q) = \partial_{H_{0}}\Bigl(\rho_{f_{2}}\Bigl[\Gamma[\mathscr{T}(P)]\, | | \,\mathtt{choose}\, | | \,\Gamma[\mathscr{T}(Q)]\Bigl]\Bigr)\]
+
+\subsection{Stopping}
+
+The stopping operator $\triangle$ is defined with the following rules:
+
+\[\prftree{P \prightarrow{\alpha} P'}{P \triangle Q \prightarrow{\alpha} P' \triangle Q} \qquad \prftree{Q \prightarrow{\tau} Q'}{P \triangle Q \prightarrow{\tau} P \triangle Q'} \qquad \prftree{Q \prightarrow{a} Q'}{P \triangle Q \prightarrow{a} Q'}\]
+
+In other words, we can take an external choice from $P$ without interrupting the operator, in addition to internal choices from $Q$. However, the moment an external choice is made from $Q$, the process will then never return to $P$.
+
+For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{left}, \mathtt{origin}, \mathtt{split}\}$, and therefore $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{left}, \mathtt{origin}, \mathtt{split}\}$ as defined in \ref{dfn:sets}. We then modify Definition \ref{dfn:comm-triggering} to include additional communications for the operators $\mathtt{left}$, $\mathtt{origin}$, and $\mathtt{split}$
+
+
+
+
+\begin{dfn}[Stopping Communications]{dfn:comms-stopping}{}
+   Via $\ref{dfn:comm-triggering}$, communications for the triggering operator are defined as:
+   \[a | \mathtt{first} = a_{\mathtt{first}} \qquad a | \mathtt{next} = a_{\mathtt{next}} \]
+   We extend the definition to includes communications for the extra operators
+   \[a | \mathtt{left} = a_{\mathtt{left}} \qquad a_{\mathtt{origin}} | \mathtt{origin} = a_{\mathtt{post}} \qquad a_{\mathtt{ini}} | \mathtt{split} = a_{\mathtt{post}}\]
+\end{dfn}
+
+\begin{dfn}[Functions Modified]{dfn:f2}{}
+   We define a compatibility function to prevent issues with transitivity in the function to come. Let $f_{\mathtt{leftfix}} : A \to A$ where
+   \[f_{\mathtt{leftfix}}(a_{\mathtt{left}}) = a_{\mathtt{origin}}\]
+\end{dfn}
+
+\begin{dfn}[Left-Tagging]{dfn:lefter}{}
+	The operator $\Phi(P)$ turns a trace of a process $P$, $a.b.c$ into the trace
+	\[a_{\mathtt{origin}}.b_{\mathtt{origin}}.c_{\mathtt{origin}}\]
+	and is defined as
+	\[\Phi(P) = \partial_{H_{1}}\left(\rho_{f_{\mathtt{leftfix}}}\left(P | | (\mathtt{left})^{\infty}\right)\right)\]
+\end{dfn}
+
+
+We can now define an encoding of the CSP Stopping operator $\triangle$ in $ACP_{\tau}$. We start off with a new process, which we will call $\sigma$. This is defined as the process
+\[\sigma = (\mathtt{origin})^{\infty}.(\mathtt{split})^{\infty}\]
+Or, visualised as a process graph:
+% https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXGNpcmMiXSxbMiwwLCJcXGJ1bGxldCJdLFs0LDAsIlxcYnVsbGV0Il0sWzAsMSwiXFxtYXRodHR7b3JpZ2lufSJdLFsxLDEsIlxcbWF0aHR0e29yaWdpbn0iXSxbMSwyLCJcXG1hdGh0dHtzcGxpdH0iXSxbMiwyLCJcXG1hdGh0dHtzcGxpdH0iXV0=
+\[\begin{tikzcd}[]
+	\circ && \bullet && \bullet
+	\arrow["{\mathtt{origin}}", from=1-1, to=1-3]
+	\arrow["{\mathtt{origin}}", from=1-3, to=1-3, loop, in=55, out=125, distance=10mm]
+	\arrow["{\mathtt{split}}", from=1-3, to=1-5]
+	\arrow["{\mathtt{split}}", from=1-5, to=1-5, loop, in=55, out=125, distance=10mm]
+\end{tikzcd}\]
+
+From this, an encoding can be written in the following way:
+\[\mathscr{T}(P \triangle Q) = \partial_{H_{0}}\Bigl(\rho_{f_{\mathtt{post}}}\Bigl[
+	 (\Phi(\mathscr{T}(P)) | | \sigma) | | \Gamma(\mathscr{T}(Q))
+\Bigr]\Bigr)\]
+\subsection{Interrupt}
+
+The interrupt operator $\Theta_{A}$ is defined with the following rules:
+
+\[\prftree{P \prightarrow{\alpha} P' \quad \scriptstyle(a\not\in A)}{P \Theta_{A} Q \prightarrow{\alpha} P' \Theta_{A} Q} \qquad \prftree{P \prightarrow{a} P' \quad \scriptstyle(a\in A)}{P \Theta_{A} Q \prightarrow{a} Q }\]
+
+In other words, we can take as many actions in $P$ as we want, as long as they aren't contained in a set of actions, which we will call $A_{T}$. However, the moment an action in $A_{T}$ is made, The process then diverts to $Q$. This can be also throught as an error checking operator.
+
+Similarly to the stopping operator, for our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{left}, \mathtt{origin}, \mathtt{split}\}$, and therefore $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{left}, \mathtt{origin}, \mathtt{split}\}$ as defined in \ref{dfn:sets}. We then modify Definition \ref{dfn:comm-triggering} to include additional communications for the operators $\mathtt{left}$, $\mathtt{origin}$, and $\mathtt{split}$
+
+
+
+
+\begin{dfn}[Stopping Communications]{dfn:comms-stopping}{}
+   Via $\ref{dfn:comm-triggering}$, communications for the triggering operator are defined as:
+   \[a | \mathtt{first} = a_{\mathtt{first}} \qquad a | \mathtt{next} = a_{\mathtt{next}} \]
+   We extend the definition to includes communications for the extra operators
+   \[a | \mathtt{left} = a_{\mathtt{left}} \qquad a_{\mathtt{origin}} | \mathtt{origin} = a_{\mathtt{post}} \qquad a_{\mathtt{ini}} | \mathtt{split} = a_{\mathtt{post}}\]
+\end{dfn}
+
+\begin{dfn}[Functions Modified]{dfn:f2}{}
+   We define a compatibility function to prevent issues with transitivity in the function to come. Let $f_{\mathtt{leftfix}} : A \to A$ where
+   \[f_{\mathtt{leftfix}}(a_{\mathtt{left}}) = a_{\mathtt{origin}}\]
+\end{dfn}
+
+\begin{dfn}[Left-Tagging]{dfn:lefter}{}
+	The operator $\Phi(P)$ turns a trace of a process $P$, $a.b.c$ into the trace
+	\[a_{\mathtt{origin}}.b_{\mathtt{origin}}.c_{\mathtt{origin}}\]
+	and is defined as
+	\[\Phi(P) = \partial_{H_{1}}\left(\rho_{f_{\mathtt{leftfix}}}\left(P | | (\mathtt{left})^{\infty}\right)\right)\]
+\end{dfn}
+
+
+We can now define an encoding of the CSP Stopping operator $\triangle$ in $ACP_{\tau}$. We start off with a new process, which we will call $\sigma$. This is defined as the process
+\[\sigma = (\mathtt{origin})^{\infty}.(\mathtt{split})^{\infty}\]
+Or, visualised as a process graph:
+% https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXGNpcmMiXSxbMiwwLCJcXGJ1bGxldCJdLFs0LDAsIlxcYnVsbGV0Il0sWzAsMSwiXFxtYXRodHR7b3JpZ2lufSJdLFsxLDEsIlxcbWF0aHR0e29yaWdpbn0iXSxbMSwyLCJcXG1hdGh0dHtzcGxpdH0iXSxbMiwyLCJcXG1hdGh0dHtzcGxpdH0iXV0=
+\[\begin{tikzcd}[]
+	\circ && \bullet && \bullet
+	\arrow["{\mathtt{origin}}", from=1-1, to=1-3]
+	\arrow["{\mathtt{origin}}", from=1-3, to=1-3, loop, in=55, out=125, distance=10mm]
+	\arrow["{\mathtt{split}}", from=1-3, to=1-5]
+	\arrow["{\mathtt{split}}", from=1-5, to=1-5, loop, in=55, out=125, distance=10mm]
+\end{tikzcd}\]
+
+From this, an encoding can be written in the following way:
+\[\mathscr{T}(P \triangle Q) = \partial_{H_{0}}\Bigl(\rho_{f_{\mathtt{post}}}\Bigl[
+	 (\Phi(\mathscr{T}(P)) | | \sigma) | | \Gamma(\mathscr{T}(Q))
+\Bigr]\Bigr)\]
+
+\subsection{Sliding Choice}
+
+\newpage
+\chapter{Validity of the Encoding}
+
+\section{External Choice}
+On a process without $\tau$, the function
+\[\partial_{H_{0}}\Bigl(\rho_{f_{2}}\Bigl[\Gamma(P)\, | | \,\mathtt{choose}\, | | \,\Gamma(Q)\Bigr]\Bigr)\]
+has identical behaviour to $P + Q$
+
+On processes with internal actions, which we will call $\mathcal{P} = \tau_{P}.a.P$ and $\mathcal{Q} = \tau_{Q}.b.Q$, where $\tau_{P}$ indicates the number of starting $\tau$ actions in the process, possibly 0, the $\tau$ cannot communicate with $\mathtt{choose}$ so $\mathtt{choose}$ will only communicate with $a$ (Since only $a$ will be labelled with $\mathtt{first}$). However, the first action of $Q$ will still have the name $b_{\mathtt{first}}$ for $b\in A$. This lets the function effectively skip the $\tau$, then perform $\mathtt{choose}$ on $a.P \,| | \,b.Q$ which matches the behaviour of CSP $\square$. 
+
+However, this translation is not strongly bisimilar. This is due to the final restriction $\partial_{H_{0}}$, which will usually restrict any stray $a_{\mathtt{first}}$ actions (and subsequent actions/processes) that try to communicate. However, since the silent step $\tau$ is not in $A$, we will get left with stray $\tau$ actions. This doesn't hold for two processes $a.P$ and $\tau.Q$, since the translation would yield the process
+\[a.(\tau | | P) + \tau.(P + Q) \ne a.P + \tau.(P + Q)\]
+
+% \begin{figure}[t!]
+% 	\centering
+% 	% https://q.uiver.app/#q=WzAsNyxbMCwwLCJcXGJ1bGxldCJdLFsxLDAsIlxcYnVsbGV0Il0sWzIsMCwiXFxidWxsZXQiXSxbMCwxLCJcXGJ1bGxldCJdLFsxLDEsIlxcYnVsbGV0Il0sWzIsMSwiXFxidWxsZXQiXSxbMywxLCJcXGJ1bGxldCJdLFswLDEsImEiXSxbMSwyLCJhIl0sWzMsNCwiYSJdLFs0LDUsIlxcdGF1Il0sWzUsNiwiYSJdLFswLDMsIiIsMSx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEsNCwiIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSwxLCIiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsyLDYsIiIsMSx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
+% 	\[\begin{tikzcd}[cramped]
+% 		\bullet & \bullet & \bullet \\
+% 		\bullet & \bullet & \bullet & \bullet
+% 		\arrow["a", from=1-1, to=1-2]
+% 		\arrow[dashed, no head, from=1-1, to=2-1]
+% 		\arrow["a", from=1-2, to=1-3]
+% 		\arrow[dashed, no head, from=1-2, to=2-2]
+% 		\arrow[dashed, no head, from=1-3, to=2-4]
+% 		\arrow["a", from=2-1, to=2-2]
+% 		\arrow["\tau", from=2-2, to=2-3]
+% 		\arrow[dashed, no head, from=2-3, to=1-2]
+% 		\arrow["a", from=2-3, to=2-4]
+% 	\end{tikzcd}\]
+% 	\caption{Branching Bisimilarity}
+% 	\label{branching-bisim}
+% \end{figure}
+
+\vspace{-5pt}
+\begin{figure}[!ht]
+	\centering
+% https://q.uiver.app/#q=WzAsMTMsWzAsMCwiXFxjaXJjIl0sWzQsMCwiXFxidWxsZXQiXSxbNiwwLCJcXGJ1bGxldCJdLFswLDIsIlxcYnVsbGV0Il0sWzYsMiwiXFxidWxsZXQiXSxbNCwyLCJcXGJ1bGxldCJdLFs2LDQsIlxcYnVsbGV0Il0sWzgsMiwiXFxidWxsZXQiXSxbMiwyLCJcXGJ1bGxldCJdLFsyLDQsIlxcYnVsbGV0Il0sWzQsNCwiXFxidWxsZXQiXSxbMyw0LCJcXGJ1bGxldCJdLFs4LDQsIlxcYnVsbGV0Il0sWzAsMSwiXFx0YXUiXSxbMCwzLCJhX1xcdGV4dHtmaXJzdH0iLDIseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFsxLDQsIlxcdGV4dHtjaG9vc2V9IiwxLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMSw1LCJhX1xcdGV4dHtmaXJzdH0iLDIseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFs0LDYsImFfXFx0ZXh0e2ZpcnN0fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzUsNiwiXFx0ZXh0e2Nob29zZX0iLDEseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFsxLDYsImEiXSxbNCw3LCJiX1xcdGV4dHtmaXJzdH0iLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFswLDgsIlxcdGV4dHtjaG9vc2V9IiwxLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbOCw5LCJhX1xcdGV4dHtmaXJzdH0iLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFszLDksIlxcdGV4dHtjaG9vc2V9IiwxLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMCw5LCJhIl0sWzIsNywiXFx0ZXh0e2Nob29zZX0iLDEseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFsxLDIsImJfXFx0ZXh0e2ZpcnN0fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzEsNywiYiJdLFs5LDExLCJcXHRhdSJdLFsxMSwxMCwiYl9cXHRleHR7Zmlyc3R9IiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbNiwxMiwiYl9cXHRleHR7Zmlyc3R9IiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbNywxMiwiYV9cXHRleHR7Zmlyc3R9IiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXV0=
+\[\begin{tikzcd}[cramped]
+	\circ &&&& \bullet && \bullet \\
+	\\
+	\bullet && \bullet && \bullet && \bullet && \bullet \\
+	\\
+	&& \bullet & \bullet & \bullet && \bullet && \bullet
+	\arrow["\tau", from=1-1, to=1-5]
+	\arrow["{a_\text{first}}"', color={rgb,255:red,214;green,92;blue,92}, from=1-1, to=3-1]
+	\arrow["{\text{choose}}"{description}, color={rgb,255:red,214;green,92;blue,92}, from=1-1, to=3-3]
+	\arrow["a", from=1-1, to=5-3]
+	\arrow["{b_\text{first}}", color={rgb,255:red,214;green,92;blue,92}, from=1-5, to=1-7]
+	\arrow["{a_\text{first}}"', color={rgb,255:red,214;green,92;blue,92}, from=1-5, to=3-5]
+	\arrow["{\text{choose}}"{description}, color={rgb,255:red,214;green,92;blue,92}, from=1-5, to=3-7]
+	\arrow["b", from=1-5, to=3-9]
+	\arrow["a", from=1-5, to=5-7]
+	\arrow["{\text{choose}}"{description}, color={rgb,255:red,214;green,92;blue,92}, from=1-7, to=3-9]
+	\arrow["{\text{choose}}"{description}, color={rgb,255:red,214;green,92;blue,92}, from=3-1, to=5-3]
+	\arrow["{a_\text{first}}", color={rgb,255:red,214;green,92;blue,92}, from=3-3, to=5-3]
+	\arrow["{\text{choose}}"{description}, color={rgb,255:red,214;green,92;blue,92}, from=3-5, to=5-7]
+	\arrow["{b_\text{first}}", color={rgb,255:red,214;green,92;blue,92}, from=3-7, to=3-9]
+	\arrow["{a_\text{first}}", color={rgb,255:red,214;green,92;blue,92}, from=3-7, to=5-7]
+	\arrow["{a_\text{first}}", color={rgb,255:red,214;green,92;blue,92}, from=3-9, to=5-9]
+	\arrow["\tau", from=5-3, to=5-4]
+	\arrow["{b_\text{first}}", color={rgb,255:red,214;green,92;blue,92}, from=5-4, to=5-5]
+	\arrow["{b_\text{first}}", color={rgb,255:red,214;green,92;blue,92}, from=5-7, to=5-9]
+\end{tikzcd}\]
+	\caption{Counterexample for Strong Bisimilarity with the processes $P = a$ and $Q = \tau.b$. The result of the translation is $a.\tau + \tau.(a+b) \not\leftrightarroweq a + \tau.(a+b)$. Restricted actions are marked in red.}
+	\label{fig:sb-counterexample}
+\end{figure}
+
 
 \chapter{Conclusions}
 

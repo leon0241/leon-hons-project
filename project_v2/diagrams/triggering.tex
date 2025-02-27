@@ -1,0 +1,166 @@
+\begin{figure}[!ht]
+   \centering
+
+   \begin{subfigure}[b]{0.4\textwidth}
+      \[\begin{tikzcd}[cramped, column sep=scriptsize]
+& \bullet && \bullet && \bullet && \bullet \\
+	 \bullet & \bullet && \bullet && \bullet && \bullet \\
+	 \\
+	 \bullet & \bullet && \bullet && \bullet && \bullet \\
+	 \\
+	 \bullet & \bullet && \bullet && \bullet && \bullet \\
+	 \\
+	 \bullet & \bullet && \bullet && \bullet && \bullet
+	 \arrow["a", from=1-2, to=1-4]
+	 \arrow["b", from=1-4, to=1-6]
+	 \arrow["c", from=1-6, to=1-8]
+	 \arrow["{\mathtt{first}}"', from=2-1, to=4-1]
+	 \arrow["a", from=2-2, to=2-4]
+	 \arrow["{\mathtt{first}}"', from=2-2, to=4-2]
+	 \arrow["b", from=2-4, to=2-6]
+	 \arrow["{\mathtt{first}}"', from=2-4, to=4-4]
+	 \arrow["c", from=2-6, to=2-8]
+	 \arrow["{\mathtt{first}}"', from=2-6, to=4-6]
+	 \arrow["{\mathtt{first}}"', from=2-8, to=4-8]
+	 \arrow["{\mathtt{next}}"', from=4-1, to=6-1]
+	 \arrow["a", from=4-2, to=4-4]
+	 \arrow["{\mathtt{next}}"', from=4-2, to=6-2]
+	 \arrow["b", from=4-4, to=4-6]
+	 \arrow["{\mathtt{next}}"', from=4-4, to=6-4]
+	 \arrow["c", from=4-6, to=4-8]
+	 \arrow["{\mathtt{next}}"', from=4-6, to=6-6]
+	 \arrow["{\mathtt{next}}"', from=4-8, to=6-8]
+	 \arrow["{\mathtt{next}}"', from=6-1, to=8-1]
+	 \arrow["a", from=6-2, to=6-4]
+	 \arrow["{\mathtt{next}}"', from=6-2, to=8-2]
+	 \arrow["b", from=6-4, to=6-6]
+	 \arrow["{\mathtt{next}}"', from=6-4, to=8-4]
+	 \arrow["c", from=6-6, to=6-8]
+	 \arrow["{\mathtt{next}}"', from=6-6, to=8-6]
+	 \arrow["{\mathtt{next}}"', from=6-8, to=8-8]
+	 \arrow["a", from=8-2, to=8-4]
+	 \arrow["b", from=8-4, to=8-6]
+	 \arrow["c", from=8-6, to=8-8]
+      \end{tikzcd}\]
+      \caption{Step 1 - Left Merge on both sides}
+   \end{subfigure}
+   \hfill
+   \begin{subfigure}[b]{0.4\textwidth}
+      \[\begin{tikzcd}[cramped, column sep=scriptsize]
+	 \bullet && \bullet && \bullet && \bullet \\
+	 \\
+	 \bullet && \bullet && \bullet && \bullet \\
+	 \\
+	 \bullet && \bullet && \bullet && \bullet \\
+	 \\
+	 \bullet && \bullet && \bullet && \bullet
+	 \arrow["a", from=1-1, to=1-3]
+	 \arrow["{\mathtt{first}}"', from=1-1, to=3-1]
+	 \arrow["{a_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=3-3]
+	 \arrow["b", from=1-3, to=1-5]
+	 \arrow["{\mathtt{first}}"', from=1-3, to=3-3]
+	 \arrow["{b_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=3-5]
+	 \arrow["c", from=1-5, to=1-7]
+	 \arrow["{\mathtt{first}}"', from=1-5, to=3-5]
+	 \arrow["{c_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-5, to=3-7]
+	 \arrow["{\mathtt{first}}"', from=1-7, to=3-7]
+	 \arrow["a", from=3-1, to=3-3]
+	 \arrow["{\mathtt{next}}"', from=3-1, to=5-1]
+	 \arrow["{a_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-1, to=5-3]
+	 \arrow["b", from=3-3, to=3-5]
+	 \arrow["{\mathtt{next}}"', from=3-3, to=5-3]
+	 \arrow["{b_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-3, to=5-5]
+	 \arrow["c", from=3-5, to=3-7]
+	 \arrow["{\mathtt{next}}"', from=3-5, to=5-5]
+	 \arrow["{c_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-5, to=5-7]
+	 \arrow["{\mathtt{next}}"', from=3-7, to=5-7]
+	 \arrow["a", from=5-1, to=5-3]
+	 \arrow["{\mathtt{next}}"', from=5-1, to=7-1]
+	 \arrow["{a_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-1, to=7-3]
+	 \arrow["b", from=5-3, to=5-5]
+	 \arrow["{\mathtt{next}}"', from=5-3, to=7-3]
+	 \arrow["{b_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-3, to=7-5]
+	 \arrow["c", from=5-5, to=5-7]
+	 \arrow["{\mathtt{next}}"', from=5-5, to=7-5]
+	 \arrow["{c_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-5, to=7-7]
+	 \arrow["{\mathtt{next}}"', from=5-7, to=7-7]
+	 \arrow["a", from=7-1, to=7-3]
+	 \arrow["b", from=7-3, to=7-5]
+	 \arrow["c", from=7-5, to=7-7]
+      \end{tikzcd}\]
+      \caption{Step 2 - Communications}
+   \end{subfigure}
+
+   \begin{subfigure}[b]{0.4\textwidth}
+      \[\begin{tikzcd}[cramped, column sep=scriptsize]
+	 \bullet && \bullet && \bullet && \bullet \\
+	 \\
+	 \bullet && \bullet && \bullet && \bullet \\
+	 \\
+	 \bullet && \bullet && \bullet && \bullet \\
+	 \\
+	 \bullet && \bullet && \bullet && \bullet
+	 \arrow["a", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-1, to=1-3]
+	 \arrow["{\mathtt{first}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-1, to=3-1]
+	 \arrow["{a_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=3-3]
+	 \arrow["b", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-3, to=1-5]
+	 \arrow["{\mathtt{first}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-3, to=3-3]
+	 \arrow["{b_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=3-5]
+	 \arrow["c", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-5, to=1-7]
+	 \arrow["{\mathtt{first}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-5, to=3-5]
+	 \arrow["{c_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-5, to=3-7]
+	 \arrow["{\mathtt{first}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-7, to=3-7]
+	 \arrow["a", color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-1, to=3-3]
+	 \arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-1, to=5-1]
+	 \arrow["{a_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-1, to=5-3]
+	 \arrow["b", color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-3, to=3-5]
+	 \arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-3, to=5-3]
+	 \arrow["{b_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-3, to=5-5]
+	 \arrow["c", color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-5, to=3-7]
+	 \arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-5, to=5-5]
+	 \arrow["{c_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-5, to=5-7]
+	 \arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-7, to=5-7]
+	 \arrow["a", color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-1, to=5-3]
+	 \arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-1, to=7-1]
+	 \arrow["{a_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-1, to=7-3]
+	 \arrow["b", color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-3, to=5-5]
+	 \arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-3, to=7-3]
+	 \arrow["{b_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-3, to=7-5]
+	 \arrow["c", color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-5, to=5-7]
+	 \arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-5, to=7-5]
+	 \arrow["{c_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-5, to=7-7]
+	 \arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-7, to=7-7]
+	 \arrow["a", color={rgb,255:red,214;green,92;blue,92}, dashed, from=7-1, to=7-3]
+	 \arrow["b", color={rgb,255:red,214;green,92;blue,92}, dashed, from=7-3, to=7-5]
+	 \arrow["c", color={rgb,255:red,214;green,92;blue,92}, dashed, from=7-5, to=7-7]
+      \end{tikzcd}\]
+      \caption{Step 3 - Restriction of $H_{1}$}
+   \end{subfigure}
+   \hfill
+   \begin{subfigure}[b]{0.4\textwidth}
+      \[\begin{tikzcd}[cramped, column sep=scriptsize]
+	 \bullet \\
+	 \\
+	&& \bullet \\
+	\\
+	&&&& \bullet \\
+	\\
+	&&&&&& \bullet
+	\arrow["{a_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=3-3]
+	\arrow["{b_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-3, to=5-5]
+	\arrow["{c_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-5, to=7-7]
+      \end{tikzcd}\]
+      \caption{Step 4 - Result of Restriction}
+   \end{subfigure}
+
+   \begin{subfigure}[b]{0.4\textwidth}
+      \[\begin{tikzcd}[cramped]
+	 \bullet && \bullet && \bullet && \bullet
+	 \arrow["{a_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=1-3]
+	 \arrow["b"', color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=1-5]
+	 \arrow["c"', color={rgb,255:red,92;green,92;blue,214}, from=1-5, to=1-7]
+      \end{tikzcd}\]
+      \caption{Result of Functional Renaming}
+   \end{subfigure}
+   \caption{Example of $\Gamma(P)$ applied to $P = a.b.c$}
+\end{figure}
