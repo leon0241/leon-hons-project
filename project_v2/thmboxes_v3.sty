@@ -14,36 +14,43 @@
 
 % THEOREM
 \newenvironment{thm}[3][]{
+    \vspace{10pt}
     \begin{thmbox}[#1]{#2}{#3}{blue}{20}{Theorem}
 } {\end{thmbox}}
 
 % THEOREM
 \newenvironment{lma}[3][]{
+    \vspace{5pt}
     \begin{thmbox}[#1]{#2}{#3}{cyan}{20}{Lemma}
 } {\end{thmbox}}
 
 % DEFINITION
 \newenvironment{dfn}[3][]{
+    \vspace{10pt}
     \begin{thmbox}[#1]{#2}{#3}{green}{20}{Definition}
 } {\end{thmbox}}
 
 % DEFINITION
 \newenvironment{dfn-s}[3][]{
+    \vspace{5pt}
     \begin{thmbox}[#1]{#2}{#3}{green}{20}{Def}
 } {\end{thmbox}}
 
 % EXAMPLE
 \newenvironment{xmp}[3][]{
+    \vspace{5pt}
     \begin{thmbox}[#1]{#2}{#3}{yellow}{40}{Example}
 } {\end{thmbox}}
 
 % REMARK
 \newenvironment{rem}[3][]{
+    \vspace{5pt}
     \begin{thmbox}[#1]{#2}{#3}{magenta}{20}{Remark}
 } {\end{thmbox}}
 
 % QUESTION
 \newenvironment{qst}[3][]{
+    \vspace{5pt}
     \begin{thmbox}[#1]{#2}{#3}{orange}{30}{Question}
 } {\end{thmbox}}
 

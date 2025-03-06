@@ -2,6 +2,7 @@
 \usepackage{prftree}
 \usepackage{graphicx, atbegshi} % Required for inserting images
 \usepackage{amsmath}
+\usepackage{amsthm}
 \usepackage{mathrsfs}
 \usepackage{amsfonts}
 \usepackage{amssymb}
@@ -25,12 +26,35 @@
 % note: this is the final package
 \usepackage{hyperref}
 
-\newcommand{\detcomp}{\,\square\,}
-
 \usepackage{etoolbox}
 \apptocmd{\thebibliography}{\raggedright}{}{}
 
 
 \newcommand{\trans}[1]{\mathscr{T}(#1)}
+\newcommand{\tran}{\mathscr{T}}
+
+% Languages
+\newcommand{\acpt}{\mathrm{ACP}_{\tau}}
+\newcommand{\acptf}{\mathrm{ACP}_{F}^{\tau}}
+\newcommand{\csp}{\mathrm{CSP}}
+
+\newcommand{\tcsp}{\mathbb{T}_{\csp}}
+\newcommand{\tacp}{\mathbb{T}_{\acptf}}
+
+
+% CSP operations
+\renewcommand{\div}{\rm{div}}
 \newcommand{\oper}{\llbracket \,\, \rrbracket}
+\newcommand{\intchoice}{\sqcap}
+\newcommand{\sliding}{\triangleright}
+\newcommand{\conceal}{\backslash}
+\newcommand{\extchoice}{\,\square\,}
 \newcommand{\pcomp}{\vert\vert}
+\newcommand{\stopping}{\triangle}
+\newcommand{\interrupt}{\,\Theta_{A}\,}
+\newcommand{\fdef}[1]{f_{\mathtt{#1}}}
+
+% ACP operations
+\renewcommand{\merge}{\vert\vert}
+\newcommand{\leftmerge}{\vert\vert\hspace{-0.435em}\raisebox{-0.29ex}{\underline{\hspace{0.6em}}}}
+\newcommand{\restrict}{\partial_{H}}
