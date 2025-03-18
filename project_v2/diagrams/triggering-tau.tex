@@ -1,88 +1,94 @@
 \begin{figure}[!ht]
    \centering
 
-   \begin{subfigure}[b]{0.475\textwidth}
-      \[\begin{tikzcd}[cramped, column sep=scriptsize]
-	 \bullet && \bullet && \bullet && \bullet \\
-	 \\
-	 \bullet && \bullet && \bullet && \bullet \\
-	 \\
-	 \bullet && \bullet && \bullet && \bullet \\
-	 \\
-	 \bullet && \bullet && \bullet && \bullet
-	 \arrow["\tau", from=1-1, to=1-3]
-	 \arrow["{\mathtt{first}}"', from=1-1, to=3-1]
-	 \arrow["a", from=1-3, to=1-5]
-	 \arrow["{\mathtt{first}}"', from=1-3, to=3-3]
-	 \arrow["{a_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=3-5]
-	 \arrow["b", from=1-5, to=1-7]
-	 \arrow["{\mathtt{first}}"', from=1-5, to=3-5]
-	 \arrow["{b_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-5, to=3-7]
-	 \arrow["{\mathtt{first}}"', from=1-7, to=3-7]
-	 \arrow["\tau", from=3-1, to=3-3]
-	 \arrow["{\mathtt{next}}"', from=3-1, to=5-1]
-	 \arrow["a", from=3-3, to=3-5]
-	 \arrow["{\mathtt{next}}"', from=3-3, to=5-3]
-	 \arrow["{a_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-3, to=5-5]
-	 \arrow["b", from=3-5, to=3-7]
-	 \arrow["{\mathtt{next}}"', from=3-5, to=5-5]
-	 \arrow["{b_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-5, to=5-7]
-	 \arrow["{\mathtt{next}}"', from=3-7, to=5-7]
-	 \arrow["\tau", from=5-1, to=5-3]
-	 \arrow["{\mathtt{next}}"', from=5-1, to=7-1]
-	 \arrow["a", from=5-3, to=5-5]
-	 \arrow["{\mathtt{next}}"', from=5-3, to=7-3]
-	 \arrow["{a_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-3, to=7-5]
-	 \arrow["b", from=5-5, to=5-7]
-	 \arrow["{\mathtt{next}}"', from=5-5, to=7-5]
-	 \arrow["{b_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-5, to=7-7]
-	 \arrow["{\mathtt{next}}"', from=5-7, to=7-7]
-	 \arrow["\tau", from=7-1, to=7-3]
-	 \arrow["a", from=7-3, to=7-5]
-	 \arrow["b", from=7-5, to=7-7]
+   \begin{subfigure}[b]{0.49\textwidth}
+% https://q.uiver.app/#q=WzAsMTcsWzEsMSwiXFxjaXJjIl0sWzEsMywiXFxidWxsZXQiXSxbMywxLCJcXGJ1bGxldCJdLFs1LDEsIlxcYnVsbGV0Il0sWzEsNSwiXFxidWxsZXQiXSxbMywzLCJcXGJ1bGxldCJdLFszLDUsIlxcYnVsbGV0Il0sWzUsMywiXFxidWxsZXQiXSxbNSw1LCJcXGJ1bGxldCJdLFs3LDEsIlxcYnVsbGV0Il0sWzcsMywiXFxidWxsZXQiXSxbNyw1LCJcXGJ1bGxldCJdLFsxLDcsIlxcYnVsbGV0Il0sWzMsNywiXFxidWxsZXQiXSxbNSw3LCJcXGJ1bGxldCJdLFs3LDcsIlxcYnVsbGV0Il0sWzAsMF0sWzAsMSwiXFx0YXUiLDJdLFswLDIsIlxcbWF0aHR0e2ZpcnN0fSJdLFsyLDMsIlxcbWF0aHR0e25leHR9Il0sWzEsNCwiYSIsMl0sWzIsNSwiXFx0YXUiLDJdLFs1LDYsImEiLDJdLFs3LDgsImEiLDJdLFszLDcsIlxcdGF1IiwyXSxbMSw1LCJcXG1hdGh0dHtmaXJzdH0iXSxbNCw2LCJcXG1hdGh0dHtmaXJzdH0iXSxbNSw3LCJcXG1hdGh0dHtuZXh0fSJdLFs2LDgsIlxcbWF0aHR0e25leHR9Il0sWzUsOCwiYV97XFxtYXRodHR7bmV4dH19IiwyLHsiY29sb3VyIjpbMjQwLDYwLDQzXX0sWzI0MCw2MCw0MywxXV0sWzEsNiwiYV97XFxtYXRodHR7Zmlyc3R9fSIsMix7ImNvbG91ciI6WzI0MCw2MCw0M119LFsyNDAsNjAsNDMsMV1dLFszLDksIlxcdGV4dHR0e25leHR9Il0sWzcsMTAsIlxcdGV4dHR0e25leHR9Il0sWzgsMTEsIlxcdGV4dHR0e25leHR9Il0sWzQsMTIsImIiLDJdLFs2LDEzLCJiIiwyXSxbOCwxNCwiYiIsMl0sWzExLDE1LCJiIl0sWzEyLDEzLCJcXHRleHR0dHtmaXJzdH0iLDFdLFsxMywxNCwiXFx0ZXh0dHR7bmV4dH0iXSxbMTQsMTUsIlxcdGV4dHR0e25leHR9Il0sWzksMTAsIlxcdGF1IiwyXSxbMTAsMTEsImEiLDFdLFs3LDExLCJhX3tcXHRleHR0dHtuZXh0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNDNdfSxbMjQwLDYwLDQzLDFdXSxbNCwxMywiYl97XFx0ZXh0dHR7Zmlyc3R9fSIsMix7ImNvbG91ciI6WzI0MCw2MCw0M119LFsyNDAsNjAsNDMsMV1dLFs2LDE0LCJiX3tcXHRleHR0dHtuZXh0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNDNdfSxbMjQwLDYwLDQzLDFdXSxbOCwxNSwiYl97XFx0ZXh0dHR7bmV4dH19IiwyLHsiY29sb3VyIjpbMjQwLDYwLDQzXX0sWzI0MCw2MCw0MywxXV0sWzE2LDAsIiIsMCx7InNob3J0ZW4iOnsic291cmNlIjo4MH19XV0=
+      \[\begin{tikzcd}[cramped,column sep=scriptsize]
+	 {} \\
+	& \circ && \bullet && \bullet && \bullet \\
+	\\
+	& \bullet && \bullet && \bullet && \bullet \\
+	\\
+	& \bullet && \bullet && \bullet && \bullet \\
+	\\
+	& \bullet && \bullet && \bullet && \bullet
+	\arrow[shorten <=16pt, from=1-1, to=2-2]
+	\arrow["{\mathtt{first}}", from=2-2, to=2-4]
+	\arrow["\tau"', from=2-2, to=4-2]
+	\arrow["{\mathtt{next}}", from=2-4, to=2-6]
+	\arrow["\tau"', from=2-4, to=4-4]
+	\arrow["{\texttt{next}}", from=2-6, to=2-8]
+	\arrow["\tau"', from=2-6, to=4-6]
+	\arrow["\tau"', from=2-8, to=4-8]
+	\arrow["{\mathtt{first}}", from=4-2, to=4-4]
+	\arrow["a"', from=4-2, to=6-2]
+	\arrow["{a_{\mathtt{first}}}"', color={rgb,255:red,44;green,44;blue,175}, from=4-2, to=6-4]
+	\arrow["{\mathtt{next}}", from=4-4, to=4-6]
+	\arrow["a"', from=4-4, to=6-4]
+	\arrow["{a_{\mathtt{next}}}"', color={rgb,255:red,44;green,44;blue,175}, from=4-4, to=6-6]
+	\arrow["{\texttt{next}}", from=4-6, to=4-8]
+	\arrow["a"', from=4-6, to=6-6]
+	\arrow["{a_{\texttt{next}}}"', color={rgb,255:red,44;green,44;blue,175}, from=4-6, to=6-8]
+	\arrow["a"{description}, from=4-8, to=6-8]
+	\arrow["{\mathtt{first}}", from=6-2, to=6-4]
+	\arrow["b"', from=6-2, to=8-2]
+	\arrow["{b_{\texttt{first}}}"', color={rgb,255:red,44;green,44;blue,175}, from=6-2, to=8-4]
+	\arrow["{\mathtt{next}}", from=6-4, to=6-6]
+	\arrow["b"', from=6-4, to=8-4]
+	\arrow["{b_{\texttt{next}}}"', color={rgb,255:red,44;green,44;blue,175}, from=6-4, to=8-6]
+	\arrow["{\texttt{next}}", from=6-6, to=6-8]
+	\arrow["b"', from=6-6, to=8-6]
+	\arrow["{b_{\texttt{next}}}"', color={rgb,255:red,44;green,44;blue,175}, from=6-6, to=8-8]
+	\arrow["b", from=6-8, to=8-8]
+	\arrow["{\texttt{first}}"{description}, from=8-2, to=8-4]
+	\arrow["{\texttt{next}}", from=8-4, to=8-6]
+	\arrow["{\texttt{next}}", from=8-6, to=8-8]
       \end{tikzcd}\]
       \caption{Left merge with $\tau$ communications}
    \end{subfigure}
    \hfill
-   \begin{subfigure}[b]{0.475\textwidth}
-      \[\begin{tikzcd}[cramped, column sep=scriptsize]
-	 \bullet && \bullet && \bullet && \bullet \\
-	 \\
-	 \bullet && \bullet && \bullet && \bullet \\
-	 \\
-	 \bullet && \bullet && \bullet && \bullet \\
-	 \\
-	 \bullet && \bullet && \bullet && \bullet
-	 \arrow["\tau", from=1-1, to=1-3]
-	 \arrow["{\mathtt{first}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-1, to=3-1]
-	 \arrow["a", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-3, to=1-5]
-	 \arrow["{\mathtt{first}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-3, to=3-3]
-	 \arrow["{a_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=3-5]
-	 \arrow["b", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-5, to=1-7]
-	 \arrow["{\mathtt{first}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-5, to=3-5]
-	 \arrow["{b_\mathtt{first}}"', color={rgb,255:red,92;green,92;blue,214}, from=1-5, to=3-7]
-	 \arrow["{\mathtt{first}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-7, to=3-7]
-	 \arrow["\tau", from=3-1, to=3-3]
-	 \arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-1, to=5-1]
-	 \arrow["a", color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-3, to=3-5]
-	 \arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-3, to=5-3]
-	 \arrow["{a_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-3, to=5-5]
-	 \arrow["b", color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-5, to=3-7]
-	 \arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-5, to=5-5]
-	 \arrow["{b_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=3-5, to=5-7]
-	 \arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-7, to=5-7]
-	 \arrow["\tau", from=5-1, to=5-3]
-	 \arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-1, to=7-1]
-	 \arrow["a", color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-3, to=5-5]
-	 \arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-3, to=7-3]
-	 \arrow["{a_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-3, to=7-5]
-	 \arrow["b", color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-5, to=5-7]
-	 \arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-5, to=7-5]
-	 \arrow["{b_\mathtt{next}}"', color={rgb,255:red,92;green,92;blue,214}, from=5-5, to=7-7]
-	 \arrow["{\mathtt{next}}"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-7, to=7-7]
-	 \arrow["\tau", from=7-1, to=7-3]
-	 \arrow["a", color={rgb,255:red,214;green,92;blue,92}, dashed, from=7-3, to=7-5]
-	 \arrow["b", color={rgb,255:red,214;green,92;blue,92}, dashed, from=7-5, to=7-7]
+   \begin{subfigure}[b]{0.49\textwidth}
+% https://q.uiver.app/#q=WzAsMTcsWzEsMSwiXFxjaXJjIl0sWzEsMywiXFxidWxsZXQiXSxbMywxLCJcXGJ1bGxldCJdLFs1LDEsIlxcYnVsbGV0Il0sWzEsNSwiXFxidWxsZXQiXSxbMywzLCJcXGJ1bGxldCJdLFszLDUsIlxcYnVsbGV0Il0sWzUsMywiXFxidWxsZXQiXSxbNSw1LCJcXGJ1bGxldCJdLFs3LDEsIlxcYnVsbGV0Il0sWzcsMywiXFxidWxsZXQiXSxbNyw1LCJcXGJ1bGxldCJdLFsxLDcsIlxcYnVsbGV0Il0sWzMsNywiXFxidWxsZXQiXSxbNSw3LCJcXGJ1bGxldCJdLFs3LDcsIlxcYnVsbGV0Il0sWzAsMF0sWzAsMSwiXFx0YXUiLDJdLFswLDIsIlxcbWF0aHR0e2ZpcnN0fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbMiwzLCJcXG1hdGh0dHtuZXh0fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbMSw0LCJhIiwyLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFsyLDUsIlxcdGF1IiwyXSxbNSw2LCJhIiwyLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFs3LDgsImEiLDIseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzMsNywiXFx0YXUiLDJdLFsxLDUsIlxcbWF0aHR0e2ZpcnN0fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbNCw2LCJcXG1hdGh0dHtmaXJzdH0iLDAseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzUsNywiXFxtYXRodHR7bmV4dH0iLDAseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzYsOCwiXFxtYXRodHR7bmV4dH0iLDAseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzUsOCwiYV97XFxtYXRodHR7bmV4dH19IiwyLHsiY29sb3VyIjpbMjQwLDYwLDQzXX0sWzI0MCw2MCw0MywxXV0sWzEsNiwiYV97XFxtYXRodHR7Zmlyc3R9fSIsMix7ImNvbG91ciI6WzI0MCw2MCw0M119LFsyNDAsNjAsNDMsMV1dLFszLDksIlxcdGV4dHR0e25leHR9IiwwLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFs3LDEwLCJcXHRleHR0dHtuZXh0fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbOCwxMSwiXFx0ZXh0dHR7bmV4dH0iLDAseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzQsMTIsImIiLDIseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzYsMTMsImIiLDIseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzgsMTQsImIiLDIseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzExLDE1LCJiIiwwLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFsxMiwxMywiXFx0ZXh0dHR7Zmlyc3R9IiwxLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFsxMywxNCwiXFx0ZXh0dHR7bmV4dH0iLDAseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzE0LDE1LCJcXHRleHR0dHtuZXh0fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbOSwxMCwiXFx0YXUiLDJdLFsxMCwxMSwiYSIsMSx7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbNywxMSwiYV97XFx0ZXh0dHR7bmV4dH19IiwyLHsiY29sb3VyIjpbMjQwLDYwLDQzXX0sWzI0MCw2MCw0MywxXV0sWzQsMTMsImJfe1xcdGV4dHR0e2ZpcnN0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNDNdfSxbMjQwLDYwLDQzLDFdXSxbNiwxNCwiYl97XFx0ZXh0dHR7bmV4dH19IiwyLHsiY29sb3VyIjpbMjQwLDYwLDQzXX0sWzI0MCw2MCw0MywxXV0sWzgsMTUsImJfe1xcdGV4dHR0e25leHR9fSIsMix7ImNvbG91ciI6WzI0MCw2MCw0M119LFsyNDAsNjAsNDMsMV1dLFsxNiwwLCIiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6ODB9fV1d
+      \[\begin{tikzcd}[cramped,column sep=scriptsize]
+	 {} \\
+	& \circ && \bullet && \bullet && \bullet \\
+	\\
+	& \bullet && \bullet && \bullet && \bullet \\
+	\\
+	& \bullet && \bullet && \bullet && \bullet \\
+	\\
+	& \bullet && \bullet && \bullet && \bullet
+	\arrow[shorten <=16pt, from=1-1, to=2-2]
+	\arrow["{\mathtt{first}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=2-2, to=2-4]
+	\arrow["\tau"', from=2-2, to=4-2]
+	\arrow["{\mathtt{next}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=2-4, to=2-6]
+	\arrow["\tau"', from=2-4, to=4-4]
+	\arrow["{\texttt{next}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=2-6, to=2-8]
+	\arrow["\tau"', from=2-6, to=4-6]
+	\arrow["\tau"', from=2-8, to=4-8]
+	\arrow["{\mathtt{first}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=4-2, to=4-4]
+	\arrow["a"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=4-2, to=6-2]
+	\arrow["{a_{\mathtt{first}}}"', color={rgb,255:red,44;green,44;blue,175}, from=4-2, to=6-4]
+	\arrow["{\mathtt{next}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=4-4, to=4-6]
+	\arrow["a"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=4-4, to=6-4]
+	\arrow["{a_{\mathtt{next}}}"', color={rgb,255:red,44;green,44;blue,175}, from=4-4, to=6-6]
+	\arrow["{\texttt{next}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=4-6, to=4-8]
+	\arrow["a"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=4-6, to=6-6]
+	\arrow["{a_{\texttt{next}}}"', color={rgb,255:red,44;green,44;blue,175}, from=4-6, to=6-8]
+	\arrow["a"{description}, color={rgb,255:red,214;green,92;blue,92}, dashed, from=4-8, to=6-8]
+	\arrow["{\mathtt{first}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=6-2, to=6-4]
+	\arrow["b"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=6-2, to=8-2]
+	\arrow["{b_{\texttt{first}}}"', color={rgb,255:red,44;green,44;blue,175}, from=6-2, to=8-4]
+	\arrow["{\mathtt{next}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=6-4, to=6-6]
+	\arrow["b"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=6-4, to=8-4]
+	\arrow["{b_{\texttt{next}}}"', color={rgb,255:red,44;green,44;blue,175}, from=6-4, to=8-6]
+	\arrow["{\texttt{next}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=6-6, to=6-8]
+	\arrow["b"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=6-6, to=8-6]
+	\arrow["{b_{\texttt{next}}}"', color={rgb,255:red,44;green,44;blue,175}, from=6-6, to=8-8]
+	\arrow["b", color={rgb,255:red,214;green,92;blue,92}, dashed, from=6-8, to=8-8]
+	\arrow["{\texttt{first}}"{description}, color={rgb,255:red,214;green,92;blue,92}, dashed, from=8-2, to=8-4]
+	\arrow["{\texttt{next}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=8-4, to=8-6]
+	\arrow["{\texttt{next}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=8-6, to=8-8]
       \end{tikzcd}\]
       \caption{Restriction of $H_{1}$ with $\tau$ actions}
    \end{subfigure}

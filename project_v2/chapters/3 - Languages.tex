@@ -1,0 +1,86 @@
+\section{Languages}\label{ssec:language}
+
+From [EXPRESSIVENESS], we represent a language $\mathscr{L}$ as a pair $(\mathbb{T}, \oper)$, where $\mathbb{T}$ is a set of valid expressions in $\mathscr{L}$, and $\oper$ is a mapping $\oper c: \mathbb{T} \to \mathscr{D}$ from $\mathbb{T}$ to a set of meanings $\mathscr{D}$. We also define $A \subseteq \mathbb{T}$, where $A$ is the set of actions
+
+\section{\texorpdfstring{$\csp$}{CSP}}\label{ssec:CSP}
+As stated above, our proposed grammar of $\csp$ consists of the operations:
+
+\begin{align*}
+   P, Q ::= &\mathrm{STOP} \mid \mathrm{div} \mid a\to P \mid P \sqcap Q \mid P \extchoice Q \mid P \triangleleft Q \mid \\
+	&P | |_{A} Q \mid P \backslash A \mid f(P) \mid P \triangle Q \mid P \theta_{A} Q \mid 
+\end{align*}
+%\mu p.P
+where the operators are: \textit{inaction}, \textit{divergence}, \textit{action prefixing}, \textit{internal choice}, \textit{external choice}, \textit{sliding choice}, \textit{parallel composition}, \textit{concealment}, \textit{renaming}, \textit{interrupt}, and \textit{throw}.
+
+These can also be represented in the following GSOS table
+
+\begin{table}[htb]
+\begin{center}
+\framebox{$\begin{array}{ccccc}
+\div\prightarrow{\tau}\div &
+(a\rightarrow P) \prightarrow{a} P &
+P \intchoice Q \prightarrow{\tau} P &
+P \intchoice Q \prightarrow{\tau} Q \\[2ex]
+\displaystyle\frac{P\prightarrow{a} P'}{P\extchoice Q \prightarrow{a} P'} &
+\displaystyle\frac{P\prightarrow{\tau} P'}{P\extchoice Q \prightarrow{\tau} P'\extchoice Q} &
+\displaystyle\frac{Q\prightarrow{a} Q'}{P\extchoice Q \prightarrow{a} Q'} &
+\displaystyle\frac{Q\prightarrow{\tau} Q'}{P\extchoice Q \prightarrow{\tau} P\extchoice Q'} \\[4ex]
+\displaystyle\frac{P\prightarrow{a} P'}{P\sliding Q \prightarrow{a} P'} &
+\displaystyle\frac{P\prightarrow{\tau} P'}{P\sliding Q \prightarrow{\tau} P'\sliding Q} &
+P \sliding Q \prightarrow{\tau} Q &
+\displaystyle\frac{P \prightarrow{\alpha} P'}{f(P) \prightarrow{f(\alpha)} f(P')} \\[4ex]
+\displaystyle\frac{P\prightarrow{\alpha} P'~~{\scriptstyle(\alpha\notin A)}}{P\|_AQ \prightarrow{\alpha} P'\|_AQ} &
+\multicolumn{2}{c}{
+\displaystyle\frac{P\prightarrow{a} P'~~Q\prightarrow{a} Q'~~{\scriptstyle(a\in A)}}{P\|_AQ \prightarrow{a} P'\|_AQ'}} &
+\displaystyle\frac{Q\prightarrow{\alpha} Q'~~{\scriptstyle(\alpha\notin A)}}{P\|_AQ \prightarrow{\alpha} P\|_AQ'} \\[4ex]
+\displaystyle\frac{P \prightarrow{\alpha} P'~~{\scriptstyle(\alpha\notin A)}}{P\conceal A \prightarrow{\alpha} P'\conceal A} &
+\displaystyle\frac{P \prightarrow{a} P'~~{\scriptstyle(a\in A)}}{P\conceal A \prightarrow{\tau} P'\conceal A} &
+\displaystyle\frac{P\prightarrow{\alpha} P'~~{\scriptstyle(\alpha\notin A)}}{P\interrupt Q \prightarrow{a} P'\interrupt Q} &
+\displaystyle\frac{P\prightarrow{a} P'~~{\scriptstyle(a\in A)}}{P\interrupt Q \prightarrow{a} Q}\\[4ex]
+\displaystyle\frac{P\prightarrow{\alpha} P'}{P\triangle Q \prightarrow{\alpha} P'\triangle Q} &
+\displaystyle\frac{Q\prightarrow{\tau} Q'}{P\triangle Q \prightarrow{\tau} P'\triangle Q'} &
+\displaystyle\frac{Q\prightarrow{a} Q'}{P\triangle Q \prightarrow{a} Q'} &
+\multicolumn{2}{c}{\mu p.P \xrightarrow{\mathmakebox[10pt]{\tau}} P[\mu p.P/p]}
+\end{array}$}
+\end{center}
+\caption{Structural operational semantics of CSP}
+\label{tab:CSP}
+\end{table}
+
+
+\section{\texorpdfstring{$\acptf$}{ACP-tf}}
+
+
+\begin{table}[htb]
+\begin{center}
+\framebox{$\begin{array}{ccccc}
+(a. P) \prightarrow{\alpha} P &
+P + Q \prightarrow{\alpha} P &
+P + Q \prightarrow{\alpha} Q \\[2ex]
+% \displaystyle\frac{P \prightarrow{\alpha} P'}{f(P) \prightarrow{f(\alpha)} f(P')} \\[4ex]
+\displaystyle\frac{P\prightarrow{\alpha} P'}{P \merge Q \prightarrow{\alpha} P' \merge Q} &
+\displaystyle\frac{P\prightarrow{a} P'~~Q\prightarrow{b} Q'~~ a \mid b = c}{P \merge Q \prightarrow{a} P' \merge Q'} &
+\displaystyle\frac{Q\prightarrow{\alpha} Q'}{P \merge Q \prightarrow{\alpha} P \merge Q'} \\[4ex]
+
+\displaystyle\frac{P \prightarrow{\alpha} P'~~{\scriptstyle(\alpha\notin A)}}{\restrict(P) \prightarrow{\alpha} \restrict(P')} &
+
+\displaystyle\frac{\langle \mathcal{S}_{X} \mid \mathcal{S} \rangle \prightarrow{a} P'}{\langle X \mid \mathcal{S} \rangle \prightarrow{a} P'} &
+
+
+\end{array}$}
+\end{center}
+\caption{Structural operational semantics of ACP}
+\label{table:ACP}
+\end{table}
+
+\begin{align*}
+   P, Q ::= a \mid \delta \mid E + F \mid E . F \mid E \merge F \mid E \leftmerge F \mid E | F \mid \restrict(E) \mid \tau_{I}
+\end{align*}
+where the operators are: \textit{action}, \textit{deadlock}, \textit{alternative composition}, \textit{sequential composition}, \textit{merge}, \textit{left merge}, \textit{communication merge}, \textit{encapsulation}, \textit{abstraction}
+
+A proposed extension of ACP adds a Functional Renaming operator, as shown in [ON THE EXPRESSIVENESS OF ACP]. From this point forth, we will be using this extension, written as $ACP^{\tau}_{F}$. 
+
+
+\section{Expressiveness}
+Somethin something we are trying to gain an expressiveness result by translating $\csp$ to $\acpt$. A result of a valid translation would therefore show that $\csp$ is \textit{at least as expressive} as $\acpt$.
+

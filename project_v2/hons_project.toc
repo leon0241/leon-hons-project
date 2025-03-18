@@ -12,7 +12,7 @@
 \contentsline {chapter}{\numberline {4}A Translation of $\mathrm {CSP}$ to $\mathrm {ACP}_{F}^{\tau }$}{7}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Direct Translations}{7}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Trivial Translations}{7}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Helper Operators for $\mathrm {ACP}_{F}^{\tau }$}{8}{section.4.3}%
+\contentsline {section}{\numberline {4.3}Helper Operators for the language $\mathrm {ACP}_{F}^{\tau }$}{8}{section.4.3}%
 \contentsline {subsection}{\numberline {4.3.1}Subsets of $A$}{8}{subsection.4.3.1}%
 \contentsline {subsection}{\numberline {4.3.2}Triggering}{8}{subsection.4.3.2}%
 \contentsline {subsection}{\numberline {4.3.3}Associativity and Postfix Function}{11}{subsection.4.3.3}%
@@ -25,12 +25,11 @@
 \contentsline {subsection}{\numberline {4.4.6}Sliding Choice}{17}{subsection.4.4.6}%
 \contentsline {subsection}{\numberline {4.4.7}Final Translation}{18}{subsection.4.4.7}%
 \contentsline {chapter}{\numberline {5}Validity of the Encoding}{19}{chapter.5}%
-\contentsline {section}{\numberline {5.1}External Choice}{19}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}Proof of Rooted Branching Bisimilarity [WIP]}{23}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Stopping}{24}{subsection.5.1.2}%
-\contentsline {subsection}{\numberline {5.1.3}Generalising}{25}{subsection.5.1.3}%
-\contentsline {chapter}{\numberline {6}Results}{26}{chapter.6}%
-\contentsline {chapter}{\numberline {7}Conclusions}{27}{chapter.7}%
-\contentsline {chapter}{Bibliography}{28}{chapter*.8}%
-\contentsline {chapter}{\numberline {A}First appendix}{30}{appendix.A}%
-\contentsline {section}{\numberline {A.1}First section}{30}{section.A.1}%
+\contentsline {section}{\numberline {5.1}Section}{24}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Proof of Rooted Branching Bisimilarity [WIP]}{24}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Stopping}{25}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}Generalising}{26}{subsection.5.1.3}%
+\contentsline {chapter}{\numberline {6}Results}{27}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Conclusions}{28}{chapter.7}%
+\contentsline {chapter}{Bibliography}{29}{chapter*.8}%
+\contentsline {chapter}{\numberline {A}Diagrams}{31}{appendix.A}%

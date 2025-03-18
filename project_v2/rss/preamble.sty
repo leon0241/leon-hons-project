@@ -1,0 +1,74 @@
+%%------------------%%
+%% General Packages %%
+%%------------------%%
+
+% Lipsum Filler text package
+\usepackage{lipsum}
+
+% Import LaTeX Code
+\usepackage{import}
+
+
+%%---------------------%%
+%% Diagrams and Visual %%
+%%---------------------%%
+
+% Quiver for Tikz-cd diagrams
+\usepackage{quiver}
+% Proof Trees
+\usepackage{prftree}
+% Required for inserting images
+\usepackage{graphicx, atbegshi}
+% Needed for \mathmakebox for Arrow symbols
+\usepackage{mathtools}
+
+%%--------------------------%%
+%% Import Fonts and Symbols %%
+%%--------------------------%%
+
+% AMS packages. Note: AMSThm for proof env.
+\usepackage{amsmath, amsthm, amsfonts, amssymb}
+% Provides \mathscr font
+\usepackage{mathrsfs}
+% Provides Bisimulation Symbol
+\usepackage{stmaryrd}
+% Underscore compatability
+\usepackage{underscore}
+
+%%---------------------%%
+%% Import Environments %%
+%%---------------------%%
+
+% Multiple columns
+\usepackage{multicol}
+% Subfigures and Subcaptions
+\usepackage{subcaption}
+% Adds functionality for Enumerate
+\usepackage{enumitem}
+
+\usepackage{pdflscape}
+
+
+%%-----------------%%
+%% Custom Packages %%
+%%-----------------%%
+
+% MDFramed on Tikz-cd - Required for Thmboxes
+\usepackage[framemethod=TikZ]{mdframed}
+% Theorem Boxes
+\usepackage{rss/thmboxes_v3}
+% Custom Environments and Objects
+\usepackage{rss/customs}
+% Custom Symbols
+\usepackage{rss/symbols}
+
+% note: this is the final package
+\usepackage{hyperref}
+
+
+
+%%---------%%
+%% Options %%
+%%---------%%
+
+\apptocmd{\thebibliography}{\raggedright}{}{}

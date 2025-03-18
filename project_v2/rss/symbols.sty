@@ -1,0 +1,90 @@
+%% ------------------------ %%
+%% Expressiveness Semantics %%
+%% ------------------------ %%
+
+% Translation T(a)
+\newcommand{\trans}[1]{\mathscr{T}(#1)}
+
+% Translation T
+\newcommand{\tran}{\mathscr{T}}
+
+% Syntax
+\newcommand{\oper}{\llbracket \,\, \rrbracket}
+
+% Functional renaming
+\newcommand{\fdef}[1]{f_{\mathtt{#1}}}
+
+%% --------------------- %%
+%% Equivalence Semantics %%
+%% --------------------- %%
+
+%% Bisimilarity
+\newcommand{\bisim}{\leftrightarroweq}
+
+%% Branching Bisimilarity
+\newcommand{\brb}{=_{\mathit{BB}}}
+
+%% Rooted Branching Bisimilarity
+\newcommand{\rbrb}{=_{\mathit{RBB}}}
+
+%% --------- %%
+%% Languages %%
+%% --------- %%
+
+% ACP_tau
+\newcommand{\acpt}{\mathrm{ACP}_{\tau}}
+
+% ACP^tau_F functional renaming
+\newcommand{\acptf}{\mathrm{ACP}_{F}^{\tau}}
+
+% CSP
+\newcommand{\csp}{\mathrm{CSP}}
+
+% Actions in ACP^t_f
+\newcommand{\tacp}{\mathbb{T}_{\acptf}}
+
+% Actions in CSP
+\newcommand{\tcsp}{\mathbb{T}_{\csp}}
+
+
+%% -------------- %%
+%% CSP operations %%
+%% -------------- %%
+
+% Div
+\renewcommand{\div}{\rm{div}}
+
+% Internal Choice
+\newcommand{\intchoice}{\sqcap}
+
+% External Choice
+\newcommand{\extchoice}{\,\square\,}
+
+% Sliding choice
+\newcommand{\sliding}{\triangleright}
+
+% Conceal
+\newcommand{\conceal}{\backslash}
+
+% Parallel Composition
+\newcommand{\pcomp}{\vert\vert}
+
+% Stopping
+\newcommand{\stopping}{\triangle}
+
+% Interrupt
+\newcommand{\interrupt}{\,\Theta_{A}\,}
+
+
+%% -------------- %%
+%% ACP operations %%
+%% -------------- %%
+
+% Merge 
+\renewcommand{\merge}{\vert\vert}
+
+% Left Merge
+\newcommand{\leftmerge}{\vert\vert\hspace{-0.435em}\raisebox{-0.29ex}{\underline{\hspace{0.6em}}}}
+
+% Restriction
+\newcommand{\restrict}{\partial_{H}}
