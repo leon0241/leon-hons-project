@@ -2,70 +2,56 @@
 
 \documentclass[../hons_project.tex]{subfiles}
 \begin{document}
-    
-\[\partial_{H_{0}}\Bigl(f_{2}\Bigl[\Gamma(P)\, | | \,\mathtt{choose}\, | | \,\Gamma(Q)\Bigr]\Bigr)\]
-has identical behaviour to $P + Q$
 
-On processes with internal actions, which we will call $\mathcal{P} = \tau_{P}.a.P$ and $\mathcal{Q} = \tau_{Q}.b.Q$, where $\tau_{P}$ indicates the number of starting $\tau$ actions in the process, possibly 0, the $\tau$ cannot communicate with $\mathtt{choose}$ so $\mathtt{choose}$ will only communicate with $a$ (Since only $a$ will be labelled with $\mathtt{first}$). However, the first action of $Q$ will still have the name $b_{\mathtt{first}}$ for $b\in A$. This lets the function effectively skip the $\tau$, then perform $\mathtt{choose}$ on $a.P \,| | \,b.Q$ which matches the behaviour of $\csp$ $\square$. 
-
-However, this translation is not strongly bisimilar. This is due to the final restriction $\partial_{H_{0}}$, which will usually restrict any stray $a_{\mathtt{first}}$ actions (and subsequent actions/processes) that try to communicate. However, since the silent step $\tau$ is not in $A$, we will get left with stray $\tau$ actions. This doesn't hold for two processes $a.P$ and $\tau.Q$, since the translation would yield the process
-\[a.(\tau | | P) + \tau.(P + Q) \ne a.P + \tau.(P + Q)\]
-
-% \begin{figure}[t!]
-% 	\centering
-% 	% https://q.uiver.app/#q=WzAsNyxbMCwwLCJcXGJ1bGxldCJdLFsxLDAsIlxcYnVsbGV0Il0sWzIsMCwiXFxidWxsZXQiXSxbMCwxLCJcXGJ1bGxldCJdLFsxLDEsIlxcYnVsbGV0Il0sWzIsMSwiXFxidWxsZXQiXSxbMywxLCJcXGJ1bGxldCJdLFswLDEsImEiXSxbMSwyLCJhIl0sWzMsNCwiYSJdLFs0LDUsIlxcdGF1Il0sWzUsNiwiYSJdLFswLDMsIiIsMSx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEsNCwiIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSwxLCIiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsyLDYsIiIsMSx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
-% 	\[\begin{tikzcd}[cramped]
-% 		\bullet & \bullet & \bullet \\
-% 		\bullet & \bullet & \bullet & \bullet
-% 		\arrow["a", from=1-1, to=1-2]
-% 		\arrow[dashed, no head, from=1-1, to=2-1]
-% 		\arrow["a", from=1-2, to=1-3]
-% 		\arrow[dashed, no head, from=1-2, to=2-2]
-% 		\arrow[dashed, no head, from=1-3, to=2-4]
-% 		\arrow["a", from=2-1, to=2-2]
-% 		\arrow["\tau", from=2-2, to=2-3]
-% 		\arrow[dashed, no head, from=2-3, to=1-2]
-% 		\arrow["a", from=2-3, to=2-4]
-% 	\end{tikzcd}\]
-% 	\caption{Branching Bisimilarity}
-% 	\label{branching-bisim}
-% \end{figure}
-
+Referring back to our translation \ref{dfn:trans}, the translation for External Choice
+\[\partial_{H_{0}}(\fdef{post}[\Gamma(P)\merge\mathtt{choose}\merge\Gamma(Q)])\]
+has identical behaviour to $P + Q$ when dealing with processes with only external actions. However, on processes with internal actions, the translation is not so trivial. The addition of an internal action works in the translation's favour for actions such as deferring a $\mathtt{start}$ tag to the first visible action (see \ref{fig:triggering-tau}), but it can also backfire, as the translation largely relies on removing unwanted left-merges and communications through restriction operators. As internal actions are non-interactable it means restrictions that \textit{should} remove all remaining actions will end up with unwanted left-over $\tau$ moves.
+\newline For example, if we take the process $a \extchoice \tau.b\in \csp$, the resulting translation in $\acptf$ is
 \vspace{-5pt}
-\begin{figure}[!ht]
+\[\partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma(a) \merge \mathtt{choose} \merge \Gamma(\tau.b)\Bigr]\Bigr) = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[a_{\mathtt{ini}} \merge \mathtt{choose} \merge \tau.b_{\mathtt{ini}}\Bigr]\Bigr)\]
+which has the following process graph:
+
+\begin{figure}[!hb!]
 	\centering
-% https://q.uiver.app/#q=WzAsMTMsWzAsMCwiXFxjaXJjIl0sWzQsMCwiXFxidWxsZXQiXSxbNiwwLCJcXGJ1bGxldCJdLFswLDIsIlxcYnVsbGV0Il0sWzYsMiwiXFxidWxsZXQiXSxbNCwyLCJcXGJ1bGxldCJdLFs2LDQsIlxcYnVsbGV0Il0sWzgsMiwiXFxidWxsZXQiXSxbMiwyLCJcXGJ1bGxldCJdLFsyLDQsIlxcYnVsbGV0Il0sWzQsNCwiXFxidWxsZXQiXSxbMyw0LCJcXGJ1bGxldCJdLFs4LDQsIlxcYnVsbGV0Il0sWzAsMSwiXFx0YXUiXSxbMCwzLCJhX1xcdGV4dHtmaXJzdH0iLDIseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFsxLDQsIlxcdGV4dHtjaG9vc2V9IiwxLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMSw1LCJhX1xcdGV4dHtmaXJzdH0iLDIseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFs0LDYsImFfXFx0ZXh0e2ZpcnN0fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzUsNiwiXFx0ZXh0e2Nob29zZX0iLDEseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFsxLDYsImEiXSxbNCw3LCJiX1xcdGV4dHtmaXJzdH0iLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFswLDgsIlxcdGV4dHtjaG9vc2V9IiwxLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbOCw5LCJhX1xcdGV4dHtmaXJzdH0iLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFszLDksIlxcdGV4dHtjaG9vc2V9IiwxLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMCw5LCJhIl0sWzIsNywiXFx0ZXh0e2Nob29zZX0iLDEseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFsxLDIsImJfXFx0ZXh0e2ZpcnN0fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzEsNywiYiJdLFs5LDExLCJcXHRhdSJdLFsxMSwxMCwiYl9cXHRleHR7Zmlyc3R9IiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbNiwxMiwiYl9cXHRleHR7Zmlyc3R9IiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbNywxMiwiYV9cXHRleHR7Zmlyc3R9IiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXV0=
-\[\begin{tikzcd}[cramped]
-	\circ &&&& \bullet && \bullet \\
-	\\
-	\bullet && \bullet && \bullet && \bullet && \bullet \\
-	\\
-	&& \bullet & \bullet & \bullet && \bullet && \bullet
-	\arrow["\tau", from=1-1, to=1-5]
-	\arrow["{a_\text{first}}"', color={rgb,255:red,214;green,92;blue,92}, from=1-1, to=3-1]
-	\arrow["{\text{choose}}"{description}, color={rgb,255:red,214;green,92;blue,92}, from=1-1, to=3-3]
-	\arrow["a", from=1-1, to=5-3]
-	\arrow["{b_\text{first}}", color={rgb,255:red,214;green,92;blue,92}, from=1-5, to=1-7]
-	\arrow["{a_\text{first}}"', color={rgb,255:red,214;green,92;blue,92}, from=1-5, to=3-5]
-	\arrow["{\text{choose}}"{description}, color={rgb,255:red,214;green,92;blue,92}, from=1-5, to=3-7]
-	\arrow["b", from=1-5, to=3-9]
-	\arrow["a", from=1-5, to=5-7]
-	\arrow["{\text{choose}}"{description}, color={rgb,255:red,214;green,92;blue,92}, from=1-7, to=3-9]
-	\arrow["{\text{choose}}"{description}, color={rgb,255:red,214;green,92;blue,92}, from=3-1, to=5-3]
-	\arrow["{a_\text{first}}", color={rgb,255:red,214;green,92;blue,92}, from=3-3, to=5-3]
-	\arrow["{\text{choose}}"{description}, color={rgb,255:red,214;green,92;blue,92}, from=3-5, to=5-7]
-	\arrow["{b_\text{first}}", color={rgb,255:red,214;green,92;blue,92}, from=3-7, to=3-9]
-	\arrow["{a_\text{first}}", color={rgb,255:red,214;green,92;blue,92}, from=3-7, to=5-7]
-	\arrow["{a_\text{first}}", color={rgb,255:red,214;green,92;blue,92}, from=3-9, to=5-9]
-	\arrow["\tau", from=5-3, to=5-4]
-	\arrow["{b_\text{first}}", color={rgb,255:red,214;green,92;blue,92}, from=5-4, to=5-5]
-	\arrow["{b_\text{first}}", color={rgb,255:red,214;green,92;blue,92}, from=5-7, to=5-9]
+% https://q.uiver.app/#q=WzAsMTIsWzAsMywiXFxidWxsZXQiXSxbMiwyLCJcXGJ1bGxldCJdLFsyLDUsIlxcYnVsbGV0Il0sWzQsMSwiXFxidWxsZXQiXSxbNCw0LCJcXGJ1bGxldCJdLFs2LDMsIlxcYnVsbGV0Il0sWzAsMiwiXFxidWxsZXQiXSxbMiwxLCJcXGJ1bGxldCJdLFs0LDAsIlxcYnVsbGV0Il0sWzYsMiwiXFxidWxsZXQiXSxbNCwzLCJcXGJ1bGxldCJdLFsyLDQsIlxcYnVsbGV0Il0sWzAsMSwiXFx0YXUiLDFdLFswLDIsImFfe1xcbWF0aHR0e2luaX19IiwxLHsiY29sb3VyIjpbMjQwLDYwLDc2XSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMjQwLDYwLDc2LDFdXSxbMSwzLCJiX3tcXG1hdGh0dHtpbml9fSIsMSx7ImNvbG91ciI6WzAsNjAsNzFdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDcxLDFdXSxbMSw0LCJhX3tcXG1hdGh0dHtpbml9fSIsMSx7ImNvbG91ciI6WzI0MCw2MCw3Nl0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzI0MCw2MCw3NiwxXV0sWzMsNSwiYV97XFxtYXRodHR7aW5pfX0iLDEseyJjb2xvdXIiOlsyNDAsNjAsNzZdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFsyNDAsNjAsNzYsMV1dLFsyLDQsIlxcdGF1IiwyLHsiY29sb3VyIjpbMCwwLDQ2XX0sWzAsMCw0NiwxXV0sWzQsNSwiYl97XFxtYXRodHR7aW5pfX0iLDEseyJjb2xvdXIiOlswLDYwLDcxXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw3MSwxXV0sWzAsNiwiXFxtYXRodHR7Y2hvb3NlfSIsMCx7ImNvbG91ciI6WzAsMCw0MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsMCw0MCwxXV0sWzEsNywiXFxtYXRodHR7Y2hvb3NlfSIsMCx7ImNvbG91ciI6WzAsMCw0MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsMCw0MCwxXV0sWzMsOCwiXFxtYXRodHR7Y2hvb3NlfSIsMix7ImNvbG91ciI6WzAsMCw0MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsMCw0MCwxXV0sWzUsOSwiXFxtYXRodHR7Y2hvb3NlfSIsMix7ImNvbG91ciI6WzAsMCw0MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsMCw0MCwxXV0sWzQsMTAsIlxcbWF0aHR0e2Nob29zZX0iLDIseyJjb2xvdXIiOlswLDAsNDBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDAsNDAsMV1dLFsyLDExLCJcXG1hdGh0dHtjaG9vc2V9IiwyLHsiY29sb3VyIjpbMCwwLDQwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCwwLDQwLDFdXSxbMTEsMTAsIlxcdGF1IiwxXSxbMTAsOSwiYl97XFxtYXRodHR7aW5pfX0iLDEseyJjb2xvdXIiOlswLDYwLDcxXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw3MSwxXV0sWzcsOCwiYl97XFxtYXRodHR7aW5pfX0iLDEseyJjb2xvdXIiOlswLDYwLDcxXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw3MSwxXV0sWzYsNywiXFx0YXUiLDEseyJjb2xvdXIiOlswLDAsNDZdfSxbMCwwLDQ2LDFdXSxbNiwxMSwiYV97XFxtYXRodHR7aW5pfX0iLDEseyJjb2xvdXIiOlsyNDAsNjAsNzZdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFsyNDAsNjAsNzYsMV1dLFs3LDEwLCJhX3tcXG1hdGh0dHtpbml9fSIsMSx7ImNvbG91ciI6WzI0MCw2MCw3Nl0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzI0MCw2MCw3NiwxXV0sWzgsOSwiYV97XFxtYXRodHR7aW5pfX0iLDEseyJjb2xvdXIiOlsyNDAsNjAsNzZdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFsyNDAsNjAsNzYsMV1dLFswLDExLCJhIiwxLHsiY29sb3VyIjpbMjQwLDYwLDYwXX0sWzI0MCw2MCw2MCwxXV0sWzEsMTAsImEiLDEseyJjb2xvdXIiOlsyNDAsNjAsNjBdfSxbMjQwLDYwLDYwLDFdXSxbMyw5LCJhIiwxLHsiY29sb3VyIjpbMjQwLDYwLDc5XX0sWzI0MCw2MCw3OSwxXV0sWzEsOCwiYiIsMSx7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV1d
+\[\begin{tikzcd}[cramped, row sep=scriptsize]
+	&&&& \bullet \\
+	&& \bullet && \bullet \\
+	\bullet && \bullet &&&& \bullet \\
+	\bullet &&&& \bullet && \bullet \\
+	&& \bullet && \bullet \\
+	&& \bullet
+	\arrow["{a_{\mathtt{ini}}}"{description}, color={rgb,255:red,157;green,157;blue,231}, dashed, from=1-5, to=3-7]
+	\arrow["{b_{\mathtt{ini}}}"{description}, color={rgb,255:red,225;green,137;blue,137}, dashed, from=2-3, to=1-5]
+	\arrow["{a_{\mathtt{ini}}}"{description}, color={rgb,255:red,157;green,157;blue,231}, dashed, from=2-3, to=4-5]
+	\arrow["{\mathtt{choose}}"', color={rgb,255:red,102;green,102;blue,102}, dashed, from=2-5, to=1-5]
+	\arrow["a"{description}, color={rgb,255:red,169;green,169;blue,234}, from=2-5, to=3-7]
+	\arrow["{a_{\mathtt{ini}}}"{description}, color={rgb,255:red,157;green,157;blue,231}, dashed, from=2-5, to=4-7]
+	\arrow["\tau"{description}, color={rgb,255:red,117;green,117;blue,117}, from=3-1, to=2-3]
+	\arrow["{a_{\mathtt{ini}}}"{description}, color={rgb,255:red,157;green,157;blue,231}, dashed, from=3-1, to=5-3]
+	\arrow["b"{description}, color={rgb,255:red,214;green,92;blue,92}, from=3-3, to=1-5]
+	\arrow["{\mathtt{choose}}", color={rgb,255:red,102;green,102;blue,102}, dashed, from=3-3, to=2-3]
+	\arrow["{b_{\mathtt{ini}}}"{description}, color={rgb,255:red,225;green,137;blue,137}, dashed, from=3-3, to=2-5]
+	\arrow["a"{description}, color={rgb,255:red,92;green,92;blue,214}, from=3-3, to=4-5]
+	\arrow["{a_{\mathtt{ini}}}"{description}, color={rgb,255:red,157;green,157;blue,231}, dashed, from=3-3, to=5-5]
+	\arrow["{\mathtt{choose}}", color={rgb,255:red,102;green,102;blue,102}, dashed, from=4-1, to=3-1]
+	\arrow["\tau"{description}, from=4-1, to=3-3]
+	\arrow["a"{description}, color={rgb,255:red,92;green,92;blue,214}, from=4-1, to=5-3]
+	\arrow["{a_{\mathtt{ini}}}"{description}, color={rgb,255:red,157;green,157;blue,231}, dashed, from=4-1, to=6-3]
+	\arrow["{b_{\mathtt{ini}}}"{description}, color={rgb,255:red,225;green,137;blue,137}, dashed, from=4-5, to=3-7]
+	\arrow["{\mathtt{choose}}"', color={rgb,255:red,102;green,102;blue,102}, dashed, from=4-7, to=3-7]
+	\arrow["\tau"{description}, from=5-3, to=4-5]
+	\arrow["{\mathtt{choose}}"', color={rgb,255:red,102;green,102;blue,102}, dashed, from=5-5, to=4-5]
+	\arrow["{b_{\mathtt{ini}}}"{description}, color={rgb,255:red,225;green,137;blue,137}, dashed, from=5-5, to=4-7]
+	\arrow["{\mathtt{choose}}"', color={rgb,255:red,102;green,102;blue,102}, dashed, from=6-3, to=5-3]
+	\arrow["\tau"', color={rgb,255:red,117;green,117;blue,117}, from=6-3, to=5-5]
 \end{tikzcd}\]
-	\caption{Counterexample for Strong Bisimilarity with the processes $P = a$ and $Q = \tau.b$. The result of the translation is $a.\tau + \tau.(a+b) \not\leftrightarroweq a + \tau.(a+b)$. Restricted actions are marked in red.}
+\caption{Counterexample for Strong Bisimilarity with the processes $P = a$ and $Q = \tau.b$. The result of the translation is $a.\tau + \tau.(a+b) \not\leftrightarroweq a + \tau.(a+b)$}
 	\label{fig:sb-counterexample}
 \end{figure}
 
-
+\newpage
+\section{Rooted Branching Bisimilarity}
 We define formally the definition of Rooted Branching Bisimulation via \citep{baetenProcessAlgebra1990}:
 
 \begin{dfn}[Rooted Branching Bisimilarity]{dfn:rbb}{}
@@ -98,33 +84,27 @@ We can now work towards a proof that the external choice is Rooted Branching Bis
 \newpage
 
 
-\begin{dfn}[The translation]{dfn:the-translation}{}
-\[\trans{P \square Q} = \partial_{H_{0}}\Bigl(f_{1}\Bigl[\Gamma[\trans{P}]\, | | \,\mathtt{choose}\, | | \,\Gamma[\trans{Q}]\Bigl]\Bigr)\]
-\end{dfn}
-
-\begin{dfn}[Communications]{dfn:the-comms}{}
-	From \ref{dfn:comms-external}:
+From \ref{dfn:trans}, the translation of external choice is:
+   \[\trans{P \extchoice Q} = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\, \pcomp \,\mathtt{choose}\, \pcomp \,\Gamma[\trans{Q}]\Bigl]\Bigr)\]
+Using the following communications from \ref{dfn:comms-external}:
 	\[a | \mathtt{first} = a_{\mathtt{first}} \qquad a | \mathtt{next} = a_{\mathtt{next}} \qquad a_{\mathtt{ini}} | \mathtt{choose} = a_{\mathtt{post}}\]
-		
-\end{dfn}
-
+And the postfix function defined in \ref{dfn:postfix},
 
 \begin{lma}[]{lma:tau-transform}{}
-	For processes $P, P'\in \csp$, if $P \prightarrow{\tau} P'$ then $\Gamma[\trans{P}] \prightarrow{\tau} \Gamma[\trans{P'}]$. Alternatively,
-	\[\Gamma[\trans{P}] = \tau. \Gamma[\trans{P'}]\]
+	For a process $P\in \acptf$, if there exists $P'$ such that $P \prightarrow{\tau} P'$ then application of the Triggering operator shown in \ref{dfn:acp-triggering} can be applied as $\Gamma[P] \prightarrow{\tau} \Gamma[P']$. Alternatively,
+	\[\Gamma[P] = \tau. \Gamma[P']\]
 \end{lma}
 
 \begin{proof}
-	Something about how $\tau$'s do not get affected by the gamma function.
+	We have that $P = \tau.P'$ and therefore $\Gamma[P] = \Gamma[\tau.P']$. However, since internal actions cannot interact with anything inside the triggering operator, the resulting function is the same as if the $\tau$ was instead outside the function. A diagram is provided in \ref{fig:triggering-tau}.
 \end{proof}
 
 \begin{lma}[]{lma:a-transform}{}
-	For processes $P, P'\in \csp$, if $P \prightarrow{a} P'$ then for any action $a \in A_{0}$ we have 
+	For a process $P\in \acptf$, if there exists $P'$ such that $P \prightarrow{a} P'$ then for any action $a \in A_{0}$ we have 
 	\[
-		(\Gamma[\trans{P}]\, | | \, \mathrm{choose}) \prightarrow{a} \trans{P'} \quad \text{ and } \quad 
-		(\mathrm{choose}\, | | \, (\Gamma[\trans{P}]) \prightarrow{a} \trans{P'}
+		(\Gamma[P] \merge \mathtt{choose}) \prightarrow{a} P' \quad \text{ and } \quad 
+		(\mathtt{choose} \merge (\Gamma[P]) \prightarrow{a} P'
 	\]
-	and
 \end{lma}
 
 \begin{proof}
@@ -132,54 +112,62 @@ We can now work towards a proof that the external choice is Rooted Branching Bis
 \end{proof}
 
 \begin{lma}[]{lma:stagnant-inis}{}
-	For processes $a.P\in \csp$ where $a\in A_{0}$, if there exists a process $b.P'$ where $b\in A_{0}$ we have 
-	
-	\[\partial_{H_{0}} (b.P' \,| | \, \Gamma[\trans{a.P}]) = \trans{b.P'} \]
+	For processes $a.P\in \acptf$ where $a\in A_{0}$, if $\exists b.Q$ where $b\in A_{0}$ we have 
+	\[\partial_{H_{0}} (b.Q \merge \Gamma[a.P]) = b.Q \]
+	\vspace{-25pt}
+	\longrule{0.08ex}
+
+	Alternatively, for processes $\taus.P\in \acptf$, where $\taus$ indicates a chain of consecutive $\tau$, possibly $0$, if there exists a process $b.Q$ where $b\in A_{0}$ we have 
+	\[\partial_{H_{0}} (b.Q \merge \taus.\Gamma[P]) = b.Q \merge \taus\]
 \end{lma}
 
 \begin{proof}
-	The $\Gamma$ function turns a process into a process equation of the form
+	The Triggering operator $\Gamma$ turns a trace into a renamed trace of the form
 	\[a_{\mathtt{ini}}.b.c\cdots\]
-	the process $a_{\mathtt{ini}}$ does not communicate with anything other than $\mathtt{choose}$ which is not in $A_{0}$. Therefore, the restriction operator will remove all the $\Gamma$ left merges, leaving $b.P'$
+	The process $a_{\mathtt{ini}}$ does not communicate with anything other than $\mathtt{choose}$ which is not in $A_{0}$. Therefore, the restriction operator will remove all the $\Gamma$ left merges, leaving $b.Q$. However, if there are internal actions that cannot interact with restrictions and communications, then the final process will be a communication with any remaining internal actions before the first cut off external action.
 \end{proof}
 
-\newpage
-\begin{lma}[]{lma:tau-on-p-process}{}
-	% For a process $\tau^{*}.a.P\in \csp$, where $\tau^{*}$ indicates a chain of $\tau$, possibly $0$, and $a\in A_{0}$, if there exists a process $Q\in \acptf$ where $b\in A_{0}$ for all actions $b$, we have 
-	% 
-	% \begin{align*}
-	%    \partial_{H_{0}} (Q\,| | \Gamma[\trans{\tau^{*}.a.P}]) &= \partial_{H_{0}} (Q\,| | \tau^{*}\Gamma[\trans{a.P}]) \\
-	% 										&=(Q\, | | \, \tau^{*})
-	% \end{align*}
-	% This resulting process is Branching Bisimilar to $\trans{a.P'}$
+% \begin{lma}[]{lma:tau-on-p-process}{}
+% 	For a process $P\in \csp$ where $\trans{P}\in\acptf$ is strongly bisimilar to $P$, a process $\taus.\trans{P}$ is Branching Bisimilar to the process $P$. Here, I use the notation of $\taus$ indicating a chain of $\tau$, possibly $0$.
+% \end{lma}
+%
+% \begin{proof}
+% 	We work inductively for each number of $\tau$. using the definition of Branching Bisimilarity (\ref{dfn:rbb}).
+%
+%    \textbf{Base Cases}:
+%    \begin{itemize}
+% 		   \item $P \brb \trans{P}$. By our initial assumption, $P \bisim \trans{P}$ which is a strictly finer equivalence, therefore $P \brb \trans{P}$ trivially
+% 		   \item $P \brb \tau.\trans{P}$. If $P \prightarrow{a} P'$, for $a\in A_{0}$ ($\csp$ has no action $\tau$), then indeed there exists $\tau.\trans{P} \prightarrow{\tau} \trans{P} \prightarrow{a} \trans{P'}$, and the relations hold due to the bisimilarity of $P$. The converse is also true, and if $\tau.\trans{P} \prightarrow{\tau} \trans{P}$ then we indeed have that $a=\tau$ and $\trans{P} \brb P$
+%    \end{itemize}
+%
+%    \textbf{Inductive Step}: For a process $\mathcal{P} = \tau^{n}.\trans{P}$, where $n$ indicates a certain number of consecutive $\tau$-moves, we assume that $P\brb \mathcal{P}$ holds. Now given $\tau.\mathcal{P}$, we want to show this is also Branching Bisimilar to $P$. If $P \prightarrow{a} P'$ for $a\in A_{0}$ then there exists
+%    \[ \tau.\mathcal{P} \prightarrow{\tau} \mathcal{P} \pRightarrow{n} \trans{P} \prightarrow{a} \trans{P'} \]
+%    Where both the proceeding trace, and relations hold from the inductive hypothesis. This can also be more succinctly written as
+%    \[ \tau.\mathcal{P} \pRightarrow{n+1} \trans{P} \prightarrow{a} \trans{P'} \]
+%    Similarly to the $n=1$ base case, the converse is also true, and if $\tau.\trans{P} \prightarrow{\tau} \trans{P}$ then we indeed have that $a=\tau$ and $\trans{P} \brb \mathcal{P}$ which is true from the inductive hypothesis.
+% \end{proof}
 
-	In the language $\acptf$, a process $\tau^{*}.P$ is Rooted Branching Bisimilar to the process $P$. Here, I use the notation of $\tau^{*}$ indicating a chain of $\tau$, possibly $0$.
+\begin{lma}[]{lma:tau-on-p-process}{}
+	For a process $P\in \csp$ where $\trans{P}\in\acptf$ is strongly bisimilar to $P$, a process $\taus\merge\trans{P}$ is Branching Bisimilar to the process $P$. Here, I use the notation of $\taus$ indicating a chain of $\tau$, possibly $0$.
 \end{lma}
 
-\textbf{FROM CHRIS}
-\begin{enumerate}
-    \item Given $P \stackrel{a}\to P'$ there must be some operational rule of the form $\frac{P''\:\stackrel{a}\to\:P'}{P \:\stackrel{a}\to\: P'}$, which suggests that there is a $P''$ such that $P'' \stackrel{a}\to P'$.
-    \item The process $P''$ has a proof shorter than that of $P$ by one step. Due to the inductive hypothesis, this means that there exists a $q''$ such that $(P'', P'') \in \mathcal B$.
-    \item Because $(P'', Q'') \in \mathcal B$ and $P'' \stackrel{a}\to P'$ there must be a $Q'$ such that $Q'' \stackrel{a}\to Q'$ and $(P', Q') \in \mathcal B$.
-    \item When a rule of the form $\frac{Q'' \:\stackrel{a}\to\: Q'}{Q\:\stackrel{a}\to\:Q'}$ exists it means $P \stackrel{a}\to P'$ and $(P', Q') \in \mathcal B$ implies the existance of a $Q'$ such that $Q \stackrel{a}\to Q'$, fulfilling the criteria of the bisimulation condition. 
-\end{enumerate}
-
 \begin{proof}
-   From the definition of Branching Bisimilarity, processes $P$ and $Q$ are related under a relation $\brb$ if:
-   \begin{enumerate}
-      \item The roots of $P$ and $Q$ are related by $\brb$
-      \item If $s \prightarrow{a} s'$ for $a\in A \cup \{\tau\}$ is an edge in $P$, and $s R t$, then either
-	 \begin{enumerate}[label=\alph*)]
-	    \item $a= \tau$ and $s' \brb t$
-	    \item $\exists t \Rightarrow t_{1} \prightarrow{a} t'$ such that $s \brb t_{1}$ and $s \brb t'$
-	 \end{enumerate}
-      \item If $s \downarrow$ and $s \brb t$ then there exists a path $t \Rightarrow t'$ in $Q$ to a node $t'$ with $t'\downarrow$ and $s \brb t'$
-      \item[4, 5]: As in $2, 3$, with the roles of $P$ and $Q$ interchanged
-   \end{enumerate}
+	We work inductively for each number of $\tau$. using the definition of Branching Bisimilarity (\ref{dfn:rbb}).
+
+   \textbf{Base Cases}:
+   \begin{itemize}
+		   \item $P \brb \trans{P}$. By our initial assumption, $P \bisim \trans{P}$ which is a strictly finer equivalence, therefore $P \brb \trans{P}$ trivially
+		   \item $P \brb \tau.\trans{P}$. If $P \prightarrow{a} P'$, for $a\in A_{0}$ ($\csp$ has no action $\tau$), then indeed there exists $\tau.\trans{P} \prightarrow{\tau} \trans{P} \prightarrow{a} \trans{P'}$, and the relations hold due to the bisimilarity of $P$. The converse is also true, and if $\tau.\trans{P} \prightarrow{\tau} \trans{P}$ then we indeed have that $a=\tau$ and $\trans{P} \brb P$
+   \end{itemize}
+
+   \textbf{Inductive Step}: For a process $\mathcal{P} = \tau^{n}.\trans{P}$, where $n$ indicates a certain number of consecutive $\tau$-moves, we assume that $P\brb \mathcal{P}$ holds. Now given $\tau.\mathcal{P}$, we want to show this is also Branching Bisimilar to $P$. If $P \prightarrow{a} P'$ for $a\in A_{0}$ then there exists
+   \[ \tau.\mathcal{P} \prightarrow{\tau} \mathcal{P} \pRightarrow{n} \trans{P} \prightarrow{a} \trans{P'} \]
+   Where both the proceeding trace, and relations hold from the inductive hypothesis. This can also be more succinctly written as
+   \[ \tau.\mathcal{P} \pRightarrow{n+1} \trans{P} \prightarrow{a} \trans{P'} \]
+   Similarly to the $n=1$ base case, the converse is also true, and if $\tau.\trans{P} \prightarrow{\tau} \trans{P}$ then we indeed have that $a=\tau$ and $\trans{P} \brb \mathcal{P}$ which is true from the inductive hypothesis.
 \end{proof}
 
 \newpage
-\section{Section}
 \subsection{Proof of Rooted Branching Bisimilarity [WIP]}
 
 
@@ -197,62 +185,54 @@ We define a bisimulation relation.
 
 \begin{proof}
 	
-Let $P, Q \in \csp$ be two processes. WTS $P \square Q =_{\text{RBB}} \trans{P \square Q}$. I.e.: we want to show that any move will result in a process that satisfies RBB. We prove this inductively by showing that any smaller process of $P$ is also Rooted Branching Bisimilar.
+Let $P, Q \in \csp$ be two processes. We want to show that $P \extchoice Q \rbrb \trans{P \extchoice Q}$. i.e.: we want to show that any move will result in a process that satisfies RBB. We prove this inductively by showing that any smaller process of $P$ is also Rooted Branching Bisimilar.
 
-Define relation 
+We exhaust all possible moves that $P \extchoice Q$ can take, and confirm that $\trans{P \extchoice Q}$ can also take them, up to Rooted Branching Bisimilarity.
 
-% \textbf{Option 1}: $a$ action on $P$. Let $a \in A_{0}$ and $P$ s.t. $P \prightarrow{a} P'$. In the domain of $\csp$, this results in the process
-% \[P \square Q \prightarrow{a} P'\]
-% and therefore, there exists $P$ such that $P \prightarrow{a} P'$. Therefore, there exists a smaller process $P$ and by the inductive hypothesis, there exists a related process $\trans{P}$ s.t. $P \sim \trans{P}$, and hence an action $\trans{P} \prightarrow{a} \trans{P}'$ and $P' \sim \trans{P}'$. Via our relation $\mathcal{B}$, $P' \sim \trans{P'}$, therefore $\trans{P'} = \trans{P}'$
-% 	
-% Via Lemma \ref{lma:a-transform}, we can derive the following equation from our translation
-% \[\prftree{P \prightarrow{a} P'}{\partial_{H_{0}}\Bigl(f_{1}\Bigl[\Gamma[trans)]\, | | \,\mathtt{choose}\, | | \,\Gamma[trans}]\Bigl]\Bigr} \prightarrow{a} \partial_{H_{0}}\Bigl(f_{1}\Bigl[trans'}\, | | \,\Gamma[trans)]\Bigl]\Bigr}}\]
-
-
-\textbf{Option 1}: $a$ action on $P$. Let $a \in A_{0}$ and $P'\in \mathrm{CSP}$ s.t. $P \prightarrow{a} P'$. In the domain of CSP, this results in the process
-
+\textbf{Case 1}: $a$ action on $P$. Let $a \in A_{0}$ and $P'$ such that $P \prightarrow{a} P'$. In the domain of CSP, this results in the process
 		\[P \square Q \prightarrow{a} P'\]
-	
-	Via Lemma \ref{lma:a-transform}, we can now derive the following equation
-	\[\trans{P \square Q} = \partial_{H_{0}}\Bigl(f_{1}\Bigl[\Gamma[\trans{P}]\, | | \,\mathtt{choose}\, | | \,\Gamma[\trans{Q}]\Bigl]\Bigr) \prightarrow{a} \partial_{H_{0}}\Bigl(f_{1}\Bigl[\trans{P'}\, | | \,\Gamma[\trans{Q}]\Bigl]\Bigr)\]
+	Now working in $\acptf$, we want to show that the translation is valid up to RBB, i.e. $\trans{P'} \rbrb P'$. Via Lemma \ref{lma:a-transform}, we can derive the following equation
+	\begin{align*}
+			\trans{P \extchoice Q} =&\, \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\merge \mathtt{choose}\merge \Gamma[\trans{Q}]\Bigl]\Bigr)\prightarrow{a} \\
+					& \,\partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\trans{P'}\merge\Gamma[\trans{Q}]\Bigl]\Bigr)
+	\end{align*}
       
 
 
 
 
-      This is not yet a process that is comparable to $\trans{P'}$, so we look at the next step.
+      This is not yet a process that is comparable to $P'$, so we look at the next step.
 \begin{enumerate}
-	\item \textbf{Case 1}: $\exists b\in A_{0}$ and $Q'\in \csp$ s.t. $Q \prightarrow{b} Q'$. Then via Lemma \ref{lma:stagnant-inis}, this results in
-		\[\trans{P'} = \partial_{H_{0}}(f_{1}[\trans{P'}]) = \trans{P'}\]
+	\item \textbf{Case 1A}: $\exists b\in A_{0}$ such that $Q \prightarrow{b} Q'$. Then via Lemma \ref{lma:stagnant-inis}, this results in
+		\[\partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\trans{P'}\merge\Gamma[\trans{Q}]\Bigl]\Bigr) = \partial_{H_{0}}(\fdef{post}[\trans{P'}]) = \trans{P'}\]
 		Which is strongly bisimilar.
-	\item \textbf{Case 2}: $Q \prightarrow{ \tau} Q'$. Then via Lemma \ref{lma:tau-transform}, we can derive the following equation:
-
-	\[\mathscr{T}(P') = \partial_{H_{0}}\Bigl(f_{1}\Bigl[\mathscr{T}(P')\, | | \,\tau.\Gamma[\mathscr{T}(Q')]\Bigl]\Bigr)\]
-		Case 2 can be repeated as many times as needed until $Q$ reaches Case 1. Via Lemma \ref{lma:tau-on-p-process}, this results in
-		\[\trans{P'} = \partial_{H_{0}}(f_{1}[\trans{P'}\, | | \, \Rightarrow]) = (\trans{P'}\, | | \, \Rightarrow)\]
-		Which is Branching Bisimilar via Lemma \ref{lma:tau-on-p-process}
+	\item \textbf{Case 1B}: $Q \prightarrow{ \tau} Q'$. Then via Lemma \ref{lma:tau-transform}, we can derive the following equation:
+	\[\partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\trans{P'}\merge\Gamma[\trans{Q}]\Bigl]\Bigr) = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\trans{P'}\merge\tau.\Gamma[\trans{Q'}]\Bigl]\Bigr)\]
+		Case 1B can be repeated as many times as needed until the first action of $Q$ is an external one. Via Lemma \ref{lma:stagnant-inis}, this results in
+		\[\partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\trans{P'}\merge\taus.\Gamma[\trans{Q^{\overbracket{'''}^{\scriptstyle\ast}}}]\Bigl]\Bigr) = \partial_{H_{0}}(\fdef{post}[\trans{P'}\merge \taus]) = \trans{P'}\merge \taus\]
+		Which is Branching Bisimilar to $P'$ via Lemma \ref{lma:tau-on-p-process}
 \end{enumerate}
 
-The first action $(a)$ can happen Strongly on the root, and any further actions are either also Strongly Bisimilar, or Branching Bisimilar. Therefore, an $a$ action on $P$ is Rooted Branching Bisimilar
+The first action $(a)$ can happen Strongly on the root, and any further actions are either also Strongly Bisimilar, or Branching Bisimilar. Therefore, an $a$ action on $P$ is Rooted Branching Bisimilar as required.
 
 % \noindent\rule{\textwidth}{0.08ex}
 
-\textbf{Option 2}: $\tau$ action on $P$. Let $P'\in \csp$ s.t. $P \prightarrow{\tau} P'$. In the domain of $\csp$, this results in the process
-\[P \square Q \prightarrow{\tau} P' \square Q\]
+\textbf{Case 2}: $\tau$ action on $P$. Let $P'$ such that $P \prightarrow{\tau} P'$. In the domain of $\csp$, this results in the process
+\[P \extchoice Q \prightarrow{\tau} P' \extchoice Q\]
 
-	Via Lemma \ref{lma:tau-transform}, we can now derive the following equation
-	\[
-		\partial_{H_{0}}\Bigl(f_{1}\Bigl[\Gamma[\trans{P}]\, | | \,\mathtt{choose}\, | | \,\Gamma[\trans{Q}]\Bigl]\Bigr) \prightarrow{\tau} \partial_{H_{0}}\Bigl(f_{1}\Bigl[\Gamma[\trans{P'}]\, | | \,\mathtt{choose}\, | | \,\Gamma[\trans{Q}]\Bigl]\Bigr)
-			\]
-Which is strongly bisimilar to $\trans{P' \square Q}$, therefore a $\tau$ action on $P$ is also Rooted Branching Bisimilar.
-
-\noindent\rule{\textwidth}{0.08ex}
-
-\textbf{Option 3, Option 4}: The same logic from option $1$ and option $2$ can be applied to $Q$ in reverse to obtain processes that satisfy Rooted Branching Bisimilarity.
+	Now working in $\acptf$, we want to show that the translation is valid up to RBB, i.e. $\trans{P'\extchoice Q} \rbrb P'\extchoice Q$. Via Lemma \ref{lma:tau-transform}, we can now derive the following equation
+		\begin{align*}
+				&\partial_{H_{0}}\Bigl(f_{1}\Bigl[\Gamma[\trans{P}]\, | | \,\mathtt{choose}\, | | \,\Gamma[\trans{Q}]\Bigl]\Bigr) \prightarrow{\tau} \\ &\partial_{H_{0}}\Bigl(f_{1}\Bigl[\Gamma[\trans{P'}]\, | | \,\mathtt{choose}\, | | \,\Gamma[\trans{Q}]\Bigl]\Bigr)
+		\end{align*}
+Which is strongly bisimilar to $P' \extchoice Q$, therefore a $\tau$ action on $P$ is also valid up to Rooted Branching Bisimilarity.
 
 \noindent\rule{\textwidth}{0.08ex}
 
-We have now exhausted cases, and therefore can conclude that our translation of $\csp$ External Choice is Rooted Branching Bisimilar, and therefore a Congruence.
+\textbf{Case 3, Case 4}: The same logic from option $1$ and option $2$ can be applied to $Q$ and $P$ to obtain processes that satisfy Rooted Branching Bisimilarity.
+
+\noindent\rule{\textwidth}{0.08ex}
+
+We have now exhausted all cases, and therefore can conclude that our translation of $\csp$ External Choice is Rooted Branching Bisimilar, and therefore a Congruence.
 \end{proof}
 
 \subsection{Stopping}
@@ -338,3 +318,27 @@ Which reduces down to:
    Something about how taus cannot be renamed / communicated. Have not thought of it past there but it feels like it might be right as all the translations have the same issue.
 \end{proof}
 \end{document}
+
+
+
+
+
+% Axiomatic Expansion of thingy
+
+% \begin{align*}
+% \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma(a) \merge \mathtt{choose} \merge \Gamma(\tau.b)\Bigr]\Bigr) \\
+% \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[a_{\mathtt{first}} \merge \mathtt{choose} \merge \tau.b_{\mathtt{first}}\Bigr]\Bigr) \\
+% \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[(a_{\mathtt{first}} . \mathtt{choose} + \mathtt{choose} . a_{\mathtt{first}} + \mathtt{choose} \mid a_{\mathtt{first}}) \merge \tau.b_{\mathtt{first}}\Bigr]\Bigr) \\
+% \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[(a_{\mathtt{first}} . \mathtt{choose} + \mathtt{choose} . a_{\mathtt{first}} + a) \merge \tau.b_{\mathtt{first}}\Bigr]\Bigr) \\
+% \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[(a_{\mathtt{first}} . \mathtt{choose}  + \mathtt{choose} . a_{\mathtt{first}} + a) \leftmerge \tau.b_{\mathtt{first}} + \\
+% \tau.b_{\mathtt{first}} \leftmerge (a_{\mathtt{first}} . \mathtt{choose}  + \mathtt{choose} . a_{\mathtt{first}} + a)+\\
+% (a_{\mathtt{first}} . \mathtt{choose}  + \mathtt{choose} . a_{\mathtt{first}} + a) \mid \tau.b_{\mathtt{first}}\Bigr]\Bigr) \\
+% \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[{\color{red}(a_{\mathtt{first}} . \mathtt{choose} \leftmerge \tau.b_{\mathtt{first}} + \mathtt{choose} . a_{\mathtt{first}}\leftmerge \tau.b_{\mathtt{first}}} + a\leftmerge \tau.b_{\mathtt{first}}) + \\
+% \tau.(b_{\mathtt{first}} \merge (a_{\mathtt{first}} . \mathtt{choose}  + \mathtt{choose} . a_{\mathtt{first}} + a))+\\
+% (a_{\mathtt{first}} . \mathtt{choose} \mid \tau.b_{\mathtt{first}} + \mathtt{choose} . a_{\mathtt{first}}\mid \tau.b_{\mathtt{first}} + a\mid \tau.b_{\mathtt{first}} \Bigr]\Bigr) \\
+% \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[a. \tau.b_{\mathtt{first}}) + \\
+% \tau.(b_{\mathtt{first}} \leftmerge (a_{\mathtt{first}} . \mathtt{choose}  + \mathtt{choose} . a_{\mathtt{first}} + a) + \\
+% (a_{\mathtt{first}} . \mathtt{choose}  + \mathtt{choose} . a_{\mathtt{first}} + a)\leftmerge b_{\mathtt{first}} +\\
+% b_{\mathtt{first}} \mid (a_{\mathtt{first}} . \mathtt{choose}  + \mathtt{choose} . a_{\mathtt{first}} + a)) \\
+% (a_{\mathtt{first}} . \mathtt{choose} \mid b_{\mathtt{first}} + \mathtt{choose} . a_{\mathtt{first}}\mid b_{\mathtt{first}} + a\mid b_{\mathtt{first}} \Bigr]\Bigr) \\
+% \end{align*}

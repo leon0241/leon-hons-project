@@ -25,11 +25,11 @@
 \contentsline {subsection}{\numberline {4.4.6}Sliding Choice}{17}{subsection.4.4.6}%
 \contentsline {subsection}{\numberline {4.4.7}Final Translation}{18}{subsection.4.4.7}%
 \contentsline {chapter}{\numberline {5}Validity of the Encoding}{19}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Section}{24}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}Proof of Rooted Branching Bisimilarity [WIP]}{24}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Stopping}{25}{subsection.5.1.2}%
-\contentsline {subsection}{\numberline {5.1.3}Generalising}{26}{subsection.5.1.3}%
-\contentsline {chapter}{\numberline {6}Results}{27}{chapter.6}%
-\contentsline {chapter}{\numberline {7}Conclusions}{28}{chapter.7}%
-\contentsline {chapter}{Bibliography}{29}{chapter*.8}%
-\contentsline {chapter}{\numberline {A}Diagrams}{31}{appendix.A}%
+\contentsline {section}{\numberline {5.1}Rooted Branching Bisimilarity}{20}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Proof of Rooted Branching Bisimilarity [WIP]}{23}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Stopping}{24}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}Generalising}{25}{subsection.5.1.3}%
+\contentsline {chapter}{\numberline {6}Results}{26}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Conclusions}{27}{chapter.7}%
+\contentsline {chapter}{Bibliography}{28}{chapter*.8}%
+\contentsline {chapter}{\numberline {A}Diagrams}{30}{appendix.A}%

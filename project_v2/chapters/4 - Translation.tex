@@ -402,13 +402,13 @@ We define our translation
    \trans{\mathrm{div}} &= \langle X \mid X = \tau.X \rangle \\
       \trans{a \to P} &= a.\trans{P} \\
    \trans{P \intchoice Q} &= \tau.\trans{P} + \tau.\trans{Q} \\
-   \trans{P \extchoice Q} &= \partial_{H_{0}}\Bigl(f_{2}\Bigl[\Gamma[\trans{P}]\, \pcomp \,\mathtt{choose}\, \pcomp \,\Gamma[\trans{Q}]\Bigl]\Bigr) \\
-   \trans{P \pcomp_{A} Q} &= \partial_{H_{0}}(f_{\mathrm{post}}(f_{2}(\trans{P}) \pcomp f_{2}(\trans{Q}))) \\
+   \trans{P \extchoice Q} &= \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\, \pcomp \,\mathtt{choose}\, \pcomp \,\Gamma[\trans{Q}]\Bigl]\Bigr) \\
+      \trans{P \pcomp_{A} Q} &= \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{P}) \pcomp \fdef{syn}(\trans{Q})\Bigr]\Bigr) \\
       \trans{P \backslash A} &= \partial_{A}{\trans{P}} \\
    % \trans{\mu p.P} &= \langle X \mid X = \tau.X \rangle
    \trans{f(P)} &= f(\trans{P}) \\
-      \trans{P \triangle Q} &= \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \bigl(f_{\mathtt{origin}}(\trans{P}) \pcomp \Pi\bigr) \pcomp \Gamma(\trans{Q}) \Bigr]\Bigr) \\
-      \trans{P \interrupt Q} &= \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ f_{\mathtt{split}}(\trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr)
+      \trans{P \triangle Q} &= \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[ \bigl((\fdef{origin}\trans{P}) \pcomp \Pi\bigr) \pcomp \Gamma(\trans{Q}) \Bigr]\Bigr) \\
+      \trans{P \interrupt Q} &= \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ (\fdef{split} \trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr)
    \end{align*}
 \end{dfn}
 \end{document}
