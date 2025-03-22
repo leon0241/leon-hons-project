@@ -157,14 +157,16 @@ And the postfix function defined in \ref{dfn:postfix},
    \textbf{Base Cases}:
    \begin{itemize}
 		   \item $P \brb \trans{P}$. By our initial assumption, $P \bisim \trans{P}$ which is a strictly finer equivalence, therefore $P \brb \trans{P}$ trivially
-		   \item $P \brb \tau.\trans{P}$. If $P \prightarrow{a} P'$, for $a\in A_{0}$ ($\csp$ has no action $\tau$), then indeed there exists $\tau.\trans{P} \prightarrow{\tau} \trans{P} \prightarrow{a} \trans{P'}$, and the relations hold due to the bisimilarity of $P$. The converse is also true, and if $\tau.\trans{P} \prightarrow{\tau} \trans{P}$ then we indeed have that $a=\tau$ and $\trans{P} \brb P$
+		   \item $P \brb \tau \merge \trans{P}$. 
    \end{itemize}
 
-   \textbf{Inductive Step}: For a process $\mathcal{P} = \tau^{n}.\trans{P}$, where $n$ indicates a certain number of consecutive $\tau$-moves, we assume that $P\brb \mathcal{P}$ holds. Now given $\tau.\mathcal{P}$, we want to show this is also Branching Bisimilar to $P$. If $P \prightarrow{a} P'$ for $a\in A_{0}$ then there exists
-   \[ \tau.\mathcal{P} \prightarrow{\tau} \mathcal{P} \pRightarrow{n} \trans{P} \prightarrow{a} \trans{P'} \]
-   Where both the proceeding trace, and relations hold from the inductive hypothesis. This can also be more succinctly written as
-   \[ \tau.\mathcal{P} \pRightarrow{n+1} \trans{P} \prightarrow{a} \trans{P'} \]
-   Similarly to the $n=1$ base case, the converse is also true, and if $\tau.\trans{P} \prightarrow{\tau} \trans{P}$ then we indeed have that $a=\tau$ and $\trans{P} \brb \mathcal{P}$ which is true from the inductive hypothesis.
+   \Huge{WIP}
+   %
+   % \textbf{Inductive Step}: For a process $\mathcal{P} = \tau^{n} \merge \trans{P}$, where $n$ indicates a certain number of consecutive $\tau$-moves, we assume that $P\brb \mathcal{P}$ holds. Now given $\tau.\mathcal{P}$, we want to show this is also Branching Bisimilar to $P$. If $P \prightarrow{a} P'$ for $a\in A_{0}$ then there exists
+   % \[ \tau.\mathcal{P} \prightarrow{\tau} \mathcal{P} \pRightarrow{n} \trans{P} \prightarrow{a} \trans{P'} \]
+   % Where both the proceeding trace, and relations hold from the inductive hypothesis. This can also be more succinctly written as
+   % \[ \tau.\mathcal{P} \pRightarrow{n+1} \trans{P} \prightarrow{a} \trans{P'} \]
+   % Similarly to the $n=1$ base case, the converse is also true, and if $\tau.\trans{P} \prightarrow{\tau} \trans{P}$ then we indeed have that $a=\tau$ and $\trans{P} \brb \mathcal{P}$ which is true from the inductive hypothesis.
 \end{proof}
 
 \newpage

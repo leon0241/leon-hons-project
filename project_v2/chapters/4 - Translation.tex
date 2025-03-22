@@ -395,6 +395,37 @@ In other words, this operator lets you take an external action on $P$, however t
 
 We define our translation
 
+Recall from \ref{dfn:helper-functions} and \ref{dfn:communications} the list of helper functions and communications:
+
+\begin{multicols}{3}
+\begin{itemize}[leftmargin=*]
+   \item $f_{\mathtt{trig}}(a_{\mathtt{first}}) = a_{\mathtt{ini}}$
+   \item $f_{\mathtt{trig}}(a_{\mathtt{next}}) = a$
+      \columnbreak
+   \item $f_{\mathrm{post}}(a_{\mathtt{post}}) = a$\hfill\newline
+      $f_{\mathrm{post}}( \alpha) = \alpha$
+   \item $\fdef{syn}(\lambda) = \lambda_{\mathtt{syn}}$\hfill\newline
+      $\fdef{syn}( \alpha) = \alpha$
+      \columnbreak
+   \item $\fdef{origin}(a) = a_{\mathtt{origin}}$
+   \item $\fdef{split}(\lambda) = \lambda_{\mathtt{split}}$\hfill\newline
+      $\fdef{split}(a) = a_{\mathtt{origin}}$
+\end{itemize}
+\end{multicols}
+
+\begin{multicols}{3}
+\begin{itemize}[leftmargin=*]
+    \item $a | \mathtt{first} = a_{\mathtt{first}}$
+    \item $a | \mathtt{next} = a_{\mathtt{next}} $
+    \item $a_{\mathtt{syn}} | a_{\mathtt{syn}} = a_{\mathtt{post}}$
+    \item $a_{\mathtt{ini}} | \mathtt{choose} = a_{\mathtt{post}}$
+    \item $a_{\mathtt{origin}} | \mathtt{origin} = a_{\mathtt{post}}$
+    \item $a_{\mathtt{ini}} | \mathtt{split} = a_{\mathtt{post}}$
+    \item $a_{\mathtt{split}} | \mathtt{split} = a_{\mathtt{post}}$
+\end{itemize}
+\end{multicols}
+
+
 \begin{dfn}[Translation of CSP to ACP]{dfn:trans}{}
    Let $\tcsp$ be the expressions in the language $\csp$, and $\tacp$ be expressions in the language $\acptf$. We define a translation $\tran : \tcsp \to \tacp$ defined as such:
    \begin{align*}
