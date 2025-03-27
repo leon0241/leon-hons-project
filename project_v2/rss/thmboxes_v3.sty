@@ -54,6 +54,12 @@
     \begin{thmbox}[#1]{#2}{#3}{orange}{30}{Question}
 } {\end{thmbox}}
 
+% QUESTION
+\newenvironment{rcl}[3][]{
+    \vspace{5pt}
+    \begin{thmbox}[#1]{#2}{#3}{pink}{50}{Recall}
+} {\end{thmbox}}
+
 %---------------------------------%
 %                                 %
 %     THEOREM BOX GENERAL DEF     %
@@ -65,6 +71,10 @@
     % TEXT
 % \end{thmbox}
 
+\newcounter{theorems}
+\counterwithin{theorems}{chapter}
+\setcounter{theorems}{0}
+
 \newenvironment{thmbox}[6][]{%
     % Argument 3 is a custom number
     \ifstrempty{#3}
@@ -75,8 +85,8 @@
         % }
         {
             % If argument 3 isn't provided, then use the subsubsection numbering
-            \refstepcounter{subsubsection}
-            \newcommand{\thethmbox}{\arabic{chapter}.\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+            \refstepcounter{theorems}
+            \newcommand{\thethmbox}{\arabic{chapter}.\arabic{theorems}}
         }
         {
             \newcommand{\thethmbox}{#3}

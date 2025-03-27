@@ -41,16 +41,16 @@ A well studied way of comparing expressiveness is through an ``encoding'', and w
 \section{\texorpdfstring{$\csp$}{CSP}}
 $\csp$ (Communicating Sequential Processes) \citep{brookesTheoryCommunicatingSequential1984} is a Process Algebra developed by Tony Hoare based on the idea of message passing via communications. It was developed in the 1980s and was one of the first of its kind, alongside CCS by Milner. $\csp$ uses the idea of action prefixing which is where operators are of the syntax $a \to P$, where $a$ is an event and $P$ is a process. 
 
-As taken from \citet{vanglabbeekBranchingTimeModel2017}, the syntax of $\csp$ can be expressed as follows
+A proposed grammar of $\csp$ taken from [some sources] can be expressed as follows
 \begin{align*}
    P, Q ::= &\mathrm{STOP} \mid \div \mid a\to P \mid P \intchoice Q \mid P \extchoice Q \mid P \sliding Q \mid \\
 	&P \pcomp Q \mid P \conceal A \mid f(P) \mid P \interrupt Q \mid P \interrupt Q \mid p \mid \mu p.P
 \end{align*}
-where the operators are: \textit{inaction}, \textit{divergence}, \textit{action prefixing}, \textit{internal choice}, \textit{external choice}, \textit{sliding choice}, \textit{parallel composition}, \textit{concealment}, \textit{renaming}, \textit{interrupt}, and \textit{throw}.
+where the operators are: \textit{inaction}, \textit{divergence}, \textit{action prefixing}, \textit{internal choice}, \textit{external choice}, \textit{sliding choice}, \textit{parallel composition}, \textit{concealment}, \textit{renaming}, \textit{interrupt}, and \textit{throw}. Compared to [source], this leaves out [sources]
 
 
 \section{ACP}
-ACP (Algebra of Communicating Processes) is a Process Algebra developed by Jan Bergstra and Jan Willem Klop \citep{bergstraProcessAlgebraSynchronous1984}. Compared to $\csp$, ACP is built up with an axiomatic approach in mind which does away with the idea of action prefixing and instead can allow for unguarded operations. ACP$_{\tau}$ \citep{bergstraACPtUniversalAxiom1989} is an extension of ACP that includes an extra action $\tau$ which is used to represent actions that are unobservable, or changeable, from a human perspective.
+ACP (Algebra of Communicating Processes) is a Process Algebra developed by Jan Bergstra and Jan Willem Klop \citep{bergstraProcessAlgebraSynchronous1984}. Compared to $\csp$, ACP is built up with an axiomatic approach in mind which does away with the idea of action prefixing and instead can allow for unguarded operations. The biggest difference between $\csp$ and $\acp$ is the difference in Communication of parallel processes, as $\csp$ uses conjugate actions to form communications, while $\acp$ uses a separately defined communication function that can be defined over any action. $\acpt$ \citep{bergstraACPtUniversalAxiom1989} is an extension of ACP that includes an extra action $\tau$ which is used to represent actions that are unobservable, or changeable, from a human perspective.
 
 The grammar of ACP$_{\tau}$ as taken from \citep{bergstraACPtUniversalAxiom1989} is defined as such:
 \begin{align*}

@@ -3,14 +3,18 @@
     
 \section{Languages and Expressiveness}\label{ssec:language}
 
-From \cite{DBLP:conf/fossacs/Glabbeek18}, we can represent a language $\mathscr{L}$ as a pair $(\mathbb{T}, \oper)$, where $\mathbb{T}$ is a set of valid expressions in $\mathscr{L}$, and $\oper$ is a mapping $\oper : \mathbb{T} \to \mathscr{D}$ from $\mathbb{T}$ to a set of meanings $\mathscr{D}$. We also define $A \subseteq \mathbb{T}$, where $A$ is the set of actions.
+\begin{dfn}[Languages]{dfn:languages}{}
+   From \cite{DBLP:conf/fossacs/Glabbeek18}, we can represent a language $\mathscr{L}$ as a pair $(\mathbb{T}, \oper)$, where $\mathbb{T}$ is a set of valid expressions in $\mathscr{L}$, and $\oper$ is a mapping $\oper : \mathbb{T} \to \mathscr{D}$ from $\mathbb{T}$ to a set of meanings $\mathscr{D}$.
+\end{dfn}
 
-The expressiveness of two languages, $\mathscr{L}$ and $\mathscr{L}'$ can be measured using a Translation, i.e. a way to map expressions in one language to another
+We will define $A \subseteq \mathbb{T}$, where $A$ is the set of actions. Also note that the silent step is not included in $A$, and we will define $A_{\tau}$ to be $A \cup \{\tau\}$. The expressiveness of two languages, $\mathscr{L}$ and $\mathscr{L}'$ can be measured using a Translation, i.e. a way to map expressions in one language to another
 \begin{dfn}[Translation]{dfn:translation}{}
    Via  \cite{DBLP:conf/fossacs/Glabbeek18}, a \textbf{translation} from a language $\mathscr{L}$ to a language $\mathscr{L'}$ is a mapping $\tran : \expres_{\mathscr{L}} \to \expres_{\mathscr{L}'}$
 \end{dfn}
 
-The preferred way to measure expressiveness is via relative expressiveness, compared to Absolute expressiveness. \cite{parrowExpressivenessProcessAlgebras2008} Absolute expressiveness measures the way that that processes compare against each other, i.e. if a process in an algebra can be represented by another. Relative expressiveness takes a more robust approach, in trying to encode the operations of the process algebra, and the processes of Absolute Expressiveness can then be constructed via the translated operations. 
+
+
+The preferred way to measure expressiveness is via relative expressiveness, compared to Absolute expressiveness. Via \cite{parrowExpressivenessProcessAlgebras2008}, absolute expressiveness measures the way that processes compare against each other, i.e. if a process in an algebra can be represented by another. Relative expressiveness takes a more robust approach, in trying to encode the individual operations of the process algebra compared to entire processes, and the processes of Absolute Expressiveness can then be constructed via the translated operations. 
 
 \begin{dfn}[Expressiveness]{dfn:expressiveness}{}
    Via  \cite{DBLP:conf/fossacs/Glabbeek18}, a language $\mathscr{L}'$ is \textbf{at least as expressive as $\mathscr{L}$} iff a \textbf{valid} translation from $\mathscr{L}$ into $\mathscr{L}'$ exists.
@@ -19,33 +23,117 @@ The preferred way to measure expressiveness is via relative expressiveness, comp
 The wording of ``valid'' is intentionally left vague, as there are many notions of validity. Validity is measured using a relation, and the strongest relation there is between two Algebas is a Bisimulation. This is a relation where any behaviour in an algebra can be identically replicated by another, therefore perfectly simulating each other. As we will see, while bisimulation is ideal, it is not always possible to achieve. Listed in \cite{parrowExpressivenessProcessAlgebras2008} is also a range of weaker criterons that are desirable for a translation. One particular criteron that we will focus on is \textbf{compositionality}, which, when achieved, means that operators are valid regardless of the context inside them, which means that any expression will be encodable from one algebra to another by translating smaller and smaller segments of the expression.
 
 \begin{dfn}[Compositionality]{dfn:compositionality}{}
-   Via \cite{DBLP:conf/fossacs/Glabbeek18}, a translation $\mathscr{T}$ from $\mathscr{L}$ into a language $\mathscr{L}'$ is \textbf{compositional} if $\trans{X} = X$ for each $X\in \mathscr{X}$, and for each $n$-ary operator $f$ of $\mathscr{L}$ there exists an $n$'ary $\mathscr{L}$-context $C_{f}$ such that $\trans{f(E_{1},\dots,E_{n})} = C_{f}[\trans{E_{1},\dots,\trans{E_{n}}}]$ for any $\mathscr{L}$ expressions $E_{1},\dots,E_{n}\in \mathbb{T}_{\mathscr{L}}$
+   Via \cite{DBLP:conf/fossacs/Glabbeek18}, a translation $\mathscr{T}$ from $\mathscr{L}$ into a language $\mathscr{L}'$ is \textbf{compositional} if $\trans{a} = a$ for each $a\in A$, and for each $n$-ary operator $f$ of $\mathscr{L}$ there exists an $n$'ary $\mathscr{L}$-context $C_{f}$ such that $\trans{f(E_{1},\dots,E_{n})} = C_{f}[\trans{E_{1},\dots,\trans{E_{n}}}]$ for any $\mathscr{L}$ expressions $E_{1},\dots,E_{n}\in \mathbb{T}_{\mathscr{L}}$
 \end{dfn}
+
+The line $\trans{a} = a$ for each $a\in A$ specifies that any actions are consistent between algebras.
+
+Two notions of equivalence that we will be focusing on is Strong Bisimilarity, and Rooted Branching Bisimulation. As said before, Strong Bisimilarity is the finest equivalence one can have between translations. We define formally the definition of Strong Bisimulation via \cite{baetenProcessAlgebra1990}:
+
+\begin{dfn}[Strong Bisimulation]{dfn:strong-bisim}{}
+   Let $P$ and $Q$ be two processes, and $R$ be a relation between nodes of $P$ and nodes of $Q$. $R$ is a \textbf{Strong Bisimulation} between $P$ and $Q$ if:
+   \begin{enumerate}
+      \item The roots of $P$ and $Q$ are related by $R$
+      \item If $s \prightarrow{\alpha} s'$ for $\alpha\in A_{\tau}$ is an edge in $P$, and $s R t$, then there is an edge $t \prightarrow{\alpha} t'$ such that $s' R t'$.
+      \item If $t \prightarrow{\alpha} t'$ for $a\in A_{\tau}$ is an edge in $P$, and $s R t$, then there is an edge $s \prightarrow{\alpha} s'$ such that $s' R t'$.
+      \item If $s R t$ then $s\downarrow$ iff $t \downarrow$
+   \end{enumerate}
+\end{dfn}
+
+Rooted Branching Bisimilarity is a variation of Branching Bisimilarity. Branching Bisimilarity is a weaker relation than Strong Bisimilarity, and it focuses on having internal actions, or $\tau$ actions in a process, and Rooted Branching Bisimilarity adds the condition that the first action in the process must be Strongly Bisimilar. This is a more desirable outcome becuase Rooted Branching Bisimilarity is a Congruence \citep{fokkinkRootedBranchingBisimulation2000}, and therefore is a more desirable relation. We define formally the definition of Branching Bisimulation and Rooted Branching Bisimulation via \cite{baetenProcessAlgebra1990}:
+
+\begin{dfn}[Rooted Branching Bisimilarity]{dfn:rooted-branching}{}
+   Let $P$ and $Q$ be two processes, and $R$ be a relation between nodes of $P$ and nodes of $Q$. $R$ is a \textbf{Branching Bisimulation} between $P$ and $Q$ if:
+   \begin{enumerate}
+      \item The roots of $P$ and $Q$ are related by $R$
+      \item If $s \prightarrow{a} s'$ for $a\in A \cup \{\tau\}$ is an edge in $P$, and $s R t$, then either
+	 \begin{enumerate}[label=\alph*)]
+	    \item $a= \tau$ and $s' R t$
+	    \item $\exists t \Rightarrow t_{1} \prightarrow{a} t'$ such that $s R t_{1}$ and $s R t'$
+	 \end{enumerate}
+      \item If $s \downarrow$ and $s R t$ then there exists a path $t \Rightarrow t'$ in $Q$ to a node $t'$ with $t'\downarrow$ and $s R t'$
+      \item[4, 5]: As in $2, 3$, with the roles of $P$ and $Q$ interchanged
+   \end{enumerate}
+
+   \longrule{0.08ex}
+
+   $R$ is called a \textbf{Rooted Branching Bisimulation} if the following root condition is also satisfied:
+   \begin{itemize}
+      \item If $\mathrm{root}(P) \prightarrow{a} s'$ for $a\in A \cup \{\tau\}$, then there is a $t'$ with $\mathrm{root}(Q)\prightarrow{a} t'$ and $s' R t'$
+      \item If $\mathrm{root}(Q) \prightarrow{a} t'$ for $a\in A \cup \{\tau\}$, then there is a $s'$ with $\mathrm{root}(P)\prightarrow{a} s'$ and $s' R t'$
+      \item $\mathrm{root}(g)\downarrow$ iff $\mathrm{root}(h)\downarrow$
+   \end{itemize}
+\end{dfn}
+
+\section{\texorpdfstring{$\acptf$}{ACP-tf}}
+
+\subsection{Basic \texorpdfstring{$\acpt$}{acpt}}
+The base process algebra $\acpt$ as described in [ACPt] can be described with the following operations:
+\begin{align*}
+   P, Q ::= a \mid \delta \mid E . F \mid E + F \mid E \merge F \mid E \leftmerge F \mid E | F \mid \restrict(E) \mid \tau_{I}(P) \mid
+\end{align*}
+where the operators are: \textit{action}, \textit{deadlock}, \textit{sequential composition}, \textit{alternative composition},  \textit{merge}, \textit{left merge}, \textit{communication merge}, \textit{encapsulation}, and \textit{abstraction}. These can be described in the following manner:
+add:\begin{itemize}
+   \item \textbf{Action}, or $a$, is any action.
+   \item \textbf{Deadlock}, or $\delta$, is the empty process. This is not marked as terminating, and so can also be thought of as an ``unfinished'' process
+   \item \textbf{Sequential Composition}, or $P . Q$ is an operation that performs $P$, and then performs $Q$.
+   \item \textbf{Parallel Composition}, or $P + Q$ is a process that can perform $P$ or $Q$. 
+   \item \textbf{Restriction}, or $\partial_{H}(P)$, is a process with all actions in $H$ removed.
+   \item \textbf{Abstraction}, or $\tau_{I}(P)$, is a process with all actions in $I$ renamed to internal actions, or $\tau$.
+\end{itemize}
+
+\subsection{Communication and Merge}
+The operations Merge ($P \merge Q$), Left Merge ($P \leftmerge Q$), and Communication Merge ($P \mid Q$) form the basis of Communication in $\acp$. Compared to the other operators of $\acp$ which symbolise actions \textit{$a$ or $b$}, and \textit{$a$ then $b$}, communication represents an action \textit{$a$ and $b$}, or in other words, a process that performs $a$ and $b$ simultaneously. The merge operation is characterised as 
+\[P \merge Q = P \leftmerge Q + Q \leftmerge P + P \mid Q\]
+and along with a simplified axiom set of the Left Merge operator found in $\acp$ [CITE], 
+\[a \leftmerge Q = a.Q \qquad a.P \leftmerge Q = a(P \merge Q)\]
+The result of $P \merge Q$ is a lattice of any combination of moves of $P$, as well as any combination of moves of $Q$, while at each step also performing $P \mid Q$. 
+
+The operation $\mid$ is a function $A \times A \rightharpoonup A$ that defines valid communications between the two processes\footnote{Communication Merge is a Partial Function, meaning it is not defined over all actions}. This can be thought of as a hand-shaking action between $P$ and $Q$. Together with the restriction operator, communications can now be formed between two processes. An example is shown below:
+
+\import{diagrams/}{communication}
+
+\subsection{ACPtf}
+
+A proposed extension of ACP adds a Functional Renaming operator, as shown in \cite{vanglabbeekExpressivenessACP1995}, which lets you rename actions via a function $f : A \times A \rightharpoonup A$. From this point forth, we will be using this extension, written as $ACP^{\tau}_{F}$. Our final grammar for the language $\acptf$ is therefore
+\begin{align*}
+   P, Q ::= a \mid \delta \mid P . Q \mid P + Q \mid P \merge Q \mid P \leftmerge Q \mid P | Q \mid \restrict(P) \mid \abtau(P) \mid f(P) \mid
+\end{align*}
+where the operators are: \textit{action}, \textit{deadlock}, \textit{sequential composition}, \textit{alternative composition},  \textit{merge}, \textit{left merge}, \textit{communication merge}, \textit{encapsulation}, \textit{abstraction}, \textit{functional renaming}.
+
 
 
 \section{\texorpdfstring{$\csp$}{CSP}}\label{ssec:CSP}
-As stated above, our proposed grammar of $\csp$ consists of the operations:
+Our proposed grammar of $\csp$ consists of the operations:
 \begin{align*}
-   P, Q ::= &\mathrm{STOP} \mid \mathrm{div} \mid a\to P \mid P \sqcap Q \mid P \extchoice Q \mid P \triangleleft Q \mid \\
-	&P | |_{A} Q \mid P \backslash A \mid f(P) \mid P \triangle Q \mid P \theta_{A} Q \mid 
+   P, Q ::= &\mathrm{STOP} \mid \mathrm{div} \mid a\to P \mid P \sqcap Q \mid P \extchoice Q \mid P \sliding Q \mid \\
+	&P \pcomp Q \mid P \backslash A \mid f(P) \mid P \stopping Q \mid P \interrupt Q \mid 
 \end{align*}
 %\mu p.P
-where the operators are: \textit{inaction}, \textit{divergence}, \textit{action prefixing}, \textit{internal choice}, \textit{external choice}, \textit{sliding choice}, \textit{parallel composition}, \textit{concealment}, \textit{renaming}, \textit{interrupt}, and \textit{throw}. The operators \textit{inaction}
+where the operators are: \textit{inaction}, \textit{divergence}, \textit{action prefixing}, \textit{internal choice}, \textit{external choice}, \textit{sliding choice}, \textit{parallel composition}, \textit{concealment}, \textit{renaming}, \textit{interrupt}, and \textit{throw}. These can be described in the following manner:
+
+
+
+\begin{itemize}
+    \item \textbf{Inaction}, or $\mathrm{STOP}$ is a process that does nothing
+    \item \textbf{Divergence}, or $\mathrm{div}$ is a process that is stuck in an infinite processing loop, and can never perform an external action. As explained in section \ref{sc:trivial-translations}, this can be thought as an infinite chain of internal actions.
+    \item \textbf{Action Prefixing}, or $a \to P$ is an operation that performs the action $a$ followed by the process $P$. Note that $a$ must be a \textit{single} action, therefore disallowing operations such as the process $(a \to b) \to (c \to d)$.
+    \item \textbf{Internal Choice}, or $P \intchoice Q$ is an operation that can perform either $P$ or $Q$, but the choice is not decided by the user but rather by an outside decision, similar to flipping a coin
+    \item \textbf{External Choice}, or $P \extchoice Q$ is an operation that can perform a choice of $P$ or $Q$, and the choice is decided by the user. Internal choices can still progress on each process and the External choice does not disappear. This differs from $\acp$ Alternative Composition, as in $\acp$ a $\tau$ action will satisfy the $+$ operation.
+    \item \textbf{Sliding Choice}, or $P \sliding Q$ is an operation that acts like \textit{external choice} on $P$, and \textit{internal choice} on $Q$.
+    \item \textbf{Parallel Composition}, or $P \pcomp Q$ is an operation that interleaves two processes together, similarly to $\acp$ Merge. The difference being that in the language of $\csp$, the only actions that can synchronise are identical actions, e.g. $a$ and $a$ compared to the synchronisable actions being defined with an operator like $\mid$.
+    \item \textbf{Concealment}, or $P \conceal Q$ is an operation that removes actions from a set $Q$, acting similarly to the Abstraction operator $\abtau$ of $\acp$.j
+    \item \textbf{Renaming}, or $f(P)$ is an operation that renames actions in accordance to a function $f : A \times A \rightharpoonup A$.j
+    \item \textbf{Interrupt}, or $P \stopping Q$ is an operation that can perform visible actions of $P$, but the moment an action in $Q$ is made, it will then turn into $Q$ and stop other actions of $P$ from happening.j
+    \item \textbf{Throw}, or $P \interrupt Q$ is an operation that has a set of ``throw'' actions, where the process can perform visible actions of $P$, but the moment an action in the ``throw'' set occurs, the process switches to $Q$. This can also be thought of as an error operator.
+\end{itemize}
+
+\section{Structured Operational Semantics}
 
 These can also be represented in the following GSOS table
 
 \import{tables/}{gsos-csp.tex}
-
-\section{\texorpdfstring{$\acptf$}{ACP-tf}}
-
-The process algebra ACP
 \import{tables/}{gsos-acp.tex}
 
-\begin{align*}
-   P, Q ::= a \mid \delta \mid E + F \mid E . F \mid E \merge F \mid E \leftmerge F \mid E | F \mid \restrict(E) \mid \tau_{I}
-\end{align*}
-where the operators are: \textit{action}, \textit{deadlock}, \textit{alternative composition}, \textit{sequential composition}, \textit{merge}, \textit{left merge}, \textit{communication merge}, \textit{encapsulation}, \textit{abstraction}
-
-A proposed extension of ACP adds a Functional Renaming operator, as shown in [ON THE EXPRESSIVENESS OF ACP]. From this point forth, we will be using this extension, written as $ACP^{\tau}_{F}$. 
 
 \end{document}

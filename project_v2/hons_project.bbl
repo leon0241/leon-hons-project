@@ -96,16 +96,15 @@ Joachim Parrow.
 \bibitem[Peters(2019)]{petersComparingProcessCalculi2019}
 Kirstin Peters.
 \newblock Comparing {{Process Calculi Using Encodings}}.
-\newblock \emph{Electron. Proc. Theor. Comput. Sci.}, 300:\penalty0 19--38, August 2019.
+\newblock \emph{Electronic Proceedings in Theoretical Computer Science}, 300:\penalty0 19--38, August 2019.
 \newblock ISSN 2075-2180.
 \newblock \doi{10.4204/EPTCS.300.2}.
 
-\bibitem[{van Glabbeek}(2017)]{vanglabbeekBranchingTimeModel2017}
+\bibitem[{van Glabbeek}(1995)]{vanglabbeekExpressivenessACP1995}
 Rob {van Glabbeek}.
-\newblock A {{Branching Time Model}} of {{CSP}}.
-\newblock In Thomas {Gibson-Robinson}, Philippa Hopcroft, and Ranko Lazi{\'c}, editors, \emph{Concurrency, {{Security}}, and {{Puzzles}}: {{Essays Dedicated}} to {{Andrew William Roscoe}} on the {{Occasion}} of {{His}} 60th {{Birthday}}}, pages 272--293. Springer International Publishing, Cham, 2017.
-\newblock ISBN 978-3-319-51046-0.
-\newblock \doi{10.1007/978-3-319-51046-0_14}.
+\newblock On the {{Expressiveness}} of {{ACP}}.
+\newblock In A.~Ponse, C.~Verhoef, and S.~F.~M. {van Vlijmen}, editors, \emph{Algebra of {{Communicating Processes}}}, pages 188--217, London, 1995. Springer London.
+\newblock ISBN 978-1-4471-2120-6.
 
 \bibitem[{van Glabbeek}(2018)]{DBLP:conf/fossacs/Glabbeek18}
 Rob {van Glabbeek}.

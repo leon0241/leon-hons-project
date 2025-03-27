@@ -1,16 +1,16 @@
 \documentclass[../hons_project.tex]{subfiles}
 \begin{document}
     
-\section{Direct Translations}
-Some of the basic operations of $\csp$ have an identical equivalence in ACP, with the only difference being the syntax. These can be easily translated in the following table.
+\section{Direct Translations}\label{sc:direct-translations}
+Some of the basic operations of $\csp$ have an equivalent counterpart in ACP, with the only difference being the syntax. These can be easily translated in the following table.
 \begin{align*}
    \trans{STOP} &= \delta \\
    \trans{a \to P} &= a.\trans{P} \\
-   \trans{P \backslash A} &= \partial_{A}{\trans{P}} \\
+   \trans{P \backslash A} &= \tau_{A}{\trans{P}} \\
    % \trans{\mu p.P} &= \langle X \mid X = \tau.X \rangle
 \end{align*}
 
-\section{Trivial Translations}
+\section{Trivial Translations}\label{sc:trivial-translations}
 \begin{itemize}
    \item \textbf{Divergence} is the process that diverges via infinite internal actions. It is defined by the following rule:
       \[\mathrm{div} \prightarrow{\tau} \mathrm{div}\]
@@ -36,12 +36,11 @@ Working in the language $\acpt$ with the extension of Functional Renaming (writt
       \item $A_{0} \subseteq A$ is the set of actions that actually get used in processes
       \item $A_{T} \subseteq A$ is a set of target actions. This is used in operators such as $\csp$ Parallel Composition, which only communicates over a set.
       \item $H_{0} = A - A_{0}$ is the set of working space operators, or any other action that doesn't get used
-      \item $H_{1} = A_{0} \uplus \mathscr{H}$ is the set of actions, plus a set of working operators $\mathscr{H}$
+      \item $\mathscr{H} \subseteq H_{0}$ is a selectively chosen set from $H_{0}$ to aid a translation.
+      \item $H_{1} = A_{0} \uplus \mathscr{H}$ is the set of actions, plus any actions of $\mathscr{H}$
    \end{itemize}
 
-   In general, $A_{T} \subseteq A_{0} \subseteq H_{1} \subseteq A$.
-
-   Note that the silent step is not defined in $A$, and we will define $A_{\tau}$ to be $A \cup \{\tau\}$
+   In general, $A_{T} \subseteq A_{0} \subseteq H_{1} \subseteq A$, and $\mathscr{H} \subseteq H_{0} \subseteq A$
 \end{dfn}
 
 \import{diagrams/}{triggering.tex}
@@ -72,7 +71,7 @@ First, we define a function $f_{\mathtt{trig}}$ and communications for the opera
 We use the notation of $a^{\infty}$ as syntactic sugar to mean $\langle X \mid X = a.X \rangle$. Using the sets defined in \ref{dfn:sets}, we can now define $\Gamma(P)$ as such:
 
 \begin{dfn}[Triggering in ACP]{dfn:acp-triggering}{}
-   \[\Gamma(P) := f_{\mathtt{trig}}\bigl[\partial_{H_{1}}(P \pcomp \mathtt{first}.(\mathtt{next}^{\infty}))\bigr]\]
+   \[\Gamma(P) := f_{\mathtt{trig}}\bigl[\partial_{H_{1}}(P \merge \mathtt{first}.(\mathtt{next}^{\infty}))\bigr]\]
    is an operator that turns a trace of a process $P$, $a.b.c.\dots$ into the trace
    \[a_{\mathtt{ini}}. b. c. \dots\]
 \end{dfn}
@@ -201,9 +200,9 @@ We define communications for our translation in addition to the ones previously 
 
 
 \subsection{Parallel Composition}\label{ssec:parallel-composition}
-The parallel composition $\pcomp_{A}$ is defined with the following rules:
+The parallel composition $\pcomp$ is defined with the following rules:
 \begin{equation}\label{eq:pcomp-definition}
-   \prftree{P \prightarrow{\alpha} P' \quad \scriptstyle(\alpha\not\in A)}{P \pcomp_{A} Q \prightarrow{\alpha} P'\pcomp_{A} Q} \qquad \prftree{Q \prightarrow{\alpha} Q' \quad \scriptstyle(\alpha\not\in A) }{P \pcomp_{A} Q \prightarrow{a} P\pcomp_{A} Q'}\qquad \prftree{P \prightarrow{a} P' \, Q \prightarrow{a} Q'\scriptstyle(\alpha\in A)}{P \pcomp_{A} Q \prightarrow{a} P' \pcomp_{A} Q'}
+   \prftree{P \prightarrow{\alpha} P' \quad \scriptstyle(\alpha\not\in A)}{P \pcomp Q \prightarrow{\alpha} P'\pcomp Q} \qquad \prftree{Q \prightarrow{\alpha} Q' \quad \scriptstyle(\alpha\not\in A) }{P \pcomp Q \prightarrow{a} P\pcomp Q'}\qquad \prftree{P \prightarrow{a} P' \, Q \prightarrow{a} Q'\scriptstyle(\alpha\in A)}{P \pcomp Q \prightarrow{a} P' \pcomp Q'}
 \end{equation}
 In other words, a left merge action can be taken by all actions of $P$ and $Q$, which is the same as the $\acptf$ equivalent of parallel composition with the one difference being that in $\csp$, the action must be the same in $P$ and $Q$, whereas in $\acptf$ the action is defined with a communication function. For our encoding, we take $\mathscr{H} = \{\}$, and therefore $H_{1} = A_{0}$. The goal is to tag actions in the target set $A_{T}$, and then define a communication function between identical marked actions. We can do this via the following functions and communications:
 
@@ -217,7 +216,7 @@ In other words, a left merge action can be taken by all actions of $P$ and $Q$, 
 
 
 A translation for Parallel Composition can then be written as the following:
-\[\trans{P \pcomp_{A} Q} = \partial_{H_{0}}(f_{\mathrm{post}}(\fdef{syn}(\trans{P}) \pcomp \fdef{syn}(\trans{Q}))) \]
+\[\trans{P \pcomp Q} = \partial_{H_{0}}(f_{\mathrm{post}}(\fdef{syn}(\trans{P}) \merge \fdef{syn}(\trans{Q}))) \]
 
 \subsection{External choice}\label{ssec:external-choice}
 
@@ -240,12 +239,12 @@ In other words, we can take an external choice by the user, and additionally an 
 \longrule{0.08ex}
 
 Additionally, recall that the Triggering operator (\ref{dfn:acp-triggering}) is defined as:
-\[\Gamma(P) := f_{\mathtt{trig}}[\partial_{H_{1}}(P \pcomp \mathtt{first}(\mathtt{next}^{\infty}))])\]
+\[\Gamma(P) := f_{\mathtt{trig}}[\partial_{H_{1}}(P \merge \mathtt{first}(\mathtt{next}^{\infty}))])\]
 \end{dfn}
 
 
 We can then define an encoding of the $\csp$ external choice operator $\square$ in $\acptf$ in the following equation
-\[\trans{P \square Q} = \partial_{H_{0}}\Bigl(f_{2}\Bigl[\Gamma[\trans{P}]\, \pcomp \,\mathtt{choose}\, \pcomp \,\Gamma[\trans{Q}]\Bigl]\Bigr)\]
+\[\trans{P \square Q} = \partial_{H_{0}}\Bigl(f_{2}\Bigl[\Gamma[\trans{P}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{Q}]\Bigl]\Bigr)\]
 
 \subsection{Stopping}\label{ssec:stopping}
 
@@ -270,7 +269,7 @@ For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \matht
 \longrule{0.08ex}
 
 Additionally, recall that the Triggering operator (\ref{dfn:acp-triggering}) is defined as:
-\[\Gamma(P) := f_{\mathtt{trig}}[\partial_{H_{1}}(P \pcomp \mathtt{first}(\mathtt{next}^{\infty}))])\]
+\[\Gamma(P) := f_{\mathtt{trig}}[\partial_{H_{1}}(P \merge \mathtt{first}(\mathtt{next}^{\infty}))])\]
 \end{dfn}
 
 We can now define an encoding of the $\csp$ Stopping operator $\triangle$ in $\acptf$. We start off with a new process, which we will call $\Pi$. This is defined as the process
@@ -285,7 +284,7 @@ Or, visualised as a process graph:
 \end{tikzcd}\]
 
 From this, an encoding can be written in the following way:
-\[\trans{P \triangle Q} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \bigl(f_{\mathtt{origin}}(\trans{P}) \pcomp \Pi\bigr) \pcomp \Gamma(\trans{Q}) \Bigr]\Bigr)\]
+\[\trans{P \triangle Q} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \bigl(f_{\mathtt{origin}}(\trans{P}) \merge \Pi\bigr) \merge \Gamma(\trans{Q}) \Bigr]\Bigr)\]
 \subsection{Interrupt}\label{ssec:interrupt}
 
 The interrupt operator $\interrupt$ is defined with the following rules:
@@ -393,9 +392,7 @@ In other words, this operator lets you take an external action on $P$, however t
 	&P | |_{A} Q \mid P \backslash A \mid f(P) \mid P \triangle Q \mid P \theta_{A} Q \mid 
 \end{align*}
 
-We define our translation
-
-Recall from \ref{dfn:helper-functions} and \ref{dfn:communications} the list of helper functions and communications:
+Recall from Definitions \ref{dfn:helper-functions} and \ref{dfn:communications} the list of helper functions and communications:
 
 \begin{multicols}{3}
 \begin{itemize}[leftmargin=*]
@@ -425,6 +422,7 @@ Recall from \ref{dfn:helper-functions} and \ref{dfn:communications} the list of 
 \end{itemize}
 \end{multicols}
 
+We now define our translation
 
 \begin{dfn}[Translation of CSP to ACP]{dfn:trans}{}
    Let $\tcsp$ be the expressions in the language $\csp$, and $\tacp$ be expressions in the language $\acptf$. We define a translation $\tran : \tcsp \to \tacp$ defined as such:
@@ -433,12 +431,12 @@ Recall from \ref{dfn:helper-functions} and \ref{dfn:communications} the list of 
    \trans{\mathrm{div}} &= \langle X \mid X = \tau.X \rangle \\
       \trans{a \to P} &= a.\trans{P} \\
    \trans{P \intchoice Q} &= \tau.\trans{P} + \tau.\trans{Q} \\
-   \trans{P \extchoice Q} &= \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\, \pcomp \,\mathtt{choose}\, \pcomp \,\Gamma[\trans{Q}]\Bigl]\Bigr) \\
-      \trans{P \pcomp_{A} Q} &= \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{P}) \pcomp \fdef{syn}(\trans{Q})\Bigr]\Bigr) \\
+   \trans{P \extchoice Q} &= \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{Q}]\Bigl]\Bigr) \\
+      \trans{P \pcomp Q} &= \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{P}) \merge \fdef{syn}(\trans{Q})\Bigr]\Bigr) \\
       \trans{P \backslash A} &= \partial_{A}{\trans{P}} \\
    % \trans{\mu p.P} &= \langle X \mid X = \tau.X \rangle
    \trans{f(P)} &= f(\trans{P}) \\
-      \trans{P \triangle Q} &= \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[ \bigl((\fdef{origin}\trans{P}) \pcomp \Pi\bigr) \pcomp \Gamma(\trans{Q}) \Bigr]\Bigr) \\
+      \trans{P \triangle Q} &= \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[ \bigl((\fdef{origin}\trans{P}) \merge \Pi\bigr) \merge \Gamma(\trans{Q}) \Bigr]\Bigr) \\
       \trans{P \interrupt Q} &= \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ (\fdef{split} \trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr)
    \end{align*}
 \end{dfn}
