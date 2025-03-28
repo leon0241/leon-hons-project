@@ -6,16 +6,24 @@ P + Q \prightarrow{\alpha} P &
 P + Q \prightarrow{\alpha} Q \\[2ex]
 % \displaystyle\frac{P \prightarrow{\alpha} P'}{f(P) \prightarrow{f(\alpha)} f(P')} \\[4ex]
 \displaystyle\frac{P\prightarrow{\alpha} P'}{P \merge Q \prightarrow{\alpha} P' \merge Q} &
-\displaystyle\frac{P\prightarrow{a} P'~~Q\prightarrow{b} Q'~~ a \mid b = c}{P \merge Q \prightarrow{a} P' \merge Q'} &
+\displaystyle\frac{P\prightarrow{a} P'~~Q\prightarrow{b} Q'~~ a \mid b = c}{P \merge Q \prightarrow{c} P' \merge Q'} &
 \displaystyle\frac{Q\prightarrow{\alpha} Q'}{P \merge Q \prightarrow{\alpha} P \merge Q'} \\[4ex]
 
-\displaystyle\frac{P \prightarrow{\alpha} P'~~{\scriptstyle(\alpha\notin A)}}{\restrict(P) \prightarrow{\alpha} \restrict(P')} &
+\displaystyle\frac{P\prightarrow{\alpha} P'}{P \leftmerge Q \prightarrow{\alpha} P' \merge Q} &
+\displaystyle\frac{P\prightarrow{a} P'~~Q\prightarrow{b} Q'~~ a \mid b = c}{P \mid Q \prightarrow{c} P' \merge Q'} &
+\displaystyle\frac{P\prightarrow{a} P'~~{\scriptstyle(\alpha\in I)}}{\abtau(P) \prightarrow{\tau} \abtau(P')} \\[4ex]
 
-\displaystyle\frac{\langle \mathcal{S}_{X} \mid \mathcal{S} \rangle \prightarrow{a} P'}{\langle X \mid \mathcal{S} \rangle \prightarrow{a} P'} &
+\displaystyle\frac{P\prightarrow{a} P'~~{\scriptstyle(\alpha\not\in I)}}{\abtau(P) \prightarrow{a} \abtau(P')} & 
+\displaystyle\frac{P \prightarrow{\alpha} P'~~{\scriptstyle(\alpha\notin H)}}{\restrict(P) \prightarrow{\alpha} \restrict(P')} &
+
+\displaystyle\frac{\langle \mathcal{S}_{X} \mid \mathcal{S} \rangle \prightarrow{a} P'}{\langle X \mid \mathcal{S} \rangle \prightarrow{a} P'} \\[4ex]
+
+\displaystyle\frac{P\prightarrow{a} P'}{f(P) \prightarrow{f(a)} f(P')} & 
 
 
 \end{array}$}
 \end{center}
-\caption{Structural operational semantics of ACP}
+\caption{Structural operational semantics of ACP, }
+% \cite{DeNicola2013AGI}
 \label{table:ACP}
 \end{table}

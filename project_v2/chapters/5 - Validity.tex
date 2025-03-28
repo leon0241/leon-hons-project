@@ -147,13 +147,14 @@ And the postfix function defined in \ref{dfn:postfix},
 \end{lma}
 
 \begin{proof}
-	We work inductively for each number of $\tau$. using the definition of Branching Bisimilarity (\ref{dfn:rooted-branching}).
-
-	\textbf{Base Cases}:
-	\begin{itemize}
-		\item $P \brb \trans{P}$. By our initial assumption, $P \bisim \trans{P}$ which is a strictly finer equivalence, therefore $P \brb \trans{P}$ trivially
-		\item $P \brb \tau \merge \trans{P}$.
-	\end{itemize}
+	just works
+	% We work inductively for each number of $\tau$. using the definition of Branching Bisimilarity (\ref{dfn:rooted-branching}).
+	%
+	% \textbf{Base Cases}:
+	% \begin{itemize}
+	% 	\item $P \brb \trans{P}$. By our initial assumption, $P \bisim \trans{P}$ which is a strictly finer equivalence, therefore $P \brb \trans{P}$ trivially
+	% 	\item $P \brb \tau \merge \trans{P}$.
+	% \end{itemize}
 
 	\Huge{WIP}
 	%
@@ -198,7 +199,7 @@ We define a bisimulation relation.
 	\[
 		\partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\trans{P'}\merge\Gamma[\trans{Q_{c}}]\Bigl]\Bigr) \implies \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\trans{P'}\merge\taus\Bigl]\Bigr) \implies \trans{P'}\merge\taus
 	\]
-	for every trace in $Q$. Via Lemma \ref{lma:tau-on-p-process}, this process is Branching Bisimilar to the process $\trans{P'}$, and therefore, as the first action is related Strongly, the process is also Rooted Branching Bisimilar when taking an $a$ action on $P$.
+	for every trace $Q_{c}$ in $Q$. Via Lemma \ref{lma:tau-on-p-process}, this process is Branching Bisimilar to the process $\trans{P'}$. From this, we can see the union of every branch in $Q$ is at worst Branching Bisimilar, and therefore as the first action is related Strongly the process is valid up to Rooted Branching Bisimilarity when taking an $a$ action on $P$.
 
 
 	\textbf{Case 2}: $\tau$ action on $P$. Let $P'$ such that $P \prightarrow{\tau} P'$. In the domain of $\csp$, this results in the process
@@ -216,7 +217,7 @@ We define a bisimulation relation.
 
 	\noindent\rule{\textwidth}{0.08ex}
 
-	We have now exhausted all cases, and therefore can conclude that our translation of $\csp$ External Choice is Rooted Branching Bisimilar, and therefore a Congruence.
+	We have now exhausted all cases, and therefore can conclude that our translation of $\csp$ External Choice is Rooted Branching Bisimilar, and therefore Compositional.. WIP.
 \end{proof}
 
 \subsection{Stopping}
@@ -298,8 +299,20 @@ Which reduces down to:
 	I claim that a Strong Bisimulation cannot occur and RBB is the finest equivalence able to be translated
 \end{lma}
 
+\begin{thm}[Maybe 2]{thm:tau-comm}{}
+	The following diagram cannot be modelled in $\acp$ using Communication of two processes $a$ and $\tau$
+	% https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXGJ1bGxldCJdLFsyLDAsIlxcYnVsbGV0Il0sWzAsMiwiXFxidWxsZXQiXSxbMCwxLCJcXHRhdSJdLFswLDIsImEiLDJdXQ==
+\[\begin{tikzcd}[cramped]
+	\bullet && \bullet \\
+	\\
+	\bullet
+	\arrow["\tau", from=1-1, to=1-3]
+	\arrow["a"', from=1-1, to=3-1]
+\end{tikzcd}\]
+\end{thm}
+
 \begin{proof}
-	Something about how taus cannot be renamed / communicated. Have not thought of it past there but it feels like it might be right as all the translations have the same issue.
+
 \end{proof}
 \end{document}
 

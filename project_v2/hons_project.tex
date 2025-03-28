@@ -20,12 +20,9 @@
 \date{\today}
 
 \abstract{
-This skeleton demonstrates how to use the \texttt{infthesis} style for
-undergraduate dissertations in the School of Informatics. It also emphasises the
-page limit, and that you must not deviate from the required style.
-The file \texttt{skeleton.tex} generates this document and should be used as a
-starting point for your thesis. Replace this abstract text with a concise
-summary of your report.
+   A popular technique for representing Concurrent Systems is categorised into models called Process Algebras. Many Process Algebras exist, and efforts have been made to contextualise different Algebra to each other to find out notions of which Algebra are ``better''.
+
+   In this paper, we use the notion of ``expressiveness'', namely, ``Can one Algebra express more tasks than another'', and I present a translation between two popular Algebras, $\acp$ and $\csp$, that is valid up to a Rooted Branching Bisimulation equivalence.
 }
 
 \maketitle
@@ -53,6 +50,7 @@ Any acknowledgements go here.
 
 
 \chapter{Introduction}
+\subfile{chapters/1 - Introduction.tex}
 
 \chapter{Background}
 \subfile{chapters/2 - Background.tex}
@@ -63,16 +61,15 @@ Any acknowledgements go here.
 \chapter{A Translation of \texorpdfstring{$\csp$}{CSP} to \texorpdfstring{$\acptf$}{ACP}}
 \subfile{chapters/4 - Translation.tex}
 
-
 \newpage
 \chapter{Validity of the Encoding}
 \subfile{chapters/5 - Validity.tex}
 
 \chapter{Results}
 \subfile{chapters/6 - Results.tex}
-
-\chapter{Conclusions}
-\subfile{chapters/7 - Conclusions.tex}
+%
+% \chapter{Conclusions}
+% \subfile{chapters/7 - Conclusions.tex}
 
 
 \bibliographystyle{plainnat}
