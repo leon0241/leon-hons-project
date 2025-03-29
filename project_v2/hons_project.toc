@@ -25,7 +25,7 @@
 \contentsline {subsection}{\numberline {4.4.3}External choice}{22}{subsection.4.4.3}%
 \contentsline {subsection}{\numberline {4.4.4}Interrupt}{22}{subsection.4.4.4}%
 \contentsline {subsection}{\numberline {4.4.5}Throw}{23}{subsection.4.4.5}%
-\contentsline {subsection}{\numberline {4.4.6}Sliding Choice}{24}{subsection.4.4.6}%
+\contentsline {subsection}{\numberline {4.4.6}Sliding Choice}{25}{subsection.4.4.6}%
 \contentsline {subsection}{\numberline {4.4.7}Final Translation}{26}{subsection.4.4.7}%
 \contentsline {chapter}{\numberline {5}Validity of the Encoding}{27}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Rooted Branching Bisimilarity}{28}{section.5.1}%

@@ -1,6 +1,7 @@
 \documentclass[../hons_project.tex]{subfiles}
 \begin{document}
 
+
 \section{Direct Translations}\label{sc:direct-translations}
 Some of the basic operations of $\csp$ have an equivalent counterpart in ACP, with the only difference being the syntax. These can be easily translated in the following table.
 \begin{align*}
@@ -28,7 +29,7 @@ The above translations are all valid up to Strong Bisimilarity. The other operat
 \section{Helper Operators for the language \texorpdfstring{$\acptf$}{ACPtf}}
 
 \subsection{Subsets of \texorpdfstring{$\Sigma$}{Sigma}}
-Working in the language $\acpt$ with the extension of Functional Renaming (written $ACP^{\tau}_{F}$), we first recall that $\acptf$ is paramaterised by a set of actions $\Sigma$ as defined in \ref{sc:acp}. We then start by defining some subsets of $\Sigma$ which we will use in our encodings.
+Working in the language $\acpt$ with the extension of Functional Renaming (written $ACP^{\tau}_{F}$), we first recall that $\acptf$ is paramaterised by a set of actions $\Sigma$ as defined in \ref{sc:acp}. Also recall that $\Sigma_{\tau}$ is defined as the set $\Sigma \cup \{\tau\}$. We then start by defining some subsets of $\Sigma$ which we will use in our encodings.
 
 \begin{dfn}[Subsets of A]{dfn:sets}{}
 	The set $\Sigma\in \mathbb{T}$ is the set of all actions.
@@ -52,19 +53,29 @@ First, we define a function $f_{\mathtt{trig}}$ and communications for the opera
 
 \begin{multicols}{2}
 \begin{dfn-s}[Communications]{dfn:comm-triggering}{}
-Define communications where
+Define communications where:
 \begin{align*}
 	a | \mathtt{first} & = a_{\mathtt{first}} \\
 	a | \mathtt{next}  & = a_{\mathtt{next}}
 \end{align*}
 \end{dfn-s}
 
-\begin{dfn-s}[Trigger Function]{dfn:f1}{}
-Define functions $f_{\mathtt{trig}}: \Sigma \to \Sigma$ where
-\begin{align*}
-	f_{\mathtt{trig}}(a_{\mathtt{first}}) & = a_{\mathtt{ini}} \\
-	f_{\mathtt{trig}}(a_{\mathtt{next}})  & = a
-\end{align*}
+
+% \[
+%  f_{\mathrm{syn}}(a) = \begin{cases}
+%   a_{\mathtt{syn}} & \text{ if } a\in A \\
+%   a           & \text{otherwise}
+%  \end{cases}
+% \]
+\begin{dfn-s}[Triggering Function]{dfn:f1}{}
+Define $f_{\mathtt{trig}}: \Sigma_{\tau} \to \Sigma_{\tau}$ where:
+\[
+	f_{\mathtt{trig}}(\alpha) = \begin{cases}
+		a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
+		a                & \text{if } \alpha = a_{\mathtt{next}}  \\
+		\alpha           & \text{otherwise}
+	\end{cases}
+\]
 \end{dfn-s}
 \end{multicols}
 
@@ -144,10 +155,10 @@ We define a compatibility function to prevent issues with associativity. Via \re
 \[a \xrightarrow{\text{Rename for Communication}} a_{\mathtt{tag}} \xrightarrow{\text{Communicate with an action}} a_{\mathtt{post}} \xrightarrow{\text{Rename for final result}} a\]
 
 \begin{dfn}[Postfix function]{dfn:postfix}{}
-	Let $f_{\mathrm{post}} : \Sigma \to \Sigma$ where
+	Let $f_{\mathrm{post}} : \Sigma_{\tau} \to \Sigma_{\tau}$ where
 	\vspace{-5pt}
-	\[f_{\mathrm{post}}(\alpha) = \begin{cases}
-			a      & \text{ if } \alpha = \alpha_{\mathrm{post}} \\
+	\[f_{\mathtt{post}}(\alpha) = \begin{cases}
+			a      & \text{ if } \alpha = a_{\mathrm{post}} \\
 			\alpha & \text{otherwise}
 		\end{cases}\]
 \end{dfn}
@@ -157,41 +168,42 @@ We define a compatibility function to prevent issues with associativity. Via \re
 
 \subsection{Communications and Functional Renaming}
 
-We define communications for our translation in addition to the ones previously defined for our helper functions. These are defined as follows:
+We define communications for our translation in addition to the ones previously defined for our helper functions. Also note that these functions are defined over $\Sigma_{\tau}$ for bookkeeping purposes as internal actions $\tau$ cannot get renamed and therefore stay as an internal action no matter the function. These are defined as follows:
 
 \begin{dfn}[Helper Functions]{dfn:helper-functions}{}
 	In addition to the function $\fdef{trig}$ defined in \ref{dfn:f1}, and the postfix function defined in \ref{dfn:postfix}:
 	\vspace{-8pt}
-	\[f_{\mathrm{trig}}(\alpha) = \begin{cases}
-			a_{\mathtt{first}} & \text{ if } \alpha = a_{\mathtt{ini}} \\
-			\alpha             & \text{otherwise}
-		\end{cases} \qquad f_{\mathrm{post}}(\alpha) = \begin{cases}
-			a      & \text{ if } \alpha = \alpha_{\mathrm{post}} \\
+	\[f_{\mathtt{trig}}(\alpha) = \begin{cases}
+			a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
+			a                & \text{if } \alpha = a_{\mathtt{next}}  \\
+			\alpha           & \text{otherwise}
+		\end{cases} \qquad f_{\mathtt{post}}(\alpha) = \begin{cases}
+			a      & \text{ if } \alpha = a_{\mathrm{post}} \\
 			\alpha & \text{otherwise}
 		\end{cases}\]
 	We define functions for the remaining operators below. We use the notation $A_{T}$ to signify a target set, as used in \ref{ssec:parallel-composition}, \ref{ssec:interrupt}, and $\lambda$ to signify actions in $A$
 
 	\begin{enumerate}
-		\item $\fdef{syn} : \Sigma \to \Sigma$ is a function that renames any actions in the target set $A$. This is used in the translation of Parallel Composition (\ref{ssec:parallel-composition})
+		\item $\fdef{syn} : \Sigma_{\tau} \to \Sigma_{\tau}$ is a function that renames any actions in the target set $A$. This is used in the translation of Parallel Composition (\ref{ssec:parallel-composition})
 		      \vspace{-5pt}
 		      \[
-			      f_{\mathrm{syn}}(a) = \begin{cases}
-				      a_{\mathtt{syn}} & \text{ if } a\in A \\
-				      a           & \text{otherwise}
+			      f_{\mathrm{syn}}(\alpha) = \begin{cases}
+				      \alpha_{\mathtt{syn}} & \text{ if } \alpha\in A \\
+				      \alpha                & \text{otherwise}
 			      \end{cases}
 		      \]
-		      % \vspace{-30pt}
-		\item $\fdef{origin} : \Sigma \to \Sigma$ is a function that renames actions in a process for use in operators. This is used in the translation of the Interrupt operator (\ref{ssec:stopping})
+		\item $\fdef{origin} : \Sigma_{\tau} \to \Sigma_{\tau}$ is a function that renames actions in a process for use in operators. This is used in the translation of the Interrupt operator (\ref{ssec:stopping})
 		      \vspace{-5pt}
-		      \[\fdef{origin}(a) = a_{\mathtt{origin}}\]
-		      \vspace{-30pt}
-		\item $\fdef{split} : A \to A$ is a function that renames actions in a process for use in operators, and also renames actions in the target set $A_{T}$. This is used in the translation of the Interrupt operator (\ref{ssec:interrupt})
-		      \vspace{-5pt}
-
+		      \[\fdef{origin}(\alpha) = \begin{cases}
+				      a_{\mathtt{origin}} & \text{if } a\in\Sigma \\
+				      \tau                & \text{otherwise}
+			      \end{cases}\]
+		\item $\fdef{split} : \Sigma_{\tau} \to \Sigma_{\tau}$ is a function that renames actions in a process for use in operators, and also renames actions in the target set $A$. This is used in the translation of the Throw operator (\ref{ssec:interrupt})
 		      \[
-			      f_{\mathrm{split}}(a) = \begin{cases}
-				      a_{\mathtt{split}} & \text{ if } a\in A \\
-				      a_{\mathtt{origin}}           & \text{otherwise}
+			      f_{\mathtt{split}}(\alpha) = \begin{cases}
+				      a_{\mathtt{split}}  & \text{ if } a\in A                    \\
+				      a_{\mathtt{origin}} & \text{ if } a\not\in A,\, a\in \Sigma \\
+				      \tau                & \mathrm{otherwise}
 			      \end{cases}
 		      \]
 	\end{enumerate}
@@ -225,15 +237,14 @@ In other words, a left merge action can be taken by all actions of $P$ and $Q$, 
 
 \begin{dfn}[Functions and Communications - Parallel Composition]{dfn:comms-pcomp}{}
 	As defined in \ref{dfn:helper-functions} and \ref{dfn:communications}, the following communications and functions are defined over Parallel Composition:
-	\[f_{\mathrm{syn}}(\alpha) = \begin{cases}
-				      a_{\mathtt{syn}} & \text{ if } \alpha\in A \\
-				      \alpha           & \text{otherwise}
-			      \end{cases} \qquad f_{\mathrm{post}}(\alpha) = \begin{cases}
+	\[f_{\mathtt{syn}}(\alpha) = \begin{cases}
+			a_{\mathtt{syn}} & \text{ if } \alpha\in A \\
+			\alpha           & \text{otherwise}
+		\end{cases} \qquad f_{\mathtt{post}}(\alpha) = \begin{cases}
 			a      & \text{ if } \alpha = a_{\mathrm{post}} \\
 			\alpha & \text{otherwise}
 		\end{cases}\]
 	\[a_{\mathtt{syn}} | a_{\mathtt{syn}} = a_{\mathtt{post}}\]
-
 \end{dfn}
 
 
@@ -251,9 +262,14 @@ In other words, we can take an external choice by the user, and additionally an 
 
 \begin{dfn}[Functions and Communications - External Choice]{dfn:comms-external}{}
 	As defined in \ref{dfn:helper-functions} and \ref{dfn:communications}, the following communications and functions are defined over External Choice:
-	\[f_{\mathtt{trig}}(a_{\mathtt{first}}) = a_{\mathtt{ini}} \qquad
-		f_{\mathtt{trig}}(a_{\mathtt{next}}) = a  \qquad
-		f_{\mathrm{post}}(a_{\mathtt{post}}) = a \qquad f_{\mathrm{post}}( \alpha) = \alpha
+	\[f_{\mathtt{trig}}(\alpha) = \begin{cases}
+			a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
+			a                & \text{if } \alpha = a_{\mathtt{next}}  \\
+			\alpha           & \text{otherwise}
+		\end{cases} \qquad f_{\mathtt{post}}(\alpha) = \begin{cases}
+			a      & \text{ if } \alpha = a_{\mathrm{post}} \\
+			\alpha & \text{otherwise}
+		\end{cases}
 	\]
 	\[
 		a_{\mathtt{ini}} | \mathtt{choose} = a_{\mathtt{post}}
@@ -279,14 +295,25 @@ In other words, we can take an external action from $P$ without fulfilling the o
 For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$, and therefore $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$ as defined in \ref{dfn:sets}.
 
 \begin{dfn}[Functions and Communications - Interrupt]{dfn:comms-stopping}{}
-	As defined in \ref{dfn:helper-functions} and \ref{dfn:communications}, the following communications and functions are defined over External Choice:
-	\[f_{\mathtt{trig}}(a_{\mathtt{first}}) = a_{\mathtt{ini}} \qquad
-		f_{\mathtt{trig}}(a_{\mathtt{next}}) = a  \qquad
-		f_{\mathrm{post}}(a_{\mathtt{post}}) = a \qquad f_{\mathrm{post}}( \alpha) = \alpha
-	\]
-	\[\fdef{origin}(a) = a_{\mathtt{origin}}\]
-	\[a_{\mathtt{origin}} | \mathtt{origin} = a_{\mathtt{post}} \qquad a_{\mathtt{ini}} | \mathtt{split} = a_{\mathtt{post}}
-	\]
+	As defined in \ref{dfn:helper-functions} and \ref{dfn:communications}, the following communications and functions are defined for our translation:q
+	\begin{align*}
+		f_{\mathtt{trig}}(\alpha)             & = \begin{cases}
+			                                          a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
+			                                          a                & \text{if } \alpha = a_{\mathtt{next}}  \\
+			                                          \alpha           & \text{otherwise}
+		                                          \end{cases} \quad
+											  &f_{\mathtt{post}}(\alpha)             = \begin{cases}
+			                                          a      & \text{ if } \alpha = a_{\mathrm{post}} \\
+			                                          \alpha & \text{otherwise}
+		                                          \end{cases}                                                                    \\
+		\fdef{origin}(\alpha)                 & = \begin{cases}
+			                                          a_{\mathtt{origin}} & \text{if } a\in\Sigma \\
+			                                          \tau                & \text{otherwise}
+		                                          \end{cases}\quad
+											  &\begin{split}
+		    a_{\mathtt{origin}} | \mathtt{origin} &= a_{\mathtt{post}} \\ a_{\mathtt{ini}} | \mathtt{split} &= a_{\mathtt{post}}
+		\end{split}
+	\end{align*}
 
 	\longrule{0.08ex}
 
@@ -294,7 +321,7 @@ For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \matht
 	\[\Gamma(P) := f_{\mathtt{trig}}[\partial_{H_{1}}(P \merge \mathtt{first}(\mathtt{next}^{\infty}))])\]
 \end{dfn}
 
-We can now define an encoding of the $\csp$ Interrupt operator $\triangle$ in $\acptf$. We start off with a new process, which we will call $\Pi$. This is defined as the process
+We can now define an encoding of the $\csp$ Interrupt operator $\triangle$ in $\acptf$. We start off with a new hoper process, which we will call $\Pi$. This is defined as the recursive equation
 \[\Pi = \langle X \mid X = \mathtt{origin}.X + \mathtt{split} \rangle\]
 Or, visualised as a process graph:
 % https://q.uiver.app/#q=WzAsMyxbMSwwLCJcXGNpcmMiXSxbMywwLCJcXGJ1bGxldCJdLFswLDBdLFswLDEsIlxcbWF0aHR0e3NwbGl0fSJdLFswLDAsIlxcbWF0aHR0e29yaWdpbn0iXSxbMiwwLCIiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6NTB9fV1d
@@ -318,12 +345,19 @@ In other words, we can take as many actions in $P$ as we want, as long as they a
 , and therefore $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$ as defined in \ref{dfn:sets}.
 
 \begin{dfn}[Functions and Communications - Throw]{dfn:comms-interrupt}{}
-	As defined in \ref{dfn:helper-functions} and \ref{dfn:communications}, the following communications and functions are defined over External Choice:
-	\[f_{\mathrm{post}}(a_{\mathtt{post}}) = a \qquad f_{\mathrm{post}}( \alpha) = \alpha  \qquad \fdef{split}(\lambda) = \lambda_{\mathtt{split}}\qquad \fdef{split}(a) = a_{\mathtt{origin}}\]
+	As defined in \ref{dfn:helper-functions} and \ref{dfn:communications}, the following communications and functions are defined for our translation:
+	\[f_{\mathtt{post}}(\alpha) = \begin{cases}
+			a      & \text{ if } \alpha = a_{\mathrm{post}} \\
+			\alpha & \text{otherwise}
+		\end{cases} \qquad f_{\mathtt{split}}(\alpha) = \begin{cases}
+				      a_{\mathtt{split}}  & \text{ if } a\in A                    \\
+				      a_{\mathtt{origin}} & \text{ if } a\not\in A,\, a\in \Sigma \\
+				      \tau                & \mathrm{otherwise}
+			      \end{cases}\]
 	\[a_{\mathtt{origin}} | \mathtt{origin} = a_{\mathtt{post}} \qquad a_{\mathtt{split}} | \mathtt{split} = a_{\mathtt{post}}\]
 \end{dfn}
 
-We can now define an encoding of the $\csp$ Throw operator $\interrupt$ in $\acptf$. We employ the use of the same operator as in the Interrupt operator, $\Pi$ which is defined as
+We can now define an encoding of the $\csp$ Throw operator $\interrupt$ in $\acptf$. We employ the use of the same helper process as in the translation of the Interrupt operator, $\Pi$ which is defined as
 \[\Pi = \langle X \mid X = \mathtt{origin}.X + \mathtt{split} \rangle\]
 Or, visualised as a process graph:
 % https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXGNpcmMiXSxbMiwwLCJcXGJ1bGxldCJdLFs0LDAsIlxcYnVsbGV0Il0sWzAsMSwiXFxtYXRodHR7b3JpZ2lufSJdLFsxLDEsIlxcbWF0aHR0e29yaWdpbn0iXSxbMSwyLCJcXG1hdGh0dHtzcGxpdH0iXSxbMiwyLCJcXG1hdGh0dHtzcGxpdH0iXV0=
@@ -409,6 +443,7 @@ In other words, this operator lets you take an external action on $P$, however t
 \newpage
 \subsection{Final Translation}
 
+Recall the grammar of the languages $\csp$ and $\acptf$ as defined in Definitions
 \begin{align*}
 	P, Q ::= & \mathrm{STOP} \mid \mathrm{div} \mid a\to P \mid P \sqcap Q \mid P \extchoice Q \mid P \triangleleft Q \mid \\
 	         & P | |_{A} Q \mid P \backslash A \mid f(P) \mid P \triangle Q \mid P \theta_{A} Q \mid
@@ -416,19 +451,33 @@ In other words, this operator lets you take an external action on $P$, however t
 
 Recall from Definitions \ref{dfn:helper-functions} and \ref{dfn:communications} the list of helper functions and communications:
 
-\begin{multicols}{3}
+\begin{multicols}{2}
 	\begin{itemize}[leftmargin=*]
-		\item $f_{\mathtt{trig}}(a_{\mathtt{first}}) = a_{\mathtt{ini}}$
-		\item $f_{\mathtt{trig}}(a_{\mathtt{next}}) = a$
-		      \columnbreak
-		\item $f_{\mathrm{post}}(a_{\mathtt{post}}) = a$\hfill\newline
-		      $f_{\mathrm{post}}( \alpha) = \alpha$
-		\item $\fdef{syn}(\lambda) = \lambda_{\mathtt{syn}}$\hfill\newline
-		      $\fdef{syn}( \alpha) = \alpha$
-		      \columnbreak
-		\item $\fdef{origin}(a) = a_{\mathtt{origin}}$
-		\item $\fdef{split}(\lambda) = \lambda_{\mathtt{split}}$\hfill\newline
-		      $\fdef{split}(a) = a_{\mathtt{origin}}$
+		\item $f_{\mathtt{trig}}(\alpha) = \begin{cases}
+			a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
+			a                & \text{if } \alpha = a_{\mathtt{next}}  \\
+			\alpha           & \text{otherwise}
+		\end{cases}$
+		
+		\item $f_{\mathtt{post}}(\alpha) = \begin{cases}
+			a      & \text{ if } \alpha = a_{\mathrm{post}} \\
+			\alpha & \text{otherwise}
+		\end{cases}$
+		
+		\item $f_{\mathrm{syn}}(\alpha) = \begin{cases}
+				      \alpha_{\mathtt{syn}} & \text{ if } \alpha\in A \\
+				      \alpha                & \text{otherwise}
+			      \end{cases}$
+				  
+		\item $\fdef{origin}(\alpha) = \begin{cases}
+				      a_{\mathtt{origin}} & \text{if } a\in\Sigma \\
+				      \tau                & \text{otherwise}
+			      \end{cases}$
+		\item $f_{\mathtt{split}}(\alpha) = \begin{cases}
+				      a_{\mathtt{split}}  & \text{ if } a\in A                    \\
+				      a_{\mathtt{origin}} & \text{ if } a\not\in A,\, a\in \Sigma \\
+				      \tau                & \mathrm{otherwise}
+			      \end{cases}$
 	\end{itemize}
 \end{multicols}
 

@@ -69,11 +69,13 @@ Rooted Branching Bisimilarity is a variation of Branching Bisimilarity. Branchin
 \section{\texorpdfstring{$\acptf$}{ACP-tf}}\label{sc:acp}
 
 \subsection{Basic \texorpdfstring{$\acpt$}{acpt}}
-The base process algebra $\acpt$ as described in [ACPt] is parameterised by a set of actions, $\Sigma$, and a communication function $|$. The grammar of $\acp$ can be described with the following operations:
-\begin{align*}
-   P, Q ::= a \mid \delta \mid E . F \mid E + F \mid E \merge F \mid E \leftmerge F \mid E | F \mid \restrict(E) \mid \tau_{I}(P) \mid
-\end{align*}
-where the operators are: \textit{action}, \textit{deadlock}, \textit{sequential composition}, \textit{alternative composition},  \textit{merge}, \textit{left merge}, \textit{communication merge}, \textit{encapsulation}, and \textit{abstraction}.
+\begin{dfn}[\texorpdfstring{$\acpt$}{acpt}]{dfn:acpt}{}
+   The base process algebra $\acpt$ as described in [ACPt] is parameterised by a set of actions, $\Sigma$, and a communication function $|$. The grammar of $\acp$ can be described with the following operations:
+   \begin{align*}
+      P, Q ::= a \mid \delta \mid E . F \mid E + F \mid E \merge F \mid E \leftmerge F \mid E | F \mid \restrict(E) \mid \tau_{I}(P) \mid
+   \end{align*}
+   where the operators are: \textit{action}, \textit{deadlock}, \textit{sequential composition}, \textit{alternative composition},  \textit{merge}, \textit{left merge}, \textit{communication merge}, \textit{encapsulation}, and \textit{abstraction}.
+\end{dfn}
 We have that $H, I \subseteq \Sigma$, and additionally we will define the set $\Sigma_{\tau}$ to be the set $\Sigma \cup \{\tau\}$, as the silent step is not included in $\Sigma$. The operations can be described in the following manner:
 
 
@@ -100,23 +102,27 @@ The operation $\mid$ is a function $A \times A \rightharpoonup A$ that defines v
 
 \subsection{\texorpdfstring{$\acptf$}{acptf}}
 
+\begin{dfn}[\texorpdfstring{$\acptf$}{acptf}]{dfn:acptf}{}
+	
 A proposed extension of ACP adds a Functional Renaming operator, as shown in \cite{vanglabbeekExpressivenessACP1995}, which lets you rename actions via a function $f : A \times A \rightharpoonup A$. From this point forth, we will be using this extension, written as $ACP^{\tau}_{F}$. Our final grammar for the language $\acptf$ is therefore
 \begin{align*}
    P, Q ::= a \mid \delta \mid P . Q \mid P + Q \mid P \merge Q \mid P \leftmerge Q \mid P | Q \mid \restrict(P) \mid \abtau(P) \mid f(P) \mid
 \end{align*}
 where the operators are: \textit{action}, \textit{deadlock}, \textit{sequential composition}, \textit{alternative composition},  \textit{merge}, \textit{left merge}, \textit{communication merge}, \textit{encapsulation}, \textit{abstraction}, \textit{functional renaming}.
-
+\end{dfn}
 
 
 \section{\texorpdfstring{$\csp$}{CSP}}\label{ssec:CSP}
-The process algebra $\csp$ as defined in [REF] is parameterised on a set of communications $\Sigma$, and the grammar consists of the operations:
-\begin{align*}
-   P, Q ::= &\mathrm{STOP} \mid \mathrm{div} \mid a\to P \mid P \sqcap Q \mid P \extchoice Q \mid P \sliding Q \mid \\
-	&P \pcomp Q \mid P \backslash A \mid f(P) \mid P \stopping Q \mid P \interrupt Q \mid 
-\end{align*}
-%\mu p.P
-where the operators are: \textit{inaction}, \textit{divergence}, \textit{action prefixing}, \textit{internal choice}, \textit{external choice}, \textit{sliding choice}, \textit{parallel composition}, \textit{concealment}, \textit{renaming}, \textit{interrupt}, and \textit{throw}.
+\begin{dfn}[\texorpdfstring{$CSP$}{csp}]{dfn:csp}{}
 
+   The process algebra $\csp$ as defined in [REF] is parameterised on a set of communications $\Sigma$, and the grammar consists of the operations:
+   \begin{align*}
+      P, Q ::= &\mathrm{STOP} \mid \mathrm{div} \mid a\to P \mid P \sqcap Q \mid P \extchoice Q \mid P \sliding Q \mid \\
+	       &P \pcomp Q \mid P \backslash A \mid f(P) \mid P \stopping Q \mid P \interrupt Q \mid 
+   \end{align*}
+%\mu p.P
+   where the operators are: \textit{inaction}, \textit{divergence}, \textit{action prefixing}, \textit{internal choice}, \textit{external choice}, \textit{sliding choice}, \textit{parallel composition}, \textit{concealment}, \textit{renaming}, \textit{interrupt}, and \textit{throw}.
+\end{dfn}
 We have that $A \subseteq \Sigma$, and the operations can be described in the following manner:
 
 
