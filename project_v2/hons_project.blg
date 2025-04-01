@@ -3,44 +3,44 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: hons_project.aux
 The style file: plainnat.bst
 Database file #1: project.bib
-You've used 16 entries,
+You've used 17 entries,
             2773 wiz_defined-function locations,
-            744 strings with 8898 characters,
-and the built_in function-call counts, 7864 in all, are:
-= -- 795
-> -- 297
-< -- 21
-+ -- 102
-- -- 86
-* -- 604
-:= -- 1187
-add.period$ -- 80
-call.type$ -- 16
-change.case$ -- 72
-chr.to.int$ -- 16
-cite$ -- 32
-duplicate$ -- 384
-empty$ -- 682
-format.name$ -- 114
-if$ -- 1702
+            755 strings with 9099 characters,
+and the built_in function-call counts, 8282 in all, are:
+= -- 839
+> -- 307
+< -- 22
++ -- 106
+- -- 89
+* -- 636
+:= -- 1252
+add.period$ -- 85
+call.type$ -- 17
+change.case$ -- 76
+chr.to.int$ -- 17
+cite$ -- 34
+duplicate$ -- 404
+empty$ -- 722
+format.name$ -- 118
+if$ -- 1790
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 18
-newline$ -- 115
-num.names$ -- 72
-pop$ -- 122
+missing$ -- 19
+newline$ -- 122
+num.names$ -- 76
+pop$ -- 127
 preamble$ -- 1
-purify$ -- 58
+purify$ -- 61
 quote$ -- 0
-skip$ -- 280
+skip$ -- 293
 stack$ -- 0
-substring$ -- 393
-swap$ -- 76
+substring$ -- 420
+swap$ -- 77
 text.length$ -- 7
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 166
+type$ -- 177
 warning$ -- 0
-while$ -- 85
+while$ -- 90
 width$ -- 0
-write$ -- 279
+write$ -- 296

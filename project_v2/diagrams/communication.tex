@@ -1,4 +1,4 @@
-\begin{figure}[!ht]
+\begin{figure}[t!]
 	\centering
 	\begin{subfigure}[b]{0.49\textwidth}
 		% https://q.uiver.app/#q=WzAsOSxbMCwwLCJcXGJ1bGxldCJdLFsyLDAsIlxcYnVsbGV0Il0sWzQsMCwiXFxidWxsZXQiXSxbMCwyLCJcXGJ1bGxldCJdLFswLDQsIlxcYnVsbGV0Il0sWzIsMiwiXFxidWxsZXQiXSxbMiw0LCJcXGJ1bGxldCJdLFs0LDIsIlxcYnVsbGV0Il0sWzQsNCwiXFxidWxsZXQiXSxbMCwxLCJhIl0sWzEsMiwiYiJdLFswLDMsImMiLDJdLFszLDQsImQiLDJdLFsxLDUsImMiLDJdLFs1LDYsImQiLDJdLFsyLDcsImMiLDJdLFs3LDgsImQiLDJdLFszLDUsImEiXSxbNSw3LCJiIiwxXSxbNCw2LCJhIiwyXSxbNiw4LCJiIiwxXSxbMyw2LCJlIiwxXV0=
@@ -48,6 +48,6 @@
 			\end{tikzcd}\]
 		\caption{Restriction applied over the set $\{a, d\}$}
 	\end{subfigure}
-	\caption{Example of Communication on the process: $\partial_{\{a,d\}}(a.b \merge c.d)$. An example of how this can be modelled is a vending machine, take the function $a.b$ to mean \texttt{recieve payment}.\texttt{dispense item}, the function $c.d$ to mean \texttt{choose item}.\texttt{insert payment}, and the communication $a \mid d = e$ to mean \texttt{pay}. The process will then evaluate to the process \texttt{choose item.pay.dispense item}, with the process synchronising over \texttt{insert payment} and \texttt{recieve payment}.}
+	\caption{Example of Communication on the process: $\partial_{\{a,d\}}(a.b \merge c.d)$. An example of how this can be modelled as a vending machine. Take the process $a.b$ to mean \texttt{accept payment}.\texttt{dispense item}, the process $c.d$ to mean \texttt{choose item}.\texttt{insert payment}, and the communication $a \mid d = e$ to mean \texttt{pay}. The process will then evaluate to the process \texttt{choose item.pay.dispense item}, with the process synchronising over \texttt{insert payment} and \texttt{recieve payment}.}
 	\label{fig:communication}
 \end{figure}

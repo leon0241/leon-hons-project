@@ -1,29 +1,47 @@
 \begin{table}[htb]
 \begin{center}
 \framebox{$\begin{array}{ccccc}
-(a. P) \prightarrow{\alpha} P &
-P + Q \prightarrow{\alpha} P &
-P + Q \prightarrow{\alpha} Q \\[2ex]
-% \displaystyle\frac{P \prightarrow{\alpha} P'}{f(P) \prightarrow{f(\alpha)} f(P')} \\[4ex]
-\displaystyle\frac{P\prightarrow{\alpha} P'}{P \merge Q \prightarrow{\alpha} P' \merge Q} &
-\displaystyle\frac{P\prightarrow{a} P'~~Q\prightarrow{b} Q'~~ a \mid b = c}{P \merge Q \prightarrow{c} P' \merge Q'} &
-\displaystyle\frac{Q\prightarrow{\alpha} Q'}{P \merge Q \prightarrow{\alpha} P \merge Q'} \\[4ex]
+% Action
+a \prightarrow{\alpha} \checkmark &
+% Alternative Compositition -  Action
+\prftree{P \prightarrow{\alpha} P'}{P + Q \prightarrow{\alpha} P'} &
+\prftree{Q \prightarrow{\alpha} Q'}{P + Q \prightarrow{\alpha} Q'} &
 
-\displaystyle\frac{P\prightarrow{\alpha} P'}{P \leftmerge Q \prightarrow{\alpha} P' \merge Q} &
-\displaystyle\frac{P\prightarrow{a} P'~~Q\prightarrow{b} Q'~~ a \mid b = c}{P \mid Q \prightarrow{c} P' \merge Q'} &
-\displaystyle\frac{P\prightarrow{a} P'~~{\scriptstyle(\alpha\in I)}}{\abtau(P) \prightarrow{\tau} \abtau(P')} \\[4ex]
+% Seqential Composition - Termination
+\prftree{P \prightarrow{\alpha} \checkmark}{P \cdot Q \prightarrow{\alpha} Q} \\[2ex]
+% Seqential Composition - Action
+\prftree{P \prightarrow{\alpha} P'}{P \cdot Q \prightarrow{\alpha} P' \cdot Q} &
 
-\displaystyle\frac{P\prightarrow{a} P'~~{\scriptstyle(\alpha\not\in I)}}{\abtau(P) \prightarrow{a} \abtau(P')} & 
-\displaystyle\frac{P \prightarrow{\alpha} P'~~{\scriptstyle(\alpha\notin H)}}{\restrict(P) \prightarrow{\alpha} \restrict(P')} &
+% Left Merge - Action
+\prftree{P\prightarrow{\alpha} P'}{P \leftmerge Q \prightarrow{\alpha} P' \merge Q} &
 
-\displaystyle\frac{\langle \mathcal{S}_{X} \mid \mathcal{S} \rangle \prightarrow{a} P'}{\langle X \mid \mathcal{S} \rangle \prightarrow{a} P'} \\[4ex]
+% Merge - Action
+\prftree{P\prightarrow{\alpha} P'}{P \merge Q \prightarrow{\alpha} P' \merge Q} &
+\prftree{Q\prightarrow{\alpha} Q'}{P \merge Q \prightarrow{\alpha} P \merge Q'} \\[2ex]
 
-\displaystyle\frac{P\prightarrow{a} P'}{f(P) \prightarrow{f(a)} f(P')} & 
+% Merge - Action Action
+\multicolumn{3}{c}{\prftree{P\prightarrow{\alpha} P'~~Q\prightarrow{b} Q'~~ \scriptstyle a \mid b = c}{P \merge Q \prightarrow{c} P' \merge Q'} \quad
 
+% Merge - Action Action
+\prftree{P\prightarrow{\alpha} P'~~Q\prightarrow{b} Q'~~ \scriptstyle a \mid b = c}{P \mid Q \prightarrow{c} P' \merge Q'}} &
+
+% Abstraction in the set - Action
+\prftree{P\prightarrow{\alpha} P'~~{\scriptstyle(\alpha\in I)}}{\abtau(P) \prightarrow{\tau} \abtau(P')} \\[2ex]
+% Abstraction outside the set - Action
+\prftree{P\prightarrow{\alpha} P'~~{\scriptstyle(\alpha\not\in I)}}{\abtau(P) \prightarrow{\alpha} \abtau(P')} &
+
+% Restriction - Action
+\prftree{P \prightarrow{\alpha} P'~~{\scriptstyle(\alpha\notin H)}}{\restrict(P) \prightarrow{\alpha} \restrict(P')} &
+
+% Recursion - Action
+\prftree{\langle \mathcal{S}_{X} \mid \mathcal{S} \rangle \prightarrow{\alpha} P'}{\langle X \mid \mathcal{S} \rangle \prightarrow{\alpha} P'} &
+
+% Functional Renaming - Action
+\prftree{P\prightarrow{\alpha} P'}{f(P) \prightarrow{f(a)} f(P')} 
 
 \end{array}$}
 \end{center}
-\caption{Structural operational semantics of ACP, }
+\caption{Structural operational semantics of the language $\acptf$. The operational semantics for Successful Termination in the operators \textit{Alternative Composition}, \textit{Merge}, \textit{Left Merge}, \textit{Communication Merge}, \textit{Abstraction}, \textit{Encapsulation}, \textit{Recursion}, \textit{Encapsulation}, and \textit{Functional Renaming} are omitted. A full list of operational rules can be found in Table \ref{table:ACP-full}}
 % \cite{DeNicola2013AGI}
 \label{table:ACP}
 \end{table}

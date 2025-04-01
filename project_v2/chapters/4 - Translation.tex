@@ -181,7 +181,7 @@ We define communications for our translation in addition to the ones previously 
 			a      & \text{ if } \alpha = a_{\mathrm{post}} \\
 			\alpha & \text{otherwise}
 		\end{cases}\]
-	We define functions for the remaining operators below. We use the notation $A_{T}$ to signify a target set, as used in \ref{ssec:parallel-composition}, \ref{ssec:interrupt}, and $\lambda$ to signify actions in $A$
+	We define functions for the remaining operators below. We use the notation $A_{T}$ to signify a target set, as used in \ref{ssec:parallel-composition}, \ref{ssec:throw}, and $\lambda$ to signify actions in $A$
 
 	\begin{enumerate}
 		\item $\fdef{syn} : \Sigma_{\tau} \to \Sigma_{\tau}$ is a function that renames any actions in the target set $A$. This is used in the translation of Parallel Composition (\ref{ssec:parallel-composition})
@@ -192,13 +192,13 @@ We define communications for our translation in addition to the ones previously 
 				      \alpha                & \text{otherwise}
 			      \end{cases}
 		      \]
-		\item $\fdef{origin} : \Sigma_{\tau} \to \Sigma_{\tau}$ is a function that renames actions in a process for use in operators. This is used in the translation of the Interrupt operator (\ref{ssec:stopping})
+		\item $\fdef{origin} : \Sigma_{\tau} \to \Sigma_{\tau}$ is a function that renames actions in a process for use in operators. This is used in the translation of the Interrupt operator (\ref{ssec:interrupt})
 		      \vspace{-5pt}
 		      \[\fdef{origin}(\alpha) = \begin{cases}
 				      a_{\mathtt{origin}} & \text{if } a\in\Sigma \\
 				      \tau                & \text{otherwise}
 			      \end{cases}\]
-		\item $\fdef{split} : \Sigma_{\tau} \to \Sigma_{\tau}$ is a function that renames actions in a process for use in operators, and also renames actions in the target set $A$. This is used in the translation of the Throw operator (\ref{ssec:interrupt})
+		\item $\fdef{split} : \Sigma_{\tau} \to \Sigma_{\tau}$ is a function that renames actions in a process for use in operators, and also renames actions in the target set $A$. This is used in the translation of the Throw operator (\ref{ssec:throw})
 		      \[
 			      f_{\mathtt{split}}(\alpha) = \begin{cases}
 				      a_{\mathtt{split}}  & \text{ if } a\in A                    \\
@@ -220,9 +220,9 @@ We define communications for our translation in addition to the ones previously 
 	\begin{enumerate}[leftmargin=*]
 		\item $a_{\mathtt{syn}} | a_{\mathtt{syn}} = a_{\mathtt{post}}$. This is used in the translation of Parallel Composition (\ref{ssec:parallel-composition})
 		\item $a_{\mathtt{ini}} | \mathtt{choose} = a_{\mathtt{post}}$. This is used in the translation of External choice (\ref{ssec:external-choice})
-		\item $a_{\mathtt{origin}} | \mathtt{origin} = a_{\mathtt{post}}$. This is used in the translation of Stopping and Interrupt operator (\ref{ssec:stopping}, \ref{ssec:interrupt})
-		\item $a_{\mathtt{ini}} | \mathtt{split} = a_{\mathtt{post}}$. This is used in the translation of the Stopping operator (\ref{ssec:interrupt})
-		\item $a_{\mathtt{split}} | \mathtt{split} = a_{\mathtt{post}}$. This is used in the translation of the Interrupt operator (\ref{ssec:interrupt})
+		\item $a_{\mathtt{origin}} | \mathtt{origin} = a_{\mathtt{post}}$. This is used in the translation of Interrupt and Throw operator (\ref{ssec:interrupt}, \ref{ssec:throw})
+		\item $a_{\mathtt{ini}} | \mathtt{split} = a_{\mathtt{post}}$. This is used in the translation of the Interrupt operator (\ref{ssec:interrupt})
+		\item $a_{\mathtt{split}} | \mathtt{split} = a_{\mathtt{post}}$. This is used in the translation of the Throw operator (\ref{ssec:throw})
 	\end{enumerate}
 \end{dfn}
 
@@ -284,17 +284,17 @@ In other words, we can take an external choice by the user, and additionally an 
 We can then define an encoding of the $\csp$ external choice operator $\square$ in $\acptf$ in the following equation
 \[\trans{P \square Q} = \partial_{H_{0}}\Bigl(f_{2}\Bigl[\Gamma[\trans{P}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{Q}]\Bigl]\Bigr)\]
 
-\subsection{Interrupt}\label{ssec:stopping}
+\subsection{Interrupt}\label{ssec:interrupt}
 
-The Interrupt operator $\triangle$ is defined with the following rules:
+The Interrupt operator $\interrupt$ is defined with the following rules:
 
-\[\prftree{P \prightarrow{\alpha} P'}{P \triangle Q \prightarrow{\alpha} P' \triangle Q} \qquad \prftree{Q \prightarrow{\tau} Q'}{P \triangle Q \prightarrow{\tau} P \triangle Q'} \qquad \prftree{Q \prightarrow{a} Q'}{P \triangle Q \prightarrow{a} Q'}\]
+\[\prftree{P \prightarrow{\alpha} P'}{P \interrupt Q \prightarrow{\alpha} P' \interrupt Q} \qquad \prftree{Q \prightarrow{\tau} Q'}{P \interrupt Q \prightarrow{\tau} P \interrupt Q'} \qquad \prftree{Q \prightarrow{a} Q'}{P \interrupt Q \prightarrow{a} Q'}\]
 
 In other words, we can take an external action from $P$ without fulfilling the operator, in addition to internal actions from $Q$. However, the moment an external action is made from $Q$, the process can then never return to $P$.
 
 For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$, and therefore $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$ as defined in \ref{dfn:sets}.
 
-\begin{dfn}[Functions and Communications - Interrupt]{dfn:comms-stopping}{}
+\begin{dfn}[Functions and Communications - Interrupt]{dfn:comms-interrupt}{}
 	As defined in \ref{dfn:helper-functions} and \ref{dfn:communications}, the following communications and functions are defined for our translation:q
 	\begin{align*}
 		f_{\mathtt{trig}}(\alpha)             & = \begin{cases}
@@ -321,7 +321,7 @@ For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \matht
 	\[\Gamma(P) := f_{\mathtt{trig}}[\partial_{H_{1}}(P \merge \mathtt{first}(\mathtt{next}^{\infty}))])\]
 \end{dfn}
 
-We can now define an encoding of the $\csp$ Interrupt operator $\triangle$ in $\acptf$. We start off with a new hoper process, which we will call $\Pi$. This is defined as the recursive equation
+We can now define an encoding of the $\csp$ Interrupt operator $\interrupt$ in $\acptf$. We start off with a new hoper process, which we will call $\Pi$. This is defined as the recursive equation
 \[\Pi = \langle X \mid X = \mathtt{origin}.X + \mathtt{split} \rangle\]
 Or, visualised as a process graph:
 % https://q.uiver.app/#q=WzAsMyxbMSwwLCJcXGNpcmMiXSxbMywwLCJcXGJ1bGxldCJdLFswLDBdLFswLDEsIlxcbWF0aHR0e3NwbGl0fSJdLFswLDAsIlxcbWF0aHR0e29yaWdpbn0iXSxbMiwwLCIiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6NTB9fV1d
@@ -333,18 +333,18 @@ Or, visualised as a process graph:
 	\end{tikzcd}\]
 
 From this, an encoding can be written in the following way:
-\[\trans{P \triangle Q} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \bigl(f_{\mathtt{origin}}(\trans{P}) \merge \Pi\bigr) \merge \Gamma(\trans{Q}) \Bigr]\Bigr)\]
-\subsection{Throw}\label{ssec:interrupt}
+\[\trans{P \interrupt Q} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \bigl(f_{\mathtt{origin}}(\trans{P}) \merge \Pi\bigr) \merge \Gamma(\trans{Q}) \Bigr]\Bigr)\]
+\subsection{Throw}\label{ssec:throw}
 
-The Throw operator $\interrupt$ is defined with the following rules:
+The Throw operator $\throw$ is defined with the following rules:
 
-\[\prftree{P \prightarrow{\alpha} P' \quad \scriptstyle(a\not\in A)}{P \interrupt Q \prightarrow{\alpha} P' \interrupt Q} \qquad \prftree{P \prightarrow{a} P' \quad \scriptstyle(a\in A)}{P \interrupt Q \prightarrow{a} Q }\]
+\[\prftree{P \prightarrow{\alpha} P' \quad \scriptstyle(a\not\in A)}{P \throw Q \prightarrow{\alpha} P' \throw Q} \qquad \prftree{P \prightarrow{a} P' \quad \scriptstyle(a\in A)}{P \throw Q \prightarrow{a} Q }\]
 
 In other words, we can take as many actions in $P$ as we want, as long as they aren't contained in a set of actions, which we will call $A_{T}$. However, the moment an action in $A_{T}$ is made, The process then diverts to $Q$. This can be also throught as an error checking operator. Similarly to the interrupt operator, for our encoding, we take
 \[\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}\]
 , and therefore $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$ as defined in \ref{dfn:sets}.
 
-\begin{dfn}[Functions and Communications - Throw]{dfn:comms-interrupt}{}
+\begin{dfn}[Functions and Communications - Throw]{dfn:comms-throw}{}
 	As defined in \ref{dfn:helper-functions} and \ref{dfn:communications}, the following communications and functions are defined for our translation:
 	\[f_{\mathtt{post}}(\alpha) = \begin{cases}
 			a      & \text{ if } \alpha = a_{\mathrm{post}} \\
@@ -357,7 +357,7 @@ In other words, we can take as many actions in $P$ as we want, as long as they a
 	\[a_{\mathtt{origin}} | \mathtt{origin} = a_{\mathtt{post}} \qquad a_{\mathtt{split}} | \mathtt{split} = a_{\mathtt{post}}\]
 \end{dfn}
 
-We can now define an encoding of the $\csp$ Throw operator $\interrupt$ in $\acptf$. We employ the use of the same helper process as in the translation of the Interrupt operator, $\Pi$ which is defined as
+We can now define an encoding of the $\csp$ Throw operator $\throw$ in $\acptf$. We employ the use of the same helper process as in the translation of the Interrupt operator, $\Pi$ which is defined as
 \[\Pi = \langle X \mid X = \mathtt{origin}.X + \mathtt{split} \rangle\]
 Or, visualised as a process graph:
 % https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXGNpcmMiXSxbMiwwLCJcXGJ1bGxldCJdLFs0LDAsIlxcYnVsbGV0Il0sWzAsMSwiXFxtYXRodHR7b3JpZ2lufSJdLFsxLDEsIlxcbWF0aHR0e29yaWdpbn0iXSxbMSwyLCJcXG1hdGh0dHtzcGxpdH0iXSxbMiwyLCJcXG1hdGh0dHtzcGxpdH0iXV0=
@@ -369,67 +369,8 @@ Or, visualised as a process graph:
 	\end{tikzcd}\]
 
 From this, an encoding can be written in the following way:
-\[\trans{P \interrupt Q} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ f_{\mathtt{split}}(\trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr)\]
+\[\trans{P \throw Q} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ f_{\mathtt{split}}(\trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr)\]
 
-% https://q.uiver.app/#q=WzAsMjUsWzAsMCwiXFxidWxsZXQiXSxbMiwwLCJcXGJ1bGxldCJdLFs0LDAsIlxcYnVsbGV0Il0sWzAsMiwiXFxidWxsZXQiXSxbMCw0LCJcXGJ1bGxldCJdLFswLDYsIlxcYnVsbGV0Il0sWzAsOCwiXFxidWxsZXQiXSxbNiwwLCJcXGJ1bGxldCJdLFs4LDAsIlxcYnVsbGV0Il0sWzIsMiwiXFxidWxsZXQiXSxbNCwyLCJcXGJ1bGxldCJdLFs2LDIsIlxcYnVsbGV0Il0sWzgsMiwiXFxidWxsZXQiXSxbMiw0LCJcXGJ1bGxldCJdLFs0LDQsIlxcYnVsbGV0Il0sWzYsNCwiXFxidWxsZXQiXSxbOCw0LCJcXGJ1bGxldCJdLFsyLDYsIlxcYnVsbGV0Il0sWzQsNiwiXFxidWxsZXQiXSxbNiw2LCJcXGJ1bGxldCJdLFs4LDYsIlxcYnVsbGV0Il0sWzIsOCwiXFxidWxsZXQiXSxbNCw4LCJcXGJ1bGxldCJdLFs2LDgsIlxcYnVsbGV0Il0sWzgsOCwiXFxidWxsZXQiXSxbMCwxLCJcXG1hdGh0dHtvcmlnaW59IiwwLHsiY29sb3VyIjpbMCwwLDQzXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCwwLDQzLDFdXSxbMSwyLCJcXG1hdGh0dHtvcmlnaW59IiwwLHsiY29sb3VyIjpbMCwwLDQzXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCwwLDQzLDFdXSxbMCwzLCJhX3tcXG1hdGh0dHtvcmlnaW59fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbMyw0LCJhX3tcXG1hdGh0dHtvcmlnaW59fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbNCw1LCJiX3tcXG1hdGh0dHtzcGxpdH19IiwwLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFs1LDYsImFfe1xcbWF0aHR0e29yaWdpbn19IiwwLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFsyLDcsIlxcbWF0aHR0e3NwbGl0fSIsMCx7ImNvbG91ciI6WzAsMCw0M10sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsMCw0MywxXV0sWzcsOCwicV8xIl0sWzEsOSwiYV97XFxtYXRodHR7b3JpZ2lufX0iLDAseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzIsMTAsImFfe1xcbWF0aHR0e29yaWdpbn19IiwwLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFs3LDExLCJhX3tcXG1hdGh0dHtvcmlnaW59fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbOCwxMiwiYV97XFxtYXRodHR7b3JpZ2lufX0iLDAseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzksMTMsImFfe1xcbWF0aHR0e29yaWdpbn19IiwwLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFsxMCwxNCwiYV97XFxtYXRodHR7b3JpZ2lufX0iLDAseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzExLDE1LCJhX3tcXG1hdGh0dHtvcmlnaW59fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbMTIsMTYsImFfe1xcbWF0aHR0e29yaWdpbn19IiwwLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFsxMywxNywiYl97XFxtYXRodHR7c3BsaXR9fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbMTQsMTgsImJfe1xcbWF0aHR0e3NwbGl0fX0iLDAseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzE1LDE5LCJiX3tcXG1hdGh0dHtzcGxpdH19IiwwLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFsxNiwyMCwiYl97XFxtYXRodHR7c3BsaXR9fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbMTcsMjEsImFfe1xcbWF0aHR0e29yaWdpbn19IiwwLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFsxOCwyMiwiYV97XFxtYXRodHR7b3JpZ2lufX0iLDAseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzE5LDIzLCJhX3tcXG1hdGh0dHtvcmlnaW59fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbMjAsMjQsImFfe1xcbWF0aHR0e29yaWdpbn19IiwwLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFszLDksIlxcbWF0aHR0e29yaWdpbn0iLDAseyJjb2xvdXIiOlswLDAsNDNdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDAsNDMsMV1dLFs5LDEwLCJcXG1hdGh0dHtvcmlnaW59IiwwLHsiY29sb3VyIjpbMCwwLDQzXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCwwLDQzLDFdXSxbMTAsMTEsIlxcbWF0aHR0e3NwbGl0fSIsMCx7ImNvbG91ciI6WzAsMCw0M10sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsMCw0MywxXV0sWzExLDEyLCJxXzEiXSxbNCwxMywiXFxtYXRodHR7b3JpZ2lufSIsMCx7ImNvbG91ciI6WzAsMCw0M10sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsMCw0MywxXV0sWzEzLDE0LCJcXG1hdGh0dHtvcmlnaW59IiwwLHsiY29sb3VyIjpbMCwwLDQzXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCwwLDQzLDFdXSxbMTQsMTUsIlxcbWF0aHR0e3NwbGl0fSIsMCx7ImNvbG91ciI6WzAsMCw0M10sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsMCw0MywxXV0sWzE1LDE2LCJxXzEiXSxbNSwxNywiXFxtYXRodHR7b3JpZ2lufSIsMCx7ImNvbG91ciI6WzAsMCw0M10sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsMCw0MywxXV0sWzE3LDE4LCJcXG1hdGh0dHtvcmlnaW59IiwwLHsiY29sb3VyIjpbMCwwLDQzXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCwwLDQzLDFdXSxbMTgsMTksIlxcbWF0aHR0e3NwbGl0fSIsMCx7ImNvbG91ciI6WzAsMCw0M10sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsMCw0MywxXV0sWzE5LDIwLCJxXzEiXSxbNiwyMSwiXFxtYXRodHR7b3JpZ2lufSIsMCx7ImNvbG91ciI6WzAsMCw0M10sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsMCw0MywxXV0sWzIxLDIyLCJcXG1hdGh0dHtvcmlnaW59IiwwLHsiY29sb3VyIjpbMCwwLDQzXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCwwLDQzLDFdXSxbMjIsMjMsIlxcbWF0aHR0e3NwbGl0fSIsMCx7ImNvbG91ciI6WzAsMCw0M10sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsMCw0MywxXV0sWzIzLDI0LCJxXzEiXSxbMCw5LCJhIl0sWzksMTQsImEiXSxbMTQsMTksImIiXSxbMywxMywiYSJdLFsxLDEwLCJhIl0sWzUsMjEsImEiXSxbMTcsMjIsImEiXV0=
-\[\begin{tikzcd}[cramped, column sep=scriptsize]
-		\bullet && \bullet && \bullet && \bullet && \bullet \\
-		\\
-		\bullet && \bullet && \bullet && \bullet && \bullet \\
-		\\
-		\bullet && \bullet && \bullet && \bullet && \bullet \\
-		\\
-		\bullet && \bullet && \bullet && \bullet && \bullet \\
-		\\
-		\bullet && \bullet && \bullet && \bullet && \bullet
-		\arrow["{\mathtt{origin}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=1-1, to=1-3]
-		\arrow["{a_{\mathtt{origin}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-1, to=3-1]
-		\arrow["a", from=1-1, to=3-3]
-		\arrow["{\mathtt{origin}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=1-3, to=1-5]
-		\arrow["{a_{\mathtt{origin}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-3, to=3-3]
-		\arrow["a", from=1-3, to=3-5]
-		\arrow["{\mathtt{split}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=1-5, to=1-7]
-		\arrow["{a_{\mathtt{origin}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-5, to=3-5]
-		\arrow["{q_1}", from=1-7, to=1-9]
-		\arrow["{a_{\mathtt{origin}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-7, to=3-7]
-		\arrow["{a_{\mathtt{origin}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-9, to=3-9]
-		\arrow["{\mathtt{origin}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=3-1, to=3-3]
-		\arrow["{a_{\mathtt{origin}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-1, to=5-1]
-		\arrow["a", from=3-1, to=5-3]
-		\arrow["{\mathtt{origin}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=3-3, to=3-5]
-		\arrow["{a_{\mathtt{origin}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-3, to=5-3]
-		\arrow["a", from=3-3, to=5-5]
-		\arrow["{\mathtt{split}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=3-5, to=3-7]
-		\arrow["{a_{\mathtt{origin}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-5, to=5-5]
-		\arrow["{q_1}", from=3-7, to=3-9]
-		\arrow["{a_{\mathtt{origin}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-7, to=5-7]
-		\arrow["{a_{\mathtt{origin}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-9, to=5-9]
-		\arrow["{\mathtt{origin}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=5-1, to=5-3]
-		\arrow["{b_{\mathtt{split}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-1, to=7-1]
-		\arrow["{\mathtt{origin}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=5-3, to=5-5]
-		\arrow["{b_{\mathtt{split}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-3, to=7-3]
-		\arrow["{\mathtt{split}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=5-5, to=5-7]
-		\arrow["{b_{\mathtt{split}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-5, to=7-5]
-		\arrow["b", from=5-5, to=7-7]
-		\arrow["{q_1}", from=5-7, to=5-9]
-		\arrow["{b_{\mathtt{split}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-7, to=7-7]
-		\arrow["{b_{\mathtt{split}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-9, to=7-9]
-		\arrow["{\mathtt{origin}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=7-1, to=7-3]
-		\arrow["{a_{\mathtt{origin}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=7-1, to=9-1]
-		\arrow["a", from=7-1, to=9-3]
-		\arrow["{\mathtt{origin}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=7-3, to=7-5]
-		\arrow["{a_{\mathtt{origin}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=7-3, to=9-3]
-		\arrow["a", from=7-3, to=9-5]
-		\arrow["{\mathtt{split}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=7-5, to=7-7]
-		\arrow["{a_{\mathtt{origin}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=7-5, to=9-5]
-		\arrow["{q_1}", from=7-7, to=7-9]
-		\arrow["{a_{\mathtt{origin}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=7-7, to=9-7]
-		\arrow["{a_{\mathtt{origin}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=7-9, to=9-9]
-		\arrow["{\mathtt{origin}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=9-1, to=9-3]
-		\arrow["{\mathtt{origin}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=9-3, to=9-5]
-		\arrow["{\mathtt{split}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=9-5, to=9-7]
-		\arrow["{q_1}", from=9-7, to=9-9]
-	\end{tikzcd}\]
 
 \subsection{Sliding Choice}\label{ssec:sliding-choice}
 The sliding choice, or sliding operator $\triangleright$ is defined with the following rules:
@@ -507,8 +448,8 @@ We now define our translation
 		\trans{P \backslash A} & = \partial_{A}{\trans{P}}                                                                                                       \\
 		% \trans{\mu p.P} &= \langle X \mid X = \tau.X \rangle
 		\trans{f(P)}           & = f(\trans{P})                                                                                                                  \\
-		\trans{P \triangle Q}  & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[ \bigl((\fdef{origin}\trans{P}) \merge \Pi\bigr) \merge \Gamma(\trans{Q}) \Bigr]\Bigr) \\
-		\trans{P \interrupt Q} & = \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ (\fdef{split} \trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr)
+		\trans{P \interrupt Q}  & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[ \bigl((\fdef{origin}\trans{P}) \merge \Pi\bigr) \merge \Gamma(\trans{Q}) \Bigr]\Bigr) \\
+		\trans{P \throw Q} & = \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ (\fdef{split} \trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr)
 	\end{align*}
 \end{dfn}
 \end{document}

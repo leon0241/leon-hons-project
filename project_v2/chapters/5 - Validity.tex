@@ -51,42 +51,37 @@ which has the following process graph:
 \end{figure}
 
 \newpage
-\section{Rooted Branching Bisimilarity}
+\section{Prerequisites and Helper Theorems}
+\subsection{Rooted Branching Bisimilarity}
 
 Recall from Definition \ref{dfn:rooted-branching} the definition of Branching and Rooted Branching Bisimilarity:
 
-A relation $R$ is a \textbf{Branching Bisimulation} between two processes $P$ and $Q$ if:
+A relation $R$ is a \textbf{Branching Bisimulation} between $P$ and $Q$ if:
 \begin{enumerate}
 	\item The roots of $P$ and $Q$ are related by $R$
-	\item If $s \prightarrow{a} s'$ for $a\in A \cup \{\tau\}$ is an edge in $P$, and $s R t$, then either
+	\item If $s \prightarrow{\alpha} s'$ for $\alpha\in \Sigma_{\tau}$ is an edge in $P$, and $s R t$, then either
 	      \begin{enumerate}[label=\alph*)]
-		      \item $a= \tau$ and $s' R t$
-		      \item $\exists t \Rightarrow t_{1} \prightarrow{a} t'$ such that $s R t_{1}$ and $s R t'$
+		      \item $\alpha= \tau$ and $s' R t$
+		      \item $\exists t \Rightarrow t_{1} \prightarrow{\alpha} t'$ such that $s R t_{1}$ and $s R t'$
 	      \end{enumerate}
-	\item If $s \downarrow$ and $s R t$ then there exists a path $t \Rightarrow t'$ in $Q$ to a node $t'$ with $t'\downarrow$ and $s R t'$
-	\item[4, 5]: As in $2, 3$, with the roles of $P$ and $Q$ interchanged
+	\item If $t \prightarrow{\alpha} t'$ for $\alpha\in \Sigma_{\tau}$ is an edge in $Q$, and $s R t$, then either
+	      \begin{enumerate}[label=\alph*)]
+		      \item $\alpha= \tau$ and $s R t'$
+		      \item $\exists s \Rightarrow s_{1} \prightarrow{\alpha} s'$ such that $s_{1} R t$ and $s' R t$
+	      \end{enumerate}
 \end{enumerate}
 
 
 $R$ is called a \textbf{Rooted Branching Bisimulation} if the following root condition is also satisfied:
 \begin{itemize}
-	\item If $\mathrm{root}(P) \prightarrow{a} s'$ for $a\in A \cup \{\tau\}$, then there is a $t'$ with $\mathrm{root}(Q)\prightarrow{a} t'$ and $s' R t'$
-	\item If $\mathrm{root}(Q) \prightarrow{a} t'$ for $a\in A \cup \{\tau\}$, then there is a $s'$ with $\mathrm{root}(P)\prightarrow{a} s'$ and $s' R t'$
-	\item $\mathrm{root}(g)\downarrow$ iff $\mathrm{root}(h)\downarrow$
+	\item If $\mathrm{root}(P) \prightarrow{\alpha} s'$ for $\alpha\in \Sigma_{\tau}$, then there is a $t'$ with $\mathrm{root}(Q)\prightarrow{\alpha} t'$ and $s' R t'$
+	\item If $\mathrm{root}(Q) \prightarrow{\alpha} t'$ for $\alpha\in \Sigma_{\tau}$, then there is a $s'$ with $\mathrm{root}(P)\prightarrow{\alpha} s'$ and $s' R t'$
 \end{itemize}
 
-We can now work towards a proof that the external choice is Rooted Branching Bisimilar.
-
-\section{External choice}
-
-From \ref{dfn:trans}, the translation of external choice is:
-\[\trans{P \extchoice Q} = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\, \pcomp \,\mathtt{choose}\, \pcomp \,\Gamma[\trans{Q}]\Bigl]\Bigr)\]
-Using the following communications from \ref{dfn:comms-external}:
-\[a | \mathtt{first} = a_{\mathtt{first}} \qquad a | \mathtt{next} = a_{\mathtt{next}} \qquad a_{\mathtt{ini}} | \mathtt{choose} = a_{\mathtt{post}}\]
-And the postfix function defined in \ref{dfn:postfix},
+\subsection{Lemmas and Theorems}
 
 \begin{lma}[]{lma:tau-transform}{}
-	For a process $P\in \acptf$, if there exists $P'$ such that $P \prightarrow{\tau} P'$ then application of the Triggering operator shown in \ref{dfn:acp-triggering} can be applied as $\Gamma[P] \prightarrow{\tau} \Gamma[P']$. Alternatively,
+	For a trace in a process $P\in \acptf$, if there exists $P'$ such that $P \prightarrow{\tau} P'$ then application of the Triggering operator shown in \ref{dfn:acp-triggering} can be applied as $\Gamma[P] \prightarrow{\tau} \Gamma[P']$. Alternatively,
 	\[\Gamma[P] = \tau. \Gamma[P']\]
 \end{lma}
 
@@ -165,11 +160,10 @@ And the postfix function defined in \ref{dfn:postfix},
 	% Similarly to the $n=1$ base case, the converse is also true, and if $\tau.\trans{P} \prightarrow{\tau} \trans{P}$ then we indeed have that $a=\tau$ and $\trans{P} \brb \mathcal{P}$ which is true from the inductive hypothesis.
 \end{proof}
 
-\newpage
-\subsection{Proof of Rooted Branching Bisimilarity [WIP]}
+We can now work towards a proof that our translation is valid up to Rooted Branching Bisimilarity.
 
 
-
+\section{Proof of Rooted Branching Bisimilarity}
 
 We define a bisimulation relation.
 \begin{dfn}[Rooted Branching Bisimulation Relation]{dfn:bisim-relation}{}
@@ -177,15 +171,25 @@ We define a bisimulation relation.
 
 	We now define a Rooted Branching Bisimulation between $\tcsp$ and $\tacp$:
 	\[
-		\mathcal{B} := \{P, \trans{P} \mid P\in \csp\}
+		\rbrb\, := \{(P, \trans{P}) \mid P\in \csp\}
 	\]
 \end{dfn}
 
+\subsection{External choice}
+
+From Definitions \ref{dfn:helper-functions}, \ref{dfn:communications}, and \ref{dfn:trans}, the translation of external choice is:
+\[\trans{P \extchoice Q} = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\, \pcomp \,\mathtt{choose}\, \pcomp \,\Gamma[\trans{Q}]\Bigl]\Bigr)\]
+Using the following communications and functions:
+\[a | \mathtt{first} = a_{\mathtt{first}} \qquad a | \mathtt{next} = a_{\mathtt{next}} \qquad a_{\mathtt{ini}} | \mathtt{choose} = a_{\mathtt{post}}\]
+\[f_{\mathtt{post}}(\alpha) = \begin{cases}
+		a      & \text{ if } \alpha = a_{\mathrm{post}} \\
+		\alpha & \text{otherwise}
+	\end{cases}\]
+
+
 \begin{proof}
 
-	Let $P, Q \in \csp$ be two processes. We want to show that $P \extchoice Q \rbrb \trans{P \extchoice Q}$. i.e.: we want to show that any move will result in a process that satisfies RBB. We prove this inductively by showing that any smaller process of $P$ is also Rooted Branching Bisimilar.
-
-	We exhaust all possible moves that $P \extchoice Q$ can take, and confirm that $\trans{P \extchoice Q}$ can also take them, up to Rooted Branching Bisimilarity.
+	Let $P, Q \in \csp$ be two processes. We want to show that $P \extchoice Q \rbrb \trans{P \extchoice Q}$. i.e.: we want to show that any move will result in a process that satisfies RBB. We show this by exhausting all possible moves that $P \extchoice Q$ can take, and confirm that $\trans{P \extchoice Q}$ can also take them, up to Rooted Branching Bisimilarity.
 
 	\textbf{Case 1}: $a$ action on $P$. Let $a \in A_{0}$ and $P'$ such that $P \prightarrow{a} P'$. In the domain of CSP, this results in the process
 	\[P \square Q \prightarrow{a} P'\]
@@ -217,81 +221,45 @@ We define a bisimulation relation.
 
 	\noindent\rule{\textwidth}{0.08ex}
 
-	We have now exhausted all cases, and therefore can conclude that our translation of $\csp$ External Choice is Rooted Branching Bisimilar, and therefore Compositional.. WIP.
+	We have now exhausted all cases, and therefore can conclude that our translation of $\csp$ External Choice is Rooted Branching Bisimilar, and therefore Compositional.
 \end{proof}
 
-\subsection{Stopping}
+\subsection{Interrupt}
 
-Similarly to external choice, this is also Rooted Branching Bisimilar.
+Similarly to external choice, this is also Rooted Branching Bisimilar. We prove this similarly to the previous operator. From Definitions \ref{dfn:helper-functions}, \ref{dfn:communications}, and \ref{dfn:trans}, we recall our translation of the Interrupt operator:
+\[\trans{P \triangle Q} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \bigl(f_{\mathtt{origin}}(\trans{P}) \merge \Pi\bigr) \merge \Gamma(\trans{Q}) \Bigr]\Bigr)\]
+\begin{align*}
+	f_{\mathtt{trig}}(\alpha) & = \begin{cases}
+		                              a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
+		                              a                & \text{if } \alpha = a_{\mathtt{next}}  \\
+		                              \alpha           & \text{otherwise}
+	                              \end{cases} \quad
+	                          & f_{\mathtt{post}}(\alpha)             = \begin{cases}
+		                                                                    a      & \text{ if } \alpha = a_{\mathrm{post}} \\
+		                                                                    \alpha & \text{otherwise}
+	                                                                    \end{cases}                                                 \\
+	\fdef{origin}(\alpha)     & = \begin{cases}
+		                              a_{\mathtt{origin}} & \text{if } a\in\Sigma \\
+		                              \tau                & \text{otherwise}
+	                              \end{cases}\quad
+	                          & \begin{split}
+		                            a_{\mathtt{origin}} | \mathtt{origin} & = a_{\mathtt{post}} \\ a_{\mathtt{ini}} | \mathtt{split} &= a_{\mathtt{post}}
+	                            \end{split}
+\end{align*}
 
-A counterexample to the encoding being Strongly Bisimilar is with the trivial example
-\[P = \tau,\,Q = b\]
-This should yield the following process graph:
-% https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGNpcmMiXSxbMiwwLCJcXGJ1bGxldCJdLFswLDIsIlxcYnVsbGV0Il0sWzIsMiwiXFxidWxsZXQiXSxbMCwxLCJcXHRhdSIsMix7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzAsMiwiYiIsMCx7ImNvbG91ciI6WzI0MCw2MCw2MF19LFsyNDAsNjAsNjAsMV1dLFsxLDMsImIiLDAseyJjb2xvdXIiOlsyNDAsNjAsNjBdfSxbMjQwLDYwLDYwLDFdXV0=
-\[\begin{tikzcd}[cramped, column sep=scriptsize]
-		\circ && \bullet \\
-		\\
-		\bullet && \bullet
-		\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=1-1, to=1-3]
-		\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=3-1]
-		\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=3-3]
-	\end{tikzcd}\]
+\begin{proof}
+	Let $P, Q \in \csp$ be two processes. We want to show $P \interrupt Q \rbrb \trans{P \interrupt Q}$. i.e.: we want to show that any move will result in a process that satisfies RBB. We show this by exhausting all possible moves that $P \interrupt Q$ can take, and confirm that $\trans{P \interrupt Q}$ can also take them, up to Rooted Branching Bisimilarity.
 
-However, it yields the following
+	% \textbf{Step 1}: The first step is a communication between $\trans{P}$ with the function $\fdef{origin}$ applied to it, and $\Pi$. Recall that $\Pi$ is the process
+	% \[\Pi = \langle X \mid X = \mathtt{origin}.X + \mathtt{split} \rangle\]
+	% This action will either be of the form
+	% \[P \prightarrow{a} P' \text{ or } P \prightarrow{\tau} \frac{P}{}\]
+	%
+	% Since no actions in $\fdef{origin}(\trans{P})$ will be able to synchronise with the action $\mathtt{split}$, the only other option is the first action of $\fdef{origin}(\trans{P})$ synchronising with $\mathtt{origin}$. This results in the first action of the resulting function either being an action $a$ (renamed $a_{\mathtt{post}}$, and then renamed back to $a$), or an internal action $\tau$. Either option is Strongly Bisimilar to the moves of $P \interrupt Q$. We now need to show that the next steps in the translation are Branching Bisimilar
+	% \[\trans{P' \triangle Q} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \bigl(f_{\mathtt{origin}}(\trans{P'}) \merge \Pi\bigr) \merge \Gamma(\trans{Q}) \Bigr]\Bigr)\]
 
-% https://q.uiver.app/#q=WzAsMTYsWzUsNCwiXFxjaXJjIl0sWzcsMywiXFxidWxsZXQiXSxbNSwzLCJcXGJ1bGxldCJdLFs3LDIsIlxcYnVsbGV0Il0sWzMsNSwiXFxidWxsZXQiXSxbMiwzLCJcXGJ1bGxldCJdLFsyLDIsIlxcYnVsbGV0Il0sWzAsNCwiXFxidWxsZXQiXSxbMyw0LCJcXGJ1bGxldCJdLFswLDMsIlxcYnVsbGV0Il0sWzksMiwiXFxidWxsZXQiXSxbOSwxLCJcXGJ1bGxldCJdLFs2LDAsIlxcYnVsbGV0Il0sWzYsMSwiXFxidWxsZXQiXSxbNCwyLCJcXGJ1bGxldCJdLFs0LDEsIlxcYnVsbGV0Il0sWzAsMSwiXFxtYXRodHR7b3JpZ2lufSIsMix7ImNvbG91ciI6WzAsMCwzOF19LFswLDAsMzgsMV1dLFswLDIsIlxcdGF1IiwyLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMSwzLCJcXHRhdSIsMix7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzIsMywiXFxtYXRodHR7b3JpZ2lufSIsMix7ImNvbG91ciI6WzAsMCwzOF19LFswLDAsMzgsMV1dLFswLDUsImJfe1xcbWF0aHR0e2ZpcnN0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFsyNDAsNjAsNjAsMV1dLFsyLDYsImJfe1xcbWF0aHR0e2ZpcnN0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFsyNDAsNjAsNjAsMV1dLFs1LDYsIlxcdGF1IiwyLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMCw0LCJcXG1hdGh0dHtzcGxpdH0iLDAseyJjb2xvdXIiOlswLDAsMzhdfSxbMCwwLDM4LDFdXSxbNCw3LCJiX3tcXG1hdGh0dHtmaXJzdH19IiwyLHsiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMjQwLDYwLDYwLDFdXSxbNCw4LCJcXHRhdSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzcsOSwiXFx0YXUiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFs4LDksImJfe1xcbWF0aHR0e2ZpcnN0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFsyNDAsNjAsNjAsMV1dLFsyLDgsIlxcbWF0aHR0e3NwbGl0fSIsMCx7ImNvbG91ciI6WzAsMCwzOF19LFswLDAsMzgsMV1dLFs2LDksIlxcbWF0aHR0e3NwbGl0fSIsMCx7ImNvbG91ciI6WzAsMCwzOF19LFswLDAsMzgsMV1dLFs1LDcsIlxcbWF0aHR0e3NwbGl0fSIsMCx7ImNvbG91ciI6WzAsMCwzOF19LFswLDAsMzgsMV1dLFsxLDEwLCJcXG1hdGh0dHtzcGxpdH0iLDIseyJjb2xvdXIiOlswLDAsMzhdfSxbMCwwLDM4LDFdXSxbMywxMSwiXFxtYXRodHR7c3BsaXR9IiwyLHsiY29sb3VyIjpbMCwwLDM4XX0sWzAsMCwzOCwxXV0sWzExLDEyLCJiX3tcXG1hdGh0dHtmaXJzdH19IiwyLHsiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMjQwLDYwLDYwLDFdXSxbMTAsMTMsImJfe1xcbWF0aHR0e2ZpcnN0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFsyNDAsNjAsNjAsMV1dLFsxMCwxMSwiXFx0YXUiLDIseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFsxMywxMiwiXFx0YXUiLDIseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFs1LDE0LCJcXG1hdGh0dHtvcmlnaW59IiwyLHsiY29sb3VyIjpbMCwwLDM4XX0sWzAsMCwzOCwxXV0sWzYsMTUsIlxcbWF0aHR0e29yaWdpbn0iLDIseyJjb2xvdXIiOlswLDAsMzhdfSxbMCwwLDM4LDFdXSxbMSwxNCwiYl97XFxtYXRodHR7Zmlyc3R9fSIsMix7ImNvbG91ciI6WzI0MCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzI0MCw2MCw2MCwxXV0sWzMsMTUsImJfe1xcbWF0aHR0e2ZpcnN0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFsyNDAsNjAsNjAsMV1dLFsxNCwxNSwiXFx0YXUiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFsxNSwxMiwiXFxtYXRodHR7c3BsaXR9IiwyLHsiY29sb3VyIjpbMCwwLDM4XX0sWzAsMCwzOCwxXV0sWzE0LDEzLCJcXG1hdGh0dHtzcGxpdH0iLDIseyJjb2xvdXIiOlswLDAsMzhdfSxbMCwwLDM4LDFdXSxbMCw3LCJiIiwwLHsiY29sb3VyIjpbMjQwLDYwLDYwXX0sWzI0MCw2MCw2MCwxXV0sWzIsOSwiYiIsMCx7ImNvbG91ciI6WzI0MCw2MCw2MF19LFsyNDAsNjAsNjAsMV1dLFszLDEyLCJiIiwyLHsiY29sb3VyIjpbMjQwLDYwLDYwXX0sWzI0MCw2MCw2MCwxXV0sWzEsMTMsImIiLDIseyJjb2xvdXIiOlsyNDAsNjAsNjBdfSxbMjQwLDYwLDYwLDFdXV0=
-\[\begin{tikzcd}[cramped]
-		&&&&&& \bullet \\
-		&&&& \bullet && \bullet &&& \bullet \\
-		&& \bullet && \bullet &&& \bullet && \bullet \\
-		\bullet && \bullet &&& \bullet && \bullet \\
-		\bullet &&& \bullet && \circ \\
-		&&& \bullet
-		\arrow["{\mathtt{split}}"', color={rgb,255:red,97;green,97;blue,97}, from=2-5, to=1-7]
-		\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=2-7, to=1-7]
-		\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=2-10, to=1-7]
-		\arrow["{\mathtt{origin}}"', color={rgb,255:red,97;green,97;blue,97}, from=3-3, to=2-5]
-		\arrow["{\mathtt{split}}", color={rgb,255:red,97;green,97;blue,97}, from=3-3, to=4-1]
-		\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=3-5, to=2-5]
-		\arrow["{\mathtt{split}}"', color={rgb,255:red,97;green,97;blue,97}, from=3-5, to=2-7]
-		\arrow["b"', color={rgb,255:red,92;green,92;blue,214}, from=3-8, to=1-7]
-		\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=3-8, to=2-5]
-		\arrow["{\mathtt{split}}"', color={rgb,255:red,97;green,97;blue,97}, from=3-8, to=2-10]
-		\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=3-10, to=2-7]
-		\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=3-10, to=2-10]
-		\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=4-3, to=3-3]
-		\arrow["{\mathtt{origin}}"', color={rgb,255:red,97;green,97;blue,97}, from=4-3, to=3-5]
-		\arrow["{\mathtt{split}}", color={rgb,255:red,97;green,97;blue,97}, from=4-3, to=5-1]
-		\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=4-6, to=3-3]
-		\arrow["{\mathtt{origin}}"', color={rgb,255:red,97;green,97;blue,97}, from=4-6, to=3-8]
-		\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=4-6, to=4-1]
-		\arrow["{\mathtt{split}}", color={rgb,255:red,97;green,97;blue,97}, from=4-6, to=5-4]
-		\arrow["b"', color={rgb,255:red,92;green,92;blue,214}, from=4-8, to=2-7]
-		\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=4-8, to=3-5]
-		\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=4-8, to=3-8]
-		\arrow["{\mathtt{split}}"', color={rgb,255:red,97;green,97;blue,97}, from=4-8, to=3-10]
-		\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=5-1, to=4-1]
-		\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=5-4, to=4-1]
-		\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=5-6, to=4-3]
-		\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=5-6, to=4-6]
-		\arrow["{\mathtt{origin}}"', color={rgb,255:red,97;green,97;blue,97}, from=5-6, to=4-8]
-		\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=5-6, to=5-1]
-		\arrow["{\mathtt{split}}", color={rgb,255:red,97;green,97;blue,97}, from=5-6, to=6-4]
-		\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=6-4, to=5-1]
-		\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=6-4, to=5-4]
-	\end{tikzcd}\]
 
-Which reduces down to:
-% https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGNpcmMiXSxbMiwwLCJcXGJ1bGxldCJdLFswLDIsIlxcYnVsbGV0Il0sWzIsMiwiXFxidWxsZXQiXSxbMCwxLCJcXHRhdSIsMix7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzIsMywiXFx0YXUiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFswLDIsImIiLDAseyJjb2xvdXIiOlsyNDAsNjAsNjBdfSxbMjQwLDYwLDYwLDFdXSxbMSwzLCJiIiwwLHsiY29sb3VyIjpbMjQwLDYwLDYwXX0sWzI0MCw2MCw2MCwxXV1d
-\[\begin{tikzcd}[cramped, column sep=scriptsize]
-		\circ && \bullet \\
-		\\
-		\bullet && \bullet
-		\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=1-1, to=1-3]
-		\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=3-1]
-		\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=3-3]
-		\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=3-1, to=3-3]
-	\end{tikzcd}\]
+\end{proof}
 
 \subsection{Generalising}
 
@@ -302,13 +270,13 @@ Which reduces down to:
 \begin{thm}[Maybe 2]{thm:tau-comm}{}
 	The following diagram cannot be modelled in $\acp$ using Communication of two processes $a$ and $\tau$
 	% https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXGJ1bGxldCJdLFsyLDAsIlxcYnVsbGV0Il0sWzAsMiwiXFxidWxsZXQiXSxbMCwxLCJcXHRhdSJdLFswLDIsImEiLDJdXQ==
-\[\begin{tikzcd}[cramped]
-	\bullet && \bullet \\
-	\\
-	\bullet
-	\arrow["\tau", from=1-1, to=1-3]
-	\arrow["a"', from=1-1, to=3-1]
-\end{tikzcd}\]
+	\[\begin{tikzcd}[cramped]
+			\bullet && \bullet \\
+			\\
+			\bullet
+			\arrow["\tau", from=1-1, to=1-3]
+			\arrow["a"', from=1-1, to=3-1]
+		\end{tikzcd}\]
 \end{thm}
 
 \begin{proof}

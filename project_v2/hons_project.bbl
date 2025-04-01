@@ -1,4 +1,4 @@
-\begin{thebibliography}{16}
+\begin{thebibliography}{17}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -58,6 +58,13 @@ Wan Fokkink.
 \newblock \emph{Journal of Computer and System Sciences}, 60\penalty0 (1):\penalty0 13--37, February 2000.
 \newblock ISSN 0022-0000.
 \newblock \doi{10.1006/jcss.1999.1663}.
+
+\bibitem[Garavel(2015)]{GARAVEL2015742}
+Hubert Garavel.
+\newblock Revisiting sequential composition in process calculi.
+\newblock \emph{Journal of Logical and Algebraic Methods in Programming}, 84\penalty0 (6):\penalty0 742--762, 2015.
+\newblock ISSN 2352-2208.
+\newblock \doi{10.1016/j.jlamp.2015.08.001}.
 
 \bibitem[Gorla(2010)]{gorlaUnifiedApproachEncodability2010}
 Daniele Gorla.
