@@ -25,28 +25,25 @@
 \contentsline {subsection}{\numberline {4.4.1}Communications and Functional Renaming}{21}{subsection.4.4.1}%
 \contentsline {subsection}{\numberline {4.4.2}Parallel Composition}{22}{subsection.4.4.2}%
 \contentsline {subsection}{\numberline {4.4.3}External choice}{23}{subsection.4.4.3}%
-\contentsline {subsection}{\numberline {4.4.4}Interrupt}{23}{subsection.4.4.4}%
-\contentsline {subsection}{\numberline {4.4.5}Throw}{24}{subsection.4.4.5}%
-\contentsline {subsection}{\numberline {4.4.6}Sliding Choice}{25}{subsection.4.4.6}%
-\contentsline {subsection}{\numberline {4.4.7}Final Translation}{26}{subsection.4.4.7}%
-\contentsline {chapter}{\numberline {5}Validity of the Encoding}{27}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Prerequisites and Helper Theorems}{28}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}Rooted Branching Bisimilarity}{28}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Lemmas and Theorems}{28}{subsection.5.1.2}%
-\contentsline {section}{\numberline {5.2}Proof of Rooted Branching Bisimilarity}{29}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}External choice}{30}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Interrupt}{31}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Generalising}{31}{subsection.5.2.3}%
-\contentsline {chapter}{\numberline {6}Results}{33}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Results}{33}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Limitations}{33}{section.6.2}%
-\contentsline {chapter}{Bibliography}{34}{chapter*.11}%
-\contentsline {chapter}{\numberline {A}Diagrams}{36}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Examples of Translations}{36}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Throw}{36}{section.A.2}%
-\contentsline {section}{\numberline {A.3}Counterexamples to Translations}{36}{section.A.3}%
-\contentsline {subsection}{\numberline {A.3.1}Interrupt Operator}{37}{subsection.A.3.1}%
-\contentsline {subsection}{\numberline {A.3.2}Throw Operator}{37}{subsection.A.3.2}%
-\contentsline {chapter}{\numberline {B}Extended Definitions}{39}{appendix.B}%
-\contentsline {section}{\numberline {B.1}Extended Definitions}{39}{section.B.1}%
-\contentsline {subsection}{\numberline {B.1.1}Operational Semantics for $\mathrm {ACP}_{F}^{\tau }$}{39}{subsection.B.1.1}%
+\contentsline {subsection}{\numberline {4.4.4}Sliding Choice}{23}{subsection.4.4.4}%
+\contentsline {subsection}{\numberline {4.4.5}Interrupt}{24}{subsection.4.4.5}%
+\contentsline {subsection}{\numberline {4.4.6}Throw}{25}{subsection.4.4.6}%
+\contentsline {subsection}{\numberline {4.4.7}Final Translation}{27}{subsection.4.4.7}%
+\contentsline {chapter}{\numberline {5}Validity of the Encoding}{29}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Prerequisites and Helper Theorems}{30}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Rooted Branching Bisimilarity}{30}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Lemmas and Theorems}{30}{subsection.5.1.2}%
+\contentsline {section}{\numberline {5.2}Proof of Rooted Branching Bisimilarity}{32}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}External choice}{32}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Interrupt}{33}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Generalising}{33}{subsection.5.2.3}%
+\contentsline {chapter}{Bibliography}{35}{chapter*.11}%
+\contentsline {chapter}{\numberline {A}Diagrams}{37}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Examples of Translations}{37}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Throw}{37}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Counterexamples to Translations}{37}{section.A.3}%
+\contentsline {subsection}{\numberline {A.3.1}Interrupt Operator}{38}{subsection.A.3.1}%
+\contentsline {subsection}{\numberline {A.3.2}Throw Operator}{38}{subsection.A.3.2}%
+\contentsline {chapter}{\numberline {B}Extended Definitions}{40}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Extended Definitions}{40}{section.B.1}%
+\contentsline {subsection}{\numberline {B.1.1}Operational Semantics for $\mathrm {ACP}_{F}^{\tau }$}{40}{subsection.B.1.1}%

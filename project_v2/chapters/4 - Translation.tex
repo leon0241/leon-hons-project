@@ -144,14 +144,15 @@ A preferred communications function is as follows:
 \end{align*}
 It is important to note that this scenario would never actually occur in practice, since $\Gamma(P)$ takes precedence and hence $\mathtt{first} | \mathtt{choose}$ would never happen, but the communication function must work over every action regardless of whether it will get used in practice.
 
-\begin{lma}[Keeping Associativity in Communications]{lma:communication-leftside}{}
-	For three actions $a,b,c\in A$, if $a | b = c$, then if $c$ does not appear on the left-hand side of any other communication, Associativity will be satisfied.
-\end{lma}
-\begin{proof}
-	WIP. QED
-\end{proof}
+% \begin{lma}[Keeping Associativity in Communications]{lma:communication-leftside}{}
+% 	For three actions $a,b,c\in A$, if $a | b = c$, then if $c$ does not appear on the left-hand side of any other communication, Associativity will be satisfied.
+% \end{lma}
+% \begin{proof}
+% 	WIP. QED
+% \end{proof}
 
-We define a compatibility function to prevent issues with associativity. Via \ref{lma:communication-leftside}, define a tag $a_{\mathtt{post}}$ which will act as $c$ for all our communications, which satisfies the Lemma. Then, our final step will be to rename $a_{post}$ back to $a$ for any affected actions. This works in the following way:
+We define a compatibility function to prevent issues with associativity. Define a tag $a_{\mathtt{post}}$ which will act as $c$ for all our communications, which satisfies the Lemma. Then, our final step will be to rename $a_{post}$ back to $a$ for any affected actions. This works in the following way:
+% We define a compatibility function to prevent issues with associativity. Via \ref{lma:communication-leftside}, define a tag $a_{\mathtt{post}}$ which will act as $c$ for all our communications, which satisfies the Lemma. Then, our final step will be to rename $a_{post}$ back to $a$ for any affected actions. This works in the following way:
 \[a \xrightarrow{\text{Rename for Communication}} a_{\mathtt{tag}} \xrightarrow{\text{Communicate with an action}} a_{\mathtt{post}} \xrightarrow{\text{Rename for final result}} a\]
 
 \begin{dfn}[Postfix function]{dfn:postfix}{}
@@ -284,6 +285,40 @@ In other words, we can take an external choice by the user, and additionally an 
 We can then define an encoding of the $\csp$ external choice operator $\square$ in $\acptf$ in the following equation
 \[\trans{P \square Q} = \partial_{H_{0}}\Bigl(f_{2}\Bigl[\Gamma[\trans{P}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{Q}]\Bigl]\Bigr)\]
 
+\subsection{Sliding Choice}\label{ssec:sliding-choice}
+The sliding choice, or sliding operator $\triangleright$ is defined with the following rules:
+
+\[\prftree{P \prightarrow{a} P'}{P \triangleright Q \prightarrow{a} P'} \qquad \prftree{P \prightarrow{\tau} P'}{P \triangleright Q \prightarrow{\tau} P' \triangleright Q} \qquad P \triangleright Q \prightarrow{\tau} Q\]
+
+In other words, this operator lets you take an external action on $P$, however there is a second process that may at any point``time out'' and move to $Q$ instead.
+
+For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{shift}\}$, and therefore $H_{1} = \Sigma_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{shift}\}$ as defined in \ref{dfn:sets}.
+
+\begin{dfn}[Functions and Communications - Sliding Choice]{dfn:comms-sliding}{}
+	As defined in \ref{dfn:helper-functions} and \ref{dfn:communications}, the following communications and functions are defined for our translation
+	\begin{align*}
+		f_{\mathtt{trig}}(\alpha)             & = \begin{cases}
+			                                          a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
+			                                          a                & \text{if } \alpha = a_{\mathtt{next}}  \\
+			                                          \alpha           & \text{otherwise}
+		                                          \end{cases} \quad
+											  &f_{\mathtt{post}}(\alpha)             = \begin{cases}
+			                                          a      & \text{ if } \alpha = a_{\mathtt{post}} \\
+			                                          \alpha & \text{otherwise}
+		                                          \end{cases}                                                                    \\
+	\end{align*}
+		\[a_{\mathtt{ini}} | \mathtt{choose} = a_{\mathtt{post}}\]
+
+	\longrule{0.08ex}
+
+	Additionally, recall that the Triggering operator (\ref{dfn:acp-triggering}) is defined as:
+	\[\Gamma(P) := f_{\mathtt{trig}}[\partial_{H_{1}}(P \merge \mathtt{first}(\mathtt{next}^{\infty}))])\]
+\end{dfn}
+
+We can now define an encoding of the $\csp$ Sliding choice operator $\sliding$ in $\acptf$ in the following equation:
+\[\trans{P \sliding Q} = \partial_{H_{0}}\Bigl(\tau_{\{\mathtt{shift}\}}\bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{P}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\bigr)\Bigr)\]
+
+
 \subsection{Interrupt}\label{ssec:interrupt}
 
 The Interrupt operator $\interrupt$ is defined with the following rules:
@@ -372,24 +407,19 @@ From this, an encoding can be written in the following way:
 \[\trans{P \throw Q} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ f_{\mathtt{split}}(\trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr)\]
 
 
-\subsection{Sliding Choice}\label{ssec:sliding-choice}
-The sliding choice, or sliding operator $\triangleright$ is defined with the following rules:
 
-\[\prftree{P \prightarrow{a} P'}{P \triangleright Q \prightarrow{a} P'} \qquad \prftree{P \prightarrow{\tau} P'}{P \triangleright Q \prightarrow{\tau} P' \triangleright Q} \qquad P \triangleright Q \prightarrow{\tau} Q\]
 
-In other words, this operator lets you take an external action on $P$, however there is a second process that may at any point before the external action taken in $P$ ``time out'' and move to $Q$ instead.
-
-	{\huge WIP}
 
 \newpage
 \subsection{Final Translation}
 
 Recall the grammar of the languages $\csp$ and $\acptf$ as defined in Definitions
 \begin{align*}
-	P, Q ::= & \mathrm{STOP} \mid \mathrm{div} \mid a\to P \mid P \sqcap Q \mid P \extchoice Q \mid P \triangleleft Q \mid \\
-	         & P | |_{A} Q \mid P \backslash A \mid f(P) \mid P \triangle Q \mid P \theta_{A} Q \mid
+	P, Q ::= & \mathrm{STOP} \mid \mathrm{div} \mid a\to P \mid P \sqcap Q \mid P \extchoice Q \mid P \sliding Q \mid \\
+			 &P | |_{A} Q \mid P \backslash A \mid f(P) \mid P \triangle Q \mid P \theta_{A} Q \mid
 \end{align*}
 
+\vspace{-10pt}
 Recall from Definitions \ref{dfn:helper-functions} and \ref{dfn:communications} the list of helper functions and communications:
 
 \begin{multicols}{2}
@@ -434,8 +464,10 @@ Recall from Definitions \ref{dfn:helper-functions} and \ref{dfn:communications} 
 	\end{itemize}
 \end{multicols}
 
-We now define our translation
 
+We take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}, \mathtt{shift}, \mathtt{choose}\}$, and therefore $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$ as defined in \ref{dfn:sets}. We now define our translation:
+
+\newpage
 \begin{dfn}[Translation of CSP to ACP]{dfn:trans}{}
 	Let $\tcsp$ be the expressions in the language $\csp$, and $\tacp$ be expressions in the language $\acptf$. We define a translation $\tran : \tcsp \to \tacp$ defined as such:
 	\begin{align*}
@@ -444,6 +476,7 @@ We now define our translation
 		\trans{a \to P}        & = a.\trans{P}                                                                                                                   \\
 		\trans{P \intchoice Q} & = \tau.\trans{P} + \tau.\trans{Q}                                                                                               \\
 		\trans{P \extchoice Q} & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{Q}]\Bigl]\Bigr)  \\
+			\trans{P \sliding Q} &= \partial_{H_{0}}\Bigl(\tau_{\{\mathtt{shift}\}}\bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{P}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\bigr)\Bigr) \\
 		\trans{P \pcomp Q}     & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{P}) \merge \fdef{syn}(\trans{Q})\Bigr]\Bigr)                         \\
 		\trans{P \backslash A} & = \partial_{A}{\trans{P}}                                                                                                       \\
 		% \trans{\mu p.P} &= \langle X \mid X = \tau.X \rangle

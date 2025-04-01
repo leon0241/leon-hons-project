@@ -28,6 +28,11 @@
 \usepackage{thmboxes_v3}
 \usepackage{customs}
 
+
+\makeatletter
+\newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
+\makeatother
+
 \newcommand{\detcomp}{\,\square\,}
 
 \usepackage{hyperref} % note: this is the final package

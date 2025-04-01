@@ -63,6 +63,7 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Communication and Merge}{8}{subsection.3.2.2}\protected@file@percent }
 \newlabel{ssec:acp-communication}{{3.2.2}{8}{Communication and Merge}{subsection.3.2.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.3}Successful Termination}{8}{subsection.3.2.3}\protected@file@percent }
+\newlabel{ssec:termination}{{3.2.3}{8}{Successful Termination}{subsection.3.2.3}{}}
 \citation{vanglabbeekExpressivenessACP1995}
 \citation{bergstraACPtUniversalAxiom1989}
 \citation{vanglabbeekExpressivenessACP1995}
@@ -83,7 +84,7 @@
 \@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Structural operational semantics of CSP}}{12}{table.caption.3}\protected@file@percent }
 \newlabel{tab:CSP}{{3.1}{12}{Structural operational semantics of CSP}{table.caption.3}{}}
 \newlabel{dfn:strong-bisim}{{3.9}{12}{Semantic Equivalences}{theorems.3.9}{}}
-\pgfsyspdfmark {pgfid21}{6060209}{21649213}
+\pgfsyspdfmark {pgfid21}{6060209}{18078532}
 \citation{fokkinkRootedBranchingBisimulation2000}
 \citation{baetenProcessAlgebra1990}
 \@writefile{lot}{\contentsline {table}{\numberline {3.2}{\ignorespaces Structural operational semantics of the language $\mathrm  {ACP}_{F}^{\tau }$. The operational semantics for Successful Termination in the operators \textit  {Alternative Composition}, \textit  {Merge}, \textit  {Left Merge}, \textit  {Communication Merge}, \textit  {Abstraction}, \textit  {Encapsulation}, \textit  {Recursion}, \textit  {Encapsulation}, and \textit  {Functional Renaming} are omitted. A full list of operational rules can be found in Table \ref {table:ACP-full}}}{13}{table.caption.4}\protected@file@percent }
@@ -91,9 +92,9 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces The process $a . (b + c)$ (left), compared to the process $a . b + a . c$ (right). Both Processes have the same Traces - $\{a.b,\,a.c\}$, however they are not Strongly Bisimilar}}{13}{figure.caption.5}\protected@file@percent }
 \newlabel{fig:ct-counterexample}{{3.2}{13}{The process $a . (b + c)$ (left), compared to the process $a . b + a . c$ (right). Both Processes have the same Traces - $\{a.b,\,a.c\}$, however they are not Strongly Bisimilar}{figure.caption.5}{}}
 \newlabel{dfn:rooted-branching}{{3.10}{14}{Semantic Equivalences}{theorems.3.10}{}}
-\pgfsyspdfmark {pgfid24}{6060209}{28420092}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Example of Branching Bisimilarity. The process on the left ($a.\tau $ compared to $a$) is Rooted Branching Bisimilar, and the process on the right ($\tau .a$ compared to $a$) is only Branching Bisimilar. A blue dotted line indicates a relation between states}}{14}{figure.caption.6}\protected@file@percent }
-\newlabel{fig:bb-example}{{3.3}{14}{Example of Branching Bisimilarity. The process on the left ($a.\tau $ compared to $a$) is Rooted Branching Bisimilar, and the process on the right ($\tau .a$ compared to $a$) is only Branching Bisimilar. A blue dotted line indicates a relation between states}{figure.caption.6}{}}
+\pgfsyspdfmark {pgfid24}{6060209}{22595676}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Example of Branching Bisimilarity. The processes on the left ($a.\tau $ compared to $a$) are Rooted Branching Bisimilar, and the processes on the right ($\tau .a$ compared to $a$) are only Branching Bisimilar. A blue dotted line indicates a relation between states.}}{14}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:bb-example}{{3.3}{14}{Example of Branching Bisimilarity. The processes on the left ($a.\tau $ compared to $a$) are Rooted Branching Bisimilar, and the processes on the right ($\tau .a$ compared to $a$) are only Branching Bisimilar. A blue dotted line indicates a relation between states}{figure.caption.6}{}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {4}A Translation of $\mathrm  {CSP}$ to $\mathrm  {ACP}_{F}^{\tau }$}{15}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
@@ -121,73 +122,70 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3.3}Associativity and Postfix Function}{19}{subsection.4.3.3}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Axioms of $\mathrm  {ACP}_{\tau }$ Communication}}{19}{table.caption.9}\protected@file@percent }
 \newlabel{table:acpt-communication}{{4.1}{19}{Axioms of $\acpt $ Communication}{table.caption.9}{}}
-\newlabel{lma:communication-leftside}{{4.5}{19}{Associativity and Postfix Function}{theorems.4.5}{}}
-\pgfsyspdfmark {pgfid42}{6060209}{9277343}
-\newlabel{dfn:postfix}{{4.6}{20}{Associativity and Postfix Function}{theorems.4.6}{}}
-\pgfsyspdfmark {pgfid44}{6060209}{38069506}
+\newlabel{dfn:postfix}{{4.5}{20}{Associativity and Postfix Function}{theorems.4.5}{}}
+\pgfsyspdfmark {pgfid42}{6060209}{45345814}
 \@writefile{toc}{\contentsline {section}{\numberline {4.4}Translations for the remaining $\mathrm  {CSP}$ Operators}{21}{section.4.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}Communications and Functional Renaming}{21}{subsection.4.4.1}\protected@file@percent }
-\newlabel{dfn:helper-functions}{{4.7}{21}{Communications and Functional Renaming}{theorems.4.7}{}}
-\pgfsyspdfmark {pgfid46}{6060209}{14144782}
-\newlabel{dfn:communications}{{4.8}{22}{Communications and Functional Renaming}{theorems.4.8}{}}
-\pgfsyspdfmark {pgfid48}{6060209}{34588498}
+\newlabel{dfn:helper-functions}{{4.6}{21}{Communications and Functional Renaming}{theorems.4.6}{}}
+\pgfsyspdfmark {pgfid44}{6060209}{14144782}
+\newlabel{dfn:communications}{{4.7}{22}{Communications and Functional Renaming}{theorems.4.7}{}}
+\pgfsyspdfmark {pgfid46}{6060209}{34588498}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.4.2}Parallel Composition}{22}{subsection.4.4.2}\protected@file@percent }
 \newlabel{ssec:parallel-composition}{{4.4.2}{22}{Parallel Composition}{subsection.4.4.2}{}}
 \newlabel{eq:pcomp-definition}{{4.3}{22}{Parallel Composition}{equation.4.4.3}{}}
-\newlabel{dfn:comms-pcomp}{{4.9}{22}{Parallel Composition}{theorems.4.9}{}}
-\pgfsyspdfmark {pgfid50}{6060209}{10490072}
+\newlabel{dfn:comms-pcomp}{{4.8}{22}{Parallel Composition}{theorems.4.8}{}}
+\pgfsyspdfmark {pgfid48}{6060209}{10490072}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.4.3}External choice}{23}{subsection.4.4.3}\protected@file@percent }
 \newlabel{ssec:external-choice}{{4.4.3}{23}{External choice}{subsection.4.4.3}{}}
 \newlabel{eq:csp-definition}{{4.4}{23}{External choice}{equation.4.4.4}{}}
-\newlabel{dfn:comms-external}{{4.10}{23}{External choice}{theorems.4.10}{}}
-\pgfsyspdfmark {pgfid52}{6060209}{23170281}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.4}Interrupt}{23}{subsection.4.4.4}\protected@file@percent }
-\newlabel{ssec:interrupt}{{4.4.4}{23}{Interrupt}{subsection.4.4.4}{}}
+\newlabel{dfn:comms-external}{{4.9}{23}{External choice}{theorems.4.9}{}}
+\pgfsyspdfmark {pgfid50}{6060209}{23170281}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.4}Sliding Choice}{23}{subsection.4.4.4}\protected@file@percent }
+\newlabel{ssec:sliding-choice}{{4.4.4}{23}{Sliding Choice}{subsection.4.4.4}{}}
+\newlabel{dfn:comms-sliding}{{4.10}{24}{Sliding Choice}{theorems.4.10}{}}
+\pgfsyspdfmark {pgfid52}{6060209}{32497394}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.5}Interrupt}{24}{subsection.4.4.5}\protected@file@percent }
+\newlabel{ssec:interrupt}{{4.4.5}{24}{Interrupt}{subsection.4.4.5}{}}
 \newlabel{dfn:comms-interrupt}{{4.11}{24}{Interrupt}{theorems.4.11}{}}
-\pgfsyspdfmark {pgfid54}{6060209}{32875542}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.5}Throw}{24}{subsection.4.4.5}\protected@file@percent }
-\newlabel{ssec:throw}{{4.4.5}{24}{Throw}{subsection.4.4.5}{}}
-\newlabel{dfn:comms-throw}{{4.12}{25}{Throw}{theorems.4.12}{}}
-\pgfsyspdfmark {pgfid57}{6060209}{35493044}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.6}Sliding Choice}{25}{subsection.4.4.6}\protected@file@percent }
-\newlabel{ssec:sliding-choice}{{4.4.6}{25}{Sliding Choice}{subsection.4.4.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.7}Final Translation}{26}{subsection.4.4.7}\protected@file@percent }
-\newlabel{dfn:trans}{{4.13}{26}{Final Translation}{theorems.4.13}{}}
-\pgfsyspdfmark {pgfid60}{6060209}{8249754}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Validity of the Encoding}{27}{chapter.5}\protected@file@percent }
+\pgfsyspdfmark {pgfid54}{6060209}{10087792}
+\pgfsyspdfmark {pgfid55}{6060209}{38425325}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.6}Throw}{25}{subsection.4.4.6}\protected@file@percent }
+\newlabel{ssec:throw}{{4.4.6}{25}{Throw}{subsection.4.4.6}{}}
+\newlabel{dfn:comms-throw}{{4.12}{26}{Throw}{theorems.4.12}{}}
+\pgfsyspdfmark {pgfid58}{6060209}{41555124}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.7}Final Translation}{27}{subsection.4.4.7}\protected@file@percent }
+\newlabel{dfn:trans}{{4.13}{28}{Final Translation}{theorems.4.13}{}}
+\pgfsyspdfmark {pgfid61}{6060209}{31177090}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Validity of the Encoding}{29}{chapter.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Counterexample for Strong Bisimilarity with the processes $P = a$ and $Q = \tau .b$. The result of the translation is $a.\tau + \tau .(a+b) \not \leftrightarroweq a + \tau .(a+b)$}}{27}{figure.caption.10}\protected@file@percent }
-\newlabel{fig:sb-counterexample}{{5.1}{27}{Counterexample for Strong Bisimilarity with the processes $P = a$ and $Q = \tau .b$. The result of the translation is $a.\tau + \tau .(a+b) \not \leftrightarroweq a + \tau .(a+b)$}{figure.caption.10}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Prerequisites and Helper Theorems}{28}{section.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Rooted Branching Bisimilarity}{28}{subsection.5.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}Lemmas and Theorems}{28}{subsection.5.1.2}\protected@file@percent }
-\newlabel{lma:tau-transform}{{5.1}{28}{Lemmas and Theorems}{theorems.5.1}{}}
-\pgfsyspdfmark {pgfid63}{6060209}{19255374}
-\newlabel{lma:a-transform}{{5.2}{28}{Lemmas and Theorems}{theorems.5.2}{}}
-\pgfsyspdfmark {pgfid65}{6060209}{8340407}
-\newlabel{lma:stagnant-inis}{{5.3}{29}{Lemmas and Theorems}{theorems.5.3}{}}
-\pgfsyspdfmark {pgfid67}{6060209}{39391140}
-\newlabel{lma:tau-on-p-process}{{5.4}{29}{Lemmas and Theorems}{theorems.5.4}{}}
-\pgfsyspdfmark {pgfid69}{6060209}{24266425}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Proof of Rooted Branching Bisimilarity}{29}{section.5.2}\protected@file@percent }
-\newlabel{dfn:bisim-relation}{{5.5}{29}{Proof of Rooted Branching Bisimilarity}{theorems.5.5}{}}
-\pgfsyspdfmark {pgfid71}{6060209}{7500679}
-\pgfsyspdfmark {pgfid72}{6060209}{48551784}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}External choice}{30}{subsection.5.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}Interrupt}{31}{subsection.5.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}Generalising}{31}{subsection.5.2.3}\protected@file@percent }
-\newlabel{lma:maybe-prove}{{5.6}{31}{Generalising}{theorems.5.6}{}}
-\pgfsyspdfmark {pgfid74}{6060209}{8114079}
-\newlabel{thm:tau-comm}{{5.7}{32}{Generalising}{theorems.5.7}{}}
-\pgfsyspdfmark {pgfid77}{6060209}{42774180}
-\bibstyle{plainnat}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Counterexample for Strong Bisimilarity with the processes $P = a$ and $Q = \tau .b$. The result of the translation is $a.\tau + \tau .(a+b) \not \leftrightarroweq a + \tau .(a+b)$}}{29}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:sb-counterexample}{{5.1}{29}{Counterexample for Strong Bisimilarity with the processes $P = a$ and $Q = \tau .b$. The result of the translation is $a.\tau + \tau .(a+b) \not \leftrightarroweq a + \tau .(a+b)$}{figure.caption.10}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Prerequisites and Helper Theorems}{30}{section.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Rooted Branching Bisimilarity}{30}{subsection.5.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}Lemmas and Theorems}{30}{subsection.5.1.2}\protected@file@percent }
+\newlabel{lma:tau-transform}{{5.1}{30}{Lemmas and Theorems}{theorems.5.1}{}}
+\pgfsyspdfmark {pgfid64}{6060209}{17739952}
+\newlabel{lma:a-transform}{{5.2}{30}{Lemmas and Theorems}{theorems.5.2}{}}
+\pgfsyspdfmark {pgfid66}{6060209}{9344222}
+\newlabel{)}{{1}{30}{}{Hfootnote.6}{}}
+\pgfsyspdfmark {pgfid67}{6060209}{48551784}
+\newlabel{lma:stagnant-inis}{{5.3}{31}{Lemmas and Theorems}{theorems.5.3}{}}
+\pgfsyspdfmark {pgfid69}{6060209}{35671068}
+\newlabel{lma:tau-on-p-process}{{5.4}{31}{Lemmas and Theorems}{theorems.5.4}{}}
+\pgfsyspdfmark {pgfid71}{6060209}{20546353}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Proof of Rooted Branching Bisimilarity}{32}{section.5.2}\protected@file@percent }
+\newlabel{dfn:bisim-relation}{{5.5}{32}{Proof of Rooted Branching Bisimilarity}{theorems.5.5}{}}
+\pgfsyspdfmark {pgfid73}{6060209}{40944779}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}External choice}{32}{subsection.5.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}Interrupt}{33}{subsection.5.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}Generalising}{33}{subsection.5.2.3}\protected@file@percent }
+\newlabel{lma:maybe-prove}{{5.6}{33}{Generalising}{theorems.5.6}{}}
+\pgfsyspdfmark {pgfid75}{6060209}{9471087}
+\bibstyle{numeric}
 \bibdata{project}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Results}{33}{chapter.6}\protected@file@percent }
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}Results}{33}{section.6.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6.2}Limitations}{33}{section.6.2}\protected@file@percent }
+\newlabel{thm:tau-comm}{{5.7}{34}{Generalising}{theorems.5.7}{}}
+\pgfsyspdfmark {pgfid78}{6060209}{42774180}
 \bibcite{abadiCalculusCryptographicProtocols1999}{{1}{1999}{{Abadi and Gordon}}{{}}}
 \bibcite{baetenBriefHistoryProcess2005}{{2}{2005}{{Baeten}}{{}}}
 \bibcite{baetenProcessAlgebra1990}{{3}{1990}{{Baeten and Weijland}}{{}}}
@@ -199,27 +197,27 @@
 \bibcite{GARAVEL2015742}{{9}{2015}{{Garavel}}{{}}}
 \bibcite{gorlaUnifiedApproachEncodability2010}{{10}{2010}{{Gorla}}{{}}}
 \bibcite{milnerCalculusCommunicatingSystems1980}{{11}{1980}{{Milner}}{{}}}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{34}{chapter*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{35}{chapter*.11}\protected@file@percent }
 \bibcite{MILNER19921}{{12}{1992}{{Milner et~al.}}{{Milner, Parrow, and Walker}}}
 \bibcite{parrowFusionCalculusExpressiveness1998}{{13}{1998}{{Parrow and Victor}}{{}}}
 \bibcite{parrowExpressivenessProcessAlgebras2008}{{14}{2008}{{Parrow}}{{}}}
 \bibcite{petersComparingProcessCalculi2019}{{15}{2019}{{Peters}}{{}}}
 \bibcite{vanglabbeekExpressivenessACP1995}{{16}{1995}{{van Glabbeek}}{{}}}
 \bibcite{DBLP:conf/fossacs/Glabbeek18}{{17}{2018}{{van Glabbeek}}{{}}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Diagrams}{36}{appendix.A}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Diagrams}{37}{appendix.A}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {A.1}Examples of Translations}{36}{section.A.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {A.2}Throw}{36}{section.A.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {A.3}Counterexamples to Translations}{36}{section.A.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.3.1}Interrupt Operator}{37}{subsection.A.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.3.2}Throw Operator}{37}{subsection.A.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {B}Extended Definitions}{39}{appendix.B}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A.1}Examples of Translations}{37}{section.A.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A.2}Throw}{37}{section.A.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A.3}Counterexamples to Translations}{37}{section.A.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.3.1}Interrupt Operator}{38}{subsection.A.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.3.2}Throw Operator}{38}{subsection.A.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {B}Extended Definitions}{40}{appendix.B}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {B.1}Extended Definitions}{39}{section.B.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.1.1}Operational Semantics for $\mathrm  {ACP}_{F}^{\tau }$}{39}{subsection.B.1.1}\protected@file@percent }
-\newlabel{ssec:acptf-sos-full}{{B.1.1}{39}{Operational Semantics for \texorpdfstring {$\acptf $}{acptf}}{subsection.B.1.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {B.1}{\ignorespaces Extended Structural operational semantics of the language $\mathrm  {ACP}_{F}^{\tau }$. Compared to Table \ref {table:ACP}, this includes additional rules for Successful Termination, $\text  {$\mathsurround \z@ \mathchar "658$}$, which are highlighted in red.}}{40}{table.caption.12}\protected@file@percent }
-\newlabel{table:ACP-full}{{B.1}{40}{Extended Structural operational semantics of the language $\acptf $. Compared to Table \ref {table:ACP}, this includes additional rules for Successful Termination, $\checkmark $, which are highlighted in red}{table.caption.12}{}}
-\gdef \@abspage@last{46}
+\@writefile{toc}{\contentsline {section}{\numberline {B.1}Extended Definitions}{40}{section.B.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1.1}Operational Semantics for $\mathrm  {ACP}_{F}^{\tau }$}{40}{subsection.B.1.1}\protected@file@percent }
+\newlabel{ssec:acptf-sos-full}{{B.1.1}{40}{Operational Semantics for \texorpdfstring {$\acptf $}{acptf}}{subsection.B.1.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {B.1}{\ignorespaces Extended Structural operational semantics of the language $\mathrm  {ACP}_{F}^{\tau }$. Compared to Table \ref {table:ACP}, this includes additional rules for Successful Termination, $\text  {$\mathsurround \z@ \mathchar "658$}$, which are highlighted in red.}}{41}{table.caption.12}\protected@file@percent }
+\newlabel{table:ACP-full}{{B.1}{41}{Extended Structural operational semantics of the language $\acptf $. Compared to Table \ref {table:ACP}, this includes additional rules for Successful Termination, $\checkmark $, which are highlighted in red}{table.caption.12}{}}
+\gdef \@abspage@last{47}

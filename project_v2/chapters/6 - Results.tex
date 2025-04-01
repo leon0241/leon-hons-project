@@ -2,8 +2,10 @@
 \begin{document}
 
 \section{Results}
-From the results in this paper, I have shown a translation from the language $\csp$ to the language $\acptf$. I have shown that this translation is valid up to Rooted Branching Bisimulation for operators excluding the $\csp$ Sliding choice operator.
-\section{Limitations}
-Not Strongly Bisimilar.
+In this paper, we have demonstrated a translation from the language $\csp$ to the language $\acptf$, an extension of the language $\acpt$ to include a Functional Renaming operator. We have shown that this translation is valid up to Rooted Branching Bisimulation, which is Compositional in the language $\acp$ and its related extensions. We can therefore say that $\acptf$ is \textbf{at least as expressive as $\csp$ up to Rooted Branching Bisimulation}.
+
+\section{Limitations and Future Work}
+In our encoding, we are limited by the fact that internal actions will remain in communications, and hence hindering the possibility of a Strong Bisimulation. The behaviour of abstraction being a one-way operator, and $\tau$ actions being forgetful is an intentional and inherent part of $\acpt$ from an axiomatic level. This leads me to believe that Rooted Branching Bisimilarity is the finest relation there is between variants of $\csp$ and $\acp$.
     
+Further work could be done to study the relationship between these two languages, as there are many fragments and extensions to the language $\acp$ and there may be a different approach which avoids this conundrum, with a valid solution up to Strong Bisimilarity existing exist for some fragment of $\acp$.
 \end{document}
