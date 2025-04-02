@@ -29,7 +29,7 @@ The above translations are all valid up to Strong Bisimilarity. The other operat
 \section{Helper Operators for the language \texorpdfstring{$\acptf$}{ACPtf}}
 
 \subsection{Subsets of \texorpdfstring{$\Sigma$}{Sigma}}
-Working in the language $\acpt$ with the extension of Functional Renaming (written $ACP^{\tau}_{F}$), we first recall that $\acptf$ is paramaterised by a set of actions $\Sigma$ as defined in \ref{sc:acp}. Also recall that $\Sigma_{\tau}$ is defined as the set $\Sigma \cup \{\tau\}$. We then start by defining some subsets of $\Sigma$ which we will use in our encodings.
+Working in the language $\acpt$ with the extension of Functional Renaming (written $ACP^{\tau}_{F}$), we first recall that $\acptf$ is paramaterised by a set of actions $\Sigma$ as defined in \cref{sc:acp}. Also recall that $\Sigma_{\tau}$ is defined as the set $\Sigma \cup \{\tau\}$. We then start by defining some subsets of $\Sigma$ which we will use in our encodings.
 
 \begin{dfn}[Subsets of A]{dfn:sets}{}
 	The set $\Sigma\in \mathbb{T}$ is the set of all actions.
@@ -377,7 +377,7 @@ The Throw operator $\throw$ is defined with the following rules:
 
 In other words, we can take as many actions in $P$ as we want, as long as they aren't contained in a set of actions, which we will call $A_{T}$. However, the moment an action in $A_{T}$ is made, The process then diverts to $Q$. This can be also throught as an error checking operator. Similarly to the interrupt operator, for our encoding, we take
 \[\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}\]
-, and therefore $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$ as defined in \ref{dfn:sets}.
+Therefore, we have $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$ as defined in \ref{dfn:sets}.
 
 \begin{dfn}[Functions and Communications - Throw]{dfn:comms-throw}{}
 	As defined in \ref{dfn:helper-functions} and \ref{dfn:communications}, the following communications and functions are defined for our translation:

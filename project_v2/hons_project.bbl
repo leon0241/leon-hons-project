@@ -1,0 +1,124 @@
+\begin{thebibliography}{17}
+% this bibliography was produced with the style dinat.bst v2.5
+\makeatletter
+\newcommand{\dinatlabel}[1]%
+{\ifNAT@numbers\else\NAT@biblabelnum{#1}\hspace{2\labelsep}\fi}
+\makeatother
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax\def\url#1{\texttt{#1}}\fi
+
+\bibitem[Abadi und Gordon(1999)]{abadiCalculusCryptographicProtocols1999}
+\dinatlabel{Abadi und Gordon 1999} \textsc{Abadi}, Mart{\'{\i}}n~; \textsc{Gordon}, Andrew~D.:
+\newblock A {{Calculus}} for {{Cryptographic Protocols}}: {{The Spi Calculus}}.
+\newblock In: \emph{Information and Computation}
+\newblock 148 (1999), Januar, Nr.~1, S.~1--70. --
+\newblock ISSN 0890-5401
+
+\bibitem[Baeten(2005)]{baetenBriefHistoryProcess2005}
+\dinatlabel{Baeten 2005} \textsc{Baeten}, J. C.~M.:
+\newblock A Brief History of Process Algebra.
+\newblock In: \emph{Theoretical Computer Science}
+\newblock 335 (2005), Mai, Nr.~2, S.~131--146. --
+\newblock ISSN 0304-3975
+
+\bibitem[Baeten und Weijland(1990)]{baetenProcessAlgebra1990}
+\dinatlabel{Baeten und Weijland 1990} \textsc{Baeten}, J. C.~M.~; \textsc{Weijland}, W.~P.:
+\newblock \emph{Process {{Algebra}}}.
+\newblock Cambridge~: Cambridge University Press, 1990
+\newblock (Cambridge {{Tracts}} in {{Theoretical Computer Science}})
+
+\bibitem[Bergstra und Klop(1984)]{bergstraProcessAlgebraSynchronous1984}
+\dinatlabel{Bergstra und Klop 1984} \textsc{Bergstra}, J.~A.~; \textsc{Klop}, J.~W.:
+\newblock Process Algebra for Synchronous Communication.
+\newblock In: \emph{Information and Control}
+\newblock 60 (1984), Januar, Nr.~1, S.~109--137. --
+\newblock ISSN 0019-9958
+
+\bibitem[Bergstra und Klop(1989)]{bergstraACPtUniversalAxiom1989}
+\dinatlabel{Bergstra und Klop 1989} \textsc{Bergstra}, J.~A.~; \textsc{Klop}, J.~W.:
+\newblock {{ACP$\tau$}} a Universal Axiom System for Process Specification.
+\newblock In: \textsc{Wirsing}, Martin (Hrsg.)~; \textsc{Bergstra}, Jan~A. (Hrsg.): \emph{Algebraic {{Methods}}: {{Theory}}, {{Tools}} and {{Applications}}}.
+\newblock Berlin, Heidelberg~: Springer Berlin Heidelberg, 1989, S.~445--463. --
+\newblock ISBN 978-3-540-46758-8
+
+\bibitem[Brookes u.\,a.(1984)Brookes, Hoare und Roscoe]{brookesTheoryCommunicatingSequential1984}
+\dinatlabel{Brookes u.\,a. 1984} \textsc{Brookes}, S.~D.~; \textsc{Hoare}, C. A.~R.~; \textsc{Roscoe}, A.~W.:
+\newblock A {{Theory}} of {{Communicating Sequential Processes}}.
+\newblock In: \emph{J. ACM}
+\newblock 31 (1984), Juni, Nr.~3, S.~560--599. --
+\newblock ISSN 0004-5411
+
+\bibitem[Cardelli und Gordon(1998)]{cardelliMobileAmbients1998}
+\dinatlabel{Cardelli und Gordon 1998} \textsc{Cardelli}, Luca~; \textsc{Gordon}, Andrew~D.:
+\newblock Mobile Ambients.
+\newblock In: \textsc{Nivat}, Maurice (Hrsg.): \emph{Foundations of {{Software Science}} and {{Computation Structures}}}.
+\newblock Berlin, Heidelberg~: Springer, 1998, S.~140--155. --
+\newblock ISBN 978-3-540-69720-6
+
+\bibitem[Fokkink(2000)]{fokkinkRootedBranchingBisimulation2000}
+\dinatlabel{Fokkink 2000} \textsc{Fokkink}, Wan:
+\newblock Rooted {{Branching Bisimulation}} as a {{Congruence}}.
+\newblock In: \emph{Journal of Computer and System Sciences}
+\newblock 60 (2000), Februar, Nr.~1, S.~13--37. --
+\newblock ISSN 0022-0000
+
+\bibitem[Garavel(2015)]{GARAVEL2015742}
+\dinatlabel{Garavel 2015} \textsc{Garavel}, Hubert:
+\newblock Revisiting Sequential Composition in Process Calculi.
+\newblock In: \emph{Journal of Logical and Algebraic Methods in Programming}
+\newblock 84 (2015), Nr.~6, S.~742--762. --
+\newblock ISSN 2352-2208
+
+\bibitem[Gorla(2010)]{gorlaUnifiedApproachEncodability2010}
+\dinatlabel{Gorla 2010} \textsc{Gorla}, Daniele:
+\newblock Towards a Unified Approach to Encodability and Separation Results for Process Calculi.
+\newblock In: \emph{Information and Computation}
+\newblock 208 (2010), September, Nr.~9, S.~1031--1053. --
+\newblock ISSN 0890-5401
+
+\bibitem[Milner(1980)]{milnerCalculusCommunicatingSystems1980}
+\dinatlabel{Milner 1980} \textsc{Milner}, Robin:
+\newblock \emph{Lecture {{Notes}} in {{Computer Science}}}. Bd.~92: \emph{A {{Calculus}} of {{Communicating Systems}}}.
+\newblock Berlin, Heidelberg~: Springer, 1980. --
+\newblock ISBN 978-3-540-10235-9 978-3-540-38311-6
+
+\bibitem[Milner u.\,a.(1992)Milner, Parrow und Walker]{MILNER19921}
+\dinatlabel{Milner u.\,a. 1992} \textsc{Milner}, Robin~; \textsc{Parrow}, Joachim~; \textsc{Walker}, David:
+\newblock A Calculus of Mobile Processes, {{I}}.
+\newblock In: \emph{Information and Computation}
+\newblock 100 (1992), Nr.~1, S.~1--40. --
+\newblock ISSN 0890-5401
+
+\bibitem[Parrow und Victor(1998)]{parrowFusionCalculusExpressiveness1998}
+\dinatlabel{Parrow und Victor 1998} \textsc{Parrow}, J.~; \textsc{Victor}, B.:
+\newblock The Fusion Calculus: Expressiveness and Symmetry in Mobile Processes.
+\newblock In: \emph{Proceedings. {{Thirteenth Annual IEEE Symposium}} on {{Logic}} in {{Computer Science}} ({{Cat}}. {{No}}.{{98CB36226}})}, Juni 1998, S.~176--185. --
+\newblock ISSN 1043-6871
+
+\bibitem[Parrow(2008)]{parrowExpressivenessProcessAlgebras2008}
+\dinatlabel{Parrow 2008} \textsc{Parrow}, Joachim:
+\newblock Expressiveness of {{Process Algebras}}.
+\newblock In: \emph{Electronic Notes in Theoretical Computer Science}
+\newblock 209 (2008), April, S.~173--186. --
+\newblock ISSN 1571-0661
+
+\bibitem[Peters(2019)]{petersComparingProcessCalculi2019}
+\dinatlabel{Peters 2019} \textsc{Peters}, Kirstin:
+\newblock Comparing {{Process Calculi Using Encodings}}.
+\newblock In: \emph{Electronic Proceedings in Theoretical Computer Science}
+\newblock 300 (2019), August, S.~19--38. --
+\newblock ISSN 2075-2180
+
+\bibitem[{van Glabbeek}(1995)]{vanglabbeekExpressivenessACP1995}
+\dinatlabel{{van Glabbeek} 1995} \textsc{{van Glabbeek}}, Rob:
+\newblock On the {{Expressiveness}} of {{ACP}}.
+\newblock In: \textsc{Ponse}, A. (Hrsg.)~; \textsc{Verhoef}, C. (Hrsg.)~; \textsc{{van Vlijmen}}, S. F.~M. (Hrsg.): \emph{Algebra of {{Communicating Processes}}}.
+\newblock London~: Springer London, 1995, S.~188--217. --
+\newblock ISBN 978-1-4471-2120-6
+
+\bibitem[{van Glabbeek}(2018)]{DBLP:conf/fossacs/Glabbeek18}
+\dinatlabel{{van Glabbeek} 2018} \textsc{{van Glabbeek}}, Rob:
+\newblock A Theory of Encodings and Expressiveness (Extended Abstract) - (Extended Abstract).
+\newblock In: \textsc{Baier}, Christel (Hrsg.)~; \textsc{Lago}, Ugo~D. (Hrsg.): \emph{Foundations of Software Science and Computation Structures - 21st International Conference, {{FOSSACS}} 2018, Held as Part of the European Joint Conferences on Theory and Practice of Software, {{ETAPS}} 2018, Thessaloniki, Greece, April 14-20, 2018, Proceedings} Bd.~10803, Springer, 2018, S.~183--202
+
+\end{thebibliography}
