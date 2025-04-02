@@ -1,6 +1,6 @@
-%%------------------%%
-%% General Packages %%
-%%------------------%%
+% ╭──────────────────────────────────────────────────────────╮
+% │                     General Packages                     │
+% ╰──────────────────────────────────────────────────────────╯
 
 % Lipsum Filler text package
 \usepackage{lipsum}
@@ -11,9 +11,9 @@
 % Import Chapters
 \usepackage{subfiles}
 
-%%---------------------%%
-%% Diagrams and Visual %%
-%%---------------------%%
+% ╭──────────────────────────────────────────────────────────╮
+% │                   Diagrams and Visual                    │
+% ╰──────────────────────────────────────────────────────────╯
 
 % Quiver for Tikz-cd diagrams
 \usepackage{quiver}
@@ -23,11 +23,15 @@
 \usepackage{graphicx, atbegshi}
 % Needed for \mathmakebox for Arrow symbols
 \usepackage{mathtools}
+% Needed for Fixed Table widths
+\usepackage{array}
 
-%%--------------------------%%
-%% Import Fonts and Symbols %%
-%%--------------------------%%
+% ╭──────────────────────────────────────────────────────────╮
+% │                 Import Fonts and Symbols                 │
+% ╰──────────────────────────────────────────────────────────╯
 
+% recommended, but you can remove if it causes problems
+\usepackage[final, nopatch=footnote]{microtype} 
 % AMS packages. Note: AMSThm for proof env.
 \usepackage{amsmath, amsthm, amsfonts, amssymb}
 % Provides \mathscr font
@@ -37,9 +41,9 @@
 % Underscore compatability
 \usepackage{underscore}
 
-%%---------------------%%
-%% Import Environments %%
-%%---------------------%%
+% ╭──────────────────────────────────────────────────────────╮
+% │                   Import Environments                    │
+% ╰──────────────────────────────────────────────────────────╯
 
 % Multiple columns
 \usepackage{multicol}
@@ -53,9 +57,9 @@
 \usepackage{pdflscape}
 
 
-%%-----------------%%
-%% Custom Packages %%
-%%-----------------%%
+% ╭──────────────────────────────────────────────────────────╮
+% │                     Custom Packages                      │
+% ╰──────────────────────────────────────────────────────────╯
 
 % MDFramed on Tikz-cd - Required for Thmboxes
 \usepackage[framemethod=TikZ]{mdframed}
@@ -71,10 +75,24 @@
 % Better References
 \usepackage[capitalise, noabbrev]{cleveref}
 
+% recommended for citations
+\usepackage[numbers]{natbib}
 
-
-%%---------%%
-%% Options %%
-%%---------%%
+% ╭──────────────────────────────────────────────────────────╮
+% │                         Options                          │
+% ╰──────────────────────────────────────────────────────────╯
 
 \apptocmd{\thebibliography}{\raggedright}{}{}
+
+
+% Cleverref formatting
+\creflabelformat{equation}{#2\textup{#1}#3}
+
+% Cleverref formatting
+\crefformat{theorems}{#2\textup{#1}#3}
+% Cleverref formatting
+\crefmultiformat{theorems}%
+{#2#1#3}
+{ and~#2#1#3}
+{, #2#1#3}
+{, and~#2#1#3}

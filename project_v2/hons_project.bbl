@@ -1,4 +1,4 @@
-\begin{thebibliography}{17}
+\begin{thebibliography}{19}
 % this bibliography was produced with the style dinat.bst v2.5
 \makeatletter
 \newcommand{\dinatlabel}[1]%
@@ -13,6 +13,13 @@
 \newblock In: \emph{Information and Computation}
 \newblock 148 (1999), Januar, Nr.~1, S.~1--70. --
 \newblock ISSN 0890-5401
+
+\bibitem[Austry und Boudol(1984)]{austryAlgebreProcessusSynchronisation1984}
+\dinatlabel{Austry und Boudol 1984} \textsc{Austry}, Didier~; \textsc{Boudol}, G{\'e}rard:
+\newblock {Alg{\`e}bre de processus et synchronisation}.
+\newblock In: \emph{Theoretical Computer Science}
+\newblock 30 (1984), Nr.~1, S.~91--131. --
+\newblock ISSN 03043975
 
 \bibitem[Baeten(2005)]{baetenBriefHistoryProcess2005}
 \dinatlabel{Baeten 2005} \textsc{Baeten}, J. C.~M.:
@@ -54,6 +61,13 @@
 \newblock In: \textsc{Nivat}, Maurice (Hrsg.): \emph{Foundations of {{Software Science}} and {{Computation Structures}}}.
 \newblock Berlin, Heidelberg~: Springer, 1998, S.~140--155. --
 \newblock ISBN 978-3-540-69720-6
+
+\bibitem[De~Simone(1985)]{desimoneHigherlevelSynchronisingDevices1985}
+\dinatlabel{De~Simone 1985} \textsc{De~Simone}, Robert:
+\newblock Higher-Level Synchronising Devices in {{Meije-SCCS}}.
+\newblock In: \emph{Theoretical Computer Science}
+\newblock 37 (1985), S.~245--267. --
+\newblock ISSN 03043975
 
 \bibitem[Fokkink(2000)]{fokkinkRootedBranchingBisimulation2000}
 \dinatlabel{Fokkink 2000} \textsc{Fokkink}, Wan:

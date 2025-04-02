@@ -15,21 +15,23 @@ In this section I will provide visual aids for the encoding of translations of e
 \subsection{Interrupt}
 \import{diagrams-appendix/}{interrupt}
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
+\hfuzz=\maxdimen
     \centering
 		\import{diagrams-appendix/interrupt-two}{whole}
 		\caption{The process $\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \bigl(f_{\mathtt{origin}}(\tau.a) \merge \Pi\bigr) \merge \Gamma(\tau.b) \Bigr]\Bigr)$}
     \label{fig:interrupt-big}
 \end{figure}
 
+
 \begin{figure}[!ht]
 	\centering
-	\begin{subfigure}[b]{0.6\textwidth}
+	\begin{subfigure}[b]{0.55\textwidth}
 		\import{diagrams-appendix/interrupt-two}{b-layer}
 		\caption{The process $\Pi$ merged with the process $\Gamma(\tau.b)$}
 	\end{subfigure}
 	\hfill
-	\begin{subfigure}[b]{0.35\textwidth}
+	\begin{subfigure}[b]{0.43\textwidth}
 		\import{diagrams-appendix/interrupt-two}{a-layer}
 		\caption{The process $\Pi$ merged with the process $\fdef{origin}(\tau.a) test$}
 	\end{subfigure}\hfill

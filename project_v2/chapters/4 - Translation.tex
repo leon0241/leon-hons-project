@@ -1,118 +1,147 @@
 \documentclass[../hons_project.tex]{subfiles}
 \begin{document}
 
+% ╭──────────────────────────────────────────────────────────╮
+% │              Set a counter for Translations              │
+% ╰──────────────────────────────────────────────────────────╯
+
+\newcounter{translations}
+\setcounter{translations}{0}
+
+\newcounter{funcs}
+\setcounter{funcs}{0}
+
+\newcounter{comms}
+\setcounter{comms}{0}
+
 
 \section{Direct Translations}\label{sc:direct-translations}
 Some of the basic operations of $\csp$ have an equivalent counterpart in ACP, with the only difference being the syntax. These can be easily translated in the following table.
-\begin{align*}
+\begin{align}
+	\label{trans:stop}\tag{T\thetranslations}\stepcounter{translations}
 	\trans{STOP}           & = \delta              \\
+	\label{trans:apr}\tag{T\thetranslations}\stepcounter{translations}
 	\trans{a \to P}        & = a.\trans{P}         \\
-	\trans{P \backslash A} & = \tau_{A}{\trans{P}} \\
+	\label{trans:abstraction}\tag{T\thetranslations}\stepcounter{translations}
+	\trans{P \backslash A} & = \tau_{A}{\trans{P}}
 	% \trans{\mu p.P} &= \langle X \mid X = \tau.X \rangle
-\end{align*}
+\end{align}
 
 \section{Trivial Translations}\label{sc:trivial-translations}
-\begin{itemize}
-	\item \textbf{Divergence} is the process that diverges via infinite internal actions. It is defined by the following rule:
-	      \[\mathrm{div} \prightarrow{\tau} \mathrm{div}\]
-	      and then can be directly translated via recursion in ACP in the following rule:
-	      \[\trans{\mathrm{div}} = \langle X \mid X = \tau.X \rangle\]
-	\item \textbf{Renaming} is an operation that renames actions in processes according to a function. There is no equivalent function in plain $\mathrm{ACP}_{\tau}$, with the closest operation being $\tau_{I}(P)$ which abstracts actions in $I$ to internal actions. This is possible in $\acptf$, and in fact our translation is trivially
-	      \[\trans{f(P)} = f(\trans{P})\]
+\begin{itemize}[leftmargin=*]
+	\item \textbf{Divergence} is the process that diverges via infinite internal actions, implying that a user can never make a decision past that point. It is defined by the rule $\mathrm{div} \prightarrow{\tau} \mathrm{div}$, and can be directly translated using recursion in ACP in the following rule:
+	      \begin{equation}\label{trans:div} \tag{T\thetranslations}\stepcounter{translations}
+		      \trans{\mathrm{div}} = \langle X \mid X = \tau.X \rangle
+	      \end{equation}
+	\item \textbf{Renaming} is an operation that renames actions in processes according to a function. There is no equivalent operator in plain $\mathrm{ACP}_{\tau}$, with the closest operation being $\tau_{I}(P)$ which abstracts actions in $I$ to internal actions. This is possible in our extension $\acptf$, and in fact our translation is trivially
+	      \begin{equation}\label{trans:renaming}
+		      \tag{T\thetranslations}\stepcounter{translations}
+		      \trans{f(P)} = f(\trans{P})
+	      \end{equation}
 
-	\item \textbf{Internal Choice} is an operation that emulates a choice of actions that cannot be decided by the user. $\csp$ in particular differs from ACP in that external choice and internal choice are separate operations, while in ACP, the alternative choice operator $+$ handles choice, albeit slightly differently. With the internal choice operator $\tau$, a translation for $\csp$ Internal choice into ACP is easily written as
-	      \[\trans{P \sqcap Q} = \tau.\trans{P} + \tau.\trans{Q}\]
+	\item \textbf{Internal Choice} is an operation that emulates a choice of actions that isn't decided by the user, for example the result of flipping a virtual coin.
+	      $\csp$ differentiates from external choice and internal choice, while in ACP the alternative choice operator $+$ handles both choice, with internal actions satisfying the $+$ operator. With the internal action $\tau$, a translation for $\csp$ Internal choice into ACP is easily written as
+	      \begin{equation}\label{trans:intchoice}
+		      \tag{T\thetranslations}\stepcounter{translations}
+		      \trans{P \sqcap Q} = \tau.\trans{P} + \tau.\trans{Q}
+	      \end{equation}
 \end{itemize}
 
-The above translations are all valid up to Strong Bisimilarity. The other operators are slightly harder to translate.
+% TODO: Write about the terminology ``satisfying''
+
+The above translations are all valid up to Strong Bisimilarity.
 
 \section{Helper Operators for the language \texorpdfstring{$\acptf$}{ACPtf}}
 
 \subsection{Subsets of \texorpdfstring{$\Sigma$}{Sigma}}
-Working in the language $\acpt$ with the extension of Functional Renaming (written $ACP^{\tau}_{F}$), we first recall that $\acptf$ is paramaterised by a set of actions $\Sigma$ as defined in \cref{sc:acp}. Also recall that $\Sigma_{\tau}$ is defined as the set $\Sigma \cup \{\tau\}$. We then start by defining some subsets of $\Sigma$ which we will use in our encodings.
+Working in $\acptf$ as defined in Definition \ref{sc:acp}, we first recall that $\acptf$ is paramaterised by a set of actions $\Sigma$. Also recall that $\Sigma_{\tau}$ is defined as the set $\Sigma \cup \{\tau\}$. We start by defining some subsets of $\Sigma$ which we will use in our encodings.
 
 \begin{dfn}[Subsets of A]{dfn:sets}{}
-	The set $\Sigma\in \mathbb{T}$ is the set of all actions.
+	The set $\Sigma\in \mathbb{T}_{\acptf}$ is the set of all possible actions.
 	\begin{itemize}
-		\item $\Sigma_{0} \subseteq A$ is the set of actions that actually get used in processes
-		\item $A \subseteq \Sigma$ is a set of target actions. This is used in operators such as $\csp$ Parallel Composition, which only communicates over a set.
-		\item $H_{0} = \Sigma - \Sigma_{0}$ is the set of working space operators, or any other action that doesn't get used
+		\item $\Sigma_{0} \subseteq \Sigma$ is the set of actions that get used in processes
+		\item $A \subseteq \Sigma_{0}$ is a set of target actions. This is used in operators such as $\csp$ Parallel Composition, which only communicates over a set.
+		\item $H_{0} = \Sigma - \Sigma_{0}$ is the set of working space operators, or any other action that doesn't get used in processes.
 		\item $\mathscr{H} \subseteq H_{0}$ is a selectively chosen set from $H_{0}$ to aid a translation.
-		\item $H_{1} = \Sigma_{0} \uplus \mathscr{H}$ is the set of actions, plus any actions of $\mathscr{H}$
+		\item $H_{1} = \Sigma_{0} \uplus \mathscr{H}$ is the set of actions, plus any actions of $\mathscr{H}$. This can also be thought of the set of actions used in a translation.
 	\end{itemize}
 
-	In general, $A \subseteq \Sigma_{0} \subseteq H_{1} \subseteq \Sigma$, and $\mathscr{H} \subseteq H_{0} \subseteq \Sigma$
+	In general, $A \subseteq \Sigma_{0} \subseteq H_{1} \subseteq \Sigma$, and $\mathscr{H} \subseteq H_{0} \subseteq \Sigma$.
+
+	We also have $\Sigma_{0} \cap H_{0} = \emptyset$, and by extension, $\Sigma_{0} \cap \mathscr{H} = \emptyset$
 \end{dfn}
 
-\import{diagrams/}{triggering.tex}
-\subsection{Triggering}
-We define an operator $\Gamma(P)$ that emulates the Triggering operator of MEIJE [REFER]. For a trace $a.b.\cdots$ on a process $P$, the triggering operator can be represented as an operator that tags the first action of a process.
 
-First, we define a function $f_{\mathtt{trig}}$ and communications for the operations $\mathtt{first}$ and $\mathtt{next}$.
+\begin{figure}[!ht]
+	\centering
+	\import{diagrams/}{triggering.tex}
+\end{figure}
+\subsection{Triggering}\label{ssec:triggering}
+We define an operator $\Gamma(P)$ that emulates the Triggering operator of MEIJE \cite{austryAlgebreProcessusSynchronisation1984, desimoneHigherlevelSynchronisingDevices1985}. For a trace $a.b.\cdots$ on a process $P$, the triggering operator can be represented as an operator that tags the first action of a process.
+First, we define a function $f_{\mathtt{trig}}$ and communications for two actions $\mathtt{first}$ and $\mathtt{next}$ that are from $H_{0}$.
 
-
-\begin{multicols}{2}
 \begin{dfn-s}[Communications]{dfn:comm-triggering}{}
 Define communications where:
-\begin{align*}
-	a | \mathtt{first} & = a_{\mathtt{first}} \\
-	a | \mathtt{next}  & = a_{\mathtt{next}}
-\end{align*}
+\begin{equation}\label{comm:trig}\tag{F\thecomms}\stepcounter{comms}
+	a | \mathtt{first} = a_{\mathtt{first}} \quad
+	a | \mathtt{next} = a_{\mathtt{next}}
+\end{equation}
 \end{dfn-s}
 
-
-% \[
-%  f_{\mathrm{syn}}(a) = \begin{cases}
-%   a_{\mathtt{syn}} & \text{ if } a\in A \\
-%   a           & \text{otherwise}
-%  \end{cases}
-% \]
 \begin{dfn-s}[Triggering Function]{dfn:f1}{}
 Define $f_{\mathtt{trig}}: \Sigma_{\tau} \to \Sigma_{\tau}$ where:
-\[
+\begin{equation}\label{func:trig}\tag{F\thefuncs}\stepcounter{funcs}
 	f_{\mathtt{trig}}(\alpha) = \begin{cases}
 		a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
 		a                & \text{if } \alpha = a_{\mathtt{next}}  \\
 		\alpha           & \text{otherwise}
 	\end{cases}
-\]
+\end{equation}
 \end{dfn-s}
-\end{multicols}
 
-We use the notation of $a^{\infty}$ as syntactic sugar to mean $\langle X \mid X = a.X \rangle$. Using the sets defined in \ref{dfn:sets}, we can now define $\Gamma(P)$ as such:
+We use the notation of $a^{\infty}$ as syntactic sugar to mean $\langle X \mid X = a.X \rangle$. Using the sets defined in Definition \ref{dfn:sets}, we can now define $\Gamma(P)$ as such:
 
 \begin{dfn}[Triggering in ACP]{dfn:acp-triggering}{}
-	\[\Gamma(P) := f_{\mathtt{trig}}\bigl[\partial_{H_{1}}(P \merge \mathtt{first}.(\mathtt{next}^{\infty}))\bigr]\]
-	is an operator that turns a trace of a process $P$, $a.b.c.\dots$ into the trace
+	The \textbf{Triggering} operator is defined as the following process equation:
+	\begin{equation}\label{oper:triggering}\tag{O1}
+		\Gamma(P) := f_{\mathtt{trig}}\bigl[\partial_{H_{1}}(P \merge \mathtt{first}.(\mathtt{next}^{\infty}))\bigr]
+	\end{equation}
+	$\Gamma(P)$ turns each trace $a.b.c.\dots$ of a process $P$ into the trace
 	\[a_{\mathtt{ini}}. b. c. \dots\]
 \end{dfn}
 
 This works in the following method:
 \vspace{-5pt}
 \begin{enumerate}[label=\alph*)]
-	\item Merge the process $P$ with the process $\mathtt{first}.\mathtt{next}.\mathtt{next}\dots$. Via Def \ref{dfn:comm-triggering}, this will produce a lattice of $P$ and $\mathtt{first}.(\mathtt{next}^{\infty})$, with communications on every square, but most importantly, a chain of communications going down the centre of the form.
-	      \begin{equation}\label{eq:fnn}
-		      a_{\mathtt{first}}. b_{\mathtt{next}} . c_{\mathtt{next}} \dots
-	      \end{equation}
-	\item Restrict the actions in $H_{1}$. Since all the actions in $P, \mathtt{first}.(\mathtt{next}^{\infty}) \in H_{1}$ this effectively restricts both sides of the left merge, leaving only communications from the initial state. This leaves equation \ref{eq:fnn} as the only remaining trace.
-	\item Apply $f_{\mathtt{trig}}$ to equation \ref{eq:fnn}. Via \ref{dfn:f1}, the final result is
-	      \begin{equation}\label{eq:gamma-result}
-		      a_{\mathtt{ini}}. b . c \dots
-	      \end{equation}
+	\item Merge the process $P$ with the process $\mathtt{first}.\mathtt{next}.\mathtt{next}\dots$. Via Definition \ref{dfn:comm-triggering}, this will produce a lattice of $P$ and $\mathtt{first}.(\mathtt{next}^{\infty})$, with communications on every square, but most importantly, a chain of communications going through the center of the form
+	    \begin{equation}\label{eq:fnn}
+			a_{\mathtt{first}}. b_{\mathtt{next}} . c_{\mathtt{next}} \dots
+	    \end{equation}
+	\item Apply the Restriction operator $\restrict$ to the actions in $H_{1}$, as defined in Definition \ref{dfn:sets}. Since all the actions in both the processes $P$ and $\mathtt{first}.(\mathtt{next}^{\infty})$ are in the set $H_{1}$, this effectively restricts both sides of the left merge, leaving only communications from the initial state. This leaves \cref{eq:fnn} as the only remaining trace.
+	\item Apply $f_{\mathtt{trig}}$ as defined in \cref{func:trig} to \cref{eq:fnn}. , the final result is
+	    \begin{equation}\label{eq:gamma-result}
+			a_{\mathtt{ini}}. b . c \dots
+		\end{equation}
 
-	      The process is now exactly as stated in Definition \ref{dfn:acp-triggering}.
+	    The process is now exactly as stated in Definition \ref{dfn:acp-triggering}.
 \end{enumerate}
-Note that since $\tau\not\in A$, $\partial_{H_{1}}$ will not restrict $\tau$, and additionally since $\tau$ does not communicate with any actions, Step 2 effectively becomes any amount of $\tau$ steps followed by the diagonal trace immediately following that. This results in cases $\Gamma(P)$ where $P = \tau.b.c\dots$ becoming the trace
-\[\tau.b_{\mathtt{ini}}.c.\dots\]
+
+Note that since $\tau\not\in \Sigma$, the restriction operator $\partial_{H_{1}}$ will not affect $\tau$. Additionally, since $\tau$ does not communicate with any actions, Step b effectively meaning ``some amount of $\tau$ steps followed by the diagonal trace immediately following''. This results in traces such as the one shown below:
+\[\Gamma(\tau.b.c) = \tau.b_{\mathtt{ini}}.c\]
 effectively skipping $\tau$'s, then acting the same as processes that don't start with a $\tau$.
 
-\import{diagrams/}{triggering-tau.tex}
+\begin{figure}[!h]
+   \centering
+	\import{diagrams/}{triggering-tau.tex}
+   \caption{Example of Triggering operator with internal actions}
+   \label{fig:triggering-tau}
+\end{figure}
 
-\newpage
-\subsection{Associativity and Postfix Function}
-From the axioms of $\acpt$ \citep{bergstraACPtUniversalAxiom1989}, we have the following axioms of associativity with the communication operator $\mid$ shown in the table below:
+\subsection{Associativity and Postfix Function}\label{ssec:postfix}
+Shown in \cref{table:acpt-communication} is a list taken from the axioms of $\acpt$ \cite{bergstraACPtUniversalAxiom1989} of the rules associated with the communication operator $\mid$. Bearing these axioms in mind, we have the potential to run into problems with our communications, especially with the associativity rule 
+\[(a \mid b) \mid c = a \mid (b \mid c)\]
 
-\begin{table}[h!]
+\begin{table}[ht!]
 	\centering
 	\begin{tabular}{ |c| }
 		\hline
@@ -127,53 +156,47 @@ From the axioms of $\acpt$ \citep{bergstraACPtUniversalAxiom1989}, we have the f
 	\label{table:acpt-communication}
 \end{table}
 
-Bearing the above axioms in mind, we have the potential to run into problems with this with our communications. For example, in the proposed translation for the External Choice operator $\square$ (\ref{ssec:external-choice}), a simplified version of the translation would have the following communications:
+\vspace{-10pt}
+For example, in our proposed translation for the $\csp$ External Choice operator, as shown in \cref{ssec:external-choice}, a simplified version of the translation could have the following communications:
 \[a | \mathtt{first} = a_{\mathtt{first}} \qquad a | \mathtt{next} = a_{\mathtt{next}} \qquad a_{\mathtt{first}} | \mathtt{choose} = a\]
-This might work at first glance, but the Associativity axiom does not hold true in this case, such as in the following counterexample:
+The Associativity axiom does not hold true, such as in the following counterexample:
 \begin{align*}
-	a | \mathtt{first} | \mathtt{choose} & = (a | \mathtt{first}) | \mathtt{choose} = a_{\mathtt{first}} | \mathtt{choose} = a \\
-	                                     & = a | (\mathtt{first} | \mathtt{choose}) = a | \delta = \delta
+	a | \mathtt{first} | \mathtt{choose} & = {\color{blue}(a | \mathtt{first})} | \mathtt{choose} = a_{\mathtt{first}} | \mathtt{choose} = a \\
+	 a | \mathtt{first} | \mathtt{choose}                                    & = a | {\color{blue}(\mathtt{first} | \mathtt{choose})} = a | \delta = \delta
 \end{align*}
-From this example, it is clear that the proposed communications would not satisfy the axioms of $\acpt$. It is for this reason that in \ref{dfn:f1}, we have the rule
-\[f_{\mathtt{trig}}(a_{\mathtt{first}}) = a_{\mathtt{ini}} \qquad \text{instead of} \qquad f_{\mathtt{trig}}(a_{\mathtt{first}}) = a_{\mathtt{first}}\]
-A preferred communications function is as follows:
+From this example, it is clear that the proposed communications would not satisfy the axioms of $\acpt$. This is also the reason that in Definition \ref{dfn:f1} we have the rule
+$f_{\mathtt{trig}}(a_{\mathtt{first}}) = a_{\mathtt{ini}}$ instead of $f_{\mathtt{trig}}(a_{\mathtt{first}}) = a_{\mathtt{first}}$
+A preferred list of communications for External Choice is as follows:
 \[a | \mathtt{first} = a_{\mathtt{first}} \qquad a | \mathtt{next} = a_{\mathtt{next}} \qquad a_{\mathtt{ini}} | \mathtt{choose} = a\]
+From these communications, associativity of the equation now holds:
 \begin{align*}
-	a | \mathtt{first} | \mathtt{choose} & = (a | \mathtt{first}) | \mathtt{choose} = a_{\mathtt{first}} | \mathtt{choose} = \delta \\
-	                                     & = a | (\mathtt{first} | \mathtt{choose}) = a | \delta = \delta
+	a | \mathtt{first} | \mathtt{choose} & = {\color{blue}(a | \mathtt{first})} | \mathtt{choose} = a_{\mathtt{first}} | \mathtt{choose} = \delta \\
+	a | \mathtt{first} | \mathtt{choose} & = a | {\color{blue}(\mathtt{first} | \mathtt{choose})} = a | \delta = \delta
 \end{align*}
-It is important to note that this scenario would never actually occur in practice, since $\Gamma(P)$ takes precedence and hence $\mathtt{first} | \mathtt{choose}$ would never happen, but the communication function must work over every action regardless of whether it will get used in practice.
-
-% \begin{lma}[Keeping Associativity in Communications]{lma:communication-leftside}{}
-% 	For three actions $a,b,c\in A$, if $a | b = c$, then if $c$ does not appear on the left-hand side of any other communication, Associativity will be satisfied.
-% \end{lma}
-% \begin{proof}
-% 	WIP. QED
-% \end{proof}
-
-We define a compatibility function to prevent issues with associativity. Define a tag $a_{\mathtt{post}}$ which will act as $c$ for all our communications, which satisfies the Lemma. Then, our final step will be to rename $a_{post}$ back to $a$ for any affected actions. This works in the following way:
-% We define a compatibility function to prevent issues with associativity. Via \ref{lma:communication-leftside}, define a tag $a_{\mathtt{post}}$ which will act as $c$ for all our communications, which satisfies the Lemma. Then, our final step will be to rename $a_{post}$ back to $a$ for any affected actions. This works in the following way:
+It is important to note that $\Gamma(P)$ takes precedence and hence the communication $\mathtt{first} | \mathtt{choose}$ would never occur for our application of External Choice, but the communication function must work over every action regardless of whether it will get used in practice for it to be correct for the axioms of $\acp$. To fix this, we define a compatibility function, $\fdef{post}$. We tag any potential renamings with $a_{\mathtt{post}}$ to act as a filler for communications. Now, our final step will be to rename $a_{post}$ back to $a$ for any affected actions. This works in the following way:
 \[a \xrightarrow{\text{Rename for Communication}} a_{\mathtt{tag}} \xrightarrow{\text{Communicate with an action}} a_{\mathtt{post}} \xrightarrow{\text{Rename for final result}} a\]
 
 \begin{dfn}[Postfix function]{dfn:postfix}{}
 	Let $f_{\mathrm{post}} : \Sigma_{\tau} \to \Sigma_{\tau}$ where
 	\vspace{-5pt}
-	\[f_{\mathtt{post}}(\alpha) = \begin{cases}
+	\begin{equation}\label{func:postfix}
+	\tag{F\thefuncs}\stepcounter{funcs}
+	    f_{\mathtt{post}}(\alpha) = \begin{cases}
 			a      & \text{ if } \alpha = a_{\mathrm{post}} \\
 			\alpha & \text{otherwise}
-		\end{cases}\]
+		\end{cases}
+	\end{equation}
 \end{dfn}
 
-\newpage
 \section{Translations for the remaining \texorpdfstring{$\csp$}{CSP} Operators}
 
 \subsection{Communications and Functional Renaming}
 
-We define communications for our translation in addition to the ones previously defined for our helper functions. Also note that these functions are defined over $\Sigma_{\tau}$ for bookkeeping purposes as internal actions $\tau$ cannot get renamed and therefore stay as an internal action no matter the function. These are defined as follows:
+We define functions for our translation in addition to the ones previously defined in \cref{ssec:triggering,,ssec:postfix}. Also note that these are defined over $\Sigma_{\tau}$ for bookkeeping purposes as internal actions cannot get renamed and therefore stay as a $\tau$ no matter the function.
 
 \begin{dfn}[Helper Functions]{dfn:helper-functions}{}
-	In addition to the function $\fdef{trig}$ defined in \ref{dfn:f1}, and the postfix function defined in \ref{dfn:postfix}:
-	\vspace{-8pt}
+	Recall the functions $\fdef{trig}$ and $\fdef{postfix}$ defined in \cref{func:trig,,func:postfix}:
+
 	\[f_{\mathtt{trig}}(\alpha) = \begin{cases}
 			a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
 			a                & \text{if } \alpha = a_{\mathtt{next}}  \\
@@ -182,62 +205,80 @@ We define communications for our translation in addition to the ones previously 
 			a      & \text{ if } \alpha = a_{\mathrm{post}} \\
 			\alpha & \text{otherwise}
 		\end{cases}\]
-	We define functions for the remaining operators below. We use the notation $A_{T}$ to signify a target set, as used in \ref{ssec:parallel-composition}, \ref{ssec:throw}, and $\lambda$ to signify actions in $A$
-
-	\begin{enumerate}
+	We define functions for the remaining operators below. We use the notation $A_{T}$ to signify a target set, as used in \cref{ssec:parallel-composition,,ssec:throw}
+	\begin{itemize}
 		\item $\fdef{syn} : \Sigma_{\tau} \to \Sigma_{\tau}$ is a function that renames any actions in the target set $A$. This is used in the translation of Parallel Composition (\ref{ssec:parallel-composition})
-		      \vspace{-5pt}
-		      \[
-			      f_{\mathrm{syn}}(\alpha) = \begin{cases}
+			\begin{equation}\label{func:syn}
+			\tag{F\thefuncs}\stepcounter{funcs}
+			    f_{\mathrm{syn}}(\alpha) = \begin{cases}
 				      \alpha_{\mathtt{syn}} & \text{ if } \alpha\in A \\
 				      \alpha                & \text{otherwise}
 			      \end{cases}
-		      \]
+			\end{equation}
 		\item $\fdef{origin} : \Sigma_{\tau} \to \Sigma_{\tau}$ is a function that renames actions in a process for use in operators. This is used in the translation of the Interrupt operator (\ref{ssec:interrupt})
-		      \vspace{-5pt}
-		      \[\fdef{origin}(\alpha) = \begin{cases}
+			\begin{equation}\label{func:origin}
+			\tag{F\thefuncs}\stepcounter{funcs}
+			   \fdef{origin}(\alpha) = \begin{cases}
 				      a_{\mathtt{origin}} & \text{if } a\in\Sigma \\
 				      \tau                & \text{otherwise}
-			      \end{cases}\]
+			      \end{cases} 
+			\end{equation}
 		\item $\fdef{split} : \Sigma_{\tau} \to \Sigma_{\tau}$ is a function that renames actions in a process for use in operators, and also renames actions in the target set $A$. This is used in the translation of the Throw operator (\ref{ssec:throw})
-		      \[
-			      f_{\mathtt{split}}(\alpha) = \begin{cases}
-				      a_{\mathtt{split}}  & \text{ if } a\in A                    \\
-				      a_{\mathtt{origin}} & \text{ if } a\not\in A,\, a\in \Sigma \\
-				      \tau                & \mathrm{otherwise}
-			      \end{cases}
-		      \]
-	\end{enumerate}
+			\begin{equation}\label{func:split}
+			\tag{F\thefuncs}\stepcounter{funcs}
+			    f_{\mathtt{split}}(\alpha) = \begin{cases}
+					a_{\mathtt{split}}  & \text{ if } a\in A                    \\
+				    a_{\mathtt{origin}} & \text{ if } a\not\in A,\, a\in \Sigma \\
+				    \tau                & \mathrm{otherwise}
+			    \end{cases}
+			\end{equation}
+	\end{itemize}
 \end{dfn}
 
+To aid these functions, we also define communications to use in our translation in addition to the ones previously defined in \cref{ssec:triggering}.
 \newpage
+
 \begin{dfn}[Communications]{dfn:communications}{}
-	In addition to the communications for the Triggering operator defined in \ref{dfn:comm-triggering}
-	\vspace{-5pt}
+	Recall the communications for the Triggering operator defined in \cref{comm:trig}:
 	\[a | \mathtt{first} = a_{\mathtt{first}} \qquad a | \mathtt{next} = a_{\mathtt{next}} \]
-	\vspace{-5pt}
-	we define additional communications for the functions defined above:
+	We define our additional communications. These all communicate to $a_{\mathtt{post}}$ as shown in \cref{ssec:postfix}.
+	\begin{itemize}
+		\item Communication for the $a_{\mathtt{syn}}$ tag. This is used in the translation of Parallel Composition (\ref{ssec:parallel-composition}).
+			\begin{equation}\label{comm:syn}
+			\tag{C\thecomms}\stepcounter{comms}
+			a_{\mathtt{syn}} | a_{\mathtt{syn}} = a_{\mathtt{post}}
+			\end{equation}
+		\item Communication for the $a_{\mathtt{ini}}$ tag. This is used in the translation of External Choice (\ref{ssec:external-choice})
+			\begin{equation}\label{comm:ini-choose}
+			\tag{C\thecomms}\stepcounter{comms}
+				a_{\mathtt{ini}} | \mathtt{choose} = a_{\mathtt{post}} 
+			\end{equation}
 
-	\begin{enumerate}[leftmargin=*]
-		\item $a_{\mathtt{syn}} | a_{\mathtt{syn}} = a_{\mathtt{post}}$. This is used in the translation of Parallel Composition (\ref{ssec:parallel-composition})
-		\item $a_{\mathtt{ini}} | \mathtt{choose} = a_{\mathtt{post}}$. This is used in the translation of External choice (\ref{ssec:external-choice})
-		\item $a_{\mathtt{origin}} | \mathtt{origin} = a_{\mathtt{post}}$. This is used in the translation of Interrupt and Throw operator (\ref{ssec:interrupt}, \ref{ssec:throw})
-		\item $a_{\mathtt{ini}} | \mathtt{split} = a_{\mathtt{post}}$. This is used in the translation of the Interrupt operator (\ref{ssec:interrupt})
-		\item $a_{\mathtt{split}} | \mathtt{split} = a_{\mathtt{post}}$. This is used in the translation of the Throw operator (\ref{ssec:throw})
-	\end{enumerate}
+		\item Communication for the $a_{\mathtt{origin}}$ tag. This is used in the translation of the Interrupt and Throw operator (\ref{ssec:interrupt}, \ref{ssec:throw})
+			\begin{equation}\label{comm:origin}
+			\tag{C\thecomms}\stepcounter{comms}
+				a_{\mathtt{origin}} | \mathtt{origin} = a_{\mathtt{post}}    
+			\end{equation}
+
+		\item Communications for the $a_{\mathtt{split}}$ tag. \cref{comm:ini-split} is used in the translation of the Interrupt operator (\ref{ssec:interrupt}), and \cref{comm:split-split} is used the translation of the Throw operator (\ref{ssec:throw})
+			\begin{align}
+				a_{\mathtt{ini}} | \mathtt{split} = a_{\mathtt{post}}\label{comm:ini-split}\tag{C\thecomms}\stepcounter{comms} \\
+a_{\mathtt{split}} | \mathtt{split} = a_{\mathtt{post}}\label{comm:split-split}\tag{C\thecomms}\stepcounter{comms}
+			\end{align}
+	\end{itemize}
 \end{dfn}
-
-
 
 \subsection{Parallel Composition}\label{ssec:parallel-composition}
 The parallel composition $\pcomp$ is defined with the following rules:
 \begin{equation}\label{eq:pcomp-definition}
 	\prftree{P \prightarrow{\alpha} P' \quad \scriptstyle(\alpha\not\in A)}{P \pcomp Q \prightarrow{\alpha} P'\pcomp Q} \qquad \prftree{Q \prightarrow{\alpha} Q' \quad \scriptstyle(\alpha\not\in A) }{P \pcomp Q \prightarrow{a} P\pcomp Q'}\qquad \prftree{P \prightarrow{a} P' \, Q \prightarrow{a} Q'\scriptstyle(\alpha\in A)}{P \pcomp Q \prightarrow{a} P' \pcomp Q'}
 \end{equation}
-In other words, a left merge action can be taken by all actions of $P$ and $Q$, which is the same as the $\acptf$ equivalent of parallel composition with the one difference being that in $\csp$, the action must be the same in $P$ and $Q$, whereas in $\acptf$ the action is defined with a communication function. For our encoding, we take $\mathscr{H} = \{\}$, and therefore $H_{1} = \Sigma_{0}$. The goal is to tag actions in the target set $A$, and then define a communication function between identical marked actions. We can do this via the following functions and communications:
+This operator functions mostly the same as the $\acptf$ equivalent of parallel composition, as explained in \cref{ssec:acp-communication}. The one difference is that in $\csp$, the action must be the same in $P$ and $Q$ to communicate, whereas in $\acptf$ communications are defined with a function, $\mid$.
+
+For our encoding, we take $\mathscr{H} = \{\}$, and therefore $H_{1} = \Sigma_{0}$. The goal is to tag actions in the target set $A$, and then define a communication function between identically marked actions. We can do this via the following functions and communications:
 
 \begin{dfn}[Functions and Communications - Parallel Composition]{dfn:comms-pcomp}{}
-	As defined in \ref{dfn:helper-functions} and \ref{dfn:communications}, the following communications and functions are defined over Parallel Composition:
+	As defined in Definitions \cref{dfn:helper-functions,dfn:communications}, we use \cref{func:trig,,func:syn,,comm:syn}.
 	\[f_{\mathtt{syn}}(\alpha) = \begin{cases}
 			a_{\mathtt{syn}} & \text{ if } \alpha\in A \\
 			\alpha           & \text{otherwise}
@@ -297,17 +338,17 @@ For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \matht
 \begin{dfn}[Functions and Communications - Sliding Choice]{dfn:comms-sliding}{}
 	As defined in \ref{dfn:helper-functions} and \ref{dfn:communications}, the following communications and functions are defined for our translation
 	\begin{align*}
-		f_{\mathtt{trig}}(\alpha)             & = \begin{cases}
-			                                          a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
-			                                          a                & \text{if } \alpha = a_{\mathtt{next}}  \\
-			                                          \alpha           & \text{otherwise}
-		                                          \end{cases} \quad
-											  &f_{\mathtt{post}}(\alpha)             = \begin{cases}
-			                                          a      & \text{ if } \alpha = a_{\mathtt{post}} \\
-			                                          \alpha & \text{otherwise}
-		                                          \end{cases}                                                                    \\
+		f_{\mathtt{trig}}(\alpha) & = \begin{cases}
+			                              a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
+			                              a                & \text{if } \alpha = a_{\mathtt{next}}  \\
+			                              \alpha           & \text{otherwise}
+		                              \end{cases} \quad
+		                          & f_{\mathtt{post}}(\alpha)             = \begin{cases}
+			                                                                    a      & \text{ if } \alpha = a_{\mathtt{post}} \\
+			                                                                    \alpha & \text{otherwise}
+		                                                                    \end{cases} \\
 	\end{align*}
-		\[a_{\mathtt{ini}} | \mathtt{choose} = a_{\mathtt{post}}\]
+	\[a_{\mathtt{ini}} | \mathtt{choose} = a_{\mathtt{post}}\]
 
 	\longrule{0.08ex}
 
@@ -332,22 +373,22 @@ For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \matht
 \begin{dfn}[Functions and Communications - Interrupt]{dfn:comms-interrupt}{}
 	As defined in \ref{dfn:helper-functions} and \ref{dfn:communications}, the following communications and functions are defined for our translation:q
 	\begin{align*}
-		f_{\mathtt{trig}}(\alpha)             & = \begin{cases}
-			                                          a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
-			                                          a                & \text{if } \alpha = a_{\mathtt{next}}  \\
-			                                          \alpha           & \text{otherwise}
-		                                          \end{cases} \quad
-											  &f_{\mathtt{post}}(\alpha)             = \begin{cases}
-			                                          a      & \text{ if } \alpha = a_{\mathrm{post}} \\
-			                                          \alpha & \text{otherwise}
-		                                          \end{cases}                                                                    \\
-		\fdef{origin}(\alpha)                 & = \begin{cases}
-			                                          a_{\mathtt{origin}} & \text{if } a\in\Sigma \\
-			                                          \tau                & \text{otherwise}
-		                                          \end{cases}\quad
-											  &\begin{split}
-		    a_{\mathtt{origin}} | \mathtt{origin} &= a_{\mathtt{post}} \\ a_{\mathtt{ini}} | \mathtt{split} &= a_{\mathtt{post}}
-		\end{split}
+		f_{\mathtt{trig}}(\alpha) & = \begin{cases}
+			                              a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
+			                              a                & \text{if } \alpha = a_{\mathtt{next}}  \\
+			                              \alpha           & \text{otherwise}
+		                              \end{cases} \quad
+		                          & f_{\mathtt{post}}(\alpha)             = \begin{cases}
+			                                                                    a      & \text{ if } \alpha = a_{\mathrm{post}} \\
+			                                                                    \alpha & \text{otherwise}
+		                                                                    \end{cases}                                                   \\
+		\fdef{origin}(\alpha)     & = \begin{cases}
+			                              a_{\mathtt{origin}} & \text{if } a\in\Sigma \\
+			                              \tau                & \text{otherwise}
+		                              \end{cases}\quad
+		                          & \begin{split}
+			                            a_{\mathtt{origin}} | \mathtt{origin} & = a_{\mathtt{post}} \\ a_{\mathtt{ini}} | \mathtt{split} &= a_{\mathtt{post}}
+		                            \end{split}
 	\end{align*}
 
 	\longrule{0.08ex}
@@ -385,10 +426,10 @@ Therefore, we have $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \matht
 			a      & \text{ if } \alpha = a_{\mathrm{post}} \\
 			\alpha & \text{otherwise}
 		\end{cases} \qquad f_{\mathtt{split}}(\alpha) = \begin{cases}
-				      a_{\mathtt{split}}  & \text{ if } a\in A                    \\
-				      a_{\mathtt{origin}} & \text{ if } a\not\in A,\, a\in \Sigma \\
-				      \tau                & \mathrm{otherwise}
-			      \end{cases}\]
+			a_{\mathtt{split}}  & \text{ if } a\in A                    \\
+			a_{\mathtt{origin}} & \text{ if } a\not\in A,\, a\in \Sigma \\
+			\tau                & \mathrm{otherwise}
+		\end{cases}\]
 	\[a_{\mathtt{origin}} | \mathtt{origin} = a_{\mathtt{post}} \qquad a_{\mathtt{split}} | \mathtt{split} = a_{\mathtt{post}}\]
 \end{dfn}
 
@@ -416,7 +457,7 @@ From this, an encoding can be written in the following way:
 Recall the grammar of the languages $\csp$ and $\acptf$ as defined in Definitions
 \begin{align*}
 	P, Q ::= & \mathrm{STOP} \mid \mathrm{div} \mid a\to P \mid P \sqcap Q \mid P \extchoice Q \mid P \sliding Q \mid \\
-			 &P | |_{A} Q \mid P \backslash A \mid f(P) \mid P \triangle Q \mid P \theta_{A} Q \mid
+	         & P | |_{A} Q \mid P \backslash A \mid f(P) \mid P \triangle Q \mid P \theta_{A} Q \mid
 \end{align*}
 
 \vspace{-10pt}
@@ -425,21 +466,21 @@ Recall from Definitions \ref{dfn:helper-functions} and \ref{dfn:communications} 
 \begin{multicols}{2}
 	\begin{itemize}[leftmargin=*]
 		\item $f_{\mathtt{trig}}(\alpha) = \begin{cases}
-			a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
-			a                & \text{if } \alpha = a_{\mathtt{next}}  \\
-			\alpha           & \text{otherwise}
-		\end{cases}$
-		
+				      a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
+				      a                & \text{if } \alpha = a_{\mathtt{next}}  \\
+				      \alpha           & \text{otherwise}
+			      \end{cases}$
+
 		\item $f_{\mathtt{post}}(\alpha) = \begin{cases}
-			a      & \text{ if } \alpha = a_{\mathrm{post}} \\
-			\alpha & \text{otherwise}
-		\end{cases}$
-		
+				      a      & \text{ if } \alpha = a_{\mathrm{post}} \\
+				      \alpha & \text{otherwise}
+			      \end{cases}$
+
 		\item $f_{\mathrm{syn}}(\alpha) = \begin{cases}
 				      \alpha_{\mathtt{syn}} & \text{ if } \alpha\in A \\
 				      \alpha                & \text{otherwise}
 			      \end{cases}$
-				  
+
 		\item $\fdef{origin}(\alpha) = \begin{cases}
 				      a_{\mathtt{origin}} & \text{if } a\in\Sigma \\
 				      \tau                & \text{otherwise}
@@ -471,18 +512,18 @@ We take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt
 \begin{dfn}[Translation of CSP to ACP]{dfn:trans}{}
 	Let $\tcsp$ be the expressions in the language $\csp$, and $\tacp$ be expressions in the language $\acptf$. We define a translation $\tran : \tcsp \to \tacp$ defined as such:
 	\begin{align*}
-		\trans{STOP}           & = \delta                                                                                                                        \\
-		\trans{\mathrm{div}}   & = \langle X \mid X = \tau.X \rangle                                                                                             \\
-		\trans{a \to P}        & = a.\trans{P}                                                                                                                   \\
-		\trans{P \intchoice Q} & = \tau.\trans{P} + \tau.\trans{Q}                                                                                               \\
-		\trans{P \extchoice Q} & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{Q}]\Bigl]\Bigr)  \\
-			\trans{P \sliding Q} &= \partial_{H_{0}}\Bigl(\tau_{\{\mathtt{shift}\}}\bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{P}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\bigr)\Bigr) \\
-		\trans{P \pcomp Q}     & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{P}) \merge \fdef{syn}(\trans{Q})\Bigr]\Bigr)                         \\
-		\trans{P \backslash A} & = \partial_{A}{\trans{P}}                                                                                                       \\
+		\trans{STOP}           & = \delta                                                                                                                                                                                     \\
+		\trans{\mathrm{div}}   & = \langle X \mid X = \tau.X \rangle                                                                                                                                                          \\
+		\trans{a \to P}        & = a.\trans{P}                                                                                                                                                                                \\
+		\trans{P \intchoice Q} & = \tau.\trans{P} + \tau.\trans{Q}                                                                                                                                                            \\
+		\trans{P \extchoice Q} & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{Q}]\Bigl]\Bigr)                                                               \\
+		\trans{P \sliding Q}   & = \partial_{H_{0}}\Bigl(\tau_{\{\mathtt{shift}\}}\bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{P}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\bigr)\Bigr) \\
+		\trans{P \pcomp Q}     & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{P}) \merge \fdef{syn}(\trans{Q})\Bigr]\Bigr)                                                                                      \\
+		\trans{P \backslash A} & = \partial_{A}{\trans{P}}                                                                                                                                                                    \\
 		% \trans{\mu p.P} &= \langle X \mid X = \tau.X \rangle
-		\trans{f(P)}           & = f(\trans{P})                                                                                                                  \\
-		\trans{P \interrupt Q}  & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[ \bigl((\fdef{origin}\trans{P}) \merge \Pi\bigr) \merge \Gamma(\trans{Q}) \Bigr]\Bigr) \\
-		\trans{P \throw Q} & = \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ (\fdef{split} \trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr)
+		\trans{f(P)}           & = f(\trans{P})                                                                                                                                                                               \\
+		\trans{P \interrupt Q} & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[ \bigl((\fdef{origin}\trans{P}) \merge \Pi\bigr) \merge \Gamma(\trans{Q}) \Bigr]\Bigr)                                                              \\
+		\trans{P \throw Q}     & = \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ (\fdef{split} \trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr)
 	\end{align*}
 \end{dfn}
 \end{document}
