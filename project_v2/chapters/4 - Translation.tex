@@ -269,16 +269,16 @@ a_{\mathtt{split}} | \mathtt{split} = a_{\mathtt{post}}\label{comm:split-split}\
 \end{dfn}
 
 \subsection{Parallel Composition}\label{ssec:parallel-composition}
-The parallel composition $\pcomp$ is defined with the following rules:
-\begin{equation}\label{eq:pcomp-definition}
+The parallel composition $\pcomp$ is defined with the following rules from \cref{table:CSP}:
+\begin{equation*}
 	\prftree{P \prightarrow{\alpha} P' \quad \scriptstyle(\alpha\not\in A)}{P \pcomp Q \prightarrow{\alpha} P'\pcomp Q} \qquad \prftree{Q \prightarrow{\alpha} Q' \quad \scriptstyle(\alpha\not\in A) }{P \pcomp Q \prightarrow{a} P\pcomp Q'}\qquad \prftree{P \prightarrow{a} P' \, Q \prightarrow{a} Q'\scriptstyle(\alpha\in A)}{P \pcomp Q \prightarrow{a} P' \pcomp Q'}
-\end{equation}
+\end{equation*}
 This operator functions mostly the same as the $\acptf$ equivalent of parallel composition, as explained in \cref{ssec:acp-communication}. The one difference is that in $\csp$, the action must be the same in $P$ and $Q$ to communicate, whereas in $\acptf$ communications are defined with a function, $\mid$.
 
-For our encoding, we take $\mathscr{H} = \{\}$, and therefore $H_{1} = \Sigma_{0}$. The goal is to tag actions in the target set $A$, and then define a communication function between identically marked actions. We can do this via the following functions and communications:
+For our encoding, we take $\mathscr{H} = \{\}$, and therefore $H_{1} = \Sigma_{0}$. The goal is to tag actions in the target set $A$, and then define a communication function between identically marked actions. We can do this using the following functions and communications:
 
 \begin{dfn}[Functions and Communications - Parallel Composition]{dfn:comms-pcomp}{}
-	As defined in Definitions \cref{dfn:helper-functions,dfn:communications}, we use \cref{func:trig,,func:syn,,comm:syn}.
+	As defined in Definitions \cref{dfn:helper-functions,dfn:communications}, we use \cref{func:postfix,,func:syn,,comm:syn}.
 	\[f_{\mathtt{syn}}(\alpha) = \begin{cases}
 			a_{\mathtt{syn}} & \text{ if } \alpha\in A \\
 			\alpha           & \text{otherwise}
@@ -290,20 +290,23 @@ For our encoding, we take $\mathscr{H} = \{\}$, and therefore $H_{1} = \Sigma_{0
 \end{dfn}
 
 
-A translation for Parallel Composition can then be written as the following:
-\[\trans{P \pcomp Q} = \partial_{H_{0}}(f_{\mathrm{post}}(\fdef{syn}(\trans{P}) \merge \fdef{syn}(\trans{Q}))) \]
+We now define our encoding of $\csp$ Parallel Composition $\pcomp$ as the following equation:
+\begin{equation}\label{trans:pcomp}
+\tag{T\thetranslations}\stepcounter{translations}
+	\trans{P \pcomp Q} = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{P}) \merge \fdef{syn}(\trans{Q})\Bigr]\Bigr)
+\end{equation}
 
 \subsection{External choice}\label{ssec:external-choice}
-
-
-The external choice operator $\square$ is defined with the following rules:
-\begin{equation}\label{eq:csp-definition}
+The external choice operator $\square$ is defined with the following rules from \cref{table:CSP}:
+\begin{equation*}\label{eq:csp-definition}
 	\prftree{P \prightarrow{a} P'}{P \square Q \prightarrow{a} P'} \qquad \prftree{Q \prightarrow{a} Q'}{P \square Q \prightarrow{a} Q'} \qquad \prftree{P \prightarrow{\tau} P'}{P \square Q \prightarrow{\tau} P' \square Q} \qquad \prftree{Q \prightarrow{\tau} Q'}{P \square Q \prightarrow{a} P \square Q'}
-\end{equation}
-In other words, we can take an external choice by the user, and additionally an internal action will still let an external choice be made after the internal move has been made. This differs from the $\acptf$ Alternative Choice operator ($+$), as $+$ will not let you select externally if an internal action is made. For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{choose}\}$, and therefore $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{choose}\}$ as defined in Definition \ref{dfn:sets}.
+\end{equation*}
+In other words, we can take an external choice by the user, and additionally an internal action will still let an external choice be made after the internal move has been made. This differs from the $\acptf$ Alternative Choice operator ($+$), as $+$ will not let you select externally if an internal action is made.
+
+For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{choose}\}$, and therefore we have that $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{choose}\}$ as defined in Definition \ref{dfn:sets}.
 
 \begin{dfn}[Functions and Communications - External Choice]{dfn:comms-external}{}
-	As defined in \ref{dfn:helper-functions} and \ref{dfn:communications}, the following communications and functions are defined over External Choice:
+	As defined in Definitions \cref{dfn:helper-functions,dfn:communications}, we use \cref{func:trig,,func:postfix,,comm:ini-choose}.
 	\[f_{\mathtt{trig}}(\alpha) = \begin{cases}
 			a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
 			a                & \text{if } \alpha = a_{\mathtt{next}}  \\
@@ -313,30 +316,29 @@ In other words, we can take an external choice by the user, and additionally an 
 			\alpha & \text{otherwise}
 		\end{cases}
 	\]
-	\[
-		a_{\mathtt{ini}} | \mathtt{choose} = a_{\mathtt{post}}
-	\]
-	\longrule{0.08ex}
-
-	Additionally, recall that the Triggering operator (\ref{dfn:acp-triggering}) is defined as:
+	\[ a_{\mathtt{ini}} | \mathtt{choose} = a_{\mathtt{post}} \]
+	Additionally, recall the Triggering operator as defined in \ref{oper:triggering}:
 	\[\Gamma(P) := f_{\mathtt{trig}}[\partial_{H_{1}}(P \merge \mathtt{first}(\mathtt{next}^{\infty}))])\]
 \end{dfn}
 
 
-We can then define an encoding of the $\csp$ external choice operator $\square$ in $\acptf$ in the following equation
-\[\trans{P \square Q} = \partial_{H_{0}}\Bigl(f_{2}\Bigl[\Gamma[\trans{P}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{Q}]\Bigl]\Bigr)\]
+We now define our encoding of $\csp$ External Choice $\square$ as the following equation:
+\begin{equation}\label{trans:extchoice}
+\tag{T\thetranslations}\stepcounter{translations}
+    \trans{P \extchoice Q} = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{Q}]\Bigl]\Bigr)
+\end{equation}
 
 \subsection{Sliding Choice}\label{ssec:sliding-choice}
-The sliding choice, or sliding operator $\triangleright$ is defined with the following rules:
+The Sliding Choice operator $\triangleright$ is defined with the following rules from \cref{table:CSP}:
 
 \[\prftree{P \prightarrow{a} P'}{P \triangleright Q \prightarrow{a} P'} \qquad \prftree{P \prightarrow{\tau} P'}{P \triangleright Q \prightarrow{\tau} P' \triangleright Q} \qquad P \triangleright Q \prightarrow{\tau} Q\]
 
-In other words, this operator lets you take an external action on $P$, however there is a second process that may at any point``time out'' and move to $Q$ instead.
+In other words, this operator lets you take an external action on $P$. However, at any point before the external action, $P$ may ``time out'' and internally move to $Q$ instead.
 
-For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{shift}\}$, and therefore $H_{1} = \Sigma_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{shift}\}$ as defined in \ref{dfn:sets}.
+For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{shift}\}$, and therefore we have that $H_{1} = \Sigma_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{shift}\}$ as defined in Definition \ref{dfn:sets}.
 
 \begin{dfn}[Functions and Communications - Sliding Choice]{dfn:comms-sliding}{}
-	As defined in \ref{dfn:helper-functions} and \ref{dfn:communications}, the following communications and functions are defined for our translation
+	Similarly to External Choice, we use \cref{func:trig,,func:postfix,,comm:ini-choose} As defined in Definitions \cref{dfn:helper-functions,dfn:communications}.
 	\begin{align*}
 		f_{\mathtt{trig}}(\alpha) & = \begin{cases}
 			                              a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
@@ -346,58 +348,53 @@ For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \matht
 		                          & f_{\mathtt{post}}(\alpha)             = \begin{cases}
 			                                                                    a      & \text{ if } \alpha = a_{\mathtt{post}} \\
 			                                                                    \alpha & \text{otherwise}
-		                                                                    \end{cases} \\
+		                                                                    \end{cases}
 	\end{align*}
 	\[a_{\mathtt{ini}} | \mathtt{choose} = a_{\mathtt{post}}\]
-
-	\longrule{0.08ex}
-
-	Additionally, recall that the Triggering operator (\ref{dfn:acp-triggering}) is defined as:
+	Additionally, recall the Triggering operator as defined in \ref{oper:triggering}:
 	\[\Gamma(P) := f_{\mathtt{trig}}[\partial_{H_{1}}(P \merge \mathtt{first}(\mathtt{next}^{\infty}))])\]
 \end{dfn}
 
-We can now define an encoding of the $\csp$ Sliding choice operator $\sliding$ in $\acptf$ in the following equation:
-\[\trans{P \sliding Q} = \partial_{H_{0}}\Bigl(\tau_{\{\mathtt{shift}\}}\bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{P}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\bigr)\Bigr)\]
-
+We now define our encoding of $\csp$ Sliding Choice $\sliding$ as the following equation:
+\begin{equation}\label{func:sliding}
+\tag{F\thefuncs}\stepcounter{funcs}
+    \trans{P \sliding Q} = \partial_{H_{0}}\Bigl(\tau_{\{\mathtt{shift}\}}\Bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{P}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\Bigr)\Bigr)
+\end{equation}
 
 \subsection{Interrupt}\label{ssec:interrupt}
 
-The Interrupt operator $\interrupt$ is defined with the following rules:
-
+The Interrupt operator $\interrupt$ is defined with the following rules from \cref{table:CSP}:
 \[\prftree{P \prightarrow{\alpha} P'}{P \interrupt Q \prightarrow{\alpha} P' \interrupt Q} \qquad \prftree{Q \prightarrow{\tau} Q'}{P \interrupt Q \prightarrow{\tau} P \interrupt Q'} \qquad \prftree{Q \prightarrow{a} Q'}{P \interrupt Q \prightarrow{a} Q'}\]
 
-In other words, we can take an external action from $P$ without fulfilling the operator, in addition to internal actions from $Q$. However, the moment an external action is made from $Q$, the process can then never return to $P$.
+In other words, we can take an external action from $P$ without satisfying\footnote{Here, we use ``satisfies'' to mean that the operator carries on after an action is executed} the operator, in addition to internal actions from $Q$. However, the moment an external action is made from $Q$, the process can then never return to $P$.
 
-For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$, and therefore $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$ as defined in \ref{dfn:sets}.
+For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$, and therefore we have that $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$ as defined in Definition \ref{dfn:sets}.
 
 \begin{dfn}[Functions and Communications - Interrupt]{dfn:comms-interrupt}{}
-	As defined in \ref{dfn:helper-functions} and \ref{dfn:communications}, the following communications and functions are defined for our translation:q
+	As defined in Definitions \cref{dfn:helper-functions,dfn:communications}, we use \cref{func:trig,,func:postfix,,func:origin,,comm:origin,,comm:split-split}.
 	\begin{align*}
 		f_{\mathtt{trig}}(\alpha) & = \begin{cases}
 			                              a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
 			                              a                & \text{if } \alpha = a_{\mathtt{next}}  \\
 			                              \alpha           & \text{otherwise}
 		                              \end{cases} \quad
-		                          & f_{\mathtt{post}}(\alpha)             = \begin{cases}
+		                          & f_{\mathtt{post}}(\alpha) = \begin{cases}
 			                                                                    a      & \text{ if } \alpha = a_{\mathrm{post}} \\
 			                                                                    \alpha & \text{otherwise}
-		                                                                    \end{cases}                                                   \\
+		                                                                    \end{cases}\\
 		\fdef{origin}(\alpha)     & = \begin{cases}
 			                              a_{\mathtt{origin}} & \text{if } a\in\Sigma \\
 			                              \tau                & \text{otherwise}
-		                              \end{cases}\quad
-		                          & \begin{split}
-			                            a_{\mathtt{origin}} | \mathtt{origin} & = a_{\mathtt{post}} \\ a_{\mathtt{ini}} | \mathtt{split} &= a_{\mathtt{post}}
+		                              \end{cases}  & \begin{split}
+									  a_{\mathtt{origin}} | \mathtt{origin}  = a_{\mathtt{post}}&\\
+									  a_{\mathtt{ini}} | \mathtt{split} = a_{\mathtt{post}}&
 		                            \end{split}
 	\end{align*}
-
-	\longrule{0.08ex}
-
-	Additionally, recall that the Triggering operator (\ref{dfn:acp-triggering}) is defined as:
+	Additionally, recall the Triggering operator as defined in \ref{oper:triggering}:
 	\[\Gamma(P) := f_{\mathtt{trig}}[\partial_{H_{1}}(P \merge \mathtt{first}(\mathtt{next}^{\infty}))])\]
 \end{dfn}
 
-We can now define an encoding of the $\csp$ Interrupt operator $\interrupt$ in $\acptf$. We start off with a new hoper process, which we will call $\Pi$. This is defined as the recursive equation
+We can now define our encoding of the $\csp$ Interrupt operator $\interrupt$ in $\acptf$. We start off with a new helper process, which we will call $\Pi$. This is defined as the recursive equation
 \[\Pi = \langle X \mid X = \mathtt{origin}.X + \mathtt{split} \rangle\]
 Or, visualised as a process graph:
 % https://q.uiver.app/#q=WzAsMyxbMSwwLCJcXGNpcmMiXSxbMywwLCJcXGJ1bGxldCJdLFswLDBdLFswLDEsIlxcbWF0aHR0e3NwbGl0fSJdLFswLDAsIlxcbWF0aHR0e29yaWdpbn0iXSxbMiwwLCIiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6NTB9fV1d
@@ -408,8 +405,8 @@ Or, visualised as a process graph:
 		\arrow["{\mathtt{split}}", from=1-2, to=1-4]
 	\end{tikzcd}\]
 
-From this, an encoding can be written in the following way:
-\[\trans{P \interrupt Q} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \bigl(f_{\mathtt{origin}}(\trans{P}) \merge \Pi\bigr) \merge \Gamma(\trans{Q}) \Bigr]\Bigr)\]
+We now define our encoding of $\csp$ Interrupt $\interrupt$ as the following equation:
+\[\trans{P \interrupt Q} = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[ \fdef{origin}(\trans{P}) \merge \Pi \merge \Gamma(\trans{Q}) \Bigr]\Bigr)\]
 \subsection{Throw}\label{ssec:throw}
 
 The Throw operator $\throw$ is defined with the following rules:
