@@ -1,4 +1,4 @@
-\begin{thebibliography}{19}
+\begin{thebibliography}{23}
 % this bibliography was produced with the style dinat.bst v2.5
 \makeatletter
 \newcommand{\dinatlabel}[1]%
@@ -103,6 +103,13 @@
 \newblock 100 (1992), Nr.~1, S.~1--40. --
 \newblock ISSN 0890-5401
 
+\bibitem[Olderog und Hoare(1986)]{olderogSpecificationorientedSemanticsCommunicating1986}
+\dinatlabel{Olderog und Hoare 1986} \textsc{Olderog}, E.~R.~; \textsc{Hoare}, C. A.~R.:
+\newblock Specification-Oriented Semantics for {{Communicating Processes}}.
+\newblock In: \emph{Acta Informatica}
+\newblock 23 (1986), April, Nr.~1, S.~9--66. --
+\newblock ISSN 0001-5903, 1432-0525
+
 \bibitem[Parrow und Victor(1998)]{parrowFusionCalculusExpressiveness1998}
 \dinatlabel{Parrow und Victor 1998} \textsc{Parrow}, J.~; \textsc{Victor}, B.:
 \newblock The Fusion Calculus: Expressiveness and Symmetry in Mobile Processes.
@@ -123,6 +130,20 @@
 \newblock 300 (2019), August, S.~19--38. --
 \newblock ISSN 2075-2180
 
+\bibitem[Plotkin(2004)]{plotkinStructuralApproachOperational2004}
+\dinatlabel{Plotkin 2004} \textsc{Plotkin}, Gordon:
+\newblock A Structural Approach to Operational Semantics.
+\newblock In: \emph{The Journal of Logic and Algebraic Programming}
+\newblock 60--61 (2004), Juli, S.~17--139. --
+\newblock ISSN 15678326
+
+\bibitem[Roscoe(2010)]{roscoeUnderstandingConcurrentSystems2010}
+\dinatlabel{Roscoe 2010} \textsc{Roscoe}, A.W.:
+\newblock \emph{Understanding {{Concurrent Systems}}}.
+\newblock London~: Springer, 2010
+\newblock (Texts in {{Computer Science}}). --
+\newblock ISBN 978-1-84882-257-3 978-1-84882-258-0
+
 \bibitem[{van Glabbeek}(1995)]{vanglabbeekExpressivenessACP1995}
 \dinatlabel{{van Glabbeek} 1995} \textsc{{van Glabbeek}}, Rob:
 \newblock On the {{Expressiveness}} of {{ACP}}.
@@ -132,7 +153,13 @@
 
 \bibitem[{van Glabbeek}(2018)]{DBLP:conf/fossacs/Glabbeek18}
 \dinatlabel{{van Glabbeek} 2018} \textsc{{van Glabbeek}}, Rob:
-\newblock A Theory of Encodings and Expressiveness (Extended Abstract) - (Extended Abstract).
+\newblock A Theory of Encodings and Expressiveness (Extended Abstract).
 \newblock In: \textsc{Baier}, Christel (Hrsg.)~; \textsc{Lago}, Ugo~D. (Hrsg.): \emph{Foundations of Software Science and Computation Structures - 21st International Conference, {{FOSSACS}} 2018, Held as Part of the European Joint Conferences on Theory and Practice of Software, {{ETAPS}} 2018, Thessaloniki, Greece, April 14-20, 2018, Proceedings} Bd.~10803, Springer, 2018, S.~183--202
+
+\bibitem[{van Glabbeek}(2024)]{vanglabbeekTheoryEncodingsExpressiveness2024}
+\dinatlabel{{van Glabbeek} 2024} \textsc{{van Glabbeek}}, Rob:
+\newblock A {{Theory}} of {{Encodings}} and {{Expressiveness}}.
+\newblock
+\newblock (2024)
 
 \end{thebibliography}

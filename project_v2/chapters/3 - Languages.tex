@@ -1,6 +1,13 @@
 \documentclass[../hons_project.tex]{subfiles}
 \begin{document}
 
+% ╭───────────────────────────────────────────────────────╮
+% │              Set a counter for Languages              │
+% ╰───────────────────────────────────────────────────────╯
+
+\newcounter{langs}
+\setcounter{langs}{0}
+
 \section{Languages and Expressiveness}\label{ssec:language}
 
 We first define formally what it means to be a language.
@@ -15,7 +22,7 @@ The expressiveness of two languages, $\mathscr{L}$ and $\mathscr{L}'$ can be mea
 
 
 
-The preferred way to measure expressiveness is via relative expressiveness, compared to Absolute expressiveness. Via \cite{parrowExpressivenessProcessAlgebras2008}, absolute expressiveness measures the way that processes compare against each other, i.e. if a process in an algebra can be represented by another. Relative expressiveness takes a more robust approach, in trying to encode the individual operations of the algebra compared to entire processes. From the encoding of operators, entire processes can then be constructed, therefore satisfying Absolute Expressiveness as well.
+There are two main notions of expressiveness, and our preferred way to measure expressiveness is via relative expressiveness rather than absolute expressiveness. Via \cite{parrowExpressivenessProcessAlgebras2008}, absolute expressiveness measures the way that processes compare against each other, i.e. if a process in an algebra can be represented by another. Relative expressiveness takes a more robust approach, in trying to encode the individual operations of the algebra compared to entire processes. From the encoding of operators, entire processes can then be constructed, therefore satisfying Absolute Expressiveness as well.
 
 \begin{dfn}[Expressiveness]{dfn:expressiveness}{}
 	Via  \cite{DBLP:conf/fossacs/Glabbeek18}, a language $\mathscr{L}'$ is \textbf{at least as expressive as $\mathscr{L}$} iff a \textbf{valid} translation from $\mathscr{L}$ into $\mathscr{L}'$ exists.
@@ -33,19 +40,20 @@ Listed in \cite{parrowExpressivenessProcessAlgebras2008} is also a range of weak
 	Via \cite{DBLP:conf/fossacs/Glabbeek18}, a translation $\mathscr{T}$ from $\mathscr{L}$ into a language $\mathscr{L}'$ is \textbf{compositional} if $\trans{X} = X$ for each $X\in \mathscr{X}$, and for each $n$-ary operator $f$ of $\mathscr{L}$ there exists an $n$'ary $\mathscr{L}$-context $C_{f}$ such that $\trans{f(E_{1},\dots,E_{n})} = C_{f}[\trans{E_{1},\dots,\trans{E_{n}}}]$ for any $\mathscr{L}$ expressions $E_{1},\dots,E_{n}\in \mathbb{T}_{\mathscr{L}}$
 \end{dfn}
 
-We should also specify that $\trans{a} = a$ for each $a\in A$ specifies that any actions are consistent between algebras.
+We should also specify that $\trans{a} = a$ for each $a\in \Sigma$, where $\Sigma$ is the set of actions, to make sure that translations of actions are consistent between algebras.
 
 \section{\texorpdfstring{$\acptf$}{ACP-tf}}\label{sc:acp}
 
 \subsection{Basic \texorpdfstring{$\acpt$}{acpt}}
 \begin{dfn}[\texorpdfstring{$\acpt$}{acpt}]{dfn:acpt}{}
 	The process algebra $\acpt$ as described in \cite{bergstraACPtUniversalAxiom1989} is parameterised by a set of actions, $\Sigma$, and a communication function $|$. The grammar of $\acpt$ can be described with the following operations:
-	\begin{align*}
+	\begin{equation}\label{lang:acpt}\tag{L\thelangs}\stepcounter{langs}
 		P, Q ::= a \mid \delta \mid P . Q \mid P + Q \mid P \merge Q \mid P \leftmerge Q \mid P | Q \mid \restrict(P) \mid \abtau(P) \mid
-	\end{align*}
+	\end{equation}
 	where the operators are: \textit{action}, \textit{deadlock}, \textit{sequential composition}, \textit{alternative composition},  \textit{merge}, \textit{left merge}, \textit{communication merge}, \textit{encapsulation}, and \textit{abstraction}.
 \end{dfn}
-We have $H, I \subseteq \Sigma$, and additionally we define the set $\Sigma_{\tau}$ to be the set $\Sigma \cup \{\tau\}$, as the silent step is not included in $\Sigma$. The operations can be described in the following manner:
+
+We have $H, I \subseteq \Sigma$, and additionally we define the set $\Sigma_{\tau}$ to be the set $\Sigma \cup \{\tau\}$, as the silent step is not included in $\Sigma$. We also write $\Rightarrow$ to indicate a chain of $\tau$-actions, possibly none. The operations of $\acptf$ can be described in the following manner:
 
 
 
@@ -81,9 +89,9 @@ A proposed extension of ACP adds a Functional Renaming operator, as shown in \ci
 
 \begin{dfn}[\texorpdfstring{$\acptf$}{acptf}]{dfn:acptf}{}
 	The Algebra $\acptf$ as described in \cite{bergstraACPtUniversalAxiom1989}, \cite{vanglabbeekExpressivenessACP1995}, is parameterised by a set of actions, $\Sigma$, and a communication function $|$. The grammar of $\acptf$ can be described with the following operations:
-	\begin{align*}
+	\begin{equation}\label{lang:acptf}\tag{L\thelangs}\stepcounter{langs}
 		P, Q ::= a \mid \delta \mid P . Q \mid P + Q \mid P \merge Q \mid P \leftmerge Q \mid P | Q \mid \restrict(P) \mid \abtau(P) \mid f(P) \mid
-	\end{align*}
+	\end{equation}
 	where the operators are: \textit{action}, \textit{deadlock}, \textit{sequential composition}, \textit{alternative composition},  \textit{merge}, \textit{left merge}, \textit{communication merge}, \textit{encapsulation}, \textit{abstraction}, \textit{functional renaming}.
 \end{dfn}
 
@@ -91,9 +99,9 @@ A proposed extension of ACP adds a Functional Renaming operator, as shown in \ci
 \section{\texorpdfstring{$\csp$}{CSP}}\label{ssec:CSP}
 \begin{dfn}[\texorpdfstring{$CSP$}{csp}]{dfn:csp}{}
 
-	The process algebra $\csp$ as defined in [REF] is parameterised on a set of communications $\Sigma$, and the grammar consists of the operations:
-	\begin{align*}
-		P, Q ::= & \mathrm{STOP} \mid \mathrm{div} \mid a\to P \mid P \sqcap Q \mid P \extchoice Q \mid P \sliding Q \mid \\
+	The process algebra $\csp$ as defined in \cite{brookesTheoryCommunicatingSequential1984, olderogSpecificationorientedSemanticsCommunicating1986, roscoeUnderstandingConcurrentSystems2010} is parameterised on a set of communications $\Sigma$, and the grammar we will be using consists of the operations:
+	\begin{align*}\label{lang:csp}\tag{L\thelangs}\stepcounter{langs}
+		P, Q ::=\, &\mathrm{STOP} \mid \mathrm{div} \mid a\to P \mid P \sqcap Q \mid P \extchoice Q \mid P \sliding Q \mid\\
 		         & P \pcomp Q \mid P \backslash A \mid f(P) \mid P \interrupt Q \mid P \throw Q \mid
 	\end{align*}
 	%\mu p.P
@@ -102,14 +110,12 @@ A proposed extension of ACP adds a Functional Renaming operator, as shown in \ci
 We have that $A \subseteq \Sigma$, and the operations can be described in the following manner:
 
 
-% TODO: If we translate CSP as given into ACP, there is no successful termination in CSP. Hence one could perhaps use a form of branching bis. without clauses for termination. 
-
 \begin{itemize}
 	\item \textbf{Inaction}, or $\mathrm{STOP}$, is the process that does nothing.
 	\item \textbf{Divergence}, or $\mathrm{div}$, is a process that is stuck in an infinite processing loop, and can never perform an external action. As explained in section \ref{sc:trivial-translations}, this can be thought as an infinite chain of internal actions.
 	\item \textbf{Action Prefixing}, or $a \to P$, is an operation that performs the action $a$ followed by the process $P$. Note that $a$ must be a \textit{single} action, therefore disallowing operations such as the process $(a \to b) \to (c \to d)$.
 	\item \textbf{Internal Choice}, or $P \intchoice Q$, is an operation that can perform either $P$ or $Q$, but the choice is not decided by the user but rather by an outside decision, similar to flipping a coin
-	\item \textbf{External Choice}, or $P \extchoice Q$, is an operation that can perform a choice of $P$ or $Q$, and the choice is decided by the user. Internal choices can still progress on each process and the External choice will not disappear. This differs from $\acp$ Alternative Composition, as in $\acp$, a $\tau$ action will satisfy the $+$ operation.
+	\item \textbf{External Choice}, or $P \extchoice Q$, is an operation that can perform a choice of $P$ or $Q$, and the choice is decided by the user. Internal choices can still progress on each process and the External choice will not be satisfied\footnote{Here, we use ``satisfied'' to mean that the operator carries on after an action is executed}. This differs from $\acp$ Alternative Composition, as in $\acp$, a $\tau$ action will satisfy the $+$ operation.
 	\item \textbf{Sliding Choice}, or $P \sliding Q$, is an operation that acts like \textit{external choice} on $P$, and \textit{internal choice} on $Q$.
 	\item \textbf{Parallel Composition}, or $P \pcomp Q$ is an operation that interleaves two processes together, similarly to $\acp$ Merge. The difference being that in the language of $\csp$, the only actions that can synchronise are identical actions, i.e. the only action that can synchronise with an action $a$ in $\csp$ is another $a$. On the other hand, in the language $\acp$, the actions that can synchronise with an action $a$ are any actions defined in the merge operator, $\mid$.
 	\item \textbf{Concealment}, or $P \conceal Q$, is an operation that removes actions from a set $Q$, acting similarly to the Abstraction operator $\abtau$ of $\acp$
@@ -119,11 +125,11 @@ We have that $A \subseteq \Sigma$, and the operations can be described in the fo
 \end{itemize}
 
 \section{Structured Operational Semantics}\label{sc:sos}
-Structured Operational Semantics [REF] are a method of describing the actions of a process. They are laid out in Proof tables, in the form:
+Structured Operational Semantics \cite{plotkinStructuralApproachOperational2004} are a method of describing the actions of an operator. They are laid out in Proof tables, in the form:
 \[\prftree{\text{\textbf{Statement A}}}{\text{\textbf{Statement B}}} \qquad \prftree{}{\text{\textbf{Statement C}}}\]
-A double-sided tree means that \textbf{Statement A} implies \textbf{Statement B}, or can be read as ``If \textbf{Statement A} is true, then so is \textbf{Statement B}''. Proof tables can also be in the form of an Axiom, as shown in \textbf{Statement C}. This can be read as ``if True is true, then so is \textbf{Statement C}'', which is clearly valid.\footnote{We will express axioms without the Proof Table line for clarity}
+A double-sided proof tree means that \textbf{Statement A} implies \textbf{Statement B}, or can be read as ``If \textbf{Statement A} is true, then so is \textbf{Statement B}''. Proof tables can also be in the form of an Axiom, as shown in \textbf{Statement C}. This can be read as ``if True is true, then so is \textbf{Statement C}'', which is clearly valid.\footnote{We will express axioms without the Proof Table line for clarity}
 
-To show an example of an operation in the GSOS Format, we will show the rules of $\acp$ Merge as explained in Section \ref{ssec:acp-communication}:
+To show an example of an operation in the SOS Format, we will show the rules of $\acp$ Merge as explained in Section \ref{ssec:acp-communication}:
 \[
 	\displaystyle\frac{P\prightarrow{\alpha} P'}{P \merge Q \prightarrow{\alpha} P' \merge Q} \qquad
 	\displaystyle\frac{P\prightarrow{a} P'~~Q\prightarrow{b} Q'~~ a \mid b = c}{P \merge Q \prightarrow{a} P' \merge Q'} \qquad
@@ -136,10 +142,11 @@ where the meaning of the proof tables is:
 	\item If $Q$ can perform an action $\alpha$ to $Q'$, then $P \merge Q$ can perform an action $\alpha$ to $P \merge Q'$
 \end{itemize}
 
-The rest of the operations of $\acptf$ and $\csp$ can also be represented similarly in the following GSOS tables:
+The rest of the operations of $\acptf$ and $\csp$ can also be represented similarly in \cref{table:CSP,table:ACP}:
 
-\import{tables/}{gsos-csp.tex}
+\newpage
 \import{tables/}{gsos-acp.tex}
+\import{tables/}{gsos-csp.tex}
 
 \section{Semantic Equivalences}
 Two notions of equivalence that we will be focusing on is Strong Bisimilarity, and Rooted Branching Bisimulation. As said before, Strong Bisimilarity is the finest equivalence one can have between translations. We define formally the definition of Strong Bisimulation via \cite{baetenProcessAlgebra1990}:
@@ -154,9 +161,9 @@ Two notions of equivalence that we will be focusing on is Strong Bisimilarity, a
 	\end{enumerate}
 \end{dfn}
 
-To show the difference between different notions of equivalence, we will compare \textit{Bisimulation Semantics} to \textit{Trace Semantics}. \textbf{Trace Semantics} looks at different \textit{Traces}, or \textit{Paths} that a process can take. For example, in a process $P$, where $P$ is defined in the language $\acptf$ as $a . (b + c)$, we can look at \textit{Completed Trace Equivalence}. This is an equivalence that says that two processes are equivalent if they have the same set of Completed Traces\footnote{Here, \textbf{Completed Trace} refers to a path the process can take from start to end}. The traces of $P$ are therefore defined as the set
+To show the difference between different notions of equivalence, we will compare \textit{Bisimulation Semantics} to \textit{Trace Semantics}. \textbf{Trace Semantics} looks at different \textit{traces}, or \textit{paths} that a process can take. For example, in a process $P$, where $P$ is defined in the language $\acptf$ as $a . (b + c)$, we can look at \textit{Completed Trace Equivalence}. This is an equivalence that says that two processes are equivalent if they have the same set of Completed Traces\footnote{Here, \textbf{Completed Trace} refers to a path the process can take from start to end}. The traces of $P$ are therefore defined as the set
 \[\{a . b,\,a . c\}\]
-\begin{figure}[t!]
+\begin{figure}[b!]
 	\centering
 	% https://q.uiver.app/#q=WzAsOSxbNSwwLCJcXGJ1bGxldCJdLFs0LDEsIlxcYnVsbGV0Il0sWzYsMSwiXFxidWxsZXQiXSxbNCwyLCJcXGJ1bGxldCJdLFs2LDIsIlxcYnVsbGV0Il0sWzEsMCwiXFxidWxsZXQiXSxbMSwxLCJcXGJ1bGxldCJdLFswLDIsIlxcYnVsbGV0Il0sWzIsMiwiXFxidWxsZXQiXSxbMCwxLCJhIiwyXSxbMCwyLCJhIl0sWzEsMywiYiIsMl0sWzIsNCwiYyJdLFs1LDYsImEiLDJdLFs2LDcsImIiLDJdLFs2LDgsImMiXV0=
 	\[\begin{tikzcd}[cramped,column sep=scriptsize]
@@ -174,36 +181,34 @@ To show the difference between different notions of equivalence, we will compare
 	\caption{The process $a . (b + c)$ (left), compared to the process $a . b + a . c$ (right). Both Processes have the same Traces - $\{a.b,\,a.c\}$, however they are not Strongly Bisimilar}.
 	\label{fig:ct-counterexample}
 \end{figure}
-In Trace Semantics, the process $P$ is equivalent to the process $Q := a . b + a . c$, since they both have the traces $\{a . b,\,a . c\}$. However, this is clearly not the case in Bisimulation Semantics, where rule $2$ in Definition \ref{dfn:strong-bisim} is not satisfied, as there is no state in $Q$ that can perform both $b$ action, and a $c$ action. Clearly, this implies that \textit{Bisimulation Equivalence} is a \textbf{finer} relation than \textit{Completed Trace Equivalence}. Here, \textit{finer} means that one equivalence can distinguish between more processes than another. We will also use \textbf{coarser} to mean the opposite.
+In Trace Semantics, the process $P$ is equivalent to the process $Q := a . b + a . c$, since they both have the traces $\{a . b,\,a . c\}$. However, this is clearly not the case in Bisimulation Semantics, where rule $2$ in Definition \ref{dfn:strong-bisim} is not satisfied, as there is no state in $Q$ that can perform both a $b$ action, and a $c$ action. Clearly, this implies that \textit{Bisimulation Equivalence} is a \textbf{finer} relation than \textit{Completed Trace Equivalence}. Here, \textit{finer} means that one equivalence can distinguish between more processes than another. We will also use \textbf{coarser} to mean the opposite.
 
-Moving on from Trace Semantics, we will look at Branching Bisimilarity, a relation where processes are deemed equivalent if they can move the same way when looking at \textbf{External actions}. In particular, this excludes internal actions, $\tau$, by saying that two processes are equivalent if two states are related, even when there are some number of internal actions between them.
+Moving on from Trace Semantics, we will look at Branching Bisimilarity, a relation where processes are deemed Branching Bisimilar (or BB) if they can move the same way when looking at \textbf{External actions}. In particular, this excludes internal actions, $\tau$, by saying that two processes are equivalent if two states are related, even when there are some number of internal actions between them.
 
-A finer relation than Branching Bisimilarity is Rooted Branching Bisimilarity, which adds the condition that the first action in the process must be Strongly Bisimilar, which leads to Rooted Branching Bisimilarity being a Congruence \citep{fokkinkRootedBranchingBisimulation2000}. This means that Rooted Branching Bisimilarity is not only finer than Branching Bisimilarity, but also a more robust relation, since regular Branching Bisimilarity isn't Compositional on operations such as $\acp$ $+$. We define formally the definition of Branching Bisimulation and Rooted Branching Bisimulation via \cite{baetenProcessAlgebra1990}:
+A finer relation than Branching Bisimilarity is Rooted Branching Bisimilarity (RBB), which adds the condition that the first action in the process must be Strongly Bisimilar. This is a preferred relation to regular Branching Bisimilarity since Rooted Branching Bisimilarity is a Congruence \citep{fokkinkRootedBranchingBisimulation2000}. This means that RBB is not only finer than BB, but also a more robust relation, since regular Branching Bisimilarity isn't Compositional on operations such as $\acp$ $+$. We define formally the definition of Branching Bisimulation and Rooted Branching Bisimulation via \cite{baetenProcessAlgebra1990}:
 
 \begin{dfn}[Rooted Branching Bisimilarity]{dfn:rooted-branching}{}
 	Let $P$ and $Q$ be two processes, and $R$ be a relation between nodes of $P$ and nodes of $Q$. $R$ is a \textbf{Branching Bisimulation} between $P$ and $Q$ if:
-	\begin{enumerate}
+	\begin{enumerate}[leftmargin=2em]
 		\item The roots of $P$ and $Q$ are related by $R$
 		\item If $s \prightarrow{\alpha} s'$ for $\alpha\in \Sigma_{\tau}$ is an edge in $P$, and $s R t$, then either
 		      \begin{enumerate}[label=\alph*)]
 			      \item $\alpha= \tau$ and $s' R t$
 			      \item $\exists t \Rightarrow t_{1} \prightarrow{\alpha} t'$ such that $s R t_{1}$ and $s R t'$
 		      \end{enumerate}
-		\item If $s \checkmark$ and $s R t$ then there exists a path $t \Rightarrow t'$ in $Q$ to a node $t'$ with $t'\checkmark$ and $s R t'$\footnote{As explained in Section \ref{ssec:termination}, this rule can be omitted without loss in function over the translation.}
+		\item If $s \checkmark$ and $s R t$ then there exists a $t \Rightarrow t'$ in $Q$ to a state $t'$ with $t'\checkmark$ and $s R t'$\footnote{As explained in Section \ref{ssec:termination}, this rule can be omitted without loss in function over the translation\label{fnote:rbb-termination}}
 		\item[4, 5]: As in $2, 3$, with the roles of $P$ and $Q$ interchanged
 	\end{enumerate}
-
-	\longrule{0.08ex}
 
 	$R$ is called a \textbf{Rooted Branching Bisimulation} if the following root condition is also satisfied:
 	\begin{itemize}
 		\item If $\mathrm{root}(P) \prightarrow{\alpha} s'$ for $\alpha\in \Sigma_{\tau}$, then there is a $t'$ with $\mathrm{root}(Q)\prightarrow{\alpha} t'$ and $s' R t'$
 		\item If $\mathrm{root}(Q) \prightarrow{\alpha} t'$ for $\alpha\in \Sigma_{\tau}$, then there is an $s'$ with $\mathrm{root}(P)\prightarrow{\alpha} s'$ and $s' R t'$
-		\item $\mathrm{root}(P)\checkmark$ iff $\mathrm{root}(Q)\checkmark$
+		\item $\mathrm{root}(P)\checkmark$ iff $\mathrm{root}(Q)\checkmark$\footref{fnote:rbb-termination}
 	\end{itemize}
 \end{dfn}
 
-\begin{figure}[ht!]
+\begin{figure}[hb!]
 	\centering
 	% https://q.uiver.app/#q=WzAsMTAsWzAsMCwiXFxidWxsZXQiXSxbMiwwLCJcXGJ1bGxldCJdLFs0LDAsIlxcYnVsbGV0Il0sWzAsMiwiXFxidWxsZXQiXSxbMiwyLCJcXGJ1bGxldCJdLFs2LDAsIlxcYnVsbGV0Il0sWzgsMCwiXFxidWxsZXQiXSxbMTAsMCwiXFxidWxsZXQiXSxbNiwyLCJcXGJ1bGxldCJdLFs4LDIsIlxcYnVsbGV0Il0sWzAsMSwiYSJdLFsxLDIsIlxcdGF1Il0sWzMsNCwiYSJdLFswLDMsIiIsMSx7ImNvbG91ciI6WzI0MCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEsNCwiIiwxLHsiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMiw0LCIiLDEseyJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDYsIlxcdGF1IiwxXSxbNiw3LCJhIiwxXSxbOCw5LCJhIiwxXSxbNSw4LCIiLDEseyJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs3LDksIiIsMSx7ImNvbG91ciI6WzI0MCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzYsOCwiIiwxLHsiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
 	\[\begin{tikzcd}[cramped]

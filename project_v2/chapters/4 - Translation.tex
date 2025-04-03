@@ -14,6 +14,9 @@
 \newcounter{comms}
 \setcounter{comms}{0}
 
+\newcounter{opers}
+\setcounter{opers}{0}
+
 
 \section{Direct Translations}\label{sc:direct-translations}
 Some of the basic operations of $\csp$ have an equivalent counterpart in ACP, with the only difference being the syntax. These can be easily translated in the following table.
@@ -103,7 +106,7 @@ We use the notation of $a^{\infty}$ as syntactic sugar to mean $\langle X \mid X
 
 \begin{dfn}[Triggering in ACP]{dfn:acp-triggering}{}
 	The \textbf{Triggering} operator is defined as the following process equation:
-	\begin{equation}\label{oper:triggering}\tag{O1}
+	\begin{equation}\label{oper:triggering}\tag{O\theopers}\stepcounter{opers}
 		\Gamma(P) := f_{\mathtt{trig}}\bigl[\partial_{H_{1}}(P \merge \mathtt{first}.(\mathtt{next}^{\infty}))\bigr]
 	\end{equation}
 	$\Gamma(P)$ turns each trace $a.b.c.\dots$ of a process $P$ into the trace
@@ -368,10 +371,10 @@ The Interrupt operator $\interrupt$ is defined with the following rules from \cr
 
 In other words, we can take an external action from $P$ without satisfying\footnote{Here, we use ``satisfies'' to mean that the operator carries on after an action is executed} the operator, in addition to internal actions from $Q$. However, the moment an external action is made from $Q$, the process can then never return to $P$.
 
-For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$, and therefore we have that $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$ as defined in Definition \ref{dfn:sets}.
+For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$, and therefore we have that $H_{1} = \Sigma_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$ as defined in Definition \ref{dfn:sets}.
 
 \begin{dfn}[Functions and Communications - Interrupt]{dfn:comms-interrupt}{}
-	As defined in Definitions \cref{dfn:helper-functions,dfn:communications}, we use \cref{func:trig,,func:postfix,,func:origin,,comm:origin,,comm:split-split}.
+	As defined in Definitions \cref{dfn:helper-functions,dfn:communications}, we use \cref{func:trig,,func:postfix,,func:origin,,comm:origin,,comm:ini-split}.
 	\begin{align*}
 		f_{\mathtt{trig}}(\alpha) & = \begin{cases}
 			                              a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
@@ -398,27 +401,36 @@ We can now define our encoding of the $\csp$ Interrupt operator $\interrupt$ in 
 \[\Pi = \langle X \mid X = \mathtt{origin}.X + \mathtt{split} \rangle\]
 Or, visualised as a process graph:
 % https://q.uiver.app/#q=WzAsMyxbMSwwLCJcXGNpcmMiXSxbMywwLCJcXGJ1bGxldCJdLFswLDBdLFswLDEsIlxcbWF0aHR0e3NwbGl0fSJdLFswLDAsIlxcbWF0aHR0e29yaWdpbn0iXSxbMiwwLCIiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6NTB9fV1d
-\[\begin{tikzcd}[column sep=scriptsize, row sep=scriptsize]
+\[\]
+
+\begin{equation}\label{oper:pi}
+\tag{O\theopers}\stepcounter{opers}
+    \begin{tikzcd}[column sep=scriptsize, row sep=scriptsize]
 		{} & \circ && \bullet
 		\arrow[shorten <=8pt, from=1-1, to=1-2]
 		\arrow["{\mathtt{origin}}", from=1-2, to=1-2, loop, in=55, out=125, distance=10mm]
 		\arrow["{\mathtt{split}}", from=1-2, to=1-4]
-	\end{tikzcd}\]
+	\end{tikzcd}
+\end{equation}
 
 We now define our encoding of $\csp$ Interrupt $\interrupt$ as the following equation:
-\[\trans{P \interrupt Q} = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[ \fdef{origin}(\trans{P}) \merge \Pi \merge \Gamma(\trans{Q}) \Bigr]\Bigr)\]
+\begin{equation}\label{trans:interrupt}
+\tag{T\thetranslations}\stepcounter{translations}
+    \trans{P \interrupt Q} = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[ \fdef{origin}(\trans{P}) \merge \Pi \merge \Gamma(\trans{Q}) \Bigr]\Bigr)
+\end{equation}
+
 \subsection{Throw}\label{ssec:throw}
 
 The Throw operator $\throw$ is defined with the following rules:
 
 \[\prftree{P \prightarrow{\alpha} P' \quad \scriptstyle(a\not\in A)}{P \throw Q \prightarrow{\alpha} P' \throw Q} \qquad \prftree{P \prightarrow{a} P' \quad \scriptstyle(a\in A)}{P \throw Q \prightarrow{a} Q }\]
 
-In other words, we can take as many actions in $P$ as we want, as long as they aren't contained in a set of actions, which we will call $A_{T}$. However, the moment an action in $A_{T}$ is made, The process then diverts to $Q$. This can be also throught as an error checking operator. Similarly to the interrupt operator, for our encoding, we take
-\[\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}\]
-Therefore, we have $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$ as defined in \ref{dfn:sets}.
+In other words, we can take as many actions in $P$ as we want as long as they aren't contained in a set of actions, $A$. However, the moment an action in $A$ is made, the process then diverts to $Q$. This can be also thought as an error catching operator, with a set of ``error'' actions that switches to an ``exception'' process.
+
+Similarly to Interrupt, for our encoding we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$. Therefore, we have $H_{1} = \Sigma_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$ as defined in \ref{dfn:sets}.
 
 \begin{dfn}[Functions and Communications - Throw]{dfn:comms-throw}{}
-	As defined in \ref{dfn:helper-functions} and \ref{dfn:communications}, the following communications and functions are defined for our translation:
+	As defined in Definitions \cref{dfn:helper-functions,dfn:communications}, we use \cref{func:postfix,,func:split,,comm:origin,,comm:split-split}.
 	\[f_{\mathtt{post}}(\alpha) = \begin{cases}
 			a      & \text{ if } \alpha = a_{\mathrm{post}} \\
 			\alpha & \text{otherwise}
@@ -430,35 +442,32 @@ Therefore, we have $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \matht
 	\[a_{\mathtt{origin}} | \mathtt{origin} = a_{\mathtt{post}} \qquad a_{\mathtt{split}} | \mathtt{split} = a_{\mathtt{post}}\]
 \end{dfn}
 
-We can now define an encoding of the $\csp$ Throw operator $\throw$ in $\acptf$. We employ the use of the same helper process as in the translation of the Interrupt operator, $\Pi$ which is defined as
+We can now define our encoding of the $\csp$ Throw operator $\throw$. We employ the use of the same helper process $\Pi$, defined in the translation of the Interrupt operator \ref{oper:pi}.
 \[\Pi = \langle X \mid X = \mathtt{origin}.X + \mathtt{split} \rangle\]
-Or, visualised as a process graph:
-% https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXGNpcmMiXSxbMiwwLCJcXGJ1bGxldCJdLFs0LDAsIlxcYnVsbGV0Il0sWzAsMSwiXFxtYXRodHR7b3JpZ2lufSJdLFsxLDEsIlxcbWF0aHR0e29yaWdpbn0iXSxbMSwyLCJcXG1hdGh0dHtzcGxpdH0iXSxbMiwyLCJcXG1hdGh0dHtzcGxpdH0iXV0=
-\[\begin{tikzcd}[column sep=scriptsize, row sep=scriptsize]
-		{} & \circ && \bullet
-		\arrow[shorten <=8pt, from=1-1, to=1-2]
-		\arrow["{\mathtt{origin}}", from=1-2, to=1-2, loop, in=55, out=125, distance=10mm]
-		\arrow["{\mathtt{split}}", from=1-2, to=1-4]
-	\end{tikzcd}\]
 
-From this, an encoding can be written in the following way:
-\[\trans{P \throw Q} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ f_{\mathtt{split}}(\trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr)\]
+From this, our encoding can be written as the following equation:
+\begin{equation}\label{trans:throw}
+\tag{T\thetranslations}\stepcounter{translations}
+    \trans{P \throw Q} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ f_{\mathtt{split}}(\trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr)
+\end{equation}
 
 
 
 
 
-\newpage
 \subsection{Final Translation}
 
-Recall the grammar of the languages $\csp$ and $\acptf$ as defined in Definitions
+Recall the grammar of the languages $\csp$ as shown in Definitions \cref{dfn:csp}:
 \begin{align*}
 	P, Q ::= & \mathrm{STOP} \mid \mathrm{div} \mid a\to P \mid P \sqcap Q \mid P \extchoice Q \mid P \sliding Q \mid \\
 	         & P | |_{A} Q \mid P \backslash A \mid f(P) \mid P \triangle Q \mid P \theta_{A} Q \mid
 \end{align*}
-
+Recall also the grammar of the language $\acptf$ as shown in Definition \ref{dfn:acptf}:
+\begin{align*}
+	P, Q ::= a \mid \delta \mid P . Q \mid P + Q \mid P \merge Q \mid P \leftmerge Q \mid P | Q \mid \restrict(P) \mid \abtau(P) \mid f(P) \mid
+\end{align*}
 \vspace{-10pt}
-Recall from Definitions \ref{dfn:helper-functions} and \ref{dfn:communications} the list of helper functions and communications:
+Finally, recall from Definitions \ref{dfn:helper-functions} and \ref{dfn:communications} the list of functions and communications:
 
 \begin{multicols}{2}
 	\begin{itemize}[leftmargin=*]
@@ -489,11 +498,9 @@ Recall from Definitions \ref{dfn:helper-functions} and \ref{dfn:communications} 
 			      \end{cases}$
 	\end{itemize}
 \end{multicols}
-
 \begin{multicols}{3}
 	\begin{itemize}[leftmargin=*]
-		\item $a | \mathtt{first} = a_{\mathtt{first}}$
-		\item $a | \mathtt{next} = a_{\mathtt{next}} $
+		\item $a | \mathtt{first} = a_{\mathtt{first}}$\newline $a | \mathtt{next} = a_{\mathtt{next}} $
 		\item $a_{\mathtt{syn}} | a_{\mathtt{syn}} = a_{\mathtt{post}}$
 		\item $a_{\mathtt{ini}} | \mathtt{choose} = a_{\mathtt{post}}$
 		\item $a_{\mathtt{origin}} | \mathtt{origin} = a_{\mathtt{post}}$
@@ -502,10 +509,8 @@ Recall from Definitions \ref{dfn:helper-functions} and \ref{dfn:communications} 
 	\end{itemize}
 \end{multicols}
 
+We take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}, \mathtt{shift}, \mathtt{choose}\}$, and therefore we have that $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$ as defined in \ref{dfn:sets}. We can now define our full translation:
 
-We take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}, \mathtt{shift}, \mathtt{choose}\}$, and therefore $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$ as defined in \ref{dfn:sets}. We now define our translation:
-
-\newpage
 \begin{dfn}[Translation of CSP to ACP]{dfn:trans}{}
 	Let $\tcsp$ be the expressions in the language $\csp$, and $\tacp$ be expressions in the language $\acptf$. We define a translation $\tran : \tcsp \to \tacp$ defined as such:
 	\begin{align*}
