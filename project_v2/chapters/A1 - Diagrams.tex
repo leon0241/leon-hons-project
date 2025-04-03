@@ -2,25 +2,127 @@
 \begin{document}
 
 \section{Examples of Translations}
-In this section I will provide visual aids for the encoding of translations of examples of operators
+In this section I will provide visual aids for the encoding of translations for the different operators of the language $\csp$. An overview of the translation is shown below:
 
+\begin{rcl}[Translation]{rcl:translation}{}
+	From Definition \ref{dfn:trans}:
+	\begin{align*}
+		\trans{STOP}           & = \delta                                                                                                                                                                                     \\
+		\trans{\mathrm{div}}   & = \langle X \mid X = \tau.X \rangle                                                                                                                                                          \\
+		\trans{a \to P}        & = a.\trans{P}                                                                                                                                                                                \\
+		\trans{P \intchoice Q} & = \tau.\trans{P} + \tau.\trans{Q}                                                                                                                                                            \\
+		\trans{P \extchoice Q} & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{Q}]\Bigl]\Bigr)                                                               \\
+		\trans{P \sliding Q}   & = \tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{P}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\Bigr)\Bigr) \\
+		\trans{P \pcomp Q}     & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{P}) \merge \fdef{syn}(\trans{Q})\Bigr]\Bigr)                                                                                      \\
+		\trans{P \backslash A} & = \partial_{A}{\trans{P}}                                                                                                                                                                    \\
+		% \trans{\mu p.P} &= \langle X \mid X = \tau.X \rangle
+		\trans{f(P)}           & = f(\trans{P})                                                                                                                                                                               \\
+		\trans{P \interrupt Q} & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[ \fdef{origin}(\trans{P}) \merge \Pi \merge \Gamma(\trans{Q}) \Bigr]\Bigr)                                                                          \\
+		\trans{P \throw Q}     & = \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ \fdef{split}(\trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr)
+	\end{align*}
+\end{rcl}
+
+\newpage
 \subsection{External Choice}
-\import{diagrams-appendix/}{extchoice}
-\import{diagrams-appendix/counters}{c-extchoice}
+Below is a translation of the process:
+\[\trans{a.a \extchoice b} = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{a.a}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{b}]\Bigl]\Bigr)\]
+The result is Strongly Bisimilar to its original $\csp$ process, with the translated process being $a.a + b$
+\begin{figure}[H]
+	\centering
+	\import{diagrams-appendix/}{extchoice}
+	\caption{Translation of $a.a \extchoice b$}
+\end{figure}
+Below is a translation of the process:
+\[\trans{\tau.a \extchoice b} = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{\tau.a}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{b}]\Bigl]\Bigr)\]
+
+The result is Rooted Branching Bisimilar to its original $\csp$ process, with the translated process being $b.\tau + \tau.(a + b)$ instead of $b + \tau.(a + b)$
+
+\begin{figure}[H]
+	\import{diagrams-appendix/counters}{c-extchoice}
+	\caption{Translation of $\alpha.a \extchoice b$}
+\end{figure}
+
 
 \subsection{Sliding Choice}
-\import{diagrams-appendix/}{sliding}
-\import{diagrams-appendix/counters}{c-sliding}
+Below is a translation of the process:
+\[\trans{b \sliding a}    = \tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{b}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{a}) \Bigr]\Bigr)\Bigr)\]
+The result is Strongly Bisimilar to its original $\csp$ process, with the translated process being $b + \tau.a$
+\begin{figure}[H]
+	\import{diagrams-appendix/}{sliding}
+	\caption{Translation of $b \sliding a$}
+\end{figure}
+Below is a translation of the process:
+\[\trans{\tau.b \sliding a}= \tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{\tau.b}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{a}) \Bigr]\Bigr)\Bigr)\]
+The result is Rooted Branching Bisimilar to its original $\csp$ process, with the translated process being $\tau.(b+\tau.a) + \tau.(a.\tau+\tau.a)$ instead of $\tau.(b+\tau.a) + \tau.a$
+
+\begin{figure}[H]
+	\import{diagrams-appendix/counters}{c-sliding}
+	\caption{Translation of $\tau.b \sliding a$}
+\end{figure}
+
 
 \subsection{Interrupt}
-\import{diagrams-appendix/}{interrupt}
+Below is a translation of the process:
+\[\trans{a \interrupt b} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \bigl(f_{\mathtt{origin}}(a) \merge \Pi\bigr) \merge \Gamma(b) \Bigr]\Bigr)\]
+The result is Strongly Bisimilar to its original $\csp$ process, with the translated process being $a.b + b$. Here, the action $\mathtt{origin}$ is shortened to $O$, and the action $\mathtt{split}$ is shortened to $S$.
 
-\begin{figure}[ht!]
-\hfuzz=\maxdimen
-    \centering
-		\import{diagrams-appendix/interrupt-two}{whole}
-		\caption{The process $\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \bigl(f_{\mathtt{origin}}(\tau.a) \merge \Pi\bigr) \merge \Gamma(\tau.b) \Bigr]\Bigr)$}
-    \label{fig:interrupt-big}
+\begin{figure}[H]
+	\import{diagrams-appendix/}{interrupt}
+	\caption{Translation of $\trans{a \interrupt b}$}\end{figure}
+
+Below is a simple counterexample to the Interrupt operator on the process:
+\[\trans{\tau \interrupt b} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ f_{\mathtt{origin}}(\tau) \merge \Pi \merge \Gamma(b) \Bigr]\Bigr)\]
+The result is Rooted Branching Bisimilar to its original $\csp$ process, with the translated process being $\tau.b + b.\tau$ instead of $b + \tau.b$
+\begin{figure}[H]
+	\centering
+	\import{diagrams-appendix/counters}{c-interrupt}
+	\caption{Translation of $\tau \interrupt b$}
+\end{figure}
+
+\newpage
+This should yield process graph $a$ in \cref{fig:interrupt-c}, however it yields process graph $b$ instead.:
+\begin{multicols}{2}
+
+\end{multicols}
+
+\begin{figure}[!ht]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\[\begin{tikzcd}[cramped, column sep=scriptsize]
+				\circ && \bullet \\
+				\\
+				\bullet && \bullet
+				\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=1-1, to=1-3]
+				\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=3-1]
+				\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=3-3]
+			\end{tikzcd}\]
+		\caption{The process after Restriction}
+	\end{subfigure}\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\[\begin{tikzcd}[cramped, column sep=scriptsize]
+				\circ && \bullet \\
+				\\
+				\bullet && \bullet
+				\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=1-1, to=1-3]
+				\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=3-1]
+				\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=3-3]
+				\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=3-1, to=3-3]
+			\end{tikzcd}\]
+		\caption{The final reformatted process}
+	\end{subfigure}
+	\caption{Intended vs actual result of the Interrupt operator on translation of $\tau \interrupt b$}
+	\label{fig:interrupt-c}
+\end{figure}
+
+Below is a translation for the process:
+\[\trans{\tau.a \interrupt \tau.b} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \bigl(f_{\mathtt{origin}}(\tau.a) \merge \Pi\bigr) \merge \Gamma(\tau.b) \Bigr]\Bigr)\]
+The result is Rooted Branching Bisimilar to its $\csp$ variant, with the process being $\tau.(a.\tau.b + \tau(a.b+b) + \tau.(b.\tau + \tau.(b + a.b))$ instead of $\tau.a.\tau.b + \tau.\tau.b + \tau.b$. Here, the action $\mathtt{origin}$ is shortened to $O$, and the action $\mathtt{split}$ is shortened to $S$. A more comprehensive view is shown below.
+
+\begin{figure}[H]
+	\hfuzz=\maxdimen
+	\centering
+	\import{diagrams-appendix/interrupt-two}{whole}
+	\caption{All-in-one view of the translation of $\tau.a \interrupt \tau.b$}
 \end{figure}
 
 
@@ -33,7 +135,7 @@ In this section I will provide visual aids for the encoding of translations of e
 	\hfill
 	\begin{subfigure}[b]{0.43\textwidth}
 		\import{diagrams-appendix/interrupt-two}{a-layer}
-		\caption{The process $\Pi$ merged with the process $\fdef{origin}(\tau.a) test$}
+		\caption{The process $\Pi$ merged with the process $\fdef{origin}(\tau.a)$}
 	\end{subfigure}\hfill
 
 	\begin{subfigure}[b]{0.65\textwidth}
@@ -44,126 +146,85 @@ In this section I will provide visual aids for the encoding of translations of e
 		\import{diagrams-appendix/interrupt-two}{reformat}
 		\caption{The final reformatted process}
 	\end{subfigure}
-	\caption{Example of Interrupt Operator on the process $\tau.a \interrupt \tau.b$}
-	\label{fig:interrupt-split}
+	\caption{In-depth view of the translation of $\trans{\tau.a \interrupt \tau.b}$}
 \end{figure}
 
 
+
+
+
+\newpage
 \subsection{Throw}
-\import{diagrams-appendix/}{throw}
 
-\section{Counterexamples to Translations}
-In this section I will provide visual aid for counterexamples of operators that are not valid up to Strong Bisimularity.
-\subsection{Interrupt Operator}
-A counterexample to the encoding of the Interrupt Operator being Strongly Bisimilar is with the trivial example
-\[P = \tau,\,Q = b\]
-This should yield the following process graph:
-% https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGNpcmMiXSxbMiwwLCJcXGJ1bGxldCJdLFswLDIsIlxcYnVsbGV0Il0sWzIsMiwiXFxidWxsZXQiXSxbMCwxLCJcXHRhdSIsMix7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzAsMiwiYiIsMCx7ImNvbG91ciI6WzI0MCw2MCw2MF19LFsyNDAsNjAsNjAsMV1dLFsxLDMsImIiLDAseyJjb2xvdXIiOlsyNDAsNjAsNjBdfSxbMjQwLDYwLDYwLDFdXV0=
-\[\begin{tikzcd}[cramped, column sep=scriptsize]
-		\circ && \bullet \\
-		\\
-		\bullet && \bullet
-		\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=1-1, to=1-3]
-		\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=3-1]
-		\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=3-3]
-	\end{tikzcd}\]
+Below is a translation of the process
+		\[\trans{a.a.b.a \throw q_{1}}     = \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ \fdef{split}(\trans{a.a.b.a}) | | \Pi.\trans{q_{1}} \Bigr]\Bigr)\]
+Where the target set $A$ is $\{b\}$
+\begin{figure}[H]
+	\centering
+	\import{diagrams-appendix/}{throw}
+	\caption{Translation of $a.a.b.a \throw q_{1}$}
+\end{figure}
 
-However, it yields the following
+Below is a counterexample translation of the process
+		\[\trans{a.a.b.a \throw q_{1}}     = \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ \fdef{split}(\trans{a.a.b.a}) | | \Pi.\trans{q_{1}} \Bigr]\Bigr)\]
+Where the target set $A$ is $\{b\}$
 
-% https://q.uiver.app/#q=WzAsMTYsWzUsNCwiXFxjaXJjIl0sWzcsMywiXFxidWxsZXQiXSxbNSwzLCJcXGJ1bGxldCJdLFs3LDIsIlxcYnVsbGV0Il0sWzMsNSwiXFxidWxsZXQiXSxbMiwzLCJcXGJ1bGxldCJdLFsyLDIsIlxcYnVsbGV0Il0sWzAsNCwiXFxidWxsZXQiXSxbMyw0LCJcXGJ1bGxldCJdLFswLDMsIlxcYnVsbGV0Il0sWzksMiwiXFxidWxsZXQiXSxbOSwxLCJcXGJ1bGxldCJdLFs2LDAsIlxcYnVsbGV0Il0sWzYsMSwiXFxidWxsZXQiXSxbNCwyLCJcXGJ1bGxldCJdLFs0LDEsIlxcYnVsbGV0Il0sWzAsMSwiXFxtYXRodHR7b3JpZ2lufSIsMix7ImNvbG91ciI6WzAsMCwzOF19LFswLDAsMzgsMV1dLFswLDIsIlxcdGF1IiwyLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMSwzLCJcXHRhdSIsMix7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzIsMywiXFxtYXRodHR7b3JpZ2lufSIsMix7ImNvbG91ciI6WzAsMCwzOF19LFswLDAsMzgsMV1dLFswLDUsImJfe1xcbWF0aHR0e2ZpcnN0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFsyNDAsNjAsNjAsMV1dLFsyLDYsImJfe1xcbWF0aHR0e2ZpcnN0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFsyNDAsNjAsNjAsMV1dLFs1LDYsIlxcdGF1IiwyLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMCw0LCJcXG1hdGh0dHtzcGxpdH0iLDAseyJjb2xvdXIiOlswLDAsMzhdfSxbMCwwLDM4LDFdXSxbNCw3LCJiX3tcXG1hdGh0dHtmaXJzdH19IiwyLHsiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMjQwLDYwLDYwLDFdXSxbNCw4LCJcXHRhdSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzcsOSwiXFx0YXUiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFs4LDksImJfe1xcbWF0aHR0e2ZpcnN0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFsyNDAsNjAsNjAsMV1dLFsyLDgsIlxcbWF0aHR0e3NwbGl0fSIsMCx7ImNvbG91ciI6WzAsMCwzOF19LFswLDAsMzgsMV1dLFs2LDksIlxcbWF0aHR0e3NwbGl0fSIsMCx7ImNvbG91ciI6WzAsMCwzOF19LFswLDAsMzgsMV1dLFs1LDcsIlxcbWF0aHR0e3NwbGl0fSIsMCx7ImNvbG91ciI6WzAsMCwzOF19LFswLDAsMzgsMV1dLFsxLDEwLCJcXG1hdGh0dHtzcGxpdH0iLDIseyJjb2xvdXIiOlswLDAsMzhdfSxbMCwwLDM4LDFdXSxbMywxMSwiXFxtYXRodHR7c3BsaXR9IiwyLHsiY29sb3VyIjpbMCwwLDM4XX0sWzAsMCwzOCwxXV0sWzExLDEyLCJiX3tcXG1hdGh0dHtmaXJzdH19IiwyLHsiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMjQwLDYwLDYwLDFdXSxbMTAsMTMsImJfe1xcbWF0aHR0e2ZpcnN0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFsyNDAsNjAsNjAsMV1dLFsxMCwxMSwiXFx0YXUiLDIseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFsxMywxMiwiXFx0YXUiLDIseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFs1LDE0LCJcXG1hdGh0dHtvcmlnaW59IiwyLHsiY29sb3VyIjpbMCwwLDM4XX0sWzAsMCwzOCwxXV0sWzYsMTUsIlxcbWF0aHR0e29yaWdpbn0iLDIseyJjb2xvdXIiOlswLDAsMzhdfSxbMCwwLDM4LDFdXSxbMSwxNCwiYl97XFxtYXRodHR7Zmlyc3R9fSIsMix7ImNvbG91ciI6WzI0MCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzI0MCw2MCw2MCwxXV0sWzMsMTUsImJfe1xcbWF0aHR0e2ZpcnN0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFsyNDAsNjAsNjAsMV1dLFsxNCwxNSwiXFx0YXUiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFsxNSwxMiwiXFxtYXRodHR7c3BsaXR9IiwyLHsiY29sb3VyIjpbMCwwLDM4XX0sWzAsMCwzOCwxXV0sWzE0LDEzLCJcXG1hdGh0dHtzcGxpdH0iLDIseyJjb2xvdXIiOlswLDAsMzhdfSxbMCwwLDM4LDFdXSxbMCw3LCJiIiwwLHsiY29sb3VyIjpbMjQwLDYwLDYwXX0sWzI0MCw2MCw2MCwxXV0sWzIsOSwiYiIsMCx7ImNvbG91ciI6WzI0MCw2MCw2MF19LFsyNDAsNjAsNjAsMV1dLFszLDEyLCJiIiwyLHsiY29sb3VyIjpbMjQwLDYwLDYwXX0sWzI0MCw2MCw2MCwxXV0sWzEsMTMsImIiLDIseyJjb2xvdXIiOlsyNDAsNjAsNjBdfSxbMjQwLDYwLDYwLDFdXV0=
-\[\begin{tikzcd}[cramped]
-		&&&&&& \bullet \\
-		&&&& \bullet && \bullet &&& \bullet \\
-		&& \bullet && \bullet &&& \bullet && \bullet \\
-		\bullet && \bullet &&& \bullet && \bullet \\
-		\bullet &&& \bullet && \circ \\
-		&&& \bullet
-		\arrow["{\mathtt{split}}"', color={rgb,255:red,97;green,97;blue,97}, from=2-5, to=1-7]
-		\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=2-7, to=1-7]
-		\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=2-10, to=1-7]
-		\arrow["{\mathtt{origin}}"', color={rgb,255:red,97;green,97;blue,97}, from=3-3, to=2-5]
-		\arrow["{\mathtt{split}}", color={rgb,255:red,97;green,97;blue,97}, from=3-3, to=4-1]
-		\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=3-5, to=2-5]
-		\arrow["{\mathtt{split}}"', color={rgb,255:red,97;green,97;blue,97}, from=3-5, to=2-7]
-		\arrow["b"', color={rgb,255:red,92;green,92;blue,214}, from=3-8, to=1-7]
-		\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=3-8, to=2-5]
-		\arrow["{\mathtt{split}}"', color={rgb,255:red,97;green,97;blue,97}, from=3-8, to=2-10]
-		\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=3-10, to=2-7]
-		\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=3-10, to=2-10]
-		\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=4-3, to=3-3]
-		\arrow["{\mathtt{origin}}"', color={rgb,255:red,97;green,97;blue,97}, from=4-3, to=3-5]
-		\arrow["{\mathtt{split}}", color={rgb,255:red,97;green,97;blue,97}, from=4-3, to=5-1]
-		\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=4-6, to=3-3]
-		\arrow["{\mathtt{origin}}"', color={rgb,255:red,97;green,97;blue,97}, from=4-6, to=3-8]
-		\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=4-6, to=4-1]
-		\arrow["{\mathtt{split}}", color={rgb,255:red,97;green,97;blue,97}, from=4-6, to=5-4]
-		\arrow["b"', color={rgb,255:red,92;green,92;blue,214}, from=4-8, to=2-7]
-		\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=4-8, to=3-5]
-		\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=4-8, to=3-8]
-		\arrow["{\mathtt{split}}"', color={rgb,255:red,97;green,97;blue,97}, from=4-8, to=3-10]
-		\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=5-1, to=4-1]
-		\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=5-4, to=4-1]
-		\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=5-6, to=4-3]
-		\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=5-6, to=4-6]
-		\arrow["{\mathtt{origin}}"', color={rgb,255:red,97;green,97;blue,97}, from=5-6, to=4-8]
-		\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=5-6, to=5-1]
-		\arrow["{\mathtt{split}}", color={rgb,255:red,97;green,97;blue,97}, from=5-6, to=6-4]
-		\arrow["{b_{\mathtt{first}}}"', color={rgb,255:red,92;green,92;blue,214}, dashed, from=6-4, to=5-1]
-		\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=6-4, to=5-4]
-	\end{tikzcd}\]
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\[\begin{tikzcd}[cramped, column sep=scriptsize]
+				\bullet && \bullet && \bullet \\
+				\\
+				\bullet && \bullet && \bullet \\
+				\\
+				\bullet && \bullet && \bullet
+				\arrow["{\mathtt{split}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=1-1, to=1-3]
+				\arrow["{b_{\mathtt{split}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-1, to=3-1]
+				\arrow["b", from=1-1, to=3-3]
+				\arrow["{q_1}", from=1-3, to=1-5]
+				\arrow["{b_{\mathtt{split}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-3, to=3-3]
+				\arrow["{b_{\mathtt{split}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-5, to=3-5]
+				\arrow["{\mathtt{split}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=3-1, to=3-3]
+				\arrow["\tau", from=3-1, to=5-1]
+				\arrow["{q_1}", from=3-3, to=3-5]
+				\arrow["\tau", from=3-3, to=5-3]
+				\arrow["\tau", from=3-5, to=5-5]
+				\arrow["{\mathtt{split}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=5-1, to=5-3]
+				\arrow["{q_1}", from=5-3, to=5-5]
+			\end{tikzcd}\]
+		\caption{The process after Restriction}
+	\end{subfigure}\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\[\begin{tikzcd}[cramped, column sep=scriptsize]
+				\bullet \\
+				\\
+				&& \bullet && \bullet \\
+				\\
+				&& \bullet && \bullet
+				\arrow["b", from=1-1, to=3-3]
+				\arrow["{q_1}", from=3-3, to=3-5]
+				\arrow["\tau", from=3-3, to=5-3]
+				\arrow["\tau", from=3-5, to=5-5]
+				\arrow["{q_1}", from=5-3, to=5-5]
+			\end{tikzcd}\]
+		\caption{The translated result}
+	\end{subfigure}
+	\caption{Intended vs actual result of the Interrupt operator on the process \newline$\trans{\tau \interrupt b} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \bigl(f_{\mathtt{origin}}(\tau) \merge \Pi\bigr) \merge \Gamma(b) \Bigr]\Bigr)$}
+\end{figure}
 
-Which reduces down to:
-% https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGNpcmMiXSxbMiwwLCJcXGJ1bGxldCJdLFswLDIsIlxcYnVsbGV0Il0sWzIsMiwiXFxidWxsZXQiXSxbMCwxLCJcXHRhdSIsMix7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzIsMywiXFx0YXUiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFswLDIsImIiLDAseyJjb2xvdXIiOlsyNDAsNjAsNjBdfSxbMjQwLDYwLDYwLDFdXSxbMSwzLCJiIiwwLHsiY29sb3VyIjpbMjQwLDYwLDYwXX0sWzI0MCw2MCw2MCwxXV1d
-\[\begin{tikzcd}[cramped, column sep=scriptsize]
-		\circ && \bullet \\
-		\\
-		\bullet && \bullet
-		\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=1-1, to=1-3]
-		\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=3-1]
-		\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=3-3]
-		\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=3-1, to=3-3]
-	\end{tikzcd}\]
+\newpage
+\subsection{Parallel Composition}
+Below is a translation of the process:
+\[\trans{\tau.a.b \pcomp a.c.c}     = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{\tau.a.b}) \merge \fdef{syn}(\trans{a.c.c})\Bigr]\Bigr)\]
+Where the target set $A = \{a\}$.
+The result is Strongly Bisimilar to its original CSP process, with the translated process being:
+\[\tau.a.(b.c.c+c.b.c+c.c.b)\]
+\begin{figure}[h!]
+	\centering
+	\import{diagrams-appendix/}{pcomp}
+	\caption{Translation of $\tau.a.b \pcomp a.c.c$}
+\end{figure}
 
-\subsection{Throw Operator}
-A counterexample to the encoding of the Throw Operator being valid up to Strong Bisimularity is the process
-\[P = \tau, Q = b\]
-
-% https://q.uiver.app/#q=WzAsOSxbMCwwLCJcXGJ1bGxldCJdLFsyLDAsIlxcYnVsbGV0Il0sWzQsMCwiXFxidWxsZXQiXSxbMCwyLCJcXGJ1bGxldCJdLFsyLDIsIlxcYnVsbGV0Il0sWzQsMiwiXFxidWxsZXQiXSxbMCw0LCJcXGJ1bGxldCJdLFsyLDQsIlxcYnVsbGV0Il0sWzQsNCwiXFxidWxsZXQiXSxbMCwzLCJiX3tcXG1hdGh0dHtzcGxpdH19IiwwLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFsxLDQsImJfe1xcbWF0aHR0e3NwbGl0fX0iLDAseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzIsNSwiYl97XFxtYXRodHR7c3BsaXR9fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbMyw2LCJcXHRhdSJdLFs0LDcsIlxcdGF1Il0sWzUsOCwiXFx0YXUiXSxbMCwxLCJcXG1hdGh0dHtzcGxpdH0iLDAseyJjb2xvdXIiOlswLDAsNDNdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDAsNDMsMV1dLFsxLDIsInFfMSJdLFszLDQsIlxcbWF0aHR0e3NwbGl0fSIsMCx7ImNvbG91ciI6WzAsMCw0M10sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsMCw0MywxXV0sWzQsNSwicV8xIl0sWzYsNywiXFxtYXRodHR7c3BsaXR9IiwwLHsiY29sb3VyIjpbMCwwLDQzXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCwwLDQzLDFdXSxbNyw4LCJxXzEiXSxbMCw0LCJiIl1d
-\[\begin{tikzcd}[cramped]
-		\bullet && \bullet && \bullet \\
-		\\
-		\bullet && \bullet && \bullet \\
-		\\
-		\bullet && \bullet && \bullet
-		\arrow["{\mathtt{split}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=1-1, to=1-3]
-		\arrow["{b_{\mathtt{split}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-1, to=3-1]
-		\arrow["b", from=1-1, to=3-3]
-		\arrow["{q_1}", from=1-3, to=1-5]
-		\arrow["{b_{\mathtt{split}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-3, to=3-3]
-		\arrow["{b_{\mathtt{split}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-5, to=3-5]
-		\arrow["{\mathtt{split}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=3-1, to=3-3]
-		\arrow["\tau", from=3-1, to=5-1]
-		\arrow["{q_1}", from=3-3, to=3-5]
-		\arrow["\tau", from=3-3, to=5-3]
-		\arrow["\tau", from=3-5, to=5-5]
-		\arrow["{\mathtt{split}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=5-1, to=5-3]
-		\arrow["{q_1}", from=5-3, to=5-5]
-	\end{tikzcd}\]
-
-Which reduces down to
-% https://q.uiver.app/#q=WzAsNSxbMCwwLCJcXGJ1bGxldCJdLFsyLDIsIlxcYnVsbGV0Il0sWzQsMiwiXFxidWxsZXQiXSxbMiw0LCJcXGJ1bGxldCJdLFs0LDQsIlxcYnVsbGV0Il0sWzEsMywiXFx0YXUiXSxbMiw0LCJcXHRhdSJdLFsxLDIsInFfMSJdLFszLDQsInFfMSJdLFswLDEsImIiXV0=
-\[\begin{tikzcd}[cramped]
-		\bullet \\
-		\\
-		&& \bullet && \bullet \\
-		\\
-		&& \bullet && \bullet
-		\arrow["b", from=1-1, to=3-3]
-		\arrow["{q_1}", from=3-3, to=3-5]
-		\arrow["\tau", from=3-3, to=5-3]
-		\arrow["\tau", from=3-5, to=5-5]
-		\arrow["{q_1}", from=5-3, to=5-5]
-	\end{tikzcd}\]
 
 % \begin{landscape}
 % \import{diagrams-other/}{Stopping-1.tex}

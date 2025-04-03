@@ -1,6 +1,27 @@
 \documentclass[../hons_project.tex]{subfiles}
 \begin{document}
 \section{Extended Definitions}
+
+\subsection{Additional Axioms for the langauge \texorpdfstring{$\acpt$}{acpt}}
+Below is a subset of the Axioms we use in \cref{sc:rbb-proof} taken from \cite{bergstraACPtUniversalAxiom1989}
+
+\begin{table}[ht!]
+	\centering
+	\begin{tabular}{ |l| }
+		\hline
+		\textbf{Axioms of $\acpt$} \\
+		\hline
+		\textbf{CM1}: $P \merge Q = P \leftmerge Q + Q \leftmerge P + P \mid Q$ \\ [1ex]
+		\textbf{CM3}: $a.P \leftmerge Q = a.(P \leftmerge Q)$\\ [1ex]
+		\textbf{CM7}: $a.P \mid b.Q = (a \mid b)(P \merge Q)$ \\ [1ex] 
+		\textbf{C3}: $\delta \mid a = \delta$ \\ [1ex] 
+		\textbf{D3}: $\partial_{H}(P + Q) = \partial_{H}(P) +\partial_{H}(Q)$ \\ [1ex] 
+		\hline
+	\end{tabular}
+	\caption{Small Subset of Axioms of $\acpt$ Merge}
+	\label{table:acpt-axioms}
+\end{table}
+
 \subsection{Operational Semantics for \texorpdfstring{$\acptf$}{acptf}}\label{ssec:acptf-sos-full}
 
 Shown in Figure \ref{table:ACP-full} is the full set of Operational Semantics for the language $\acptf$. 

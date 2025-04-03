@@ -5,7 +5,7 @@
 
 Referring back to our translation \ref{dfn:trans}, the translation for External Choice
 \[\partial_{H_{0}}(\fdef{post}[\Gamma(P)\merge\mathtt{choose}\merge\Gamma(Q)])\]
-has identical behaviour to $P + Q$ when dealing with processes with only external actions. However, on processes with internal actions, the translation is not so trivial. The addition of an internal action works in the translation's favour for actions such as deferring an $\mathtt{ini}$ tag to the first visible action (see \cref{fig:triggering-tau}). However, it can also backfire, as the translation largely relies on removing unwanted left-merges and communications through restriction operators. As internal actions are non-interactable it results in restrictions that \textit{should} remove all remaining actions ending up with unwanted left-over $\tau$ moves.
+has identical behaviour to $P + Q$ when dealing with processes with only external actions. However, on processes with internal actions, the translation is not so trivial. The addition of an internal action in the grammar works in the translation's favour for actions such as deferring an $\mathtt{ini}$ tag to the first visible action (see \cref{fig:triggering-tau}). However, it can also backfire, as the translation largely relies on removing unwanted left-merges and communications through restriction operators. As internal actions are non-interactable it results in restrictions that \textit{should} remove all remaining actions ending up with unwanted left-over $\tau$ moves.
 \newline For example, if we take the process $a \extchoice \tau.b\in \csp$, the resulting translation in $\acptf$ is
 \vspace{-5pt}
 \[\partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma(a) \merge \mathtt{choose} \merge \Gamma(\tau.b)\Bigr]\Bigr) = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[a_{\mathtt{ini}} \merge \mathtt{choose} \merge \tau.b_{\mathtt{ini}}\Bigr]\Bigr)\]
@@ -54,64 +54,89 @@ which has the following process graph:
 \section{Prerequisites and Helper Theorems}
 \subsection{Rooted Branching Bisimilarity}
 
-Recall from Definition \ref{dfn:rooted-branching} the definition of Branching and Rooted Branching Bisimilarity:
+Recall from Definition \ref{dfn:rooted-branching} the definition of Branching Bisimilarity and Rooted Branching Bisimilarity:
 
-A relation $R$ is a \textbf{Branching Bisimulation} between $P$ and $Q$ if:
-	\begin{enumerate}
-		\item The roots of $P$ and $Q$ are related by $R$
-		\item If $s \prightarrow{\alpha} s'$ for $\alpha\in \Sigma_{\tau}$ is an edge in $P$, and $s R t$, then either
-		      \begin{enumerate}[label=\alph*)]
-			      \item $\alpha= \tau$ and $s' R t$
-			      \item $\exists t \Rightarrow t_{1} \prightarrow{\alpha} t'$ such that $s R t_{1}$ and $s R t'$
-		      \end{enumerate}
-		\item If $s \checkmark$ and $s R t$ then there exists a path $t \Rightarrow t'$ in $Q$ to a node $t'$ with $t'\checkmark$ and $s R t'$\footnote{As explained in \cref{ssec:termination}, this rule can be omitted without loss in function over the translation.}
-		\item[4, 5]: As in $2, 3$, with the roles of $P$ and $Q$ interchanged
-	\end{enumerate}
+A relation $R$ is a \textbf{Branching Bisimulation}\footnote{In this definition, the rules for Successful termination are omitted. The full rule set is defined in Definition \ref{dfn:rooted-branching}} between $P$ and $Q$ if:
+\begin{enumerate}
+	\item The roots of $P$ and $Q$ are related by $R$
+	\item If $s \prightarrow{\alpha} s'$ for $\alpha\in \Sigma_{\tau}$ is an edge in $P$, and $s R t$, then either
+	      \begin{enumerate}[label=\alph*)]
+		      \item $\alpha= \tau$ and $s' R t$
+		      \item $\exists t \Rightarrow t_{1} \prightarrow{\alpha} t'$ such that $s R t_{1}$ and $s R t'$\footnote{Here, we use the symbol $\Rightarrow$ to mean a chain of $\tau$ actions, possibly none.}
+	      \end{enumerate}
+	\item[4]: If $t \prightarrow{\alpha} t'$ for $\alpha\in \Sigma_{\tau}$ is an edge in $Q$, and $s R t$, then either
+	      \begin{enumerate}[label=\alph*)]
+		      \item $\alpha= \tau$ and $s R t'$
+		      \item $\exists s \Rightarrow s_{1} \prightarrow{\alpha} s'$ such that $s_{1} R t$ and $s' R t$
+	      \end{enumerate}
+\end{enumerate}
 
-	$R$ is called a \textbf{Rooted Branching Bisimulation} if the following root condition is also satisfied:
-	\begin{itemize}
-		\item If $\mathrm{root}(P) \prightarrow{\alpha} s'$ for $\alpha\in \Sigma_{\tau}$, then there is a $t'$ with $\mathrm{root}(Q)\prightarrow{\alpha} t'$ and $s' R t'$
-		\item If $\mathrm{root}(Q) \prightarrow{\alpha} t'$ for $\alpha\in \Sigma_{\tau}$, then there is an $s'$ with $\mathrm{root}(P)\prightarrow{\alpha} s'$ and $s' R t'$
-		\item $\mathrm{root}(P)\checkmark$ iff $\mathrm{root}(Q)\checkmark$
-	\end{itemize}
+$R$ is called a \textbf{Rooted Branching Bisimulation} if the following root condition is also satisfied:
+\begin{itemize}
+	\item If $\mathrm{root}(P) \prightarrow{\alpha} s'$ for $\alpha\in \Sigma_{\tau}$, then there is a $t'$ with $\mathrm{root}(Q)\prightarrow{\alpha} t'$ and $s' R t'$
+	\item If $\mathrm{root}(Q) \prightarrow{\alpha} t'$ for $\alpha\in \Sigma_{\tau}$, then there is an $s'$ with $\mathrm{root}(P)\prightarrow{\alpha} s'$ and $s' R t'$
+\end{itemize}
 
 \subsection{Lemmas and Theorems}
 
-\begin{lma}[]{lma:tau-transform}{}
-	For a trace in a process $P\in \acptf$, if there exists $P'$ such that $P \prightarrow{\tau} P'$ then application of the Triggering operator shown in \ref{dfn:acp-triggering} can be applied as $\Gamma[P] \prightarrow{\tau} \Gamma[P']$. Alternatively,
-	\[\Gamma[P] = \tau. \Gamma[P']\]
+\begin{lma}[]{lma:merge-simplification-a}{}
+	For processes $P,\,Q\in \acptf$, if $P$ is of the form $\alpha.P'$, and $Q$ is of the form $\phi.Q'$, where $\phi\in H_{0}$ as defined in \ref{dfn:sets}, and such that $a \mid \phi$ is not defined, then:
+	\[\partial_{H_{0}}(P \merge Q) = \partial_{H_{0}}(a.(P' \merge Q))\]
+	Also note that an $a$ action can be made on the resulting process.
 \end{lma}
 
 \begin{proof}
-	We have that $P = \tau.P'$ and therefore $\Gamma[P] = \Gamma[\tau.P']$. However, since internal actions cannot interact with anything inside the triggering operator, the resulting function is the same as if the $\tau$ was instead outside the function. A diagram is provided in \ref{fig:triggering-tau}.
+	Expanding the $\acp$ Axiom CM1 from \cref{table:acpt-axioms}, we get
+	\begin{align*}
+		\partial_{H_{0}}( P \merge Q ) &= \partial_{H_{0}}\bigl( P \leftmerge Q + Q \leftmerge P + P \mid Q\bigr) \\
+									    &= \partial_{H_{0}}\bigl( \alpha.P' \leftmerge Q + \phi.Q' \leftmerge P + \alpha.P' \mid \phi.Q'\bigr) \\
+		{\color{blue}\text{Applying CM3 and CM7}}&= \partial_{H_{0}}\bigl( \alpha.(P' \merge Q) + \phi.(Q' \leftmerge P) + (\alpha \mid \phi)(P' \merge Q')\bigr) \\
+		{\color{blue}\text{Expanding $\partial_{H_{0}}$}}&= \partial_{H_{0}}(\alpha.(P' \merge Q)) + \partial_{H_{0}}(\phi.(Q' \leftmerge P)) + \partial_{H_{0}}\bigl((\alpha \mid \phi)(P' \merge Q')\bigr) \\
+									    {\color{blue}\text{Applying $\partial_{H_{0}}$}}&= \partial_{H_{0}}(\alpha.(P' \merge Q)) + {\color{red}\delta.(Q' \leftmerge P)} + {\color{red}\delta.(P' \merge Q')} \\
+									    &= \partial_{H_{0}}(\alpha.(P' \merge Q))
+	\end{align*}
 \end{proof}
 
-\begin{lma}[]{lma:a-transform}{}
-	For a process $P\in \acptf$, if there exists $P'$ such that $P \prightarrow{a} P'$ then for any action $a \in A_{0}$ we have
-	\[
-		(\Gamma[P] \merge \mathtt{choose}) \prightarrow{a} P' \quad \text{ and } \quad
-		(\mathtt{choose} \merge (\Gamma[P]) \prightarrow{a} P'
-	\]
+
+\begin{lma}[]{lma:merge-simplification-merge}{}
+	For processes $P,\,Q\in \acptf$, if $P$ is of the form $\psi.P'$ and $Q$ is of the form $\phi.Q'$, such that $\phi,\,\psi\in H_{0}$ as defined in \ref{dfn:sets}, and such that $\psi \mid \phi = c$, then
+	\[\partial_{H_{0}}(P \merge Q) = \partial_{H_{0}}(c.(P' \merge Q'))\]
+
+	Also note that an $c$ action can be made on the resulting process.
+	\longrule{0.08ex}
+
+	In the special case that $\mathcal{Q}$ is of the form $\phi.\delta$, the equation instead reduces to
+	\[\partial_{H_{0}}(P \merge Q) = \partial_{H_{0}}(c.P')\]
 \end{lma}
 
 \begin{proof}
-	Directly follows from communications
+	Expanding the $\acp$ Axiom CM1 from \cref{table:acpt-axioms}, we get
+	\begin{align*}
+		\partial_{H_{0}}( P \merge Q ) &= \partial_{H_{0}}\bigl( P \leftmerge Q + Q \leftmerge P + P \mid Q bigr) \\
+									    &= \partial_{H_{0}}\bigl( \psi.P' \leftmerge Q + \phi.Q' \leftmerge P + \psi.P' \mid \phi.Q'\bigr) \\
+		{\color{blue}\text{Applying CM3 and CM7}}&= \partial_{H_{0}}\bigl( \psi.(P' \merge Q) + \phi.(Q' \merge P) + (\psi \mid \phi)(P' \merge Q')\bigr) \\
+		{\color{blue}\text{Expanding $\partial_{H_{0}}$}}&= \partial_{H_{0}}(\psi.(P' \merge Q)) + \partial_{H_{0}}(\phi.(Q' \merge P)) + \partial_{H_{0}}\bigl((\psi \mid \phi)(P' \merge Q')\bigr) \\
+		{\color{blue}\text{Applying $\partial_{H_{0}}$}}&= {\color{red}\delta.(P' \merge Q)} + {\color{red}\delta.(Q' \merge P)} + \partial_{H_{0}}(c.(P' \merge Q')) \\
+									    &= \partial_{H_{0}}(c.(P' \merge Q'))
+	\end{align*}
+
+	In the case that $\mathcal{Q}$ is of the form $\phi.\delta$, the equation becomes
+	\[\partial_{H_{0}}(P \merge Q) = \partial_{H_{0}}(c.(P' \merge \delta)) = \partial_{H_{0}}(c.(P' \leftmerge \delta + \delta \leftmerge P' + P' \mid \delta)) = \partial_{H_{0}}(c.P')\]
 \end{proof}
+
 
 \begin{lma}[]{lma:stagnant-inis}{}
-	For processes $a.P\in \acptf$ where $a\in A_{0}$, if $\exists b.Q$ where $b\in A_{0}$ we have
-	\[\partial_{H_{0}} (b.Q \merge \Gamma[a.P]) = b.Q \]
+	For processes $a.P\in \acptf$ where $a\in A_{0}$, if $\exists b.Q$ where $b\in H_{0}$ and $a$ does not communicate with $b$, we have
+	\[\partial_{H_{0}} (a.P \merge b.Q) = a.P \]
 	\vspace{-25pt}
 	\longrule{0.08ex}
 
-	Alternatively, for processes $\taus.P\in \acptf$, where $\taus$ indicates a chain of consecutive $\tau$, possibly $0$, if there exists a process $b.Q$ where $b\in A_{0}$ we have
-	\[\partial_{H_{0}} (b.Q \merge \taus.\Gamma[P]) = b.Q \merge \taus\]
+	Alternatively, for processes $a.P\in \acptf$, if there exists a process $\taus.b.Q$ where $b\in H_{0}$, $a$ does not communicate with $b$, and $\taus$ indicates a chain of consecutive $\tau$, possibly $0$m we have
+	\[\partial_{H_{0}} (a.P \merge \taus.b.Q) = a.P \merge \taus\]
 \end{lma}
 
 \begin{proof}
-	The Triggering operator $\Gamma$ turns a trace into a renamed trace of the form
-	\[a_{\mathtt{ini}}.b.c\cdots\]
-	The process $a_{\mathtt{ini}}$ does not communicate with anything other than $\mathtt{choose}$ which is not in $A_{0}$. Therefore, the restriction operator will remove all the $\Gamma$ left merges, leaving $b.Q$. However, if there are internal actions that cannot interact with restrictions and communications, then the final process will be a communication with any remaining internal actions before the first cut-off external action.
+	All the left merges of the action $b$ will get restricted. Therefore, the only possibility of that trace having an action is if $b$ communicates with $a$, which it doesn't by definition. However, if there are internal actions that cannot interact with restrictions and communications, then the final process will be a communication with any remaining internal actions before the first cut-off external action.
 \end{proof}
 
 \begin{lma}[]{lma:tau-on-p-process}{}
@@ -119,14 +144,16 @@ A relation $R$ is a \textbf{Branching Bisimulation} between $P$ and $Q$ if:
 \end{lma}
 
 \begin{proof}
-	just works
+	We have the rule that
+	\[\tau \merge P \rbrb P\]
+	Now, simply take $P = \tau.P$ and inductively, this law will work for arbitrary $\tau$ actions.
 \end{proof}
 
 We can now work towards a proof that our translation is valid up to Rooted Branching Bisimilarity.
 
 
 \newpage
-\section{Proof of Rooted Branching Bisimilarity}
+\section{Proof of Rooted Branching Bisimilarity}\label{sc:rbb-proof}
 
 We define a bisimulation relation.
 \begin{dfn}[Rooted Branching Bisimulation Relation]{dfn:bisim-relation}{}
@@ -141,33 +168,37 @@ We define a bisimulation relation.
 \subsection{External choice}
 
 From subsection \ref{ssec:external-choice}, our translation of external choice is:
-\[\trans{P \extchoice Q} = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\, \pcomp \,\mathtt{choose}\, \pcomp \,\Gamma[\trans{Q}]\Bigl]\Bigr)\]
+\[\trans{P \extchoice Q} = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{Q}]\Bigl]\Bigr)\]
 
 \begin{proof}
 
-	Let $P, Q \in \csp$ be two processes. We want to show that $P \extchoice Q \rbrb \trans{P \extchoice Q}$. i.e.: we want to show that any move will result in a process that satisfies RBB. We show this by exhausting all possible moves that $P \extchoice Q$ can take, and confirm that $\trans{P \extchoice Q}$ can also take them, up to Rooted Branching Bisimilarity.
+	Let $P, Q \in \csp$ be two processes. We want to show that $P \extchoice Q \rbrb \trans{P \extchoice Q}$. i.e.: we want to show that any move will result in a process that satisfies RBB. We show this by looking at individual traces and exhausting all possible moves that $P \extchoice Q$ can take, and confirm that $\trans{P \extchoice Q}$ can also take them, up to Rooted Branching Bisimilarity.
 
 	\textbf{Case 1}: $a$ action on $P$. Let $a \in A_{0}$ and $P'$ such that $P \prightarrow{a} P'$. In the domain of CSP, this results in the process
 	\[P \square Q \prightarrow{a} P'\]
-	Now working in $\acptf$, we want to show that the translation is valid up to RBB, i.e. $\trans{P'} \rbrb P'$. Via Lemma \ref{lma:a-transform}, we can derive the following equation
+	Now working in $\acptf$, we want to show that the translation is valid up to RBB, i.e. $\trans{P'} \rbrb \trans{P}$, or in general, $\trans{\mathcal{P}} \rbrb \mathcal{P}$ for any $\mathcal{P}\in \csp$
+
+	From the definition of the Triggering operator \ref{oper:triggering}, we can derive the following equation:
+	\[\Gamma(\trans{P}) = a_{\mathtt{ini}}.\trans{P'}\]
+Therefore, since $\mathtt{choose}\in H_{0}$, and $a_{\mathtt{ini}} \mid \mathtt{choose} = a$\footnote{The communication technically becomes $a_{\mathtt{post}}$, but we will go back to $a$ to simplify the intuition}, we can derive the following process from Lemma \ref{lma:merge-simplification-merge}:
 	\begin{align*}
-		\trans{P \extchoice Q} = & \, \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\merge \mathtt{choose}\merge \Gamma[\trans{Q}]\Bigl]\Bigr)\prightarrow{a} \\
+		\trans{P \extchoice Q} = & \, \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\merge \mathtt{choose}\merge \Gamma[\trans{Q}]\Bigl]\Bigr) \\
+		= & \, \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[a_{\mathtt{ini}}.\trans{P'}\merge \mathtt{choose}\merge \Gamma[\trans{Q}]\Bigl]\Bigr)\prightarrow{a} \\
 		                         & \,\partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\trans{P'}\merge\Gamma[\trans{Q}]\Bigl]\Bigr)
 	\end{align*}
 
-	This is not yet a process that is comparable to $P'$, so we look at the next step. Due to the Triggering operator $\Gamma$ being applied to $Q$, the only communicatable action of a trace $Q_{c}$ of $Q$ will be one tagged with an \texttt{ini}, with some number of $\tau$ actions behind it. Due to the restriction of $H_{0}$, since an \texttt{ini}-tagged operator can only communicate with the action \texttt{choose}, any of the actions past $\taus$ will get restricted, leaving
+	This is not yet a process that is comparable to $P'$, so we look at the next step. Due to the Triggering operator $\Gamma$ being applied to $Q$, the only communicatable action of a trace $Q_{c}$ of $Q$ will be one tagged with an \texttt{ini}, with some number of $\tau$ actions behind it. Via Lemma \ref{lma:stagnant-inis}, any of the actions past $\taus$ will get restricted, leaving:
 	\[
 		\partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\trans{P'}\merge\Gamma[\trans{Q_{c}}]\Bigl]\Bigr) \implies \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\trans{P'}\merge\taus\Bigl]\Bigr) \implies \trans{P'}\merge\taus
 	\]
-	for every trace $Q_{c}$ in $Q$. Via Lemma \ref{lma:tau-on-p-process}, this process is Branching Bisimilar to the process $\trans{P'}$. From this, we can see the union of every branch in $Q$ is at coarsest Branching Bisimilar, and therefore as the first action is related Strongly the process is valid up to Rooted Branching Bisimilarity when taking an $a$ action on $P$.
-
+	for every trace $Q_{c}$ in $Q$. Via Lemma \ref{lma:tau-on-p-process}, this process is Branching Bisimilar to the process $\trans{P'}$. From this, we can see the union of every branch in $Q$ is at coarsest Branching Bisimilar, and therefore as the first action is related up to Strong Bisimilarity, taking an external action on $P$ is valid up to Rooted Branching Bisimilarity.
 
 	\textbf{Case 2}: $\tau$ action on $P$. Let $P'$ such that $P \prightarrow{\tau} P'$. In the domain of $\csp$, this results in the process
 	\[P \extchoice Q \prightarrow{\tau} P' \extchoice Q\]
 
-	Now working in $\acptf$, we want to show that the translation is valid up to RBB, i.e. $\trans{P'\extchoice Q} \rbrb P'\extchoice Q$. Via Lemma \ref{lma:tau-transform}, we can now derive the following equation
+	Now working in $\acptf$, we want to show that the translation is valid up to RBB, i.e. $\trans{P'\extchoice Q} \rbrb P'\extchoice Q$. Via Lemma \ref{lma:merge-simplification-a}, we can now derive the following equation
 	\begin{align*}
-		 & \partial_{H_{0}}\Bigl(f_{1}\Bigl[\Gamma[\trans{P}]\, | | \,\mathtt{choose}\, | | \,\Gamma[\trans{Q}]\Bigl]\Bigr) \prightarrow{\tau} \\ &\partial_{H_{0}}\Bigl(f_{1}\Bigl[\Gamma[\trans{P'}]\, | | \,\mathtt{choose}\, | | \,\Gamma[\trans{Q}]\Bigl]\Bigr)
+		 & \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[\Gamma[\trans{P}]\, | | \,\mathtt{choose}\, | | \,\Gamma[\trans{Q}]\Bigl]\Bigr) \prightarrow{\tau} \\ &\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[\Gamma[\trans{P'}]\, | | \,\mathtt{choose}\, | | \,\Gamma[\trans{Q}]\Bigl]\Bigr)
 	\end{align*}
 	Which is strongly bisimilar to $P' \extchoice Q$, therefore a $\tau$ action on $P$ is also valid up to Rooted Branching Bisimilarity.
 
@@ -183,67 +214,144 @@ From subsection \ref{ssec:external-choice}, our translation of external choice i
 \subsection{Interrupt}
 
 Similarly to external choice, this is also Rooted Branching Bisimilar. We prove this similarly to the previous operator. From Definitions \ref{dfn:helper-functions}, \ref{dfn:communications}, and \ref{dfn:trans}, we recall our translation of the Interrupt operator:
-\[\trans{P \triangle Q} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \bigl(f_{\mathtt{origin}}(\trans{P}) \merge \Pi\bigr) \merge \Gamma(\trans{Q}) \Bigr]\Bigr)\]
+\[\trans{P \triangle Q} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ f_{\mathtt{origin}}(\trans{P}) \merge \Pi \merge \Gamma(\trans{Q}) \Bigr]\Bigr)\]
 
 \begin{proof}
 	Let $P, Q \in \csp$ be two processes. We want to show $P \interrupt Q \rbrb \trans{P \interrupt Q}$. i.e.: we want to show that any move will result in a process that satisfies RBB. We show this by exhausting all possible moves that $P \interrupt Q$ can take, and confirm that $\trans{P \interrupt Q}$ can also take them, up to Rooted Branching Bisimilarity.
 
-	Still working..
 
-	% \textbf{Step 1}: The first step is a communication between $\trans{P}$ with the function $\fdef{origin}$ applied to it, and $\Pi$. Recall that $\Pi$ is the process
-	% \[\Pi = \langle X \mid X = \mathtt{origin}.X + \mathtt{split} \rangle\]
-	% This action will either be of the form
-	% \[P \prightarrow{a} P' \text{ or } P \prightarrow{\tau} \frac{P}{}\]
-	%
-	% Since no actions in $\fdef{origin}(\trans{P})$ will be able to synchronise with the action $\mathtt{split}$, the only other option is the first action of $\fdef{origin}(\trans{P})$ synchronising with $\mathtt{origin}$. This results in the first action of the resulting function either being an action $a$ (renamed $a_{\mathtt{post}}$, and then renamed back to $a$), or an internal action $\tau$. Either option is Strongly Bisimilar to the moves of $P \interrupt Q$. We now need to show that the next steps in the translation are Branching Bisimilar
-	% \[\trans{P' \triangle Q} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \bigl(f_{\mathtt{origin}}(\trans{P'}) \merge \Pi\bigr) \merge \Gamma(\trans{Q}) \Bigr]\Bigr)\]
+	\begin{itemize}
+		\item Let $P'$ such that $P \prightarrow{a} P'$. Since every visible action in $P$ is tagged $a_{\mathtt{origin}}$, which can always communicate with $\mathtt{origin}\in H_{0}$, we can always apply Lemma \ref{lma:merge-simplification-merge} (Note that $\Pi \xrightarrow{\mathtt{origin}} \Pi$)
+			\begin{align*}
+				&\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ f_{\mathtt{origin}}(\trans{P}) \merge \Pi \merge \Gamma(\trans{Q}) \Bigr]\Bigr)\prightarrow{a} \\
+				&\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ f_{\mathtt{origin}}(\trans{P'}) \merge \Pi \merge \Gamma(\trans{Q}) \Bigr]\Bigr)
+			\end{align*}
+			which is Strongly bisimilar to $P' \interrupt Q$
 
-
+		\item Let $P'$ such that $P \prightarrow{\tau} P'$. Since $\tau$ actions can never communicate, and we have that $\mathtt{split}, \mathtt{origin}\in H_{0}$, we can always apply Lemma \ref{lma:merge-simplification-a}:
+			\begin{align*}
+				&\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ f_{\mathtt{origin}}(\trans{P}) \merge \Pi \merge \Gamma(\trans{Q}) \Bigr]\Bigr)\prightarrow{\tau} \\
+				&\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ f_{\mathtt{origin}}(\trans{P'}) \merge \Pi \merge \Gamma(\trans{Q}) \Bigr]\Bigr)
+			\end{align*}
+			which is Strongly bisimilar to $P' \interrupt Q$
+		\item Let $Q'$ such that $Q \prightarrow{a} Q'$. At any step in $\Pi$, there is the possibility to take a $\mathtt{split}$ step, and communicate with $a_{\mathtt{ini}}$. Therefore, we can then apply Lemma \ref{lma:merge-simplification-merge}:
+			\begin{align*}
+				&\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ f_{\mathtt{origin}}(\trans{P}) \merge \Pi \merge \Gamma(\trans{Q}) \Bigr]\Bigr)\prightarrow{a} \\
+				&\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ f_{\mathtt{origin}}(\trans{P}) \merge \trans{Q'} \Bigr]\Bigr)
+			\end{align*}
+			Via Lemma \ref{lma:stagnant-inis}, This process reduces to
+			\[\taus \merge \trans{Q'}\]
+			This process is Branching Bisimilar to $P \interrupt Q'$ via Lemma \ref{lma:tau-on-p-process}
+				
+		\item Let $Q'$ such that $Q \prightarrow{\tau} Q'$. Since $\tau$ actions can never communicate, and we have that $\mathtt{split}, \mathtt{origin}\in H_{0}$, we can always apply Lemma \ref{lma:merge-simplification-a}:
+			\begin{align*}
+				&\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ f_{\mathtt{origin}}(\trans{P}) \merge \Pi \merge \Gamma(\trans{Q}) \Bigr]\Bigr)\prightarrow{\tau} \\
+				&\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ f_{\mathtt{origin}}(\trans{P}) \merge \Pi \merge \Gamma(\trans{Q'}) \Bigr]\Bigr)
+			\end{align*}
+			This process is Strongly Bisimilar to $P \interrupt Q'$
+	\end{itemize}
+	We have now exhausted all cases, and therefore by the same logic as in the External choice operator, can conclude that our translation of $\csp$ Interrupt is Rooted Branching Bisimilar, and therefore Compositional.
 \end{proof}
+
+We will continue this for every process, along with a brief justification
+\begin{itemize}[leftmargin=*]
+    \item The \textbf{Parallel Composition} operator $\pcomp$ is defined as the equation
+		\[\trans{P \pcomp Q}     = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{P}) \merge \fdef{syn}(\trans{Q})\Bigr]\Bigr)\]
+		\begin{itemize}
+		    \item Let $P'$ such that $P \prightarrow{\alpha} P'$, and $\alpha\not\in A$ for the target set $A$. $\fdef{syn}$ will not affect $P$. Since $q\in H_{0}\,\forall q\in Q$ and $\alpha\mid a_{\mathtt{syn}} = \delta$, we apply Lemma \ref{lma:merge-simplification-a}:
+				\begin{align*}
+					\trans{P \pcomp Q} =& \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{P}) \merge \fdef{syn}(\trans{Q})\Bigr]\Bigr) \\
+					=&\partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\alpha.\bigl(\fdef{syn}(\trans{P'}) \merge \fdef{syn}(\trans{Q})\bigr)\Bigr]\Bigr)\prightarrow{\alpha} \\
+					& \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{P'}) \merge \fdef{syn}(\trans{Q})\Bigr]\Bigr)
+				\end{align*}
+				This is Strongly Bisimilar to $P' \pcomp Q$ even for internal actions.
+		    \item Let $Q'$ such that $Q \prightarrow{\alpha} Q'$, and $\alpha\not\in A$ for the target set $A$. This will give the same result as shown above, and is Strongly Bisimilar.
+		    \item Let $P'$ s.t. $P \prightarrow{a} P'$ and $Q'$ s.t. $Q \prightarrow{a'} Q'$, where $a = a'$, and also $a\in A$. Since $a_{\mathtt{syn}}\in H_{0}$ and $a_{\mathtt{syn}} \mid a_{\mathtt{syn}} = a$, we apply Lemma \ref{lma:merge-simplification-merge}:
+				\begin{align*}
+					\trans{P \pcomp Q} =& \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{P}) \merge \fdef{syn}(\trans{Q})\Bigr]\Bigr) \\
+					=&\partial_{H_{0}}\Bigl(\fdef{post}\Bigl[a_{\mathtt{syn}}.\fdef{syn}(\trans{P'}) \merge a_{\mathtt{syn}}.\fdef{syn}(\trans{Q'})\Bigr]\Bigr)\prightarrow{a}\\
+					&\partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{P'}) \merge \fdef{syn}(\trans{Q'})\Bigr]\Bigr)
+				\end{align*}
+			This process is Strongly Bisimilar to $P' \pcomp Q'$
+		\end{itemize}
+		Therefore, our translation for Parallel Composition is valid up to Strong Bisimilarity.
+	\item The \textbf{Throw} operator is defined as the equation:
+		\[\trans{P \throw Q}     = \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ \fdef{split}(\trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr)\]
+		\begin{itemize}
+		    \item Let $P'$ such that $P \prightarrow{\tau} P'$. Therefore, we have
+				\[\fdef{split}(\trans{P}) = \tau.\fdef{split}(\trans{P'})\]
+			Since $\pi\in H_{0}\, \forall \pi\in \Pi$, and $\tau \mid a = \delta$, we apply Lemma \ref{lma:merge-simplification-a}
+			\begin{align*}
+				\trans{P \throw Q}     =& \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[\fdef{split}(\trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr) \\
+				=& \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ \tau.\fdef{split}(\trans{P'}) | | \Pi.\trans{Q} \Bigr]\Bigr) \prightarrow{\tau} \\
+				& \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ \fdef{split}(\trans{P'}) | | \Pi.\trans{Q} \Bigr]\Bigr)
+			\end{align*}
+			This result is Strongly Bisimilar to $P' \throw Q$
+
+		    \item Let $P'$ such that $P \prightarrow{a} P'$, and $a\not\in A$ for the target set $A$. We will have that
+				\[\fdef{split}(\trans{P}) = a_{\mathtt{origin}}.\fdef{split}(\trans{P'})\]
+			Since $\pi\in H_{0},\, \forall \pi\in \Pi$, and $a_{\mathtt{origin}} \mid \mathtt{origin} = a$, we apply Lemma \ref{lma:merge-simplification-merge}:
+			\begin{align*}
+				\trans{P \throw Q}     =& \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ \fdef{split}(\trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr) \\
+				=& \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ a_{\mathtt{origin}}.\fdef{split}(\trans{P'}) | | \Pi.\trans{Q} \Bigr]\Bigr) \prightarrow{a} \\
+				& \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ \fdef{split}(\trans{P'}) | | \Pi.\trans{Q} \Bigr]\Bigr)
+			\end{align*}
+			This result is Strongly Bisimilar to $P' \throw Q$
+
+		    \item Let $P'$ such that $P \prightarrow{a} P'$, and $a\in A$ for the target set $A$. We will have that
+				\[\fdef{split}(\trans{P}) = a_{\mathtt{split}}.\fdef{split}(\trans{P'})\]
+			Since $\pi\in H_{0},\, \forall \pi\in \Pi$, and $a_{\mathtt{split}} \mid \mathtt{split} = a$, we apply Lemma \ref{lma:merge-simplification-merge}:
+			\begin{align*}
+				\trans{P \throw Q}     =& \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ \fdef{split}(\trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr) \\
+				=& \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ a_{\mathtt{split}}.\fdef{split}(\trans{P'}) | | \Pi.\trans{Q} \Bigr]\Bigr) \prightarrow{a} \\
+				& \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ \fdef{split}(\trans{P'}) | | \trans{Q} \Bigr]\Bigr)
+			\end{align*}
+			Via Lemma \ref{lma:stagnant-inis}, this reduces down to the equation
+			\[\tau^{*} | | \trans{Q}\]
+			This is Rooted Branching Bisimilar to $Q$ via Lemma \ref{lma:tau-on-p-process}.
+		\end{itemize}
+    \item The \textbf{Sliding Choice} operator $\sliding$ is defined as the equation
+		\[\trans{P \sliding Q}   = \tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{P}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\Bigr)\Bigr)\]
+		\begin{itemize}
+		    \item Let $P'$ such that $P \prightarrow{\alpha} P'$. Since $\mathtt{choose}\in H_{0}$, and $\mathtt{choose} \mid a_{\mathtt{ini}} = a$, we apply Lemma \ref{lma:merge-simplification-merge}:
+				\begin{align*}
+					\trans{P \sliding Q}   =& \tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{P}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\Bigr)\Bigr) \\
+					=&\tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ a_{\mathtt{ini}}.\trans{P'} \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\Bigr)\Bigr) \\
+					\prightarrow{a}& \tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[\trans{P'} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\Bigr)\Bigr)
+				\end{align*}
+				Nothing in $\trans{P'}$ can communicate with the action $\mathtt{shift}_{\mathtt{ini}}$, therefore the process is Strongly Bisimilar to $P' \sliding Q$.
+		    \item Let $P'$ such that $P \prightarrow{\tau} P'$. Since $\mathtt{choose}\in H_{0}$, and $\tau$ actions cannot communicate, we apply Lemma \ref{lma:merge-simplification-a}:
+				\begin{align*}
+					\trans{P \sliding Q}   =& \tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{P}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\Bigr)\Bigr) \\
+					=&\tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \tau.\Gamma(\trans{P'}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\Bigr)\Bigr) \\
+					\prightarrow{\tau}& \tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[\Gamma(\trans{P'}) \merge \mathtt{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\Bigr)\Bigr)
+				\end{align*}
+				This process is strongly bisimilar to $P' \sliding Q$.
+		    \item Let $Q'$ such that $Q \prightarrow{\alpha} Q'$. Since $\mathtt{choose}\in H_{0}$, and the first action of the process must be $\mathtt{shift}_{\mathtt{ini}}$, we apply Lemma \ref{lma:merge-simplification-merge}:
+				\begin{align*}
+					\trans{P \sliding Q}   =& \tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{P}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\Bigr)\Bigr) \\
+					\prightarrow{\tau}& \tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[\Gamma(\trans{P'}) \merge \mathtt{shift}.\trans{Q}) \Bigr]\Bigr)\Bigr)
+				\end{align*}
+				This process is Branching Bisimilar to $Q$. The action $\mathtt{shift}$ will be abstracted by the $\tau$, which is a Strongly Bisimilar action, but the process $\trans{P}$ will still cause the process to derive to
+				\[\taus \merge \tau.\trans{Q}\]
+		\end{itemize}
+		Therefore, our translation for Sliding Choice is valid up to Rooted Branching Bisimulation.
+\end{itemize}
 
 \subsection{Generalising}
 
-\begin{lma}[Maybe?]{lma:maybe-prove}{}
-	I claim that a Strong Bisimulation cannot occur and RBB is the finest equivalence able to be translated
-\end{lma}
+From these proofs, we have shown that every translation of the $\csp$ operators are valid up to Rooted Branching Bisimularity.
 
-\begin{thm}[Maybe 2]{thm:tau-comm}{}
-	The following diagram cannot be modelled in $\acp$ via Communication of two processes $a$ and $\tau$
-	% https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXGJ1bGxldCJdLFsyLDAsIlxcYnVsbGV0Il0sWzAsMiwiXFxidWxsZXQiXSxbMCwxLCJcXHRhdSJdLFswLDIsImEiLDJdXQ==
-	\[\begin{tikzcd}[cramped]
-			\bullet && \bullet \\
-			\\
-			\bullet
-			\arrow["\tau", from=1-1, to=1-3]
-			\arrow["a"', from=1-1, to=3-1]
-		\end{tikzcd}\]
-\end{thm}
+% \begin{thm}[Maybe 2]{thm:tau-comm}{}
+% 	The following diagram cannot be modelled in $\acp$ via Communication of two processes $a$ and $\tau$
+% 	% https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXGJ1bGxldCJdLFsyLDAsIlxcYnVsbGV0Il0sWzAsMiwiXFxidWxsZXQiXSxbMCwxLCJcXHRhdSJdLFswLDIsImEiLDJdXQ==
+% 	\[\begin{tikzcd}[cramped]
+% 			\bullet && \bullet \\
+% 			\\
+% 			\bullet
+% 			\arrow["\tau", from=1-1, to=1-3]
+% 			\arrow["a"', from=1-1, to=3-1]
+% 		\end{tikzcd}\]
+% \end{thm}
 
-% \begin{proof}
-%
-% \end{proof}
 \end{document}
-
-
-
-
-
-% Axiomatic Expansion of thingy
-
-% \begin{align*}
-% \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma(a) \merge \mathtt{choose} \merge \Gamma(\tau.b)\Bigr]\Bigr) \\
-% \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[a_{\mathtt{first}} \merge \mathtt{choose} \merge \tau.b_{\mathtt{first}}\Bigr]\Bigr) \\
-% \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[(a_{\mathtt{first}} . \mathtt{choose} + \mathtt{choose} . a_{\mathtt{first}} + \mathtt{choose} \mid a_{\mathtt{first}}) \merge \tau.b_{\mathtt{first}}\Bigr]\Bigr) \\
-% \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[(a_{\mathtt{first}} . \mathtt{choose} + \mathtt{choose} . a_{\mathtt{first}} + a) \merge \tau.b_{\mathtt{first}}\Bigr]\Bigr) \\
-% \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[(a_{\mathtt{first}} . \mathtt{choose}  + \mathtt{choose} . a_{\mathtt{first}} + a) \leftmerge \tau.b_{\mathtt{first}} + \\
-% \tau.b_{\mathtt{first}} \leftmerge (a_{\mathtt{first}} . \mathtt{choose}  + \mathtt{choose} . a_{\mathtt{first}} + a)+\\
-% (a_{\mathtt{first}} . \mathtt{choose}  + \mathtt{choose} . a_{\mathtt{first}} + a) \mid \tau.b_{\mathtt{first}}\Bigr]\Bigr) \\
-% \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[{\color{red}(a_{\mathtt{first}} . \mathtt{choose} \leftmerge \tau.b_{\mathtt{first}} + \mathtt{choose} . a_{\mathtt{first}}\leftmerge \tau.b_{\mathtt{first}}} + a\leftmerge \tau.b_{\mathtt{first}}) + \\
-% \tau.(b_{\mathtt{first}} \merge (a_{\mathtt{first}} . \mathtt{choose}  + \mathtt{choose} . a_{\mathtt{first}} + a))+\\
-% (a_{\mathtt{first}} . \mathtt{choose} \mid \tau.b_{\mathtt{first}} + \mathtt{choose} . a_{\mathtt{first}}\mid \tau.b_{\mathtt{first}} + a\mid \tau.b_{\mathtt{first}} \Bigr]\Bigr) \\
-% \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[a. \tau.b_{\mathtt{first}}) + \\
-% \tau.(b_{\mathtt{first}} \leftmerge (a_{\mathtt{first}} . \mathtt{choose}  + \mathtt{choose} . a_{\mathtt{first}} + a) + \\
-% (a_{\mathtt{first}} . \mathtt{choose}  + \mathtt{choose} . a_{\mathtt{first}} + a)\leftmerge b_{\mathtt{first}} +\\
-% b_{\mathtt{first}} \mid (a_{\mathtt{first}} . \mathtt{choose}  + \mathtt{choose} . a_{\mathtt{first}} + a)) \\
-% (a_{\mathtt{first}} . \mathtt{choose} \mid b_{\mathtt{first}} + \mathtt{choose} . a_{\mathtt{first}}\mid b_{\mathtt{first}} + a\mid b_{\mathtt{first}} \Bigr]\Bigr) \\
-% \end{align*}

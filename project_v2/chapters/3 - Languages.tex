@@ -194,7 +194,7 @@ A finer relation than Branching Bisimilarity is Rooted Branching Bisimilarity (R
 		\item If $s \prightarrow{\alpha} s'$ for $\alpha\in \Sigma_{\tau}$ is an edge in $P$, and $s R t$, then either
 		      \begin{enumerate}[label=\alph*)]
 			      \item $\alpha= \tau$ and $s' R t$
-			      \item $\exists t \Rightarrow t_{1} \prightarrow{\alpha} t'$ such that $s R t_{1}$ and $s R t'$
+			      \item $\exists t \Rightarrow t_{1} \prightarrow{\alpha} t'$ such that $s R t_{1}$ and $s R t'$\footnote{Here, we use the symbol $\Rightarrow$ to mean a chain of $\tau$ actions, possibly none.}
 		      \end{enumerate}
 		\item If $s \checkmark$ and $s R t$ then there exists a $t \Rightarrow t'$ in $Q$ to a state $t'$ with $t'\checkmark$ and $s R t'$\footnote{As explained in Section \ref{ssec:termination}, this rule can be omitted without loss in function over the translation\label{fnote:rbb-termination}}
 		\item[4, 5]: As in $2, 3$, with the roles of $P$ and $Q$ interchanged

@@ -361,7 +361,7 @@ For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \matht
 We now define our encoding of $\csp$ Sliding Choice $\sliding$ as the following equation:
 \begin{equation}\label{func:sliding}
 \tag{F\thefuncs}\stepcounter{funcs}
-    \trans{P \sliding Q} = \partial_{H_{0}}\Bigl(\tau_{\{\mathtt{shift}\}}\Bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{P}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\Bigr)\Bigr)
+    \trans{P \sliding Q} = \tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{P}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\Bigr)\Bigr)
 \end{equation}
 
 \subsection{Interrupt}\label{ssec:interrupt}
@@ -519,13 +519,13 @@ We take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt
 		\trans{a \to P}        & = a.\trans{P}                                                                                                                                                                                \\
 		\trans{P \intchoice Q} & = \tau.\trans{P} + \tau.\trans{Q}                                                                                                                                                            \\
 		\trans{P \extchoice Q} & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{Q}]\Bigl]\Bigr)                                                               \\
-		\trans{P \sliding Q}   & = \partial_{H_{0}}\Bigl(\tau_{\{\mathtt{shift}\}}\bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{P}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\bigr)\Bigr) \\
+		\trans{P \sliding Q}   & = \tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{P}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\Bigr)\Bigr) \\
 		\trans{P \pcomp Q}     & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{P}) \merge \fdef{syn}(\trans{Q})\Bigr]\Bigr)                                                                                      \\
 		\trans{P \backslash A} & = \partial_{A}{\trans{P}}                                                                                                                                                                    \\
 		% \trans{\mu p.P} &= \langle X \mid X = \tau.X \rangle
 		\trans{f(P)}           & = f(\trans{P})                                                                                                                                                                               \\
-		\trans{P \interrupt Q} & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[ \bigl((\fdef{origin}\trans{P}) \merge \Pi\bigr) \merge \Gamma(\trans{Q}) \Bigr]\Bigr)                                                              \\
-		\trans{P \throw Q}     & = \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ (\fdef{split} \trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr)
+		\trans{P \interrupt Q} & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[ \fdef{origin}(\trans{P}) \merge \Pi \merge \Gamma(\trans{Q}) \Bigr]\Bigr)                                                              \\
+		\trans{P \throw Q}     & = \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ \fdef{split}(\trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr)
 	\end{align*}
 \end{dfn}
 \end{document}
