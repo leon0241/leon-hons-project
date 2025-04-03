@@ -1,0 +1,32 @@
+\begin{table}[hb!]
+\begin{center}
+\framebox{$\begin{array}{ccccc}
+\div\prightarrow{\tau}\div &
+(a\rightarrow P) \prightarrow{a} P &
+P \intchoice Q \prightarrow{\tau} P &
+P \intchoice Q \prightarrow{\tau} Q \\[2ex]
+\displaystyle\frac{P\prightarrow{a} P'}{P\extchoice Q \prightarrow{a} P'} &
+\displaystyle\frac{P\prightarrow{\tau} P'}{P\extchoice Q \prightarrow{\tau} P'\extchoice Q} &
+\displaystyle\frac{Q\prightarrow{a} Q'}{P\extchoice Q \prightarrow{a} Q'} &
+\displaystyle\frac{Q\prightarrow{\tau} Q'}{P\extchoice Q \prightarrow{\tau} P\extchoice Q'} \\[4ex]
+\displaystyle\frac{P\prightarrow{a} P'}{P\sliding Q \prightarrow{a} P'} &
+\displaystyle\frac{P\prightarrow{\tau} P'}{P\sliding Q \prightarrow{\tau} P'\sliding Q} &
+P \sliding Q \prightarrow{\tau} Q &
+\displaystyle\frac{P \prightarrow{\alpha} P'}{f(P) \prightarrow{f(\alpha)} f(P')} \\[4ex]
+\displaystyle\frac{P\prightarrow{\alpha} P'~~{\scriptstyle(\alpha\notin A)}}{P\|_AQ \prightarrow{\alpha} P'\|_AQ} &
+\multicolumn{2}{c}{
+\displaystyle\frac{P\prightarrow{a} P'~~Q\prightarrow{a} Q'~~{\scriptstyle(a\in A)}}{P\|_AQ \prightarrow{a} P'\|_AQ'}} &
+\displaystyle\frac{Q\prightarrow{\alpha} Q'~~{\scriptstyle(\alpha\notin A)}}{P\|_AQ \prightarrow{\alpha} P\|_AQ'} \\[4ex]
+\displaystyle\frac{P \prightarrow{\alpha} P'~~{\scriptstyle(\alpha\notin A)}}{P\conceal A \prightarrow{\alpha} P'\conceal A} &
+\displaystyle\frac{P \prightarrow{a} P'~~{\scriptstyle(a\in A)}}{P\conceal A \prightarrow{\tau} P'\conceal A} &
+\displaystyle\frac{P\prightarrow{\alpha} P'~~{\scriptstyle(\alpha\notin A)}}{P\throw Q \prightarrow{a} P'\throw Q} &
+\displaystyle\frac{P\prightarrow{a} P'~~{\scriptstyle(a\in A)}}{P\throw Q \prightarrow{a} Q}\\[4ex]
+\displaystyle\frac{P\prightarrow{\alpha} P'}{P\interrupt Q \prightarrow{\alpha} P'\interrupt Q} &
+\displaystyle\frac{Q\prightarrow{\tau} Q'}{P\interrupt Q \prightarrow{\tau} P'\interrupt Q'} &
+\displaystyle\frac{Q\prightarrow{a} Q'}{P\interrupt Q \prightarrow{a} Q'} &
+\multicolumn{2}{c}{\mu p.P \xrightarrow{\mathmakebox[10pt]{\tau}} P[\mu p.P/p]}
+\end{array}$}
+\end{center}
+\caption{Structural operational semantics of CSP}
+\label{table:CSP}
+\end{table}

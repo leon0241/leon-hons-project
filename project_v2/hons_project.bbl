@@ -1,4 +1,4 @@
-\begin{thebibliography}{23}
+\begin{thebibliography}{24}
 % this bibliography was produced with the style dinat.bst v2.5
 \makeatletter
 \newcommand{\dinatlabel}[1]%
@@ -161,5 +161,12 @@
 \newblock A {{Theory}} of {{Encodings}} and {{Expressiveness}}.
 \newblock
 \newblock (2024)
+
+\bibitem[Vrancken(1997)]{vranckenAlgebraCommunicatingProcesses1997}
+\dinatlabel{Vrancken 1997} \textsc{Vrancken}, J.L.M.:
+\newblock The Algebra of Communicating Processes with Empty Process.
+\newblock In: \emph{Theoretical Computer Science}
+\newblock 177 (1997), Mai, Nr.~2, S.~287--328. --
+\newblock ISSN 03043975
 
 \end{thebibliography}

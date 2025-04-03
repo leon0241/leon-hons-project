@@ -1,0 +1,127 @@
+% inspired by
+% https://texblog.org/2015/09/30/fancy-boxes-for-theorem-lemma-and-proof-with-mdframed/
+% https://tex.stackexchange.com/questions/391443/new-theorem-environment-with-manual-theorem-number
+
+\usepackage[dvipsnames]{xcolor}
+
+% TYPES:
+% thm (theorem) / def (definition) / xmp (examples) / rem (remark)
+
+% USAGE:
+% \begin{thm}[Name]{Label}{Reference Number}
+    % TEXT
+% \end{thm}
+
+% THEOREM
+\newenvironment{thm}[3][]{
+    \vspace{10pt}
+    \begin{thmbox}[#1]{#2}{#3}{blue}{20}{Theorem}
+} {\end{thmbox}}
+
+% THEOREM
+\newenvironment{lma}[3][]{
+    \vspace{5pt}
+    \begin{thmbox}[#1]{#2}{#3}{cyan}{20}{Lemma}
+} {\end{thmbox}}
+
+% DEFINITION
+\newenvironment{dfn}[3][]{
+    \vspace{10pt}
+    \begin{thmbox}[#1]{#2}{#3}{green}{20}{Definition}
+} {\end{thmbox}}
+
+% DEFINITION
+\newenvironment{dfn-s}[3][]{
+    \vspace{5pt}
+    \begin{thmbox}[#1]{#2}{#3}{green}{20}{Def}
+} {\end{thmbox}}
+
+% EXAMPLE
+\newenvironment{xmp}[3][]{
+    \vspace{5pt}
+    \begin{thmbox}[#1]{#2}{#3}{yellow}{40}{Example}
+} {\end{thmbox}}
+
+% REMARK
+\newenvironment{rem}[3][]{
+    \vspace{5pt}
+    \begin{thmbox}[#1]{#2}{#3}{magenta}{20}{Remark}
+} {\end{thmbox}}
+
+% QUESTION
+\newenvironment{qst}[3][]{
+    \vspace{5pt}
+    \begin{thmbox}[#1]{#2}{#3}{orange}{30}{Question}
+} {\end{thmbox}}
+
+% QUESTION
+\newenvironment{rcl}[3][]{
+    \vspace{5pt}
+    \begin{thmbox}[#1]{#2}{#3}{pink}{50}{Recall}
+} {\end{thmbox}}
+
+%---------------------------------%
+%                                 %
+%     THEOREM BOX GENERAL DEF     %
+%                                 %
+%---------------------------------%
+
+% USAGE:
+% \begin{thmbox}[Name]{Label}{Reference Number}{Box Colour}{Box Opacity}{Title Category}
+    % TEXT
+% \end{thmbox}
+
+\newcounter{theorems}
+\counterwithin{theorems}{chapter}
+\setcounter{theorems}{0}
+
+\newenvironment{thmbox}[6][]{%
+    % Argument 3 is a custom number
+    \ifstrempty{#3}
+        % {
+        %     % If argument 3 isn't provided, then use the subsubsection numbering
+        %     \refstepcounter{subsubsection}
+        %     \newcommand{\thethmbox}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+        % }
+        {
+            % If argument 3 isn't provided, then use the subsubsection numbering
+            \refstepcounter{theorems}
+            \newcommand{\thethmbox}{\arabic{chapter}.\arabic{theorems}}
+        }
+        {
+            \newcommand{\thethmbox}{#3}
+        }
+        % Set up bounding boxes in tikz
+        \ifstrempty{#1}%
+            {
+                % if there is no argument 1 (Title), then just a box
+                \mdfsetup{
+                    frametitle={
+                        \tikz[baseline=(current bounding box.east),outer sep=0pt]
+                        \node[anchor=east,rectangle,fill=#4!#5]
+                        {\strut #6 \thethmbox};
+                    }
+                }
+            }
+            {
+                % if there is argument 1 (Title), then add title
+                \mdfsetup{
+                    frametitle={
+                        \tikz[baseline=(current bounding box.east),outer sep=0pt]
+                        \node[anchor=east,rectangle,fill=#4!#5]
+                        {\strut #6 \thethmbox:~#1};
+                    }
+                }
+            }
+
+            % set bounds of box
+            \mdfsetup{innertopmargin=5pt,linecolor=#4!20,%
+                linewidth=2pt,topline=true,%
+                frametitleaboveskip=\dimexpr-\ht\strutbox\relax
+            }
+            % start environment with label as argument 2
+            \begin{mdframed}[backgroundcolor=#4!2]\relax\raggedright%
+                \label{#2}
+            }
+        {\end{mdframed}
+    }
