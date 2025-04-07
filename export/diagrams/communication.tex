@@ -1,0 +1,53 @@
+\begin{figure}[t!]
+	\centering
+	\begin{subfigure}[b]{0.49\textwidth}
+		% https://q.uiver.app/#q=WzAsOSxbMCwwLCJcXGJ1bGxldCJdLFsyLDAsIlxcYnVsbGV0Il0sWzQsMCwiXFxidWxsZXQiXSxbMCwyLCJcXGJ1bGxldCJdLFswLDQsIlxcYnVsbGV0Il0sWzIsMiwiXFxidWxsZXQiXSxbMiw0LCJcXGJ1bGxldCJdLFs0LDIsIlxcYnVsbGV0Il0sWzQsNCwiXFxidWxsZXQiXSxbMCwxLCJhIl0sWzEsMiwiYiJdLFswLDMsImMiLDJdLFszLDQsImQiLDJdLFsxLDUsImMiLDJdLFs1LDYsImQiLDJdLFsyLDcsImMiLDJdLFs3LDgsImQiLDJdLFszLDUsImEiXSxbNSw3LCJiIiwxXSxbNCw2LCJhIiwyXSxbNiw4LCJiIiwxXSxbMyw2LCJlIiwxXV0=
+		\[\begin{tikzcd}[cramped, column sep=scriptsize]
+				\bullet && \bullet && \bullet \\
+				\\
+				\bullet && \bullet && \bullet \\
+				\\
+				\bullet && \bullet && \bullet
+				\arrow["a", from=1-1, to=1-3]
+				\arrow["c"', from=1-1, to=3-1]
+				\arrow["b", from=1-3, to=1-5]
+				\arrow["c"', from=1-3, to=3-3]
+				\arrow["c"', from=1-5, to=3-5]
+				\arrow["a", from=3-1, to=3-3]
+				\arrow["d"', from=3-1, to=5-1]
+				\arrow["e"{description}, from=3-1, to=5-3]
+				\arrow["b"{description}, from=3-3, to=3-5]
+				\arrow["d"', from=3-3, to=5-3]
+				\arrow["d"', from=3-5, to=5-5]
+				\arrow["a"', from=5-1, to=5-3]
+				\arrow["b"{description}, from=5-3, to=5-5]
+			\end{tikzcd}\]
+		\caption{Communication and Left Merges.}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.49\textwidth}
+		% https://q.uiver.app/#q=WzAsOSxbMCwwLCJcXGJ1bGxldCJdLFsyLDAsIlxcYnVsbGV0Il0sWzQsMCwiXFxidWxsZXQiXSxbMCwyLCJcXGJ1bGxldCJdLFswLDQsIlxcYnVsbGV0Il0sWzIsMiwiXFxidWxsZXQiXSxbMiw0LCJcXGJ1bGxldCJdLFs0LDIsIlxcYnVsbGV0Il0sWzQsNCwiXFxidWxsZXQiXSxbMCwxLCJhIiwwLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFsxLDIsImIiXSxbMCwzLCJjIiwyXSxbMyw0LCJkIiwyLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFsxLDUsImMiLDJdLFs1LDYsImQiLDIseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzIsNywiYyIsMl0sWzcsOCwiZCIsMix7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbMyw1LCJhIiwwLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFs1LDcsImIiLDFdLFs0LDYsImEiLDIseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzYsOCwiYiIsMV0sWzMsNiwiZSIsMV1d
+		\[\begin{tikzcd}[cramped, column sep=scriptsize]
+				\bullet && \bullet && \bullet \\
+				\\
+				\bullet && \bullet && \bullet \\
+				\\
+				\bullet && \bullet && \bullet
+				\arrow["a", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-1, to=1-3]
+				\arrow["c"', from=1-1, to=3-1]
+				\arrow["b", from=1-3, to=1-5]
+				\arrow["c"', from=1-3, to=3-3]
+				\arrow["c"', from=1-5, to=3-5]
+				\arrow["a", color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-1, to=3-3]
+				\arrow["d"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-1, to=5-1]
+				\arrow["e"{description}, from=3-1, to=5-3]
+				\arrow["b"{description}, from=3-3, to=3-5]
+				\arrow["d"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-3, to=5-3]
+				\arrow["d"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=3-5, to=5-5]
+				\arrow["a"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=5-1, to=5-3]
+				\arrow["b"{description}, from=5-3, to=5-5]
+			\end{tikzcd}\]
+		\caption{Restriction applied over the set $\{a, d\}$.}
+	\end{subfigure}
+	\caption{Example of Communication on the process: $\partial_{\{a,d\}}(a.b \merge c.d)$. An example of how this can be modelled as a vending machine. Take the process $a.b$ to mean \texttt{accept payment}.\texttt{dispense item}, the process $c.d$ to mean \texttt{choose item}.\texttt{insert payment}, and the communication $a \mid d = e$ to mean \texttt{pay}. The process will then evaluate to the process \texttt{choose item.pay.dispense item}, with the process synchronising over \texttt{insert payment} and \texttt{recieve payment}.}
+	\label{fig:communication}
+\end{figure}

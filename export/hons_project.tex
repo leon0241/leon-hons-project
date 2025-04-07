@@ -1,0 +1,82 @@
+\documentclass[logo,bsc,singlespacing,parskip,online]{infthesis}
+\usepackage{rss/ugcheck}
+
+\usepackage{rss/preamble}
+% \overfullrule=20mm
+
+
+\begin{document}
+\begin{preliminary}
+
+\title{A Translation Measuring the Relative Expressiveness between CSP and ACP}
+
+\author{Leon Lee}
+\course{Computer Science and Mathematics}
+\project{4th Year Project Report}
+\date{\today}
+
+\abstract{
+   A popular technique for representing processes in Concurrency Theory is categorised into models called Process Algebras. Many Process Algebras exist, and efforts have been made to contextualise different Algebras against each other to find out notions of which Algebra are ``better''.
+
+   In this paper, we use the notion of ``expressiveness'', namely, ``Can one Algebra express more tasks than another'', and I present a translation between two popular Algebras, $\acp$ and $\csp$, showing that $\acp$ with Functional Renaming is at least as expressive as $\csp$ up to rooted branching bisimulation.
+}
+
+\maketitle
+
+\newenvironment{ethics}
+   {\begin{frontenv}{Research Ethics Approval}{\LARGE}}
+   {\end{frontenv}\newpage}
+
+\begin{ethics}
+This project was planned in accordance with the Informatics Research
+Ethics policy. It did not involve any aspects that required approval
+from the Informatics Research Ethics committee.
+
+\standarddeclaration
+\end{ethics}
+
+
+\begin{acknowledgements}
+   I would like to give my kindest regards to my supervisor Rob who always provided a patient and excellent guide on this journey into concurrency theory.
+
+   Thank you to all my friends for the late night study supports, and everybody at the Bedlam Theatre for always pushing me harder than should be possible.
+
+   Finally, thank you to my family for their constant support, as well as my lovely girlfriend Alice.
+\end{acknowledgements}
+
+% \tableofcontents
+\end{preliminary}
+
+
+\chapter{Introduction}
+\subfile{chapters/1 - Introduction}
+
+\chapter{Background}
+\subfile{chapters/2 - Background}
+
+\chapter{A formal definition of \texorpdfstring{$\csp$}{CSP} and \texorpdfstring{$\acptf$}{ACP}}
+\subfile{chapters/3 - Languages.tex}
+
+\chapter{A Translation of \texorpdfstring{$\csp$}{CSP} to \texorpdfstring{$\acptf$}{ACP}}
+\subfile{chapters/4 - Translation.tex}
+
+
+\chapter{Validity of the Encoding}
+\subfile{chapters/5 - Validity.tex}
+
+\chapter{Conclusion}
+\subfile{chapters/6 - Results.tex}
+
+\bibliographystyle{dinat}
+\bibliography{project}
+
+
+\appendix
+
+\chapter{Diagrams}
+\subfile{chapters/A1 - Diagrams.tex}
+
+\chapter{Extended Definitions}
+\subfile{chapters/A2 - Syntax.tex}
+
+\end{document}

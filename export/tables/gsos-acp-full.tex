@@ -1,0 +1,77 @@
+\begin{table}[htb]
+\begin{center}
+\framebox{$\begin{array}{ccccc}
+% Action
+a \prightarrow{\alpha} \checkmark &
+% Alternative Compositition -  Termination
+{\color{red}\prftree{P \prightarrow{\alpha} \checkmark}{P + Q \prightarrow{\alpha} \checkmark}} &
+{\color{red}\prftree{Q \prightarrow{\alpha} \checkmark}{P + Q \prightarrow{\alpha} \checkmark}} &
+% Alternative Compositition -  Action
+\prftree{P \prightarrow{\alpha} P'}{P + Q \prightarrow{\alpha} P'} \\[2ex]
+\prftree{Q \prightarrow{\alpha} Q'}{P + Q \prightarrow{\alpha} Q'} &
+
+% Seqential Composition - Termination
+\prftree{P \prightarrow{\alpha} \checkmark}{P \cdot Q \prightarrow{\alpha} Q} & 
+% Seqential Composition - Action
+\prftree{P \prightarrow{\alpha} P'}{P \cdot Q \prightarrow{\alpha} P' \cdot Q} &
+
+% Merge - Termination
+{\color{red}\prftree{P\prightarrow{\alpha} \checkmark}{P \merge Q \prightarrow{\alpha} Q}} \\[2ex]
+{\color{red}\prftree{Q\prightarrow{\alpha} \checkmark}{P \merge Q \prightarrow{\alpha} P}} &
+% Merge - Action
+\prftree{P\prightarrow{\alpha} P'}{P \merge Q \prightarrow{\alpha} P' \merge Q} &
+\prftree{Q\prightarrow{\alpha} Q'}{P \merge Q \prightarrow{\alpha} P \merge Q'} \\[2ex]
+
+% Merge - Termination Termination
+\multicolumn{2}{c}{{\color{red}\prftree{P\prightarrow{\alpha} \checkmark~~Q\prightarrow{b} \checkmark~~ \scriptstyle a \mid b = c}{P \merge Q \prightarrow{c} \checkmark}}} &
+% Merge - Termination Action
+\multicolumn{2}{c}{{\color{red}\prftree{P\prightarrow{\alpha} \checkmark ~~Q\prightarrow{b} Q' ~~ \scriptstyle a \mid b = c}{P \merge Q \prightarrow{c} Q'}}} \\[2ex]
+% Merge - Action Termination
+\multicolumn{2}{c}{{\color{red}\prftree{P\prightarrow{\alpha} P'~~Q\prightarrow{b} \checkmark ~~ \scriptstyle a \mid b = c}{P \merge Q \prightarrow{c} P'}}} &
+% Merge - Action Action
+\multicolumn{2}{c}{\prftree{P\prightarrow{\alpha} P'~~Q\prightarrow{b} Q'~~ \scriptstyle a \mid b = c}{P \merge Q \prightarrow{c} P' \merge Q'}} \\[2ex] 
+
+% Left Merge - Termination
+{\color{red}\prftree{P\prightarrow{\alpha} \checkmark}{P \leftmerge Q \prightarrow{\alpha} Q}} &
+% Left Merge - Action
+\prftree{P\prightarrow{\alpha} P'}{P \leftmerge Q \prightarrow{\alpha} P' \merge Q} &
+
+% Merge - Termination Termination
+\multicolumn{2}{c}{{\color{red}\prftree{P\prightarrow{\alpha} \checkmark~~Q\prightarrow{b} \checkmark~~ \scriptstyle a \mid b = c}{P \mid Q \prightarrow{c} \checkmark}}} \\[2ex]
+% Merge - Termination Action
+\multicolumn{2}{c}{{\color{red}\prftree{P\prightarrow{\alpha} \checkmark ~~Q\prightarrow{b} Q' ~~ \scriptstyle a \mid b = c}{P \mid Q \prightarrow{c} Q'}}} &
+% Merge - Action Termination
+\multicolumn{2}{c}{{\color{red}\prftree{P\prightarrow{\alpha} P'~~Q\prightarrow{b} \checkmark ~~ \scriptstyle a \mid b = c}{P \mid Q \prightarrow{c} P'}}} \\[2ex]
+% Merge - Action Action
+\multicolumn{2}{c}{\prftree{P\prightarrow{\alpha} P'~~Q\prightarrow{b} Q'~~ \scriptstyle a \mid b = c}{P \mid Q \prightarrow{c} P' \merge Q'}} &
+
+% Abstraction in the set - Termination
+{\color{red}\prftree{P\prightarrow{\alpha} \checkmark~~{\scriptstyle(\alpha\in I)}}{\abtau(P) \prightarrow{\tau} \checkmark}} &
+% Abstraction in the set - Action
+\prftree{P\prightarrow{\alpha} P'~~{\scriptstyle(\alpha\in I)}}{\abtau(P) \prightarrow{\tau} \abtau(P')} \\[2ex]
+% Abstraction outside the set - Termination
+{\color{red}\prftree{P\prightarrow{\alpha} \checkmark~~{\scriptstyle(\alpha\in I)}}{\abtau(P) \prightarrow{\alpha} \checkmark}} &
+% Abstraction outside the set - Action
+\prftree{P\prightarrow{\alpha} P'~~{\scriptstyle(\alpha\not\in I)}}{\abtau(P) \prightarrow{\alpha} \abtau(P')} &
+
+% Restriction - Termination
+{\color{red}\prftree{P \prightarrow{\alpha} \checkmark~~{\scriptstyle(\alpha\notin H)}}{\restrict(P) \prightarrow{\alpha} \checkmark}} &
+% Restriction - Action
+\prftree{P \prightarrow{\alpha} P'~~{\scriptstyle(\alpha\notin H)}}{\restrict(P) \prightarrow{\alpha} \restrict(P')} \\[2ex]
+
+% Recursion - Termination
+{\color{red}\prftree{\langle \mathcal{S}_{X} \mid \mathcal{S} \rangle \prightarrow{\alpha} \checkmark}{\langle X \mid \mathcal{S} \rangle \prightarrow{\alpha} \checkmark}} &
+% Recursion - Action
+\prftree{\langle \mathcal{S}_{X} \mid \mathcal{S} \rangle \prightarrow{\alpha} P'}{\langle X \mid \mathcal{S} \rangle \prightarrow{\alpha} P'} &
+
+% Functional Renaming - Termination
+{\color{red}\prftree{P\prightarrow{\alpha} \checkmark}{f(P) \prightarrow{f(a)} \checkmark}} & 
+% Functional Renaming - Action
+\prftree{P\prightarrow{\alpha} P'}{f(P) \prightarrow{f(a)} f(P')}
+\end{array}$}
+\end{center}
+\caption{Extended Structural operational semantics of the language $\acptf$. Compared to Table \ref{table:ACP}, this includes additional rules for Successful Termination, $\checkmark$, which are highlighted in red.}
+
+\label{table:ACP-full}
+% \cite{DeNicola2013AGI}
+\end{table}

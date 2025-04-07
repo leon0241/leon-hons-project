@@ -1,0 +1,91 @@
+   \begin{subfigure}[b]{0.49\textwidth}
+% https://q.uiver.app/#q=WzAsMTcsWzAsMSwiXFxjaXJjIl0sWzAsMywiXFxidWxsZXQiXSxbMiwxLCJcXGJ1bGxldCJdLFs0LDEsIlxcYnVsbGV0Il0sWzAsNSwiXFxidWxsZXQiXSxbMiwzLCJcXGJ1bGxldCJdLFsyLDUsIlxcYnVsbGV0Il0sWzQsMywiXFxidWxsZXQiXSxbNCw1LCJcXGJ1bGxldCJdLFs2LDEsIlxcYnVsbGV0Il0sWzYsMywiXFxidWxsZXQiXSxbNiw1LCJcXGJ1bGxldCJdLFswLDcsIlxcYnVsbGV0Il0sWzIsNywiXFxidWxsZXQiXSxbNCw3LCJcXGJ1bGxldCJdLFs2LDcsIlxcYnVsbGV0Il0sWzAsMF0sWzAsMSwiXFx0YXUiLDJdLFswLDIsIlxcbWF0aHR0e2ZpcnN0fSJdLFsyLDMsIlxcbWF0aHR0e25leHR9Il0sWzEsNCwiYSIsMl0sWzIsNSwiXFx0YXUiLDJdLFs1LDYsImEiLDJdLFs3LDgsImEiLDJdLFszLDcsIlxcdGF1IiwyXSxbMSw1LCJcXG1hdGh0dHtmaXJzdH0iXSxbNCw2LCJcXG1hdGh0dHtmaXJzdH0iXSxbNSw3LCJcXG1hdGh0dHtuZXh0fSJdLFs2LDgsIlxcbWF0aHR0e25leHR9Il0sWzUsOCwiYV97XFxtYXRodHR7bmV4dH19IiwyLHsiY29sb3VyIjpbMjQwLDYwLDQzXX0sWzI0MCw2MCw0MywxXV0sWzEsNiwiYV97XFxtYXRodHR7Zmlyc3R9fSIsMix7ImNvbG91ciI6WzI0MCw2MCw0M119LFsyNDAsNjAsNDMsMV1dLFszLDksIlxcdGV4dHR0e25leHR9Il0sWzcsMTAsIlxcdGV4dHR0e25leHR9Il0sWzgsMTEsIlxcdGV4dHR0e25leHR9Il0sWzQsMTIsImIiLDJdLFs2LDEzLCJiIiwyXSxbOCwxNCwiYiIsMl0sWzExLDE1LCJiIl0sWzEyLDEzLCJcXHRleHR0dHtmaXJzdH0iLDFdLFsxMywxNCwiXFx0ZXh0dHR7bmV4dH0iXSxbMTQsMTUsIlxcdGV4dHR0e25leHR9Il0sWzksMTAsIlxcdGF1IiwyXSxbMTAsMTEsImEiLDFdLFs3LDExLCJhX3tcXHRleHR0dHtuZXh0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNDNdfSxbMjQwLDYwLDQzLDFdXSxbNCwxMywiYl97XFx0ZXh0dHR7Zmlyc3R9fSIsMix7ImNvbG91ciI6WzI0MCw2MCw0M119LFsyNDAsNjAsNDMsMV1dLFs2LDE0LCJiX3tcXHRleHR0dHtuZXh0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNDNdfSxbMjQwLDYwLDQzLDFdXSxbOCwxNSwiYl97XFx0ZXh0dHR7bmV4dH19IiwyLHsiY29sb3VyIjpbMjQwLDYwLDQzXX0sWzI0MCw2MCw0MywxXV0sWzE2LDAsIiIsMCx7InNob3J0ZW4iOnsic291cmNlIjo2MH19XV0=
+\[\begin{tikzcd}[cramped, column sep=scriptsize]
+	{} \\
+	\circ && \bullet && \bullet && \bullet \\
+	\\
+	\bullet && \bullet && \bullet && \bullet \\
+	\\
+	\bullet && \bullet && \bullet && \bullet \\
+	\\
+	\bullet && \bullet && \bullet && \bullet
+	\arrow[shorten <=6pt, from=1-1, to=2-1]
+	\arrow["{\mathtt{first}}", from=2-1, to=2-3]
+	\arrow["\tau"', from=2-1, to=4-1]
+	\arrow["{\mathtt{next}}", from=2-3, to=2-5]
+	\arrow["\tau"', from=2-3, to=4-3]
+	\arrow["{\texttt{next}}", from=2-5, to=2-7]
+	\arrow["\tau"', from=2-5, to=4-5]
+	\arrow["\tau"', from=2-7, to=4-7]
+	\arrow["{\mathtt{first}}", from=4-1, to=4-3]
+	\arrow["a"', from=4-1, to=6-1]
+	\arrow["{a_{\mathtt{first}}}"', color={rgb,255:red,44;green,44;blue,175}, from=4-1, to=6-3]
+	\arrow["{\mathtt{next}}", from=4-3, to=4-5]
+	\arrow["a"', from=4-3, to=6-3]
+	\arrow["{a_{\mathtt{next}}}"', color={rgb,255:red,44;green,44;blue,175}, from=4-3, to=6-5]
+	\arrow["{\texttt{next}}", from=4-5, to=4-7]
+	\arrow["a"', from=4-5, to=6-5]
+	\arrow["{a_{\texttt{next}}}"', color={rgb,255:red,44;green,44;blue,175}, from=4-5, to=6-7]
+	\arrow["a"{description}, from=4-7, to=6-7]
+	\arrow["{\mathtt{first}}", from=6-1, to=6-3]
+	\arrow["b"', from=6-1, to=8-1]
+	\arrow["{b_{\texttt{first}}}"', color={rgb,255:red,44;green,44;blue,175}, from=6-1, to=8-3]
+	\arrow["{\mathtt{next}}", from=6-3, to=6-5]
+	\arrow["b"', from=6-3, to=8-3]
+	\arrow["{b_{\texttt{next}}}"', color={rgb,255:red,44;green,44;blue,175}, from=6-3, to=8-5]
+	\arrow["{\texttt{next}}", from=6-5, to=6-7]
+	\arrow["b"', from=6-5, to=8-5]
+	\arrow["{b_{\texttt{next}}}"', color={rgb,255:red,44;green,44;blue,175}, from=6-5, to=8-7]
+	\arrow["b", from=6-7, to=8-7]
+	\arrow["{\texttt{first}}"{description}, from=8-1, to=8-3]
+	\arrow["{\texttt{next}}", from=8-3, to=8-5]
+	\arrow["{\texttt{next}}", from=8-5, to=8-7]
+\end{tikzcd}\]
+      \caption{Left merge with $\tau$ communications.}
+   \end{subfigure}
+   \hfill
+   \begin{subfigure}[b]{0.49\textwidth}
+% https://q.uiver.app/#q=WzAsMTcsWzAsMSwiXFxjaXJjIl0sWzAsMywiXFxidWxsZXQiXSxbMiwxLCJcXGJ1bGxldCJdLFs0LDEsIlxcYnVsbGV0Il0sWzAsNSwiXFxidWxsZXQiXSxbMiwzLCJcXGJ1bGxldCJdLFsyLDUsIlxcYnVsbGV0Il0sWzQsMywiXFxidWxsZXQiXSxbNCw1LCJcXGJ1bGxldCJdLFs2LDEsIlxcYnVsbGV0Il0sWzYsMywiXFxidWxsZXQiXSxbNiw1LCJcXGJ1bGxldCJdLFswLDcsIlxcYnVsbGV0Il0sWzIsNywiXFxidWxsZXQiXSxbNCw3LCJcXGJ1bGxldCJdLFs2LDcsIlxcYnVsbGV0Il0sWzAsMF0sWzAsMSwiXFx0YXUiLDJdLFswLDIsIlxcbWF0aHR0e2ZpcnN0fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbMiwzLCJcXG1hdGh0dHtuZXh0fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbMSw0LCJhIiwyLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFsyLDUsIlxcdGF1IiwyXSxbNSw2LCJhIiwyLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFs3LDgsImEiLDIseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzMsNywiXFx0YXUiLDJdLFsxLDUsIlxcbWF0aHR0e2ZpcnN0fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbNCw2LCJcXG1hdGh0dHtmaXJzdH0iLDAseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzUsNywiXFxtYXRodHR7bmV4dH0iLDAseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzYsOCwiXFxtYXRodHR7bmV4dH0iLDAseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzUsOCwiYV97XFxtYXRodHR7bmV4dH19IiwyLHsiY29sb3VyIjpbMjQwLDYwLDQzXX0sWzI0MCw2MCw0MywxXV0sWzEsNiwiYV97XFxtYXRodHR7Zmlyc3R9fSIsMix7ImNvbG91ciI6WzI0MCw2MCw0M119LFsyNDAsNjAsNDMsMV1dLFszLDksIlxcdGV4dHR0e25leHR9IiwwLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFs3LDEwLCJcXHRleHR0dHtuZXh0fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbOCwxMSwiXFx0ZXh0dHR7bmV4dH0iLDAseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzQsMTIsImIiLDIseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzYsMTMsImIiLDIseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzgsMTQsImIiLDIseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzExLDE1LCJiIiwwLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFsxMiwxMywiXFx0ZXh0dHR7Zmlyc3R9IiwxLHsiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX0sWzAsNjAsNjAsMV1dLFsxMywxNCwiXFx0ZXh0dHR7bmV4dH0iLDAseyJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fSxbMCw2MCw2MCwxXV0sWzE0LDE1LCJcXHRleHR0dHtuZXh0fSIsMCx7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbOSwxMCwiXFx0YXUiLDJdLFsxMCwxMSwiYSIsMSx7ImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19LFswLDYwLDYwLDFdXSxbNywxMSwiYV97XFx0ZXh0dHR7bmV4dH19IiwyLHsiY29sb3VyIjpbMjQwLDYwLDQzXX0sWzI0MCw2MCw0MywxXV0sWzQsMTMsImJfe1xcdGV4dHR0e2ZpcnN0fX0iLDIseyJjb2xvdXIiOlsyNDAsNjAsNDNdfSxbMjQwLDYwLDQzLDFdXSxbNiwxNCwiYl97XFx0ZXh0dHR7bmV4dH19IiwyLHsiY29sb3VyIjpbMjQwLDYwLDQzXX0sWzI0MCw2MCw0MywxXV0sWzgsMTUsImJfe1xcdGV4dHR0e25leHR9fSIsMix7ImNvbG91ciI6WzI0MCw2MCw0M119LFsyNDAsNjAsNDMsMV1dLFsxNiwwLCIiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6NjB9fV1d
+\[\begin{tikzcd}[cramped, column sep=scriptsize]
+	{} \\
+	\circ && \bullet && \bullet && \bullet \\
+	\\
+	\bullet && \bullet && \bullet && \bullet \\
+	\\
+	\bullet && \bullet && \bullet && \bullet \\
+	\\
+	\bullet && \bullet && \bullet && \bullet
+	\arrow[shorten <=6pt, from=1-1, to=2-1]
+	\arrow["{\mathtt{first}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=2-1, to=2-3]
+	\arrow["\tau"', from=2-1, to=4-1]
+	\arrow["{\mathtt{next}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=2-3, to=2-5]
+	\arrow["\tau"', from=2-3, to=4-3]
+	\arrow["{\texttt{next}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=2-5, to=2-7]
+	\arrow["\tau"', from=2-5, to=4-5]
+	\arrow["\tau"', from=2-7, to=4-7]
+	\arrow["{\mathtt{first}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=4-1, to=4-3]
+	\arrow["a"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=4-1, to=6-1]
+	\arrow["{a_{\mathtt{first}}}"', color={rgb,255:red,44;green,44;blue,175}, from=4-1, to=6-3]
+	\arrow["{\mathtt{next}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=4-3, to=4-5]
+	\arrow["a"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=4-3, to=6-3]
+	\arrow["{a_{\mathtt{next}}}"', color={rgb,255:red,44;green,44;blue,175}, from=4-3, to=6-5]
+	\arrow["{\texttt{next}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=4-5, to=4-7]
+	\arrow["a"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=4-5, to=6-5]
+	\arrow["{a_{\texttt{next}}}"', color={rgb,255:red,44;green,44;blue,175}, from=4-5, to=6-7]
+	\arrow["a"{description}, color={rgb,255:red,214;green,92;blue,92}, dashed, from=4-7, to=6-7]
+	\arrow["{\mathtt{first}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=6-1, to=6-3]
+	\arrow["b"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=6-1, to=8-1]
+	\arrow["{b_{\texttt{first}}}"', color={rgb,255:red,44;green,44;blue,175}, from=6-1, to=8-3]
+	\arrow["{\mathtt{next}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=6-3, to=6-5]
+	\arrow["b"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=6-3, to=8-3]
+	\arrow["{b_{\texttt{next}}}"', color={rgb,255:red,44;green,44;blue,175}, from=6-3, to=8-5]
+	\arrow["{\texttt{next}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=6-5, to=6-7]
+	\arrow["b"', color={rgb,255:red,214;green,92;blue,92}, dashed, from=6-5, to=8-5]
+	\arrow["{b_{\texttt{next}}}"', color={rgb,255:red,44;green,44;blue,175}, from=6-5, to=8-7]
+	\arrow["b", color={rgb,255:red,214;green,92;blue,92}, dashed, from=6-7, to=8-7]
+	\arrow["{\texttt{first}}"{description}, color={rgb,255:red,214;green,92;blue,92}, dashed, from=8-1, to=8-3]
+	\arrow["{\texttt{next}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=8-3, to=8-5]
+	\arrow["{\texttt{next}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=8-5, to=8-7]
+\end{tikzcd}\]
+      \caption{Restriction of $H_{1}$ with $\tau$ actions}
+   \end{subfigure}

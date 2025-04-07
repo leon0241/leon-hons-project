@@ -1,0 +1,268 @@
+\documentclass[../hons_project.tex]{subfiles}
+\begin{document}
+
+\section{Examples of Translations}
+In this section I will provide visual aids for the encoding of translations for the different operators of the language $\csp$. An overview of the translation is shown below:
+
+\begin{rcl}[Translation]{rcl:translation}{}
+	From Definition \ref{dfn:trans}:
+	\begin{align}
+		\tag{\ref{trans:stop}}
+		\trans{STOP}& = \delta\\
+		\tag{\ref{trans:apr}}
+		\trans{a \to P}        & = a.\trans{P}                                                                                                                                                                                \\
+		\tag{\ref{trans:abstraction}}
+		\trans{P \backslash A} & = \partial_{A}{\trans{P}}                                                                                                                                                                    \\
+		\tag{\ref{trans:recursion}}
+		\trans{\mu X.P} &= \langle X \mid X = \tau.\trans{P} \rangle \\
+		\tag{\ref{trans:div}}
+		\trans{\mathrm{div}}   & = \langle X \mid X = \tau.X \rangle                                                                                                                                                          \\
+		\tag{\ref{trans:renaming}}
+		\trans{f(P)}           & = f(\trans{P})                                                                                                                                                                               \\
+		\tag{\ref{trans:intchoice}}
+		\trans{P \intchoice Q} & = \tau.\trans{P} + \tau.\trans{Q}                                                                                                                                                            \\
+		\tag{\ref{trans:pcomp}}
+		\trans{P \pcomp Q}     & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{P}) \merge \fdef{syn}(\trans{Q})\Bigr]\Bigr)                                                                                      \\
+		\tag{\ref{trans:extchoice}}
+		\trans{P \extchoice Q} & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{Q}]\Bigl]\Bigr)                                                               \\
+		\tag{\ref{trans:sliding}}
+		\trans{P \sliding Q}   & = \tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{P}) \merge \mathtt{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\Bigr)\Bigr) \\
+		\tag{\ref{trans:interrupt}}
+		\trans{P \interrupt Q} & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[ \fdef{origin}(\trans{P}) \merge \Pi \merge \Gamma(\trans{Q}) \Bigr]\Bigr)                                                                          \\
+		\tag{\ref{trans:throw}}
+		\trans{P \throw Q}     & = \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ \fdef{split}(\trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr)
+	\end{align}
+\end{rcl}
+
+\newpage
+
+\subsection{Parallel Composition}\label{ssec:diagrams-pcomp}
+Below is a translation of the process
+\begin{equation}
+	\trans{\tau.a.b \pcomp a.c.c}     = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{\tau.a.b}) \merge \fdef{syn}(\trans{a.c.c})\Bigr]\Bigr)
+\end{equation}
+where the target set $A$ is $\{a\}$.
+The result is strongly bisimilar to its original CSP process, with the translated process being
+\[\tau.a.(b.c.c+c.b.c+c.c.b).\]
+\vspace{-30pt}
+\begin{figure}[H]
+	\centering
+	\import{diagrams-appendix/}{pcomp}
+	\caption{Translation of $\tau.a.b \pcomp a.c.c$.}
+\end{figure}
+
+
+
+
+\subsection{External Choice}\label{ssec:diagrams-extchoice}
+Below is a translation of the process
+\begin{equation}
+	\trans{a.a \extchoice b} = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{a.a}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{b}]\Bigl]\Bigr).
+\end{equation}
+The result is strongly bisimilar to its original $\csp$ process, with the translated process being $a.a + b$.
+\begin{figure}[H]
+	\centering
+	\import{diagrams-appendix/}{extchoice}
+	\caption{Translation of $a.a \extchoice b$}
+\end{figure}
+Below is a translation of the process
+\begin{equation}
+	\trans{\tau.a \extchoice b} = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{\tau.a}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{b}]\Bigl]\Bigr).
+\end{equation}
+
+The result is rooted branching bisimilar to its original $\csp$ process, with the translated process being $b.\tau + \tau.(a + b)$ instead of $b + \tau.(a + b)$.
+
+\begin{figure}[H]
+	\import{diagrams-appendix/counters}{c-extchoice}
+	\caption{Translation of $\tau.a \extchoice b$.}
+\end{figure}
+
+
+\subsection{Sliding Choice}\label{ssec:diagrams-sliding}
+Below is a translation of the process
+\begin{equation}
+	\trans{b \sliding a}    = \tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{b}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{a}) \Bigr]\Bigr)\Bigr).
+\end{equation}
+The result is strongly bisimilar to its original $\csp$ process, with the translated process being $b + \tau.a$.
+\begin{figure}[H]
+	\import{diagrams-appendix/}{sliding}
+	\caption{Translation of $b \sliding a$.}
+\end{figure}
+
+Below is a translation of the process
+\begin{equation}
+	\trans{\tau.b \sliding a}= \tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{\tau.b}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{a}) \Bigr]\Bigr)\Bigr).
+\end{equation}
+The result is Rooted Branching Bisimilar to its original $\csp$ process, with the translated process being $\tau.(b+\tau.a) + \tau.(a.\tau+\tau.a)$ instead of $\tau.(b+\tau.a) + \tau.a$.
+
+\begin{figure}[H]
+	\import{diagrams-appendix/counters}{c-sliding}
+	\caption{Translation of $\tau.b \sliding a$.}
+\end{figure}
+
+
+\subsection{Interrupt}\label{ssec:diagrams-interrupt}
+Below is a translation of the process
+\begin{equation}
+	\trans{a \interrupt b} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \bigl(f_{\mathtt{origin}}(a) \merge \Pi\bigr) \merge \Gamma(b) \Bigr]\Bigr).
+\end{equation}
+The result is strongly bisimilar to its original $\csp$ process, with the translated process being $a.b + b$. Here, the action $\mathtt{origin}$ is shortened to $O$, and the action $\mathtt{split}$ is shortened to $S$.
+
+\begin{figure}[H]
+	\import{diagrams-appendix/}{interrupt}
+	\caption{Translation of $a \interrupt b$.}
+\end{figure}
+
+Below is a simple counterexample to the Interrupt operator on the process
+\begin{equation}
+	\trans{\tau \interrupt b} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ f_{\mathtt{origin}}(\tau) \merge \Pi \merge \Gamma(b) \Bigr]\Bigr).
+\end{equation}
+The result is rooted branching bisimilar to its original $\csp$ process, with the translated process being $\tau.b + b.\tau$ instead of $b + \tau.b$.
+\begin{figure}[H]
+	\centering
+	\import{diagrams-appendix/counters}{c-interrupt}
+	\caption{Translation of $\tau \interrupt b$.}
+\end{figure}
+
+This should yield process graph \ref{fig:interrupt-counter-a} in \cref{fig:interrupt-c}, however it yields process graph \ref{fig:interrupt-counter-a} instead.
+\begin{multicols}{2}
+
+\end{multicols}
+
+\begin{figure}[!ht]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\[\begin{tikzcd}[cramped, column sep=scriptsize]
+				\circ && \bullet \\
+				\\
+				\bullet && \bullet
+				\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=1-1, to=1-3]
+				\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=3-1]
+				\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=3-3]
+			\end{tikzcd}\]
+		\caption{The process after Restriction.}
+		\label{fig:interrupt-counter-a}
+	\end{subfigure}\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\[\begin{tikzcd}[cramped, column sep=scriptsize]
+				\circ && \bullet \\
+				\\
+				\bullet && \bullet
+				\arrow["\tau"', color={rgb,255:red,214;green,92;blue,92}, from=1-1, to=1-3]
+				\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=1-1, to=3-1]
+				\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=1-3, to=3-3]
+				\arrow["\tau", color={rgb,255:red,214;green,92;blue,92}, from=3-1, to=3-3]
+			\end{tikzcd}\]
+		\caption{The final reformatted process.}
+		\label{fig:interrupt-counter-b}
+	\end{subfigure}
+	\caption{Intended vs actual result of the Interrupt operator on translation of $\tau \interrupt b$.}
+	\label{fig:interrupt-c}
+\end{figure}
+
+Below is a translation for the process
+\begin{equation}
+	\trans{\tau.a \interrupt \tau.b} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \bigl(f_{\mathtt{origin}}(\tau.a) \merge \Pi\bigr) \merge \Gamma(\tau.b) \Bigr]\Bigr).
+\end{equation}
+The result is rooted branching bisimilar to its original $\csp$ process., with the process being $\tau.(a.\tau.b + \tau(a.b+b) + \tau.(b.\tau + \tau.(b + a.b))$ instead of $\tau.a.\tau.b + \tau.\tau.b + \tau.b$. Here, the action $\mathtt{origin}$ is shortened to $O$, and the action $\mathtt{split}$ is shortened to $S$. A more comprehensive view is also shown below.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{\textwidth}
+		\hfuzz=\maxdimen
+		\import{diagrams-appendix/interrupt-two}{whole}
+		\caption{All-in-one view of the translation of $\tau.a \interrupt \tau.b$.}
+	\end{subfigure} \hfill
+
+	\begin{subfigure}[b]{0.55\textwidth}
+		\import{diagrams-appendix/interrupt-two}{b-layer}
+		\caption{The process $\Pi$ merged with the process $\Gamma(\tau.b)$.}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.43\textwidth}
+		\import{diagrams-appendix/interrupt-two}{a-layer}
+		\caption{The process $\Pi$ merged with the process $\fdef{origin}(\tau.a)$.}
+	\end{subfigure}\hfill
+
+	\begin{subfigure}[b]{0.55\textwidth}
+		\import{diagrams-appendix/interrupt-two}{cut}
+		\caption{The process after Restriction.}
+	\end{subfigure}\hfill
+	\begin{subfigure}[b]{0.4\textwidth}
+		\import{diagrams-appendix/interrupt-two}{reformat}
+		\caption{The final reformatted process.}
+	\end{subfigure}
+	\caption{In-depth view of the translation of $\tau.a \interrupt \tau.b$.}
+\end{figure}
+
+\newpage
+\subsection{Throw}\label{ssec:diagrams-throw}
+
+Below is a translation of the process
+\begin{equation}
+	\trans{a.a.b.a \throw q_{1}}     = \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ \fdef{split}(\trans{a.a.b.a}) | | \Pi.\trans{q_{1}} \Bigr]\Bigr),
+\end{equation}
+where the target set $A$ is $\{b\}$. The result is strongly bisimilar to its original $\csp$ process.
+\vspace{-25pt}
+\begin{figure}[H]
+	\centering
+	\import{diagrams-appendix/}{throw}
+	\caption{Translation of $a.a.b.a \,\Theta_{\{b\}}\, q_{1}$.}
+\end{figure}
+
+Below is a counterexample translation of the process
+\begin{equation}
+	\trans{a.a.b.a \throw q_{1}}     = \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ \fdef{split}(\trans{a.a.b.a}) | | \Pi.\trans{q_{1}} \Bigr]\Bigr),
+\end{equation}
+where the target set $A$ is $\{b\}$. The result is rooted branching bisimilar to its original $\csp$ process, with the process being translated to $b.(\tau + q_{1})$ instead of $b.q_{1}$.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\[\begin{tikzcd}[cramped, column sep=scriptsize]
+				\bullet && \bullet && \bullet \\
+				\\
+				\bullet && \bullet && \bullet \\
+				\\
+				\bullet && \bullet && \bullet
+				\arrow["{\mathtt{split}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=1-1, to=1-3]
+				\arrow["{b_{\mathtt{split}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-1, to=3-1]
+				\arrow["b", from=1-1, to=3-3]
+				\arrow["{q_1}", from=1-3, to=1-5]
+				\arrow["{b_{\mathtt{split}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-3, to=3-3]
+				\arrow["{b_{\mathtt{split}}}", color={rgb,255:red,214;green,92;blue,92}, dashed, from=1-5, to=3-5]
+				\arrow["{\mathtt{split}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=3-1, to=3-3]
+				\arrow["\tau", from=3-1, to=5-1]
+				\arrow["{q_1}", from=3-3, to=3-5]
+				\arrow["\tau", from=3-3, to=5-3]
+				\arrow["\tau", from=3-5, to=5-5]
+				\arrow["{\mathtt{split}}", color={rgb,255:red,110;green,110;blue,110}, dashed, from=5-1, to=5-3]
+				\arrow["{q_1}", from=5-3, to=5-5]
+			\end{tikzcd}\]
+		\caption{The process after Restriction.}
+	\end{subfigure}\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\[\begin{tikzcd}[cramped, column sep=scriptsize]
+				\bullet \\
+				\\
+				&& \bullet && \bullet \\
+				\\
+				&& \bullet && \bullet
+				\arrow["b", from=1-1, to=3-3]
+				\arrow["{q_1}", from=3-3, to=3-5]
+				\arrow["\tau", from=3-3, to=5-3]
+				\arrow["\tau", from=3-5, to=5-5]
+				\arrow["{q_1}", from=5-3, to=5-5]
+			\end{tikzcd}\]
+		\caption{The translated result.}
+	\end{subfigure}
+	\caption{Intended vs actual result of the process $\tau \interrupt b$.}
+\end{figure}
+
+\newpage
+
+
+% \begin{landscape}
+% \import{diagrams-other/}{Stopping-1.tex}
+% \end{landscape}
+\end{document}
