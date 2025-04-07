@@ -56,6 +56,7 @@ We should also specify that $\trans{a} = a$ for each $a\in \Sigma$, where $\Sigm
 We have $H, I \subseteq \Sigma$, and additionally we define the set $\Sigma_{\tau}$ to be the set $\Sigma \cup \{\tau\}$, as the silent step is not included in $\Sigma$. We also write $\Rightarrow$ to indicate a chain of $\tau$-actions, possibly none. The operations of $\acptf$ can be described in the following manner:
 
 
+tset 
 
 \begin{itemize}
 	\item \textbf{Action}, or $a$, is any action.
@@ -81,7 +82,7 @@ The operation $\mid$ is a function $A \times A \rightharpoonup A$ that defines v
 \subsection{Successful Termination}\label{ssec:termination}
 The language $\acp$ is typically defined with a notion of Successful Termination, written $\checkmark$, where an identifier is added to states to signify that a process is finished, otherwise a state of deadlock, or $\delta$, is achieved. This results in twice as many Operational Rules, which we can see in the extended rule set of the language $\acptf$ shown in \cref{table:ACP-full}, as well as different cases in any equivalences we will define.
 
-This is quite a verbose way of describing the language, and there have been some alternatives proposed to avoid this. Two main examples are the extension $\acp_{\epsilon}$, which adds a successful termination action at the cost of extending process graphs with more actions and the loss of a true Strong Bisimulation due to the extra action $\epsilon$\cite{vranckenAlgebraCommunicatingProcesses1997}, and the fragment $\mathrm{aprACP}$ \cite{vanglabbeekExpressivenessACP1995}, which uses Action Prefixing similar to $\csp$ or the language $\mathrm{CCS}$ at the cost of losing asymmetry and compatibility\cite{GARAVEL2015742}. The language $\csp$ does not distinguish Successful Termination from unsuccessful termination, and has only the process $\mathrm{STOP}$, therefore for simplicity we will simply use $\acp$ with standard termination, ignoring any irrelevant termination rules in equivalences and operation rules.
+This is quite a verbose way of describing the language, and there have been some alternatives proposed to avoid this. Two main examples are the extension $\acp_{\epsilon}$, which adds a successful termination action at the cost of extending process graphs with more actions and the loss of a true Strong Bisimulation due to the extra action $\epsilon$\cite{vranckenAlgebraCommunicatingProcesses1997}, and the fragment $\mathrm{aprACP}$ \cite{vanglabbeekExpressivenessACP1995}, which uses action prefixing similar to $\csp$ or the language $\mathrm{CCS}$ at the cost of losing asymmetry and compatibility \cite{GARAVEL2015742}. The language $\csp$ does not distinguish successful termination from unsuccessful termination, and has only the process $\mathrm{STOP}$, therefore for simplicity we will simply use $\acp$ with standard termination, ignoring any irrelevant termination rules in equivalences and operation rules.
 
 
 \subsection{\texorpdfstring{$\acptf$}{acptf}}

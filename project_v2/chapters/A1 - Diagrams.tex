@@ -23,7 +23,7 @@ In this section I will provide visual aids for the encoding of translations for 
 \end{rcl}
 
 \newpage
-\subsection{External Choice}
+\subsection{External Choice}\label{ssec:diagrams-extchoice}
 Below is a translation of the process:
 \[\trans{a.a \extchoice b} = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{a.a}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{b}]\Bigl]\Bigr)\]
 The result is strongly bisimilar to its original $\csp$ process, with the translated process being $a.a + b$.
@@ -43,7 +43,7 @@ The result is rooted branching bisimilar to its original $\csp$ process, with th
 \end{figure}
 
 
-\subsection{Sliding Choice}
+\subsection{Sliding Choice}\label{ssec:diagrams-sliding}
 Below is a translation of the process:
 \[\trans{b \sliding a}    = \tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{b}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{a}) \Bigr]\Bigr)\Bigr)\]
 The result is strongly bisimilar to its original $\csp$ process, with the translated process being $b + \tau.a$.
@@ -62,7 +62,7 @@ The result is Rooted Branching Bisimilar to its original $\csp$ process, with th
 \end{figure}
 
 
-\subsection{Interrupt}
+\subsection{Interrupt}\label{ssec:diagrams-interrupt}
 Below is a translation of the process:
 \[\trans{a \interrupt b} = \partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \bigl(f_{\mathtt{origin}}(a) \merge \Pi\bigr) \merge \Gamma(b) \Bigr]\Bigr)\]
 The result is strongly bisimilar to its original $\csp$ process, with the translated process being $a.b + b$. Here, the action $\mathtt{origin}$ is shortened to $O$, and the action $\mathtt{split}$ is shortened to $S$.
@@ -155,7 +155,7 @@ The result is rooted branching bisimilar to its original $\csp$ process., with t
 
 
 \newpage
-\subsection{Throw}
+\subsection{Throw}\label{ssec:diagrams-throw}
 
 Below is a translation of the process
 		\[\trans{a.a.b.a \throw q_{1}}     = \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ \fdef{split}(\trans{a.a.b.a}) | | \Pi.\trans{q_{1}} \Bigr]\Bigr)\]
@@ -214,7 +214,7 @@ Where the target set $A$ is $\{b\}$. The result is rooted branching bisimilar to
 \end{figure}
 
 \newpage
-\subsection{Parallel Composition}
+\subsection{Parallel Composition}\label{ssec:diagrams-pcomp}
 Below is a translation of the process:
 \[\trans{\tau.a.b \pcomp a.c.c}     = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{\tau.a.b}) \merge \fdef{syn}(\trans{a.c.c})\Bigr]\Bigr)\]
 Where the target set $A$ is $\{a\}$.
