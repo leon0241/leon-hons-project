@@ -161,7 +161,7 @@ Note that since $\tau\not\in \Sigma$, the restriction operator $\partial_{H_{1}}
 \begin{figure}[!h]
 	\centering
 	\import{diagrams/}{triggering-tau.tex}
-	\caption{Example of Triggering operator with internal actions}
+	\caption{Example of Triggering operator with internal actions.}
 	\label{fig:triggering-tau}
 \end{figure}
 
@@ -320,7 +320,7 @@ For our encoding, we take $\mathscr{H} = \{\}$, and therefore $H_{1} = \Sigma_{0
 
 \begin{dfn}[Functions and Communications - Parallel Composition]{dfn:comms-pcomp}{}
 	As defined in Definitions \cref{dfn:helper-functions,dfn:communications}, we use \cref{func:postfix,,func:syn,,comm:syn}.
-	\begin{equation}\tag{F2, F3}
+	\begin{equation}\tag{\ref{func:trig}, \ref{func:postfix}}
 	f_{\mathtt{syn}}(\alpha) = \begin{cases}
 			a_{\mathtt{syn}} & \text{ if } \alpha\in A \\
 			\alpha           & \text{otherwise}
@@ -340,7 +340,7 @@ We now define our encoding of $\csp$ Parallel Composition $\pcomp$ as the follow
 	\tag{T\thetranslations}\stepcounter{translations}
 	\trans{P \pcomp Q} = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{P}) \merge \fdef{syn}(\trans{Q})\Bigr]\Bigr)
 \end{equation}
-This translation is valid up to Rooted Branching Bisimilarity, shown in \ref{ssec:proof-pcomp}, and examples of the translation are shown in \cref{ssec:diagrams-pcomp}.
+This translation is valid up to strong bisimilarity, shown in \cref{ssec:proof-pcomp}, and examples of the translation are shown in \cref{ssec:diagrams-pcomp}.
 
 \subsection{External choice}\label{ssec:external-choice}
 The external choice operator $\square$ is defined with the following rules from \cref{table:CSP}:
@@ -355,7 +355,8 @@ For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \matht
 
 \begin{dfn}[Functions and Communications - External Choice]{dfn:comms-external}{}
 	As defined in Definitions \cref{dfn:helper-functions,dfn:communications}, we use \cref{func:trig,,func:postfix,,comm:ini-choose}.
-	\[f_{\mathtt{trig}}(\alpha) = \begin{cases}
+	\begin{equation}\tag{\ref{func:trig}, \ref{func:postfix}}
+	f_{\mathtt{trig}}(\alpha) = \begin{cases}
 			a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
 			a                & \text{if } \alpha = a_{\mathtt{next}}  \\
 			\alpha           & \text{otherwise}
@@ -363,10 +364,14 @@ For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \matht
 			a      & \text{ if } \alpha = a_{\mathrm{post}} \\
 			\alpha & \text{otherwise}
 		\end{cases}
-	\]
-	\[ a_{\mathtt{ini}} | \mathtt{choose} = a_{\mathtt{post}} \]
+	\end{equation}
+	\begin{equation}\tag{\ref{comm:ini-choose}}
+		a_{\mathtt{ini}} | \mathtt{choose} = a_{\mathtt{post}}
+	\end{equation}
 	Additionally, recall the Triggering operator as defined in \ref{oper:triggering}:
-	\[\Gamma(P) := f_{\mathtt{trig}}[\partial_{H_{1}}(P \merge \mathtt{first}(\mathtt{next}^{\infty}))])\]
+	\begin{equation}\tag{\ref{oper:triggering}}
+		\Gamma(P) := f_{\mathtt{trig}}[\partial_{H_{1}}(P \merge \mathtt{first}(\mathtt{next}^{\infty}))])
+	\end{equation}
 \end{dfn}
 
 
@@ -375,13 +380,13 @@ We now define our encoding of $\csp$ External Choice $\square$ as the following 
 	\tag{T\thetranslations}\stepcounter{translations}
 	\trans{P \extchoice Q} = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{Q}]\Bigl]\Bigr)
 \end{equation}
-This translation is valid up to Rooted Branching Bisimilarity, shown in \cref{ssec:proof-extchoice}, and examples of the translation are shown in \cref{ssec:diagrams-extchoice}.
+This translation is valid up to rooted branching bisimilarity, shown in \cref{ssec:proof-extchoice}, and examples of the translation are shown in \cref{ssec:diagrams-extchoice}.
 
 \subsection{Sliding Choice}\label{ssec:sliding-choice}
 The Sliding Choice operator $\triangleright$ is defined with the following rules from \cref{table:CSP}:
 
-\begin{equation}\label{comm:sliding}
-\tag{S\thecomms}\stepcounter{comms}
+\begin{equation}\label{sos:sliding}
+\tag{S\thesos}\stepcounter{sos}
 \begin{aligned}
     \prftree{P \prightarrow{a} P'}{P \triangleright Q \prightarrow{a} P'} \qquad \prftree{P \prightarrow{\tau} P'}{P \triangleright Q \prightarrow{\tau} P' \triangleright Q} \qquad P \triangleright Q \prightarrow{\tau} Q
 \end{aligned}
@@ -390,11 +395,10 @@ The Sliding Choice operator $\triangleright$ is defined with the following rules
 In other words, this operator lets you take an external action on $P$. However, at any point before the external action, $P$ may ``time out'' and internally move to $Q$ instead.
 
 For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{shift}\}$, and therefore we have that $H_{1} = \Sigma_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{shift}\}$ as defined in Definition \ref{dfn:sets}.
-This translation is valid up to Rooted Branching Bisimilarity, shown in \cref{ssec:proof-sliding}, and examples of the translation are shown in \cref{ssec:diagrams-sliding}.
 
 \begin{dfn}[Functions and Communications - Sliding Choice]{dfn:comms-sliding}{}
 	Similarly to External Choice, we use \cref{func:trig,,func:postfix,,comm:ini-choose} as defined in Definitions \cref{dfn:helper-functions,dfn:communications}.
-	\begin{equation}\tag{F1, F2}
+	\begin{equation}\tag{\ref{func:trig}, \ref{func:postfix}}
 		f_{\mathtt{trig}}(\alpha) = \begin{cases}
 			                              a_{\mathtt{ini}} & \text{if } \alpha = a_{\mathtt{first}} \\
 			                              a                & \text{if } \alpha = a_{\mathtt{next}}  \\
@@ -419,11 +423,17 @@ We now define our encoding of $\csp$ Sliding Choice $\sliding$ as the following 
 	\tag{T\thetranslations}\stepcounter{translations}
 	\trans{P \sliding Q} = \tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{P}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\Bigr)\Bigr)
 \end{equation}
+This translation is valid up to rooted branching bisimilarity, shown in \cref{ssec:proof-sliding}, and examples of the translation are shown in \cref{ssec:diagrams-sliding}.
 
 \subsection{Interrupt}\label{ssec:interrupt}
 
 The Interrupt operator $\interrupt$ is defined with the following rules from \cref{table:CSP}:
-\[\prftree{P \prightarrow{\alpha} P'}{P \interrupt Q \prightarrow{\alpha} P' \interrupt Q} \qquad \prftree{Q \prightarrow{\tau} Q'}{P \interrupt Q \prightarrow{\tau} P \interrupt Q'} \qquad \prftree{Q \prightarrow{a} Q'}{P \interrupt Q \prightarrow{a} Q'}\]
+
+\begin{equation}\label{sos:interrupt}\tag{S\thesos}\stepcounter{sos}
+	\begin{aligned}
+\prftree{P \prightarrow{\alpha} P'}{P \interrupt Q \prightarrow{\alpha} P' \interrupt Q} \qquad \prftree{Q \prightarrow{\tau} Q'}{P \interrupt Q \prightarrow{\tau} P \interrupt Q'} \qquad \prftree{Q \prightarrow{a} Q'}{P \interrupt Q \prightarrow{a} Q'}
+	\end{aligned}
+\end{equation}
 
 In other words, we can take an external action from $P$ without satisfying\footnote{Here, we use ``satisfies'' to mean that the operator carries on after an action is executed} the operator, in addition to internal actions from $Q$. However, the moment an external action is made from $Q$, the process can then never return to $P$.
 
@@ -450,23 +460,27 @@ For our encoding, we take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \matht
 		                                                                    \end{split}
 	\end{align*}
 	Additionally, recall the Triggering operator as defined in \ref{oper:triggering}:
-	\[\Gamma(P) := f_{\mathtt{trig}}[\partial_{H_{1}}(P \merge \mathtt{first}(\mathtt{next}^{\infty}))])\]
+	\begin{equation}\tag{\ref{oper:triggering}}
+		\Gamma(P) := f_{\mathtt{trig}}[\partial_{H_{1}}(P \merge \mathtt{first}(\mathtt{next}^{\infty}))])
+	\end{equation}
 \end{dfn}
 
 We can now define our encoding of the $\csp$ Interrupt operator $\interrupt$ in $\acptf$. We start off with a new helper process, which we will call $\Pi$. This is defined as the recursive equation
-\[\Pi = \langle X \mid X = \mathtt{origin}.X + \mathtt{split} \rangle\]
+\begin{equation}\label{oper:pi-equation}\tag{O\theopers}\stepcounter{opers}
+	\Pi = \langle X \mid X = \mathtt{origin}.X + \mathtt{split} \rangle.
+\end{equation}
 Or, visualised as a process graph:
 % https://q.uiver.app/#q=WzAsMyxbMSwwLCJcXGNpcmMiXSxbMywwLCJcXGJ1bGxldCJdLFswLDBdLFswLDEsIlxcbWF0aHR0e3NwbGl0fSJdLFswLDAsIlxcbWF0aHR0e29yaWdpbn0iXSxbMiwwLCIiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6NTB9fV1d
-\[\]
-
 \begin{equation}\label{oper:pi}
 	\tag{O\theopers}\stepcounter{opers}
+	\begin{aligned}
 	\begin{tikzcd}[column sep=scriptsize, row sep=scriptsize]
 		{} & \circ && \bullet
 		\arrow[shorten <=8pt, from=1-1, to=1-2]
 		\arrow["{\mathtt{origin}}", from=1-2, to=1-2, loop, in=55, out=125, distance=10mm]
 		\arrow["{\mathtt{split}}", from=1-2, to=1-4]
 	\end{tikzcd}
+	\end{aligned}
 \end{equation}
 
 We now define our encoding of $\csp$ Interrupt $\interrupt$ as the following equation:
@@ -474,12 +488,15 @@ We now define our encoding of $\csp$ Interrupt $\interrupt$ as the following equ
 	\tag{T\thetranslations}\stepcounter{translations}
 	\trans{P \interrupt Q} = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[ \fdef{origin}(\trans{P}) \merge \Pi \merge \Gamma(\trans{Q}) \Bigr]\Bigr)
 \end{equation}
+This translation is valid up to rooted branching bisimilarity, shown in \cref{ssec:proof-interrupt}, and examples of the translation are shown in \cref{ssec:diagrams-interrupt}.
 
 \subsection{Throw}\label{ssec:throw}
 
-The Throw operator $\throw$ is defined with the following rules:
+The Throw operator $\throw$ is defined with the following rules from \cref{table:CSP}:
 
-\[\prftree{P \prightarrow{\alpha} P' \quad \scriptstyle(a\not\in A)}{P \throw Q \prightarrow{\alpha} P' \throw Q} \qquad \prftree{P \prightarrow{a} P' \quad \scriptstyle(a\in A)}{P \throw Q \prightarrow{a} Q }\]
+\begin{equation}\label{sos:throw}\tag{S\thesos}\stepcounter{sos}
+	\prftree{P \prightarrow{\alpha} P' \quad \scriptstyle(a\not\in A)}{P \throw Q \prightarrow{\alpha} P' \throw Q} \qquad \prftree{P \prightarrow{a} P' \quad \scriptstyle(a\in A)}{P \throw Q \prightarrow{a} Q }
+\end{equation}
 
 In other words, we can take as many actions in $P$ as we want as long as they aren't contained in a set of actions, $A$. However, the moment an action in $A$ is made, the process then diverts to $Q$. This can be also thought as an error catching operator, with a set of ``error'' actions that switches to an ``exception'' process.
 
@@ -487,20 +504,25 @@ Similarly to Interrupt, for our encoding we take $\mathscr{H} = \{\mathtt{first}
 
 \begin{dfn}[Functions and Communications - Throw]{dfn:comms-throw}{}
 	As defined in Definitions \cref{dfn:helper-functions,dfn:communications}, we use \cref{func:postfix,,func:split,,comm:origin,,comm:split-split}.
-	\[f_{\mathtt{post}}(\alpha) = \begin{cases}
+	\begin{equation}\tag{\ref{func:postfix}, \ref{func:split}}
+	f_{\mathtt{post}}(\alpha) = \begin{cases}
 			a      & \text{ if } \alpha = a_{\mathrm{post}} \\
 			\alpha & \text{otherwise}
-		\end{cases} \qquad f_{\mathtt{split}}(\alpha) = \begin{cases}
+		\end{cases} \quad f_{\mathtt{split}}(\alpha) = \begin{cases}
 			a_{\mathtt{split}}  & \text{ if } a\in A                    \\
 			a_{\mathtt{origin}} & \text{ if } a\not\in A,\, a\in \Sigma \\
 			\tau                & \mathrm{otherwise}
-		\end{cases}\]
-	\[a_{\mathtt{origin}} | \mathtt{origin} = a_{\mathtt{post}} \qquad a_{\mathtt{split}} | \mathtt{split} = a_{\mathtt{post}}\]
+		\end{cases}
+	\end{equation}
+	\begin{equation}\tag{\ref{comm:origin}, \ref{comm:split-split}}
+		a_{\mathtt{origin}} | \mathtt{origin} = a_{\mathtt{post}} \qquad a_{\mathtt{split}} | \mathtt{split} = a_{\mathtt{post}}
+	\end{equation}
 \end{dfn}
 
-We can now define our encoding of the $\csp$ Throw operator $\throw$. We employ the use of the same helper process $\Pi$, defined in the translation of the Interrupt operator \ref{oper:pi}.
-\[\Pi = \langle X \mid X = \mathtt{origin}.X + \mathtt{split} \rangle\]
-
+We can now define our encoding of the $\csp$ Throw operator $\throw$. We employ the use of the same helper process $\Pi$, defined in the translation of the Interrupt operator \ref{oper:pi-equation}.
+\begin{equation}\tag{\ref{oper:pi-equation}}
+	\Pi = \langle X \mid X = \mathtt{origin}.X + \mathtt{split} \rangle.
+\end{equation}
 From this, our encoding can be written as the following equation:
 \begin{equation}\label{trans:throw}
 	\tag{T\thetranslations}\stepcounter{translations}
@@ -513,15 +535,17 @@ From this, our encoding can be written as the following equation:
 
 \subsection{Final Translation}
 
-Recall the grammar of the languages $\csp$ as shown in Definitions \cref{dfn:csp}:
-\begin{align*}
+Recall the grammar of the language $\acptf$ as shown in \cref{ssec:acptf}:
+\begin{align}\tag{\ref{lang:acptf}}
+	P, Q ::= a \mid \delta \mid P . Q \mid P + Q \mid P \merge Q \mid P \leftmerge Q \mid P | Q \mid \restrict(P) \mid \abtau(P) \mid f(P) \mid
+\end{align}
+Recall also the grammar of the languages $\csp$ as shown in \cref{ssec:CSP}:
+\begin{align}\tag{\ref{lang:csp}}
+	\begin{aligned}
 	P, Q ::= & \mathrm{STOP} \mid \mathrm{div} \mid a\to P \mid P \sqcap Q \mid P \extchoice Q \mid P \sliding Q \mid \\
 	         & P | |_{A} Q \mid P \backslash A \mid f(P) \mid P \triangle Q \mid P \theta_{A} Q \mid
-\end{align*}
-Recall also the grammar of the language $\acptf$ as shown in Definition \ref{dfn:acptf}:
-\begin{align*}
-	P, Q ::= a \mid \delta \mid P . Q \mid P + Q \mid P \merge Q \mid P \leftmerge Q \mid P | Q \mid \restrict(P) \mid \abtau(P) \mid f(P) \mid
-\end{align*}
+	\end{aligned}
+\end{align}
 \vspace{-10pt}
 Finally, recall from Definitions \ref{dfn:helper-functions} and \ref{dfn:communications} the list of functions and communications:
 
@@ -565,23 +589,35 @@ Finally, recall from Definitions \ref{dfn:helper-functions} and \ref{dfn:communi
 	\end{itemize}
 \end{multicols}
 
-We take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}, \mathtt{shift}, \mathtt{choose}\}$, and therefore we have that $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$ as defined in \ref{dfn:sets}. We can now define our full translation:
+We take $\mathscr{H} = \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}, \mathtt{shift}, \mathtt{choose}\}$, and therefore we have that $H_{1} = A_{0} \uplus \{\mathtt{first}, \mathtt{next}, \mathtt{origin}, \mathtt{split}\}$ as defined in Definition \ref{dfn:sets}. We can now define our full translation:
 
 \begin{dfn}[Translation of CSP to ACP]{dfn:trans}{}
-	Let $\tcsp$ be the expressions in the language $\csp$, and $\tacp$ be expressions in the language $\acptf$. We define a translation $\tran : \tcsp \to \tacp$ defined as such:
-	\begin{align*}
-		\trans{STOP}           & = \delta                                                                                                                                                                                     \\
-		\trans{\mathrm{div}}   & = \langle X \mid X = \tau.X \rangle                                                                                                                                                          \\
+	Let $\tcsp$ be the expressions in the language $\csp$, and $\tacp$ be expressions in the language $\acptf$. We define a translation $\tran : \tcsp \to \tacp$ defined as the following encoding:
+	\begin{align}
+		\tag{\ref{trans:stop}}
+		\trans{STOP}& = \delta\\
+		\tag{\ref{trans:apr}}
 		\trans{a \to P}        & = a.\trans{P}                                                                                                                                                                                \\
-		\trans{P \intchoice Q} & = \tau.\trans{P} + \tau.\trans{Q}                                                                                                                                                            \\
-		\trans{P \extchoice Q} & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{Q}]\Bigl]\Bigr)                                                               \\
-		\trans{P \sliding Q}   & = \tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{P}) \merge \mathrm{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\Bigr)\Bigr) \\
-		\trans{P \pcomp Q}     & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{P}) \merge \fdef{syn}(\trans{Q})\Bigr]\Bigr)                                                                                      \\
+		\tag{\ref{trans:abstraction}}
 		\trans{P \backslash A} & = \partial_{A}{\trans{P}}                                                                                                                                                                    \\
-		% \trans{\mu p.P} &= \langle X \mid X = \tau.X \rangle
+		\tag{\ref{trans:recursion}}
+		\trans{\mu X.P} &= \langle X \mid X = \tau.\trans{P} \rangle \\
+		\tag{\ref{trans:div}}
+		\trans{\mathrm{div}}   & = \langle X \mid X = \tau.X \rangle                                                                                                                                                          \\
+		\tag{\ref{trans:renaming}}
 		\trans{f(P)}           & = f(\trans{P})                                                                                                                                                                               \\
+		\tag{\ref{trans:intchoice}}
+		\trans{P \intchoice Q} & = \tau.\trans{P} + \tau.\trans{Q}                                                                                                                                                            \\
+		\tag{\ref{trans:pcomp}}
+		\trans{P \pcomp Q}     & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\fdef{syn}(\trans{P}) \merge \fdef{syn}(\trans{Q})\Bigr]\Bigr)                                                                                      \\
+		\tag{\ref{trans:extchoice}}
+		\trans{P \extchoice Q} & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\Gamma[\trans{P}]\, \merge \,\mathtt{choose}\, \merge \,\Gamma[\trans{Q}]\Bigl]\Bigr)                                                               \\
+		\tag{\ref{trans:sliding}}
+		\trans{P \sliding Q}   & = \tau_{\{\mathtt{shift}\}}\Bigl(\partial_{H_{0}}\Bigl(f_{\mathtt{post}}\Bigl[ \Gamma(\trans{P}) \merge \mathtt{choose} \merge \mathtt{shift}_{\mathtt{ini}} . \trans{Q}) \Bigr]\Bigr)\Bigr) \\
+		\tag{\ref{trans:interrupt}}
 		\trans{P \interrupt Q} & = \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[ \fdef{origin}(\trans{P}) \merge \Pi \merge \Gamma(\trans{Q}) \Bigr]\Bigr)                                                                          \\
+		\tag{\ref{trans:throw}}
 		\trans{P \throw Q}     & = \partial_{H_{0}}\Bigl(\fdef{post} \Bigl[ \fdef{split}(\trans{P}) | | \Pi.\trans{Q} \Bigr]\Bigr)
-	\end{align*}
+	\end{align}
 \end{dfn}
 \end{document}

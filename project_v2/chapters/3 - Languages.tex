@@ -34,7 +34,7 @@ The wording of ``valid'' is intentionally left vague, as there are many notions 
 	Via \cite{DBLP:conf/fossacs/Glabbeek18}, we say that a translation $\tran : \mathbb{T}_{\mathscr{L}}\to \mathbb{T}_{\mathscr{L}'}$ is \textbf{valid up to an equivalence $\sim$} if we have that $\trans{P}\, \sim\, P$, for all $P\in \mathbb{T}_{\mathscr{L}}$
 \end{dfn}
 
-Listed in \cite{parrowExpressivenessProcessAlgebras2008} is also a range of weaker criterons that are desirable for a translation. One particular criteron that we will focus on is \textbf{compositionality}, which, when achieved, means that the translations of an operator is valid regardless of the context inside them, which means that any expression will be encodable from one algebra to another by translating smaller and smaller segments of the expression.
+Listed in \cite{parrowExpressivenessProcessAlgebras2008} is also a range of weaker criterions that are desirable for a translation. One particular criterion that we will focus on is \textbf{compositionality}, which, when achieved, means that the translations of an operator is valid regardless of the context inside them, which means that any expression will be encodable from one algebra to another by translating smaller and smaller segments of the expression.
 
 \begin{dfn}[Compositionality]{dfn:compositionality}{}
 	Via \cite{DBLP:conf/fossacs/Glabbeek18}, a translation $\mathscr{T}$ from $\mathscr{L}$ into a language $\mathscr{L}'$ is \textbf{compositional} if $\trans{X} = X$ for each $X\in \mathscr{X}$, and for each $n$-ary operator $f$ of $\mathscr{L}$ there exists an $n$'ary $\mathscr{L}$-context $C_{f}$ such that $\trans{f(E_{1},\dots,E_{n})} = C_{f}[\trans{E_{1},\dots,\trans{E_{n}}}]$ for any $\mathscr{L}$ expressions $E_{1},\dots,E_{n}\in \mathbb{T}_{\mathscr{L}}$
@@ -46,7 +46,7 @@ We should also specify that $\trans{a} = a$ for each $a\in \Sigma$, where $\Sigm
 
 \subsection{Basic \texorpdfstring{$\acpt$}{acpt}}
 \begin{dfn}[\texorpdfstring{$\acpt$}{acpt}]{dfn:acpt}{}
-	The process algebra $\acpt$ as described in \cite{bergstraACPtUniversalAxiom1989} is parameterised by a set of actions, $\Sigma$, and a communication function $|$. The grammar of $\acpt$ can be described with the following operations:
+	The process algebra $\acpt$ as described in \cite{bergstraACPtUniversalAxiom1989} is parametrised by a set of actions, $\Sigma$, and a communication function $|$. The grammar of $\acpt$ can be described with the following operations:
 	\begin{equation}\label{lang:acpt}\tag{L\thelangs}\stepcounter{langs}
 		P, Q ::= a \mid \delta \mid P . Q \mid P + Q \mid P \merge Q \mid P \leftmerge Q \mid P | Q \mid \restrict(P) \mid \abtau(P) \mid
 	\end{equation}
@@ -54,9 +54,6 @@ We should also specify that $\trans{a} = a$ for each $a\in \Sigma$, where $\Sigm
 \end{dfn}
 
 We have $H, I \subseteq \Sigma$, and additionally we define the set $\Sigma_{\tau}$ to be the set $\Sigma \cup \{\tau\}$, as the silent step is not included in $\Sigma$. We also write $\Rightarrow$ to indicate a chain of $\tau$-actions, possibly none. The operations of $\acptf$ can be described in the following manner:
-
-
-tset 
 
 \begin{itemize}
 	\item \textbf{Action}, or $a$, is any action.
@@ -70,9 +67,13 @@ tset
 \subsection{Communication and Merge}\label{ssec:acp-communication}
 
 The operations Merge ($P \merge Q$), Left Merge ($P \leftmerge Q$), and Communication Merge ($P \mid Q$) form the basis of Communication in $\acp$. Compared to the other operators of $\acp$ which symbolise actions \textit{$a$ or $b$}, and \textit{$a$ then $b$}, communication represents an action \textit{$a$ and $b$}, or in other words, a process that performs $a$ and $b$ simultaneously. The merge operation is characterised as
-\[P \merge Q = P \leftmerge Q + Q \leftmerge P + P \mid Q\]
+\begin{equation}
+	P \merge Q = P \leftmerge Q + Q \leftmerge P + P \mid Q
+\end{equation}
 and along with a simplified axiom set of the Left Merge operator found in $\acp$ \cite{bergstraACPtUniversalAxiom1989},
-\[a \leftmerge Q = a.Q \qquad a.P \leftmerge Q = a(P \merge Q)\]
+\begin{equation}
+	a \leftmerge Q = a.Q \qquad a.P \leftmerge Q = a(P \merge Q)
+\end{equation}
 The result of $P \merge Q$ is a lattice of any combination of moves of $P$, as well as any combination of moves of $Q$, while at each step also performing $P \mid Q$.
 
 The operation $\mid$ is a function $A \times A \rightharpoonup A$ that defines valid communications between the two processes\footnote{Communication Merge is a Partial Function, meaning it is not defined over all actions}. This can be thought of as a hand-shaking action between $P$ and $Q$. Together with the restriction operator, communications can now be formed between two processes. An example is shown in \cref{fig:communication}.
@@ -85,7 +86,7 @@ The language $\acp$ is typically defined with a notion of Successful Termination
 This is quite a verbose way of describing the language, and there have been some alternatives proposed to avoid this. Two main examples are the extension $\acp_{\epsilon}$, which adds a successful termination action at the cost of extending process graphs with more actions and the loss of a true Strong Bisimulation due to the extra action $\epsilon$\cite{vranckenAlgebraCommunicatingProcesses1997}, and the fragment $\mathrm{aprACP}$ \cite{vanglabbeekExpressivenessACP1995}, which uses action prefixing similar to $\csp$ or the language $\mathrm{CCS}$ at the cost of losing asymmetry and compatibility \cite{GARAVEL2015742}. The language $\csp$ does not distinguish successful termination from unsuccessful termination, and has only the process $\mathrm{STOP}$, therefore for simplicity we will simply use $\acp$ with standard termination, ignoring any irrelevant termination rules in equivalences and operation rules.
 
 
-\subsection{\texorpdfstring{$\acptf$}{acptf}}
+\subsection{\texorpdfstring{$\acptf$}{acptf}}\label{ssec:acptf}
 A proposed extension of ACP adds a Functional Renaming operator, as shown in \cite{vanglabbeekExpressivenessACP1995}, which lets you rename actions via a function $f : A \times A \rightharpoonup A$. From this point forth, we will be using this extension, written as $ACP^{\tau}_{F}$. Our final grammar for the language $\acptf$ is formally defined below.
 
 \begin{dfn}[\texorpdfstring{$\acptf$}{acptf}]{dfn:acptf}{}
@@ -102,8 +103,10 @@ A proposed extension of ACP adds a Functional Renaming operator, as shown in \ci
 
 	The process algebra $\csp$ as defined in \cite{brookesTheoryCommunicatingSequential1984, olderogSpecificationorientedSemanticsCommunicating1986, roscoeUnderstandingConcurrentSystems2010} is parameterised on a set of communications $\Sigma$, and the grammar we will be using consists of the operations:
 	\begin{align*}\label{lang:csp}\tag{L\thelangs}\stepcounter{langs}
+		\begin{aligned}
 		P, Q ::=\, &\mathrm{STOP} \mid \mathrm{div} \mid a\to P \mid P \sqcap Q \mid P \extchoice Q \mid P \sliding Q \mid\\
 		         & P \pcomp Q \mid P \backslash A \mid f(P) \mid P \interrupt Q \mid P \throw Q \mid
+		\end{aligned}
 	\end{align*}
 	%\mu p.P
 	where the operators are: \textit{inaction}, \textit{divergence}, \textit{action prefixing}, \textit{internal choice}, \textit{external choice}, \textit{sliding choice}, \textit{parallel composition}, \textit{concealment}, \textit{renaming}, \textit{interrupt}, and \textit{throw}.
@@ -119,7 +122,7 @@ We have that $A \subseteq \Sigma$, and the operations can be described in the fo
 	\item \textbf{External Choice}, or $P \extchoice Q$, is an operation that can perform a choice of $P$ or $Q$, and the choice is decided by the user. Internal choices can still progress on each process and the External choice will not be satisfied\footnote{Here, we use ``satisfied'' to mean that the operator carries on after an action is executed}. This differs from $\acp$ Alternative Composition, as in $\acp$, a $\tau$ action will satisfy the $+$ operation.
 	\item \textbf{Sliding Choice}, or $P \sliding Q$, is an operation that acts like \textit{external choice} on $P$, and \textit{internal choice} on $Q$.
 	\item \textbf{Parallel Composition}, or $P \pcomp Q$ is an operation that interleaves two processes together, similarly to $\acp$ Merge. The difference being that in the language of $\csp$, the only actions that can synchronise are identical actions, i.e. the only action that can synchronise with an action $a$ in $\csp$ is another $a$. On the other hand, in the language $\acp$, the actions that can synchronise with an action $a$ are any actions defined in the merge operator, $\mid$.
-	\item \textbf{Concealment}, or $P \conceal Q$, is an operation that removes actions from a set $Q$, acting similarly to the Abstraction operator $\abtau$ of $\acp$
+	\item \textbf{Concealment}, or $P \conceal Q$, is an operation that removes actions from a set $Q$, acting similarly to the Abstraction operator $\abtau$ of $\acp$.
 	\item \textbf{Renaming}, or $f(P)$, is an operation that renames actions in accordance to a function $f : A \times A \rightharpoonup A$.
 	\item \textbf{Interrupt}, or $P \interrupt Q$, is an operation that can perform visible actions of $P$, but the moment an action in $Q$ is made, it will then turn into $Q$ and stop other actions of $P$ from happening.
 	\item \textbf{Throw}, or $P \throw Q$, is an operation that has a set of ``throw'' actions, where the process can perform visible actions of $P$, but the moment an action in the ``throw'' set occurs, the process switches to $Q$. This can also be thought of as an error operator.
@@ -131,11 +134,11 @@ Structured Operational Semantics \cite{plotkinStructuralApproachOperational2004}
 A double-sided proof tree means that \textbf{Statement A} implies \textbf{Statement B}, or can be read as ``If \textbf{Statement A} is true, then so is \textbf{Statement B}''. Proof tables can also be in the form of an Axiom, as shown in \textbf{Statement C}. This can be read as ``if True is true, then so is \textbf{Statement C}'', which is clearly valid.\footnote{We will express axioms without the Proof Table line for clarity}
 
 To show an example of an operation in the SOS Format, we will show the rules of $\acp$ Merge as explained in Section \ref{ssec:acp-communication}:
-\[
+\begin{equation}
 	\displaystyle\frac{P\prightarrow{\alpha} P'}{P \merge Q \prightarrow{\alpha} P' \merge Q} \qquad
 	\displaystyle\frac{P\prightarrow{a} P'~~Q\prightarrow{b} Q'~~ a \mid b = c}{P \merge Q \prightarrow{a} P' \merge Q'} \qquad
 	\displaystyle\frac{Q\prightarrow{\alpha} Q'}{P \merge Q \prightarrow{\alpha} P \merge Q'}
-\]
+\end{equation}
 where the meaning of the proof tables is:
 \begin{itemize}
 	\item If $P$ can perform an action $\alpha$ to $P'$, then $P \merge Q$ can perform an action $\alpha$ to $P' \merge Q$.
@@ -162,7 +165,7 @@ Two notions of equivalence that we will be focusing on is strong bisimilarity, a
 	\end{enumerate}
 \end{dfn}
 
-To show the difference between different notions of equivalence, we will compare \textit{Bisimulation Semantics} to \textit{Trace Semantics}. \textbf{Trace Semantics} looks at different \textit{traces}, or \textit{paths} that a process can take. For example, in a process $P$, where $P$ is defined in the language $\acptf$ as $a . (b + c)$, we can look at \textit{Completed Trace Equivalence}. This is an equivalence that says that two processes are equivalent if they have the same set of Completed Traces\footnote{Here, \textbf{Completed Trace} refers to a path the process can take from start to end}. The traces of $P$ are therefore defined as the set
+To show the difference between different notions of equivalence, we will compare \textbf{Bisimulation Semantics} to \textbf{Trace Semantics}. Trace Semantics looks at different \textbf{traces}, or \textbf{paths} that a process can take. For example, in a process $P$, where $P$ is defined in the language $\acptf$ as $a . (b + c)$, we can look at \textbf{Completed Trace Equivalence}. This is an equivalence that says that two processes are equivalent if they have the same set of Completed Traces\footnote{Here, \textbf{Completed Trace} refers to a path the process can take from start to end}. The traces of $P$ are therefore defined as the set
 \[\{a . b,\,a . c\}\]
 \begin{figure}[b!]
 	\centering
@@ -182,7 +185,7 @@ To show the difference between different notions of equivalence, we will compare
 	\caption{The process $a . (b + c)$ (left), compared to the process $a . b + a . c$ (right). Both Processes have the same Traces - $\{a.b,\,a.c\}$, however they are not strongly bisimilar}.
 	\label{fig:ct-counterexample}
 \end{figure}
-In Trace Semantics, the process $P$ is equivalent to the process $Q := a . b + a . c$, since they both have the traces $\{a . b,\,a . c\}$. However, this is clearly not the case in Bisimulation Semantics, where rule $2$ in Definition \ref{dfn:strong-bisim} is not satisfied, as there is no state in $Q$ that can perform both a $b$ action, and a $c$ action. Clearly, this implies that \textit{Bisimulation equivalence} is a \textbf{finer} relation than \textit{Completed Trace Equivalence}. Here, \textit{finer} means that one equivalence can distinguish between more processes than another. We will also use \textbf{coarser} to mean the opposite.
+In Trace Semantics, the process $P$ is equivalent to the process $Q := a . b + a . c$, since they both have the traces $\{a . b,\,a . c\}$. However, this is clearly not the case in Bisimulation semantics, where rule $2$ in Definition \ref{dfn:strong-bisim} is not satisfied, as there is no state in $Q$ that can perform both a $b$ action, and a $c$ action. Clearly, this implies that Bisimulation equivalence is a \textbf{finer} relation than Completed Trace Equivalence. Here, \textit{finer} means that one equivalence can distinguish between more processes than another. We will also use \textbf{coarser} to mean the opposite.
 
 Moving on from Trace Semantics, we will look at Branching bisimilarity, a relation where processes are deemed branching bisimilar (or BB) if they can move the same way when looking at \textbf{External actions}. In particular, this excludes internal actions, $\tau$, by saying that two processes are equivalent if two states are related, even when there are some number of internal actions between them.
 

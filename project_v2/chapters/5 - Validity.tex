@@ -286,9 +286,9 @@ From \cref{ssec:external-choice}, our translation of External Choice is:
 			                             & = \, \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[a_{\mathtt{ini}}.\trans{P'}\merge \mathtt{choose}\merge \Gamma[\trans{Q}]\Bigl]\Bigr) \\
 			                             & \prightarrow{a}  \,\partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\trans{P'}\merge\Gamma[\trans{Q}]\Bigl]\Bigr)
 		      \end{align*}
-		      Note that the move $a$ results from $\fdef{post}$ applied to $a_{post}$, similarly to in the parallel composition operator. This is a common occurance, and from now on we will accept that this is the behaviour that will happen.
+		      Note that the move $a$ results from $\fdef{post}$ applied to $a_{post}$, similarly to in the parallel composition operator. This is a common occurrence, and from now on we will accept that this is the behaviour that will happen.
 
-		      This is not yet a process that is comparable to $P'$, so we look at the next step. Due to the Triggering operator $\Gamma$ being applied to $Q$, the only communicatable action of a trace $Q_{c}$ of $Q$ will be one tagged with an \texttt{ini}, with some number of $\tau$ actions behind it. Via Lemma \ref{lma:stagnant-inis}, any of the actions past $\taus$ will get restricted, leaving:
+		      This is not yet a process that is comparable to $P'$, so we look at the next step. Due to the Triggering operator $\Gamma$ being applied to $Q$, the only communicable action of a trace $Q_{c}$ of $Q$ will be one tagged with an \texttt{ini}, with some number of $\tau$ actions behind it. Via Lemma \ref{lma:stagnant-inis}, any of the actions past $\taus$ will get restricted, leaving:
 		      \[
 			      \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\trans{P'}\merge\Gamma[\trans{Q_{c}}]\Bigl]\Bigr) \implies \partial_{H_{0}}\Bigl(\fdef{post}\Bigl[\trans{P'}\merge\taus\Bigl]\Bigr) \implies \trans{P'}\merge\taus
 		      \]
@@ -340,7 +340,7 @@ From \cref{ssec:sliding-choice}, our translation of the \textbf{Sliding Choice} 
 		      \end{align*}
 		      This process is branching bisimilar to $Q$. The action $\mathtt{shift}$ will be abstracted by the $\tau$, which is a strongly bisimilar action, but the process $\Gamma(\trans{P})$ can still have $\tau$ actions, which via Lemma \cref{lma:stagnant-inis} will cause the process to derive to
 		      \begin{equation}
-			      \taus \merge \tau.\trans{Q}.
+			      \taus \merge \tau.\trans{Q},
 		      \end{equation}
 		      which is rooted branching bisimilar via Lemma \cref{lma:tau-on-p-process}.
 	\end{itemize}
